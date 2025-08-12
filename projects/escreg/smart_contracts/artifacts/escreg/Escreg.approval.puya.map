@@ -1,0 +1,6458 @@
+{
+  "version": 3,
+  "sources": [
+    "/home/bit/code/escreg/projects/escreg/smart_contracts/escreg/contract.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;AAiBA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;;;;;;;AAAA;;AAkHG;;AAAA;AAAA;AAAA;;AAAA;AAlHH;;;AAkHG;;;AAAA;AAAA;AAAA;AAAA;AAAA;;AAlBA;;AAAA;AAAA;AAAA;;AAAA;AAhGH;;;AAgGG;;;AAAA;AAAA;AAAA;AAAA;AAAA;;AAdA;;AAAA;AAAA;AAAA;;AAAA;AAlFH;;;AAkFG;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAdA;;AAAA;AAAA;AAAA;;AAAA;AApEH;;;AAoEG;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAdA;;AAAA;AAAA;AAAA;;AAAA;AAtDH;;;AAsDG;;;AAAA;;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AA1CD;;AAAA;AAAA;AAAA;;AAAA;AAZF;;;AAYE;;;AAAA;;AATA;;AAAA;AAAA;AAAA;;AAAA;AAHF;;;AAAA;AAGE;;;AAAA;;AAHF;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAGE;;;AACc;;AAAA;;;AAAA;AACQ;AAAA;;AAAhB;;;AACqB;;AAAA;AAAA;AAAA;AAAA;AAAvB;AAAA;AAAA;;AAAA;AAAA;;AAEA;;AAAA;;;;AAIJ;;;;AACE;;AAAA;AAAA;;AAAA;;AAAA;;AAAA;AAAA;;;AAAA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AACc;;;AAAA;AAAA;;AACQ;AAAA;;AAAhB;;;AACqB;AAAA;AAAA;AAAA;AAAvB;;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;AAEA;;AAAA;AAAA;;;;;;AAGO;;AAAX;AAAA;;AAGF;;;AACwC;;AAAA;AAApB;AAAA;AAAA;AAAX;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAP;AASF;;;AACkC;;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;;AAChC;;AAAA;;AAAA;AAAA;;;AADgC;;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAChC;AACM;;AAAA;AAAJ;;;AACM;;;;;;;;;;;;AAAJ;AACA;;;;;;;;;;AAGmB;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;;AAAvB;;AAAA;;AAAA;;AAAA;AAAA;;AAGF;;;;;AACuB;AAAY;;AAAA;AAAA;AAAT;;AAAA;AAAxB;;;AAC+C;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;;AAhBT;AAApB;AAAA;AAAA;AAAX;AAgBD;;AAAA;AAAJ;;;AACE;AAFqC;;AAAA;AAAA;AAAA;;;;;AAKlC;AAAP;;AAAA;AAGF;;;AAEgB;;AAAA;AAAoB;AAApB;;AAAA;AAAoB;AAApB;;AAAA;;AAAA;AAAuB;AAAvB;;AAAA;AAAuB;AAAvB;;AAAA;;AAAA;AAAA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAEQ;AAAA;;AAAlB;;;AACK;AAAP;AAAA;AAG4B;;AAAA;AAAA;AACR;;AAAA;AAAA;;;AAEG;AAAlB;AAAP;AAAA;AAGF;;;AAEgB;;AAAA;AAAoB;AAApB;;AAAA;AAAoB;AAApB;;AAAA;;AAAA;AAAuB;AAAvB;;AAAA;AAAuB;AAAvB;;AAAA;;AAAA;AAAA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAEQ;AAAA;;AAAlB;;;AACK;AAAP;AAAA;AAG4B;;AAAA;AAAA;AACR;;AAAA;AAAA;;;AAEtB;AAAA;AAGF;;;AAEgB;;AAAA;AAAoB;AAApB;;AAAA;AAAoB;AAApB;;AAAA;;AAAA;AAAuB;AAAvB;;AAAA;AAAuB;AAAvB;;AAAA;;AAAA;AAAA;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEU;AAAA;AAAA;;AAAxB;AAE8B;AAAA;AACR;;AAAA;AAAA;;;AAEtB;AAAA;AAEA;AAGF;;;;;AAEuB;AAErB;;AAAA;AAAA;;AAAA;;AAAA;;AAAA;AAAA;;;AAAA;;AAAA;;;AAAA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;AACgB;AAAA;AAAoB;AAApB;;AAAA;AAAoB;AAApB;;AAAA;;AAAA;AAAuB;AAAvB;;AAAA;AAAuB;AAAvB;;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEQ;AAAA;;AAAlB;;;AACK;;AAAA;;;;;;;;;;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;;AAAA;;;;;;;;;;;AAIwB;;AAAA;AAAA;AAChB;;AAAA;AAAA;;;AAAV;AAAA;AAAA;AAAA;AAAA;;;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;;AAAA;;;;;AAET;;AAAA;;AAAA;AAGF;;;AAEuB;AACrB;;AAAA;AAAA;;AAAA;;AAAA;;AAAA;AAAA;;;AAAA;;AAAA;;;AAAA;;AAAA;AAAA;;AAAA;;AAAA;AAAA;;AAAA;AACgB;AAAA;AAAoB;AAApB;;AAAA;AAAoB;AAApB;;AAAA;;AAAA;AAAuB;AAAvB;;AAAA;AAAuB;AAAvB;;AAAA;;AAAA;AAAA;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEQ;AAAA;AAAA;;AAAlB;AAI6B;AAAA;AACX;;;AAEtB;AAAA;AACO;AAAA;AAAA;AAAA;AAAA;;;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;;AAAA;;;;;;;;;AAET",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 0 4 1 8"
+    },
+    "7": {
+      "op": "bytecblock 0x151f7c75 0x0001 \"appID\" 0x0000"
+    },
+    "26": {
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "28": {
+      "op": "bz main_bare_routing@12",
+      "stack_out": []
+    },
+    "31": {
+      "op": "pushbytess 0xf7e99a83 0x72bf6dc4 0x4c9fb656 0x89e79924 0x40e65262 0xb561c256 0x82b435f8 // method \"register(uint64)void\", method \"registerList(uint64[])void\", method \"exists(address)bool\", method \"get(address)uint64\", method \"mustGet(address)uint64\", method \"getList(address[])uint64[]\", method \"mustGetList(address[])uint64[]\"",
+      "defined_out": [
+        "Method(exists(address)bool)",
+        "Method(get(address)uint64)",
+        "Method(getList(address[])uint64[])",
+        "Method(mustGet(address)uint64)",
+        "Method(mustGetList(address[])uint64[])",
+        "Method(register(uint64)void)",
+        "Method(registerList(uint64[])void)"
+      ],
+      "stack_out": [
+        "Method(register(uint64)void)",
+        "Method(registerList(uint64[])void)",
+        "Method(exists(address)bool)",
+        "Method(get(address)uint64)",
+        "Method(mustGet(address)uint64)",
+        "Method(getList(address[])uint64[])",
+        "Method(mustGetList(address[])uint64[])"
+      ]
+    },
+    "68": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(exists(address)bool)",
+        "Method(get(address)uint64)",
+        "Method(getList(address[])uint64[])",
+        "Method(mustGet(address)uint64)",
+        "Method(mustGetList(address[])uint64[])",
+        "Method(register(uint64)void)",
+        "Method(registerList(uint64[])void)",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "Method(register(uint64)void)",
+        "Method(registerList(uint64[])void)",
+        "Method(exists(address)bool)",
+        "Method(get(address)uint64)",
+        "Method(mustGet(address)uint64)",
+        "Method(getList(address[])uint64[])",
+        "Method(mustGetList(address[])uint64[])",
+        "tmp%2#0"
+      ]
+    },
+    "71": {
+      "op": "match main_register_route@3 main_registerList_route@4 main_exists_route@5 main_get_route@6 main_mustGet_route@7 main_getList_route@8 main_mustGetList_route@9",
+      "stack_out": []
+    },
+    "87": {
+      "block": "main_after_if_else@16",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "88": {
+      "op": "return",
+      "stack_out": []
+    },
+    "89": {
+      "block": "main_mustGetList_route@9",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%39#0"
+      ],
+      "stack_out": [
+        "tmp%39#0"
+      ]
+    },
+    "91": {
+      "op": "!",
+      "defined_out": [
+        "tmp%40#0"
+      ],
+      "stack_out": [
+        "tmp%40#0"
+      ]
+    },
+    "92": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "93": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%41#0"
+      ],
+      "stack_out": [
+        "tmp%41#0"
+      ]
+    },
+    "95": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "96": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_Encoded(len+uint8[32][])%1#0"
+      ],
+      "stack_out": [
+        "reinterpret_Encoded(len+uint8[32][])%1#0"
+      ]
+    },
+    "99": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.mustGetList",
+      "op": "callsub mustGetList",
+      "defined_out": [
+        "tmp%43#0"
+      ],
+      "stack_out": [
+        "tmp%43#0"
+      ]
+    },
+    "102": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "tmp%43#0"
+      ],
+      "stack_out": [
+        "tmp%43#0",
+        "0x151f7c75"
+      ]
+    },
+    "103": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "tmp%43#0"
+      ]
+    },
+    "104": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%44#0"
+      ],
+      "stack_out": [
+        "tmp%44#0"
+      ]
+    },
+    "105": {
+      "op": "log",
+      "stack_out": []
+    },
+    "106": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "107": {
+      "op": "return",
+      "stack_out": []
+    },
+    "108": {
+      "block": "main_getList_route@8",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%33#0"
+      ],
+      "stack_out": [
+        "tmp%33#0"
+      ]
+    },
+    "110": {
+      "op": "!",
+      "defined_out": [
+        "tmp%34#0"
+      ],
+      "stack_out": [
+        "tmp%34#0"
+      ]
+    },
+    "111": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "112": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%35#0"
+      ],
+      "stack_out": [
+        "tmp%35#0"
+      ]
+    },
+    "114": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "115": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_Encoded(len+uint8[32][])%0#0"
+      ],
+      "stack_out": [
+        "reinterpret_Encoded(len+uint8[32][])%0#0"
+      ]
+    },
+    "118": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.getList",
+      "op": "callsub getList",
+      "defined_out": [
+        "tmp%37#0"
+      ],
+      "stack_out": [
+        "tmp%37#0"
+      ]
+    },
+    "121": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "tmp%37#0"
+      ],
+      "stack_out": [
+        "tmp%37#0",
+        "0x151f7c75"
+      ]
+    },
+    "122": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "tmp%37#0"
+      ]
+    },
+    "123": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%38#0"
+      ],
+      "stack_out": [
+        "tmp%38#0"
+      ]
+    },
+    "124": {
+      "op": "log",
+      "stack_out": []
+    },
+    "125": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "126": {
+      "op": "return",
+      "stack_out": []
+    },
+    "127": {
+      "block": "main_mustGet_route@7",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%26#0"
+      ],
+      "stack_out": [
+        "tmp%26#0"
+      ]
+    },
+    "129": {
+      "op": "!",
+      "defined_out": [
+        "tmp%27#0"
+      ],
+      "stack_out": [
+        "tmp%27#0"
+      ]
+    },
+    "130": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "131": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%28#0"
+      ],
+      "stack_out": [
+        "tmp%28#0"
+      ]
+    },
+    "133": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "134": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_Encoded(uint8[32])%2#0"
+      ],
+      "stack_out": [
+        "reinterpret_Encoded(uint8[32])%2#0"
+      ]
+    },
+    "137": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.mustGet",
+      "op": "callsub mustGet",
+      "defined_out": [
+        "tmp%30#0"
+      ],
+      "stack_out": [
+        "tmp%30#0"
+      ]
+    },
+    "140": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%1#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%1#0"
+      ]
+    },
+    "141": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%1#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%1#0",
+        "0x151f7c75"
+      ]
+    },
+    "142": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%1#0"
+      ]
+    },
+    "143": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%32#0"
+      ],
+      "stack_out": [
+        "tmp%32#0"
+      ]
+    },
+    "144": {
+      "op": "log",
+      "stack_out": []
+    },
+    "145": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "146": {
+      "op": "return",
+      "stack_out": []
+    },
+    "147": {
+      "block": "main_get_route@6",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%19#0"
+      ],
+      "stack_out": [
+        "tmp%19#0"
+      ]
+    },
+    "149": {
+      "op": "!",
+      "defined_out": [
+        "tmp%20#0"
+      ],
+      "stack_out": [
+        "tmp%20#0"
+      ]
+    },
+    "150": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "151": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%21#0"
+      ],
+      "stack_out": [
+        "tmp%21#0"
+      ]
+    },
+    "153": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "154": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_Encoded(uint8[32])%1#0"
+      ],
+      "stack_out": [
+        "reinterpret_Encoded(uint8[32])%1#0"
+      ]
+    },
+    "157": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.get",
+      "op": "callsub get",
+      "defined_out": [
+        "tmp%23#0"
+      ],
+      "stack_out": [
+        "tmp%23#0"
+      ]
+    },
+    "160": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "161": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "162": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "163": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%25#0"
+      ],
+      "stack_out": [
+        "tmp%25#0"
+      ]
+    },
+    "164": {
+      "op": "log",
+      "stack_out": []
+    },
+    "165": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "166": {
+      "op": "return",
+      "stack_out": []
+    },
+    "167": {
+      "block": "main_exists_route@5",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%12#0"
+      ]
+    },
+    "169": {
+      "op": "!",
+      "defined_out": [
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0"
+      ]
+    },
+    "170": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "171": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0"
+      ]
+    },
+    "173": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "174": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_Encoded(uint8[32])%0#0"
+      ],
+      "stack_out": [
+        "reinterpret_Encoded(uint8[32])%0#0"
+      ]
+    },
+    "177": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.exists",
+      "op": "callsub exists",
+      "defined_out": [
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0"
+      ]
+    },
+    "180": {
+      "op": "pushbytes 0x00",
+      "defined_out": [
+        "0x00",
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0",
+        "0x00"
+      ]
+    },
+    "183": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "0x00",
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0",
+        "0x00",
+        "0"
+      ]
+    },
+    "184": {
+      "op": "uncover 2",
+      "stack_out": [
+        "0x00",
+        "0",
+        "tmp%16#0"
+      ]
+    },
+    "186": {
+      "op": "setbit",
+      "defined_out": [
+        "aggregate%encoded_bool%0#0"
+      ],
+      "stack_out": [
+        "aggregate%encoded_bool%0#0"
+      ]
+    },
+    "187": {
+      "op": "bytec_0 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%encoded_bool%0#0"
+      ],
+      "stack_out": [
+        "aggregate%encoded_bool%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "188": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%encoded_bool%0#0"
+      ]
+    },
+    "189": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "190": {
+      "op": "log",
+      "stack_out": []
+    },
+    "191": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "192": {
+      "op": "return",
+      "stack_out": []
+    },
+    "193": {
+      "block": "main_registerList_route@4",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "195": {
+      "op": "!",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "196": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "197": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "tmp%10#0"
+      ]
+    },
+    "199": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "200": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_Encoded(len+uint64[])%0#0"
+      ],
+      "stack_out": [
+        "reinterpret_Encoded(len+uint64[])%0#0"
+      ]
+    },
+    "203": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.registerList",
+      "op": "callsub registerList",
+      "stack_out": []
+    },
+    "206": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "207": {
+      "op": "return",
+      "stack_out": []
+    },
+    "208": {
+      "block": "main_register_route@3",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "210": {
+      "op": "!",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "211": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "212": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "214": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "215": {
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "reinterpret_Encoded(uint64)%0#0"
+      ],
+      "stack_out": [
+        "reinterpret_Encoded(uint64)%0#0"
+      ]
+    },
+    "218": {
+      "op": "btoi",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "219": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.register",
+      "op": "callsub register",
+      "stack_out": []
+    },
+    "222": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "223": {
+      "op": "return",
+      "stack_out": []
+    },
+    "224": {
+      "block": "main_bare_routing@12",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%45#0"
+      ],
+      "stack_out": [
+        "tmp%45#0"
+      ]
+    },
+    "226": {
+      "op": "bnz main_after_if_else@16",
+      "stack_out": []
+    },
+    "229": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%46#0"
+      ],
+      "stack_out": [
+        "tmp%46#0"
+      ]
+    },
+    "231": {
+      "op": "!",
+      "defined_out": [
+        "tmp%47#0"
+      ],
+      "stack_out": [
+        "tmp%47#0"
+      ]
+    },
+    "232": {
+      "error": "can only call when creating",
+      "op": "assert // can only call when creating",
+      "stack_out": []
+    },
+    "233": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "234": {
+      "op": "return",
+      "stack_out": []
+    },
+    "235": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.register",
+      "params": {
+        "appId#0": "uint64"
+      },
+      "block": "register",
+      "stack_in": [],
+      "op": "proto 1 0"
+    },
+    "238": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "appId#0 (copy)"
+      ],
+      "stack_out": [
+        "appId#0 (copy)"
+      ]
+    },
+    "240": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.deriveAddrPrefix",
+      "op": "callsub deriveAddrPrefix",
+      "defined_out": [
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0"
+      ]
+    },
+    "243": {
+      "op": "dup",
+      "defined_out": [
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "key#0"
+      ]
+    },
+    "244": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "key#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "245": {
+      "op": "bury 1",
+      "stack_out": [
+        "key#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "247": {
+      "op": "bnz register_else_body@2",
+      "stack_out": [
+        "key#0"
+      ]
+    },
+    "250": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "key#0",
+        "appId#0 (copy)"
+      ]
+    },
+    "252": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "253": {
+      "op": "bytec_1 // 0x0001",
+      "defined_out": [
+        "0x0001",
+        "aggregate%val_as_bytes%0#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%val_as_bytes%0#0",
+        "0x0001"
+      ]
+    },
+    "254": {
+      "op": "swap",
+      "stack_out": [
+        "key#0",
+        "0x0001",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "255": {
+      "op": "concat",
+      "defined_out": [
+        "aggregate%head%0#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%head%0#0"
+      ]
+    },
+    "256": {
+      "op": "swap",
+      "stack_out": [
+        "aggregate%head%0#0",
+        "key#0"
+      ]
+    },
+    "257": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%head%0#0",
+        "key#0",
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "aggregate%head%0#0",
+        "key#0",
+        "key#0 (copy)"
+      ]
+    },
+    "258": {
+      "op": "box_del",
+      "defined_out": [
+        "aggregate%head%0#0",
+        "key#0",
+        "{box_del}"
+      ],
+      "stack_out": [
+        "aggregate%head%0#0",
+        "key#0",
+        "{box_del}"
+      ]
+    },
+    "259": {
+      "op": "pop",
+      "stack_out": [
+        "aggregate%head%0#0",
+        "key#0"
+      ]
+    },
+    "260": {
+      "op": "swap",
+      "stack_out": [
+        "key#0",
+        "aggregate%head%0#0"
+      ]
+    },
+    "261": {
+      "op": "box_put",
+      "stack_out": []
+    },
+    "262": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "263": {
+      "block": "register_else_body@2",
+      "stack_in": [
+        "key#0"
+      ],
+      "op": "frame_dig -1",
+      "defined_out": [
+        "appId#0 (copy)",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "appId#0 (copy)"
+      ]
+    },
+    "265": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.appendAppId",
+      "op": "callsub appendAppId",
+      "stack_out": []
+    },
+    "268": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "269": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.registerList",
+      "params": {
+        "appIds#0": "bytes"
+      },
+      "block": "registerList",
+      "stack_in": [],
+      "op": "proto 1 0"
+    },
+    "272": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "key#0"
+      ]
+    },
+    "273": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "appIds#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0",
+        "appIds#0 (copy)"
+      ]
+    },
+    "275": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "appIds#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0",
+        "appIds#0 (copy)",
+        "0"
+      ]
+    },
+    "276": {
+      "op": "extract_uint16",
+      "defined_out": [
+        "aggregate%array_length%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "277": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "278": {
+      "block": "registerList_for_header@1",
+      "stack_in": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 2",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "280": {
+      "op": "frame_dig 1",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "282": {
+      "op": "<",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "continue_looping%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "continue_looping%0#0"
+      ]
+    },
+    "283": {
+      "op": "bz registerList_after_for@7",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "286": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "appIds#0 (copy)",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "appIds#0 (copy)"
+      ]
+    },
+    "288": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0"
+      ]
+    },
+    "291": {
+      "op": "frame_dig 2",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "293": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0",
+        "8"
+      ]
+    },
+    "294": {
+      "op": "*",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0"
+      ]
+    },
+    "295": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ]
+    },
+    "296": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "temp#0"
+      ]
+    },
+    "297": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.deriveAddrPrefix",
+      "op": "callsub deriveAddrPrefix",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "key#0"
+      ]
+    },
+    "300": {
+      "op": "dup",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "key#0",
+        "key#0"
+      ]
+    },
+    "301": {
+      "op": "frame_bury 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "key#0"
+      ]
+    },
+    "303": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0",
+        "maybe_exists%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "304": {
+      "op": "bury 1",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "306": {
+      "op": "bnz registerList_else_body@4",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ]
+    },
+    "309": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "item_index_internal%0#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "310": {
+      "op": "bytec_1 // 0x0001",
+      "defined_out": [
+        "0x0001",
+        "aggregate%array_length%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "item_index_internal%0#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "0x0001"
+      ]
+    },
+    "311": {
+      "op": "swap",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "0x0001",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "312": {
+      "op": "concat",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%head%0#0",
+        "item_index_internal%0#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%0#0"
+      ]
+    },
+    "313": {
+      "op": "frame_dig 0",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%0#0",
+        "key#0"
+      ]
+    },
+    "315": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%head%0#0",
+        "item_index_internal%0#0",
+        "key#0",
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%0#0",
+        "key#0",
+        "key#0 (copy)"
+      ]
+    },
+    "316": {
+      "op": "box_del",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%head%0#0",
+        "item_index_internal%0#0",
+        "key#0",
+        "{box_del}"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%0#0",
+        "key#0",
+        "{box_del}"
+      ]
+    },
+    "317": {
+      "op": "pop",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%0#0",
+        "key#0"
+      ]
+    },
+    "318": {
+      "op": "swap",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0",
+        "aggregate%head%0#0"
+      ]
+    },
+    "319": {
+      "op": "box_put",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "320": {
+      "block": "registerList_after_if_else@5",
+      "stack_in": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 2",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "322": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "1",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "1"
+      ]
+    },
+    "323": {
+      "op": "+",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "324": {
+      "op": "frame_bury 2",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "326": {
+      "op": "b registerList_for_header@1"
+    },
+    "329": {
+      "block": "registerList_else_body@4",
+      "stack_in": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "op": "frame_dig 0",
+      "defined_out": [
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "key#0"
+      ]
+    },
+    "331": {
+      "op": "swap",
+      "defined_out": [
+        "key#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0",
+        "temp#0"
+      ]
+    },
+    "332": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.appendAppId",
+      "op": "callsub appendAppId",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "335": {
+      "op": "b registerList_after_if_else@5"
+    },
+    "338": {
+      "block": "registerList_after_for@7",
+      "stack_in": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "global OpcodeBudget",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "tmp%1#0"
+      ]
+    },
+    "340": {
+      "op": "itob",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "tmp%2#0"
+      ]
+    },
+    "341": {
+      "op": "log",
+      "stack_out": [
+        "key#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "342": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "343": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.deriveAddrPrefix",
+      "params": {
+        "appId#0": "uint64"
+      },
+      "block": "deriveAddrPrefix",
+      "stack_in": [],
+      "op": "proto 1 1"
+    },
+    "346": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "appId#0 (copy)"
+      ],
+      "stack_out": [
+        "appId#0 (copy)"
+      ]
+    },
+    "348": {
+      "op": "itob",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "349": {
+      "op": "bytec_2 // \"appID\"",
+      "defined_out": [
+        "\"appID\"",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "\"appID\""
+      ]
+    },
+    "350": {
+      "op": "swap",
+      "stack_out": [
+        "\"appID\"",
+        "tmp%0#0"
+      ]
+    },
+    "351": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "352": {
+      "op": "sha512_256",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "353": {
+      "op": "substring 0 4",
+      "defined_out": [
+        "awst_tmp%0#0"
+      ],
+      "stack_out": [
+        "awst_tmp%0#0"
+      ]
+    },
+    "356": {
+      "op": "dup",
+      "defined_out": [
+        "awst_tmp%0#0",
+        "awst_tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "awst_tmp%0#0",
+        "awst_tmp%0#0 (copy)"
+      ]
+    },
+    "357": {
+      "op": "len",
+      "defined_out": [
+        "awst_tmp%0#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "awst_tmp%0#0",
+        "tmp%3#0"
+      ]
+    },
+    "358": {
+      "op": "intc_1 // 4",
+      "defined_out": [
+        "4",
+        "awst_tmp%0#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "awst_tmp%0#0",
+        "tmp%3#0",
+        "4"
+      ]
+    },
+    "359": {
+      "op": "==",
+      "defined_out": [
+        "awst_tmp%0#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "awst_tmp%0#0",
+        "tmp%4#0"
+      ]
+    },
+    "360": {
+      "error": "Length must be 4",
+      "op": "assert // Length must be 4",
+      "stack_out": [
+        "awst_tmp%0#0"
+      ]
+    },
+    "361": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "362": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.appendAppId",
+      "params": {
+        "key#0": "bytes",
+        "appId#0": "uint64"
+      },
+      "block": "appendAppId",
+      "stack_in": [],
+      "op": "proto 2 0"
+    },
+    "365": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0 (copy)"
+      ]
+    },
+    "367": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%1#0",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "368": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "existing#0"
+      ]
+    },
+    "369": {
+      "op": "frame_dig -2",
+      "stack_out": [
+        "existing#0",
+        "key#0 (copy)"
+      ]
+    },
+    "371": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "existing#0",
+        "key#0 (copy)",
+        "0"
+      ]
+    },
+    "372": {
+      "op": "pushint 2 // 2",
+      "defined_out": [
+        "0",
+        "2",
+        "existing#0",
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "existing#0",
+        "key#0 (copy)",
+        "0",
+        "2"
+      ]
+    },
+    "374": {
+      "op": "box_extract",
+      "defined_out": [
+        "box%box_extract%0#0",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%box_extract%0#0"
+      ]
+    },
+    "375": {
+      "op": "btoi",
+      "defined_out": [
+        "box%array_length%0#0",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0"
+      ]
+    },
+    "376": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "box%array_length%0#0",
+        "existing#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "377": {
+      "block": "appendAppId_for_header@1",
+      "stack_in": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 2",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "379": {
+      "op": "frame_dig 1",
+      "defined_out": [
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "box%array_length%0#0"
+      ]
+    },
+    "381": {
+      "op": "<",
+      "defined_out": [
+        "box%array_length%0#0",
+        "continue_looping%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "continue_looping%0#0"
+      ]
+    },
+    "382": {
+      "op": "bz appendAppId_after_for@6",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "385": {
+      "op": "frame_dig 2",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "387": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "8"
+      ]
+    },
+    "388": {
+      "op": "*",
+      "defined_out": [
+        "box%array_length%0#0",
+        "box%element_offset%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "box%element_offset%0#0"
+      ]
+    },
+    "389": {
+      "op": "pushint 2 // 2",
+      "defined_out": [
+        "2",
+        "box%array_length%0#0",
+        "box%element_offset%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "box%element_offset%0#0",
+        "2"
+      ]
+    },
+    "391": {
+      "op": "+",
+      "defined_out": [
+        "box%array_length%0#0",
+        "box%offset%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "box%offset%0#0"
+      ]
+    },
+    "392": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "box%array_length%0#0",
+        "box%offset%0#0",
+        "item_index_internal%0#0",
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "box%offset%0#0",
+        "key#0 (copy)"
+      ]
+    },
+    "394": {
+      "op": "swap",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0 (copy)",
+        "box%offset%0#0"
+      ]
+    },
+    "395": {
+      "op": "intc_3 // 8",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0 (copy)",
+        "box%offset%0#0",
+        "8"
+      ]
+    },
+    "396": {
+      "op": "box_extract",
+      "defined_out": [
+        "box%array_length%0#0",
+        "box%box_extract%1#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "box%box_extract%1#0"
+      ]
+    },
+    "397": {
+      "op": "btoi",
+      "defined_out": [
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ]
+    },
+    "398": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "appId#0 (copy)",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "appId#0 (copy)"
+      ]
+    },
+    "400": {
+      "op": "==",
+      "defined_out": [
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "tmp%1#0"
+      ]
+    },
+    "401": {
+      "op": "bz appendAppId_after_if_else@4",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "404": {
+      "op": "pushbytes \"ERR:EXISTS\"",
+      "defined_out": [
+        "\"ERR:EXISTS\"",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "\"ERR:EXISTS\""
+      ]
+    },
+    "416": {
+      "op": "log",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "417": {
+      "error": "ERR:EXISTS",
+      "op": "err // ERR:EXISTS"
+    },
+    "418": {
+      "block": "appendAppId_after_if_else@4",
+      "stack_in": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 2",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "420": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "1",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "1"
+      ]
+    },
+    "421": {
+      "op": "+",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "422": {
+      "op": "frame_bury 2",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "424": {
+      "op": "b appendAppId_for_header@1"
+    },
+    "427": {
+      "block": "appendAppId_after_for@6",
+      "stack_in": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig -1",
+      "defined_out": [
+        "appId#0 (copy)"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "appId#0 (copy)"
+      ]
+    },
+    "429": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "430": {
+      "op": "bytec_1 // 0x0001",
+      "defined_out": [
+        "0x0001",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "0x0001"
+      ]
+    },
+    "431": {
+      "op": "swap",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "0x0001",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "432": {
+      "op": "concat",
+      "defined_out": [
+        "aggregate%head%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%0#0"
+      ]
+    },
+    "433": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "extract_to_end%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "extract_to_end%0#0"
+      ]
+    },
+    "436": {
+      "op": "frame_dig 0",
+      "defined_out": [
+        "existing#0",
+        "extract_to_end%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "extract_to_end%0#0",
+        "existing#0"
+      ]
+    },
+    "438": {
+      "op": "swap",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "existing#0",
+        "extract_to_end%0#0"
+      ]
+    },
+    "439": {
+      "error": "max array length exceeded",
+      "op": "concat // on error: max array length exceeded",
+      "defined_out": [
+        "concat%0#0",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0"
+      ]
+    },
+    "440": {
+      "op": "dup",
+      "defined_out": [
+        "concat%0#0",
+        "concat%0#0 (copy)",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "concat%0#0 (copy)"
+      ]
+    },
+    "441": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "concat%0#0",
+        "existing#0",
+        "extract_to_end%1#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "extract_to_end%1#0"
+      ]
+    },
+    "444": {
+      "op": "len",
+      "defined_out": [
+        "concat%0#0",
+        "existing#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "len%0#0"
+      ]
+    },
+    "445": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "concat%0#0",
+        "existing#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "446": {
+      "op": "/",
+      "defined_out": [
+        "concat%0#0",
+        "div_floor%0#0",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "div_floor%0#0"
+      ]
+    },
+    "447": {
+      "op": "itob",
+      "defined_out": [
+        "as_bytes%0#0",
+        "concat%0#0",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "as_bytes%0#0"
+      ]
+    },
+    "448": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "as_u16_bytes%0#0",
+        "concat%0#0",
+        "existing#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "as_u16_bytes%0#0"
+      ]
+    },
+    "451": {
+      "op": "replace2 0",
+      "defined_out": [
+        "existing#0",
+        "replace%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "replace%0#0"
+      ]
+    },
+    "453": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "existing#0",
+        "key#0 (copy)",
+        "replace%0#0"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "replace%0#0",
+        "key#0 (copy)"
+      ]
+    },
+    "455": {
+      "op": "box_del",
+      "defined_out": [
+        "existing#0",
+        "replace%0#0",
+        "{box_del}"
+      ],
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "replace%0#0",
+        "{box_del}"
+      ]
+    },
+    "456": {
+      "op": "pop",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "replace%0#0"
+      ]
+    },
+    "457": {
+      "op": "frame_dig -2",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "replace%0#0",
+        "key#0 (copy)"
+      ]
+    },
+    "459": {
+      "op": "swap",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0",
+        "key#0 (copy)",
+        "replace%0#0"
+      ]
+    },
+    "460": {
+      "op": "box_put",
+      "stack_out": [
+        "existing#0",
+        "box%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "461": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "462": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.findMatch",
+      "params": {
+        "address#0": "bytes",
+        "apps#0": "bytes"
+      },
+      "block": "findMatch",
+      "stack_in": [],
+      "op": "proto 2 1"
+    },
+    "465": {
+      "op": "pushbytes \"\"",
+      "stack_out": [
+        "appId#0"
+      ]
+    },
+    "467": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0"
+      ]
+    },
+    "468": {
+      "block": "findMatch_while_top@1",
+      "stack_in": [
+        "appId#0",
+        "i#0"
+      ],
+      "op": "frame_dig -1",
+      "defined_out": [
+        "apps#0 (copy)"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "apps#0 (copy)"
+      ]
+    },
+    "470": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "apps#0 (copy)"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "apps#0 (copy)",
+        "0"
+      ]
+    },
+    "471": {
+      "op": "extract_uint16",
+      "defined_out": [
+        "aggregate%array_length%0#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "472": {
+      "op": "frame_dig 1",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "aggregate%array_length%0#0",
+        "i#0"
+      ]
+    },
+    "474": {
+      "op": ">",
+      "defined_out": [
+        "i#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "tmp%1#0"
+      ]
+    },
+    "475": {
+      "op": "bz findMatch_after_while@5",
+      "stack_out": [
+        "appId#0",
+        "i#0"
+      ]
+    },
+    "478": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "apps#0 (copy)"
+      ]
+    },
+    "480": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "aggregate%array_trimmed%0#0",
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "aggregate%array_trimmed%0#0"
+      ]
+    },
+    "483": {
+      "op": "frame_dig 1",
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "aggregate%array_trimmed%0#0",
+        "i#0"
+      ]
+    },
+    "485": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "aggregate%array_trimmed%0#0",
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "aggregate%array_trimmed%0#0",
+        "i#0",
+        "8"
+      ]
+    },
+    "486": {
+      "op": "*",
+      "defined_out": [
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0",
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0"
+      ]
+    },
+    "487": {
+      "op": "extract_uint64",
+      "defined_out": [
+        "appId#0",
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "appId#0"
+      ]
+    },
+    "488": {
+      "op": "dup",
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "appId#0",
+        "appId#0"
+      ]
+    },
+    "489": {
+      "op": "frame_bury 0",
+      "defined_out": [
+        "appId#0",
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "appId#0"
+      ]
+    },
+    "491": {
+      "op": "itob",
+      "defined_out": [
+        "appId#0",
+        "i#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "tmp%0#1"
+      ]
+    },
+    "492": {
+      "op": "bytec_2 // \"appID\"",
+      "defined_out": [
+        "\"appID\"",
+        "appId#0",
+        "i#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "tmp%0#1",
+        "\"appID\""
+      ]
+    },
+    "493": {
+      "op": "swap",
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "\"appID\"",
+        "tmp%0#1"
+      ]
+    },
+    "494": {
+      "op": "concat",
+      "defined_out": [
+        "appId#0",
+        "i#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "tmp%1#1"
+      ]
+    },
+    "495": {
+      "op": "sha512_256",
+      "defined_out": [
+        "appId#0",
+        "i#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "tmp%2#1"
+      ]
+    },
+    "496": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "address#0 (copy)",
+        "appId#0",
+        "i#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "tmp%2#1",
+        "address#0 (copy)"
+      ]
+    },
+    "498": {
+      "op": "==",
+      "defined_out": [
+        "appId#0",
+        "i#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "tmp%3#0"
+      ]
+    },
+    "499": {
+      "op": "bz findMatch_after_if_else@4",
+      "stack_out": [
+        "appId#0",
+        "i#0"
+      ]
+    },
+    "502": {
+      "retsub": true,
+      "op": "retsub",
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "appId#0"
+      ]
+    },
+    "503": {
+      "block": "findMatch_after_if_else@4",
+      "stack_in": [
+        "appId#0",
+        "i#0"
+      ],
+      "op": "frame_dig 1",
+      "defined_out": [
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "i#0"
+      ]
+    },
+    "505": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "1",
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "i#0",
+        "1"
+      ]
+    },
+    "506": {
+      "op": "+",
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "i#0"
+      ]
+    },
+    "507": {
+      "op": "frame_bury 1",
+      "defined_out": [
+        "i#0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0"
+      ]
+    },
+    "509": {
+      "op": "b findMatch_while_top@1"
+    },
+    "512": {
+      "block": "findMatch_after_while@5",
+      "stack_in": [
+        "appId#0",
+        "i#0"
+      ],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "appId#0",
+        "i#0",
+        "0"
+      ]
+    },
+    "513": {
+      "op": "frame_bury 0"
+    },
+    "515": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "516": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.exists",
+      "params": {
+        "address#0": "bytes"
+      },
+      "block": "exists",
+      "stack_in": [],
+      "op": "proto 1 1"
+    },
+    "519": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "address#0 (copy)"
+      ],
+      "stack_out": [
+        "address#0 (copy)"
+      ]
+    },
+    "521": {
+      "op": "len",
+      "defined_out": [
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0"
+      ]
+    },
+    "522": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "0"
+      ]
+    },
+    "523": {
+      "op": "dig 1",
+      "defined_out": [
+        "0",
+        "length%0#0",
+        "length%0#0 (copy)"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "525": {
+      "op": ">=",
+      "defined_out": [
+        "is_out_of_bounds%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "526": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0"
+      ]
+    },
+    "527": {
+      "op": "dig 2",
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "529": {
+      "op": "uncover 2",
+      "stack_out": [
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "531": {
+      "op": "select",
+      "defined_out": [
+        "bounded_index%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0"
+      ]
+    },
+    "532": {
+      "op": "intc_1 // 4",
+      "defined_out": [
+        "4",
+        "bounded_index%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "4"
+      ]
+    },
+    "533": {
+      "op": "dig 2",
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "4",
+        "length%0#0 (copy)"
+      ]
+    },
+    "535": {
+      "op": ">=",
+      "defined_out": [
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "536": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4"
+      ]
+    },
+    "537": {
+      "op": "uncover 3",
+      "stack_out": [
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4",
+        "length%0#0"
+      ]
+    },
+    "539": {
+      "op": "uncover 2",
+      "stack_out": [
+        "bounded_index%0#0",
+        "4",
+        "length%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "541": {
+      "op": "select",
+      "defined_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ],
+      "stack_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "542": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0",
+        "address#0 (copy)"
+      ]
+    },
+    "544": {
+      "op": "cover 2",
+      "stack_out": [
+        "address#0 (copy)",
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "546": {
+      "op": "substring3",
+      "defined_out": [
+        "addr4#0"
+      ],
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "547": {
+      "op": "dupn 2",
+      "defined_out": [
+        "addr4#0",
+        "addr4#0 (copy)"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "addr4#0 (copy)"
+      ]
+    },
+    "549": {
+      "op": "len",
+      "defined_out": [
+        "addr4#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "tmp%0#0"
+      ]
+    },
+    "550": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "tmp%0#0",
+        "4"
+      ]
+    },
+    "551": {
+      "op": "==",
+      "defined_out": [
+        "addr4#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "tmp%1#0"
+      ]
+    },
+    "552": {
+      "error": "Length must be 4",
+      "op": "assert // Length must be 4",
+      "stack_out": [
+        "addr4#0",
+        "addr4#0"
+      ]
+    },
+    "553": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "addr4#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "554": {
+      "op": "bury 1",
+      "stack_out": [
+        "addr4#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "556": {
+      "op": "bnz exists_after_if_else@2",
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "559": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "addr4#0",
+        "0"
+      ]
+    },
+    "560": {
+      "op": "swap"
+    },
+    "561": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "562": {
+      "block": "exists_after_if_else@2",
+      "stack_in": [
+        "addr4#0"
+      ],
+      "op": "frame_dig 0",
+      "defined_out": [
+        "addr4#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0"
+      ]
+    },
+    "564": {
+      "op": "box_get",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%box_get%1#0",
+        "apps#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "apps#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "565": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "addr4#0",
+        "apps#0"
+      ]
+    },
+    "566": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "addr4#0",
+        "address#0 (copy)",
+        "apps#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "apps#0",
+        "address#0 (copy)"
+      ]
+    },
+    "568": {
+      "op": "swap",
+      "stack_out": [
+        "addr4#0",
+        "address#0 (copy)",
+        "apps#0"
+      ]
+    },
+    "569": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.findMatch",
+      "op": "callsub findMatch",
+      "defined_out": [
+        "addr4#0",
+        "matchingAppID#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "matchingAppID#0"
+      ]
+    },
+    "572": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "addr4#0",
+        "matchingAppID#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "matchingAppID#0",
+        "0"
+      ]
+    },
+    "573": {
+      "op": "!=",
+      "defined_out": [
+        "addr4#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "tmp%4#0"
+      ]
+    },
+    "574": {
+      "op": "swap"
+    },
+    "575": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "576": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.get",
+      "params": {
+        "address#0": "bytes"
+      },
+      "block": "get",
+      "stack_in": [],
+      "op": "proto 1 1"
+    },
+    "579": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "address#0 (copy)"
+      ],
+      "stack_out": [
+        "address#0 (copy)"
+      ]
+    },
+    "581": {
+      "op": "len",
+      "defined_out": [
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0"
+      ]
+    },
+    "582": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "0"
+      ]
+    },
+    "583": {
+      "op": "dig 1",
+      "defined_out": [
+        "0",
+        "length%0#0",
+        "length%0#0 (copy)"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "585": {
+      "op": ">=",
+      "defined_out": [
+        "is_out_of_bounds%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "586": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0"
+      ]
+    },
+    "587": {
+      "op": "dig 2",
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "589": {
+      "op": "uncover 2",
+      "stack_out": [
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "591": {
+      "op": "select",
+      "defined_out": [
+        "bounded_index%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0"
+      ]
+    },
+    "592": {
+      "op": "intc_1 // 4",
+      "defined_out": [
+        "4",
+        "bounded_index%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "4"
+      ]
+    },
+    "593": {
+      "op": "dig 2",
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "4",
+        "length%0#0 (copy)"
+      ]
+    },
+    "595": {
+      "op": ">=",
+      "defined_out": [
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "596": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4"
+      ]
+    },
+    "597": {
+      "op": "uncover 3",
+      "stack_out": [
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4",
+        "length%0#0"
+      ]
+    },
+    "599": {
+      "op": "uncover 2",
+      "stack_out": [
+        "bounded_index%0#0",
+        "4",
+        "length%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "601": {
+      "op": "select",
+      "defined_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ],
+      "stack_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "602": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0",
+        "address#0 (copy)"
+      ]
+    },
+    "604": {
+      "op": "cover 2",
+      "stack_out": [
+        "address#0 (copy)",
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "606": {
+      "op": "substring3",
+      "defined_out": [
+        "addr4#0"
+      ],
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "607": {
+      "op": "dupn 2",
+      "defined_out": [
+        "addr4#0",
+        "addr4#0 (copy)"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "addr4#0 (copy)"
+      ]
+    },
+    "609": {
+      "op": "len",
+      "defined_out": [
+        "addr4#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "tmp%0#0"
+      ]
+    },
+    "610": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "tmp%0#0",
+        "4"
+      ]
+    },
+    "611": {
+      "op": "==",
+      "defined_out": [
+        "addr4#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0",
+        "tmp%1#0"
+      ]
+    },
+    "612": {
+      "error": "Length must be 4",
+      "op": "assert // Length must be 4",
+      "stack_out": [
+        "addr4#0",
+        "addr4#0"
+      ]
+    },
+    "613": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "addr4#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "614": {
+      "op": "bury 1",
+      "stack_out": [
+        "addr4#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "616": {
+      "op": "bnz get_after_if_else@2",
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "619": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "addr4#0",
+        "0"
+      ]
+    },
+    "620": {
+      "op": "swap"
+    },
+    "621": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "622": {
+      "block": "get_after_if_else@2",
+      "stack_in": [
+        "addr4#0"
+      ],
+      "op": "frame_dig 0",
+      "defined_out": [
+        "addr4#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0"
+      ]
+    },
+    "624": {
+      "op": "box_get",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%box_get%1#0",
+        "apps#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "apps#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "625": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "addr4#0",
+        "apps#0"
+      ]
+    },
+    "626": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "addr4#0",
+        "address#0 (copy)",
+        "apps#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "apps#0",
+        "address#0 (copy)"
+      ]
+    },
+    "628": {
+      "op": "swap",
+      "stack_out": [
+        "addr4#0",
+        "address#0 (copy)",
+        "apps#0"
+      ]
+    },
+    "629": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.findMatch",
+      "op": "callsub findMatch",
+      "defined_out": [
+        "addr4#0",
+        "matchingAppID#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "matchingAppID#0"
+      ]
+    },
+    "632": {
+      "op": "swap"
+    },
+    "633": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "634": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.mustGet",
+      "params": {
+        "address#0": "bytes"
+      },
+      "block": "mustGet",
+      "stack_in": [],
+      "op": "proto 1 1"
+    },
+    "637": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "address#0 (copy)"
+      ],
+      "stack_out": [
+        "address#0 (copy)"
+      ]
+    },
+    "639": {
+      "op": "len",
+      "defined_out": [
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0"
+      ]
+    },
+    "640": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "0"
+      ]
+    },
+    "641": {
+      "op": "dig 1",
+      "defined_out": [
+        "0",
+        "length%0#0",
+        "length%0#0 (copy)"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "643": {
+      "op": ">=",
+      "defined_out": [
+        "is_out_of_bounds%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "644": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0"
+      ]
+    },
+    "645": {
+      "op": "dig 2",
+      "stack_out": [
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "647": {
+      "op": "uncover 2",
+      "stack_out": [
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "649": {
+      "op": "select",
+      "defined_out": [
+        "bounded_index%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0"
+      ]
+    },
+    "650": {
+      "op": "intc_1 // 4",
+      "defined_out": [
+        "4",
+        "bounded_index%0#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "4"
+      ]
+    },
+    "651": {
+      "op": "dig 2",
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "4",
+        "length%0#0 (copy)"
+      ]
+    },
+    "653": {
+      "op": ">=",
+      "defined_out": [
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "length%0#0"
+      ],
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "654": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4"
+      ]
+    },
+    "655": {
+      "op": "uncover 3",
+      "stack_out": [
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4",
+        "length%0#0"
+      ]
+    },
+    "657": {
+      "op": "uncover 2",
+      "stack_out": [
+        "bounded_index%0#0",
+        "4",
+        "length%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "659": {
+      "op": "select",
+      "defined_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ],
+      "stack_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "660": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "bounded_index%0#0",
+        "bounded_index%1#0",
+        "address#0 (copy)"
+      ]
+    },
+    "662": {
+      "op": "cover 2",
+      "stack_out": [
+        "address#0 (copy)",
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "664": {
+      "op": "substring3",
+      "defined_out": [
+        "addr4#0"
+      ],
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "665": {
+      "op": "dup",
+      "defined_out": [
+        "addr4#0",
+        "addr4#0 (copy)"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "addr4#0 (copy)"
+      ]
+    },
+    "666": {
+      "op": "len",
+      "defined_out": [
+        "addr4#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "tmp%0#0"
+      ]
+    },
+    "667": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "addr4#0",
+        "tmp%0#0",
+        "4"
+      ]
+    },
+    "668": {
+      "op": "==",
+      "defined_out": [
+        "addr4#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "tmp%1#0"
+      ]
+    },
+    "669": {
+      "error": "Length must be 4",
+      "op": "assert // Length must be 4",
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "670": {
+      "op": "dup",
+      "stack_out": [
+        "addr4#0",
+        "addr4#0 (copy)"
+      ]
+    },
+    "671": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "addr4#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "672": {
+      "op": "bury 1",
+      "stack_out": [
+        "addr4#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "674": {
+      "error": "App not registered",
+      "op": "assert // App not registered",
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "675": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%1#0",
+        "apps#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "676": {
+      "op": "pop",
+      "stack_out": [
+        "apps#0"
+      ]
+    },
+    "677": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "apps#0",
+        "address#0 (copy)"
+      ]
+    },
+    "679": {
+      "op": "swap",
+      "stack_out": [
+        "address#0 (copy)",
+        "apps#0"
+      ]
+    },
+    "680": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.findMatch",
+      "op": "callsub findMatch",
+      "defined_out": [
+        "matchingAppID#0"
+      ],
+      "stack_out": [
+        "matchingAppID#0"
+      ]
+    },
+    "683": {
+      "op": "dup",
+      "defined_out": [
+        "matchingAppID#0",
+        "matchingAppID#0 (copy)"
+      ],
+      "stack_out": [
+        "matchingAppID#0",
+        "matchingAppID#0 (copy)"
+      ]
+    },
+    "684": {
+      "error": "App not registered",
+      "op": "assert // App not registered",
+      "stack_out": [
+        "matchingAppID#0"
+      ]
+    },
+    "685": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "686": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.getList",
+      "params": {
+        "addresses#0": "bytes"
+      },
+      "block": "getList",
+      "stack_in": [],
+      "op": "proto 1 1"
+    },
+    "689": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "addr4#0"
+      ]
+    },
+    "690": {
+      "op": "dup",
+      "stack_out": [
+        "addr4#0",
+        "temp#0"
+      ]
+    },
+    "691": {
+      "op": "bytec_3 // 0x0000"
+    },
+    "692": {
+      "op": "frame_dig -1"
+    },
+    "694": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "addresses#0 (copy)",
+        "apps#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "addresses#0 (copy)",
+        "0"
+      ]
+    },
+    "695": {
+      "op": "extract_uint16",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "696": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "697": {
+      "block": "getList_for_header@1",
+      "stack_in": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 4",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "699": {
+      "op": "frame_dig 3",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "701": {
+      "op": "<",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "continue_looping%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "continue_looping%0#0"
+      ]
+    },
+    "702": {
+      "op": "bz getList_after_for@7",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "705": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "addresses#0 (copy)",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addresses#0 (copy)"
+      ]
+    },
+    "707": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0"
+      ]
+    },
+    "710": {
+      "op": "frame_dig 4",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "712": {
+      "op": "pushint 32 // 32",
+      "defined_out": [
+        "32",
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0",
+        "32"
+      ]
+    },
+    "714": {
+      "op": "*",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0"
+      ]
+    },
+    "715": {
+      "op": "pushint 32 // 32",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0",
+        "32"
+      ]
+    },
+    "717": {
+      "error": "index access is out of bounds",
+      "op": "extract3 // on error: index access is out of bounds",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ]
+    },
+    "718": {
+      "op": "dup",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "temp#0"
+      ]
+    },
+    "719": {
+      "op": "frame_bury 1",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ]
+    },
+    "721": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "temp#0 (copy)"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "temp#0 (copy)"
+      ]
+    },
+    "722": {
+      "op": "len",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0"
+      ]
+    },
+    "723": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "0"
+      ]
+    },
+    "724": {
+      "op": "dig 1",
+      "defined_out": [
+        "0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "length%0#0 (copy)",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "726": {
+      "op": ">=",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "is_out_of_bounds%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "727": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0"
+      ]
+    },
+    "728": {
+      "op": "dig 2",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "730": {
+      "op": "uncover 2",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "732": {
+      "op": "select",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0"
+      ]
+    },
+    "733": {
+      "op": "intc_1 // 4",
+      "defined_out": [
+        "4",
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "4"
+      ]
+    },
+    "734": {
+      "op": "dig 2",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "4",
+        "length%0#0 (copy)"
+      ]
+    },
+    "736": {
+      "op": ">=",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "737": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4"
+      ]
+    },
+    "738": {
+      "op": "uncover 3",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4",
+        "length%0#0"
+      ]
+    },
+    "740": {
+      "op": "uncover 2",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "bounded_index%0#0",
+        "4",
+        "length%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "742": {
+      "op": "select",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "bounded_index%1#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "743": {
+      "op": "substring3",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0"
+      ]
+    },
+    "744": {
+      "op": "dup",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0",
+        "addr4#0"
+      ]
+    },
+    "745": {
+      "op": "frame_bury 0",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0"
+      ]
+    },
+    "747": {
+      "op": "dup",
+      "defined_out": [
+        "addr4#0",
+        "addr4#0 (copy)",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0",
+        "addr4#0 (copy)"
+      ]
+    },
+    "748": {
+      "op": "len",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0",
+        "tmp%0#0"
+      ]
+    },
+    "749": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0",
+        "tmp%0#0",
+        "4"
+      ]
+    },
+    "750": {
+      "op": "==",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0",
+        "tmp%1#0"
+      ]
+    },
+    "751": {
+      "error": "Length must be 4",
+      "op": "assert // Length must be 4",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0"
+      ]
+    },
+    "752": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "maybe_exists%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "753": {
+      "op": "bury 1",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "755": {
+      "op": "bnz getList_after_if_else@4",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "758": {
+      "op": "frame_dig 2",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "apps#0"
+      ]
+    },
+    "760": {
+      "op": "pushbytes 0x0000000000000000",
+      "defined_out": [
+        "0x0000000000000000",
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "apps#0",
+        "0x0000000000000000"
+      ]
+    },
+    "770": {
+      "error": "max array length exceeded",
+      "op": "concat // on error: max array length exceeded",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0"
+      ]
+    },
+    "771": {
+      "op": "dup",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "concat%0#0 (copy)",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "concat%0#0 (copy)"
+      ]
+    },
+    "772": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "extract_to_end%1#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "extract_to_end%1#0"
+      ]
+    },
+    "775": {
+      "op": "len",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "item_index_internal%0#0",
+        "len%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "len%0#0"
+      ]
+    },
+    "776": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "item_index_internal%0#0",
+        "len%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "777": {
+      "op": "/",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "div_floor%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "div_floor%0#0"
+      ]
+    },
+    "778": {
+      "op": "itob",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "as_bytes%0#0",
+        "concat%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "as_bytes%0#0"
+      ]
+    },
+    "779": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "as_u16_bytes%0#0",
+        "concat%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "as_u16_bytes%0#0"
+      ]
+    },
+    "782": {
+      "op": "replace2 0",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "apps#0"
+      ]
+    },
+    "784": {
+      "op": "frame_bury 2",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "786": {
+      "block": "getList_block@5",
+      "stack_in": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 4",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "788": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "1",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "1"
+      ]
+    },
+    "789": {
+      "op": "+",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "790": {
+      "op": "frame_bury 4",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "792": {
+      "op": "b getList_for_header@1"
+    },
+    "795": {
+      "block": "getList_after_if_else@4",
+      "stack_in": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 0",
+      "defined_out": [
+        "addr4#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addr4#0"
+      ]
+    },
+    "797": {
+      "op": "box_get",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%box_get%1#0",
+        "appList#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "appList#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "798": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "appList#0"
+      ]
+    },
+    "799": {
+      "op": "frame_dig 1",
+      "defined_out": [
+        "addr4#0",
+        "appList#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "appList#0",
+        "temp#0"
+      ]
+    },
+    "801": {
+      "op": "swap",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "appList#0"
+      ]
+    },
+    "802": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.findMatch",
+      "op": "callsub findMatch",
+      "defined_out": [
+        "addr4#0",
+        "temp#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "tmp%3#0"
+      ]
+    },
+    "805": {
+      "op": "itob",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%val_as_bytes%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%1#0"
+      ]
+    },
+    "806": {
+      "op": "bytec_1 // 0x0001",
+      "defined_out": [
+        "0x0001",
+        "addr4#0",
+        "aggregate%val_as_bytes%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%1#0",
+        "0x0001"
+      ]
+    },
+    "807": {
+      "op": "swap",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "0x0001",
+        "aggregate%val_as_bytes%1#0"
+      ]
+    },
+    "808": {
+      "op": "concat",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%head%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%1#0"
+      ]
+    },
+    "809": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "addr4#0",
+        "extract_to_end%2#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "extract_to_end%2#0"
+      ]
+    },
+    "812": {
+      "op": "frame_dig 2",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "extract_to_end%2#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "extract_to_end%2#0",
+        "apps#0"
+      ]
+    },
+    "814": {
+      "op": "swap",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "apps#0",
+        "extract_to_end%2#0"
+      ]
+    },
+    "815": {
+      "error": "max array length exceeded",
+      "op": "concat // on error: max array length exceeded",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "concat%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0"
+      ]
+    },
+    "816": {
+      "op": "dup",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "concat%1#0",
+        "concat%1#0 (copy)",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0",
+        "concat%1#0 (copy)"
+      ]
+    },
+    "817": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "concat%1#0",
+        "extract_to_end%3#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0",
+        "extract_to_end%3#0"
+      ]
+    },
+    "820": {
+      "op": "len",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "concat%1#0",
+        "len%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0",
+        "len%1#0"
+      ]
+    },
+    "821": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "addr4#0",
+        "apps#0",
+        "concat%1#0",
+        "len%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0",
+        "len%1#0",
+        "8"
+      ]
+    },
+    "822": {
+      "op": "/",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "concat%1#0",
+        "div_floor%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0",
+        "div_floor%1#0"
+      ]
+    },
+    "823": {
+      "op": "itob",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "as_bytes%1#0",
+        "concat%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0",
+        "as_bytes%1#0"
+      ]
+    },
+    "824": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "as_u16_bytes%1#0",
+        "concat%1#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "concat%1#0",
+        "as_u16_bytes%1#0"
+      ]
+    },
+    "827": {
+      "op": "replace2 0",
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "apps#0"
+      ]
+    },
+    "829": {
+      "op": "frame_bury 2",
+      "defined_out": [
+        "addr4#0",
+        "apps#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "831": {
+      "op": "b getList_block@5"
+    },
+    "834": {
+      "block": "getList_after_for@7",
+      "stack_in": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 2",
+      "defined_out": [
+        "apps#0"
+      ],
+      "stack_out": [
+        "addr4#0",
+        "temp#0",
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "apps#0"
+      ]
+    },
+    "836": {
+      "op": "frame_bury 0"
+    },
+    "838": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "839": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.mustGetList",
+      "params": {
+        "addresses#0": "bytes"
+      },
+      "block": "mustGetList",
+      "stack_in": [],
+      "op": "proto 1 1"
+    },
+    "842": {
+      "op": "bytec_3 // 0x0000"
+    },
+    "843": {
+      "op": "frame_dig -1"
+    },
+    "845": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "addresses#0 (copy)",
+        "apps#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "addresses#0 (copy)",
+        "0"
+      ]
+    },
+    "846": {
+      "op": "extract_uint16",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "847": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "848": {
+      "block": "mustGetList_for_header@1",
+      "stack_in": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "op": "frame_dig 2",
+      "defined_out": [
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "850": {
+      "op": "frame_dig 1",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "852": {
+      "op": "<",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "continue_looping%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "continue_looping%0#0"
+      ]
+    },
+    "853": {
+      "op": "bz mustGetList_after_for@6",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "856": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "addresses#0 (copy)",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "addresses#0 (copy)"
+      ]
+    },
+    "858": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0"
+      ]
+    },
+    "861": {
+      "op": "frame_dig 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "863": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0 (copy)"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0 (copy)",
+        "item_index_internal%0#0 (copy)"
+      ]
+    },
+    "864": {
+      "op": "cover 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0 (copy)"
+      ]
+    },
+    "866": {
+      "op": "pushint 32 // 32",
+      "defined_out": [
+        "32",
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0 (copy)"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "item_index_internal%0#0 (copy)",
+        "32"
+      ]
+    },
+    "868": {
+      "op": "*",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0"
+      ]
+    },
+    "869": {
+      "op": "pushint 32 // 32",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%array_trimmed%0#0",
+        "aggregate%bytes_offset%0#0",
+        "32"
+      ]
+    },
+    "871": {
+      "error": "index access is out of bounds",
+      "op": "extract3 // on error: index access is out of bounds",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ]
+    },
+    "872": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "temp#0 (copy)"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "temp#0 (copy)"
+      ]
+    },
+    "873": {
+      "op": "len",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0"
+      ]
+    },
+    "874": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "0"
+      ]
+    },
+    "875": {
+      "op": "dig 1",
+      "defined_out": [
+        "0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "length%0#0 (copy)",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "877": {
+      "op": ">=",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "is_out_of_bounds%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "878": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0"
+      ]
+    },
+    "879": {
+      "op": "dig 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "is_out_of_bounds%0#0",
+        "0",
+        "length%0#0 (copy)"
+      ]
+    },
+    "881": {
+      "op": "uncover 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "0",
+        "length%0#0 (copy)",
+        "is_out_of_bounds%0#0"
+      ]
+    },
+    "883": {
+      "op": "select",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0"
+      ]
+    },
+    "884": {
+      "op": "intc_1 // 4",
+      "defined_out": [
+        "4",
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "4"
+      ]
+    },
+    "885": {
+      "op": "dig 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "4",
+        "length%0#0 (copy)"
+      ]
+    },
+    "887": {
+      "op": ">=",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "item_index_internal%0#0",
+        "length%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "888": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "length%0#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4"
+      ]
+    },
+    "889": {
+      "op": "uncover 3",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "bounded_index%0#0",
+        "is_out_of_bounds%1#0",
+        "4",
+        "length%0#0"
+      ]
+    },
+    "891": {
+      "op": "uncover 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "bounded_index%0#0",
+        "4",
+        "length%0#0",
+        "is_out_of_bounds%1#0"
+      ]
+    },
+    "893": {
+      "op": "select",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "bounded_index%0#0",
+        "bounded_index%1#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "894": {
+      "op": "dig 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "bounded_index%0#0",
+        "bounded_index%1#0",
+        "temp#0 (copy)"
+      ]
+    },
+    "896": {
+      "op": "cover 2",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "temp#0 (copy)",
+        "bounded_index%0#0",
+        "bounded_index%1#0"
+      ]
+    },
+    "898": {
+      "op": "substring3",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0"
+      ]
+    },
+    "899": {
+      "op": "dup",
+      "defined_out": [
+        "addr4#0",
+        "addr4#0 (copy)",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0",
+        "addr4#0 (copy)"
+      ]
+    },
+    "900": {
+      "op": "len",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0",
+        "tmp%0#0"
+      ]
+    },
+    "901": {
+      "op": "intc_1 // 4",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0",
+        "tmp%0#0",
+        "4"
+      ]
+    },
+    "902": {
+      "op": "==",
+      "defined_out": [
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0",
+        "tmp%1#0"
+      ]
+    },
+    "903": {
+      "error": "Length must be 4",
+      "op": "assert // Length must be 4",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0"
+      ]
+    },
+    "904": {
+      "op": "dup",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0",
+        "addr4#0 (copy)"
+      ]
+    },
+    "905": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "addr4#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "maybe_exists%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "906": {
+      "op": "bury 1",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "908": {
+      "error": "App not registered",
+      "op": "assert // App not registered",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "addr4#0"
+      ]
+    },
+    "909": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%box_get%1#0",
+        "appList#0",
+        "item_index_internal%0#0",
+        "temp#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "appList#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "910": {
+      "op": "pop",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "temp#0",
+        "appList#0"
+      ]
+    },
+    "911": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.findMatch",
+      "op": "callsub findMatch",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "matchingAppID#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "matchingAppID#0"
+      ]
+    },
+    "914": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "matchingAppID#0",
+        "matchingAppID#0 (copy)"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "matchingAppID#0",
+        "matchingAppID#0 (copy)"
+      ]
+    },
+    "915": {
+      "error": "App not registered",
+      "op": "assert // App not registered",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "matchingAppID#0"
+      ]
+    },
+    "916": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "917": {
+      "op": "bytec_1 // 0x0001",
+      "defined_out": [
+        "0x0001",
+        "aggregate%array_length%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%val_as_bytes%0#0",
+        "0x0001"
+      ]
+    },
+    "918": {
+      "op": "swap",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "0x0001",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "919": {
+      "op": "concat",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "aggregate%head%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "aggregate%head%0#0"
+      ]
+    },
+    "920": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "extract_to_end%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "extract_to_end%0#0"
+      ]
+    },
+    "923": {
+      "op": "frame_dig 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "extract_to_end%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "extract_to_end%0#0",
+        "apps#0"
+      ]
+    },
+    "925": {
+      "op": "swap",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "apps#0",
+        "extract_to_end%0#0"
+      ]
+    },
+    "926": {
+      "error": "max array length exceeded",
+      "op": "concat // on error: max array length exceeded",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0"
+      ]
+    },
+    "927": {
+      "op": "dup",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "concat%0#0 (copy)",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "concat%0#0 (copy)"
+      ]
+    },
+    "928": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "extract_to_end%1#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "extract_to_end%1#0"
+      ]
+    },
+    "931": {
+      "op": "len",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "item_index_internal%0#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "len%0#0"
+      ]
+    },
+    "932": {
+      "op": "intc_3 // 8",
+      "defined_out": [
+        "8",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "item_index_internal%0#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "933": {
+      "op": "/",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "concat%0#0",
+        "div_floor%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "div_floor%0#0"
+      ]
+    },
+    "934": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "as_bytes%0#0",
+        "concat%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "as_bytes%0#0"
+      ]
+    },
+    "935": {
+      "op": "extract 6 2",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "as_u16_bytes%0#0",
+        "concat%0#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "concat%0#0",
+        "as_u16_bytes%0#0"
+      ]
+    },
+    "938": {
+      "op": "replace2 0",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "apps#0"
+      ]
+    },
+    "940": {
+      "op": "frame_bury 0",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "942": {
+      "op": "intc_2 // 1",
+      "defined_out": [
+        "1",
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0",
+        "1"
+      ]
+    },
+    "943": {
+      "op": "+",
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "944": {
+      "op": "frame_bury 2",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "apps#0",
+        "item_index_internal%0#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ]
+    },
+    "946": {
+      "op": "b mustGetList_for_header@1"
+    },
+    "949": {
+      "block": "mustGetList_after_for@6",
+      "stack_in": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0"
+      ],
+      "retsub": true,
+      "op": "retsub",
+      "defined_out": [
+        "apps#0"
+      ],
+      "stack_out": [
+        "apps#0",
+        "aggregate%array_length%0#0",
+        "item_index_internal%0#0",
+        "apps#0"
+      ]
+    }
+  }
+}

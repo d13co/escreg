@@ -1,0 +1,879 @@
+#pragma version 10
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 0 4 1 8
+    bytecblock 0x151f7c75 0x0001 "appID" 0x0000
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txn NumAppArgs
+    bz main_bare_routing@12
+    pushbytess 0xf7e99a83 0x72bf6dc4 0x4c9fb656 0x89e79924 0x40e65262 0xb561c256 0x82b435f8 // method "register(uint64)void", method "registerList(uint64[])void", method "exists(address)bool", method "get(address)uint64", method "mustGet(address)uint64", method "getList(address[])uint64[]", method "mustGetList(address[])uint64[]"
+    txna ApplicationArgs 0
+    match main_register_route@3 main_registerList_route@4 main_exists_route@5 main_get_route@6 main_mustGet_route@7 main_getList_route@8 main_mustGetList_route@9
+
+main_after_if_else@16:
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    intc_0 // 0
+    return
+
+main_mustGetList_route@9:
+    // smart_contracts/escreg/contract.algo.ts:132
+    // @abimethod({ readonly: true })
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txna ApplicationArgs 1
+    // smart_contracts/escreg/contract.algo.ts:132
+    // @abimethod({ readonly: true })
+    callsub mustGetList
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_2 // 1
+    return
+
+main_getList_route@8:
+    // smart_contracts/escreg/contract.algo.ts:114
+    // @abimethod({ readonly: true })
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txna ApplicationArgs 1
+    // smart_contracts/escreg/contract.algo.ts:114
+    // @abimethod({ readonly: true })
+    callsub getList
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_2 // 1
+    return
+
+main_mustGet_route@7:
+    // smart_contracts/escreg/contract.algo.ts:100
+    // @abimethod({ readonly: true })
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txna ApplicationArgs 1
+    // smart_contracts/escreg/contract.algo.ts:100
+    // @abimethod({ readonly: true })
+    callsub mustGet
+    itob
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_2 // 1
+    return
+
+main_get_route@6:
+    // smart_contracts/escreg/contract.algo.ts:86
+    // @abimethod({ readonly: true })
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txna ApplicationArgs 1
+    // smart_contracts/escreg/contract.algo.ts:86
+    // @abimethod({ readonly: true })
+    callsub get
+    itob
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_2 // 1
+    return
+
+main_exists_route@5:
+    // smart_contracts/escreg/contract.algo.ts:72
+    // @abimethod({ readonly: true })
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txna ApplicationArgs 1
+    // smart_contracts/escreg/contract.algo.ts:72
+    // @abimethod({ readonly: true })
+    callsub exists
+    pushbytes 0x00
+    intc_0 // 0
+    uncover 2
+    setbit
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_2 // 1
+    return
+
+main_registerList_route@4:
+    // smart_contracts/escreg/contract.algo.ts:30
+    // public registerList(appIds: uint64[]): void {
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txna ApplicationArgs 1
+    // smart_contracts/escreg/contract.algo.ts:30
+    // public registerList(appIds: uint64[]): void {
+    callsub registerList
+    intc_2 // 1
+    return
+
+main_register_route@3:
+    // smart_contracts/escreg/contract.algo.ts:21
+    // public register(appId: uint64): void {
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txna ApplicationArgs 1
+    btoi
+    // smart_contracts/escreg/contract.algo.ts:21
+    // public register(appId: uint64): void {
+    callsub register
+    intc_2 // 1
+    return
+
+main_bare_routing@12:
+    // smart_contracts/escreg/contract.algo.ts:18
+    // export class Escreg extends Contract {
+    txn OnCompletion
+    bnz main_after_if_else@16
+    txn ApplicationID
+    !
+    assert // can only call when creating
+    intc_2 // 1
+    return
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.register(appId: uint64) -> void:
+register:
+    // smart_contracts/escreg/contract.algo.ts:21
+    // public register(appId: uint64): void {
+    proto 1 0
+    // smart_contracts/escreg/contract.algo.ts:22
+    // const key = this.deriveAddrPrefix(appId)
+    frame_dig -1
+    callsub deriveAddrPrefix
+    dup
+    // smart_contracts/escreg/contract.algo.ts:23
+    // if (!this.apps(key).exists) {
+    box_len
+    bury 1
+    bnz register_else_body@2
+    // smart_contracts/escreg/contract.algo.ts:24
+    // this.apps(key).value = [appId]
+    frame_dig -1
+    itob
+    bytec_1 // 0x0001
+    swap
+    concat
+    swap
+    dup
+    box_del
+    pop
+    swap
+    box_put
+    retsub
+
+register_else_body@2:
+    // smart_contracts/escreg/contract.algo.ts:26
+    // this.appendAppId(key, appId)
+    frame_dig -1
+    callsub appendAppId
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.registerList(appIds: bytes) -> void:
+registerList:
+    // smart_contracts/escreg/contract.algo.ts:30
+    // public registerList(appIds: uint64[]): void {
+    proto 1 0
+    intc_0 // 0
+    // smart_contracts/escreg/contract.algo.ts:31
+    // for (const appId of appIds) {
+    frame_dig -1
+    intc_0 // 0
+    extract_uint16
+    intc_0 // 0
+
+registerList_for_header@1:
+    // smart_contracts/escreg/contract.algo.ts:31
+    // for (const appId of appIds) {
+    frame_dig 2
+    frame_dig 1
+    <
+    bz registerList_after_for@7
+    frame_dig -1
+    extract 2 0
+    frame_dig 2
+    intc_3 // 8
+    *
+    extract_uint64
+    dup
+    // smart_contracts/escreg/contract.algo.ts:32
+    // const key = this.deriveAddrPrefix(appId)
+    callsub deriveAddrPrefix
+    dup
+    frame_bury 0
+    // smart_contracts/escreg/contract.algo.ts:33
+    // if (!this.apps(key).exists) {
+    box_len
+    bury 1
+    bnz registerList_else_body@4
+    // smart_contracts/escreg/contract.algo.ts:34
+    // this.apps(key).value = [appId]
+    itob
+    bytec_1 // 0x0001
+    swap
+    concat
+    frame_dig 0
+    dup
+    box_del
+    pop
+    swap
+    box_put
+
+registerList_after_if_else@5:
+    frame_dig 2
+    intc_2 // 1
+    +
+    frame_bury 2
+    b registerList_for_header@1
+
+registerList_else_body@4:
+    // smart_contracts/escreg/contract.algo.ts:36
+    // this.appendAppId(key, appId)
+    frame_dig 0
+    swap
+    callsub appendAppId
+    b registerList_after_if_else@5
+
+registerList_after_for@7:
+    // smart_contracts/escreg/contract.algo.ts:39
+    // log(Global.opcodeBudget)
+    global OpcodeBudget
+    itob
+    log
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.deriveAddrPrefix(appId: uint64) -> bytes:
+deriveAddrPrefix:
+    // smart_contracts/escreg/contract.algo.ts:42
+    // private deriveAddrPrefix(appId: uint64): bytes<4> {
+    proto 1 1
+    // smart_contracts/escreg/contract.algo.ts:43
+    // return sha512_256(Bytes`appID`.concat(op.itob(appId)))
+    frame_dig -1
+    itob
+    bytec_2 // "appID"
+    swap
+    concat
+    sha512_256
+    // smart_contracts/escreg/contract.algo.ts:43-44
+    // return sha512_256(Bytes`appID`.concat(op.itob(appId)))
+    //   .slice(0, 4)
+    substring 0 4
+    // smart_contracts/escreg/contract.algo.ts:43-45
+    // return sha512_256(Bytes`appID`.concat(op.itob(appId)))
+    //   .slice(0, 4)
+    //   .toFixed({ length: 4 })
+    dup
+    len
+    intc_1 // 4
+    ==
+    assert // Length must be 4
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.appendAppId(key: bytes, appId: uint64) -> void:
+appendAppId:
+    // smart_contracts/escreg/contract.algo.ts:52
+    // private appendAppId(key: bytes<4>, appId: uint64) {
+    proto 2 0
+    // smart_contracts/escreg/contract.algo.ts:53
+    // const existing = this.apps(key).value as Readonly<uint64[]>
+    frame_dig -2
+    box_get
+    assert // Box must have value
+    // smart_contracts/escreg/contract.algo.ts:53-54
+    // const existing = this.apps(key).value as Readonly<uint64[]>
+    // for (const existingId of existing) {
+    frame_dig -2
+    intc_0 // 0
+    pushint 2 // 2
+    box_extract
+    btoi
+    intc_0 // 0
+
+appendAppId_for_header@1:
+    // smart_contracts/escreg/contract.algo.ts:54
+    // for (const existingId of existing) {
+    frame_dig 2
+    frame_dig 1
+    <
+    bz appendAppId_after_for@6
+    // smart_contracts/escreg/contract.algo.ts:53-54
+    // const existing = this.apps(key).value as Readonly<uint64[]>
+    // for (const existingId of existing) {
+    frame_dig 2
+    intc_3 // 8
+    *
+    pushint 2 // 2
+    +
+    frame_dig -2
+    swap
+    intc_3 // 8
+    box_extract
+    // smart_contracts/escreg/contract.algo.ts:54
+    // for (const existingId of existing) {
+    btoi
+    // smart_contracts/escreg/contract.algo.ts:55
+    // if (existingId === appId) {
+    frame_dig -1
+    ==
+    bz appendAppId_after_if_else@4
+    // smart_contracts/escreg/contract.algo.ts:56
+    // log('ERR:EXISTS')
+    pushbytes "ERR:EXISTS"
+    log
+    // smart_contracts/escreg/contract.algo.ts:57
+    // err('ERR:EXISTS')
+    err // ERR:EXISTS
+
+appendAppId_after_if_else@4:
+    frame_dig 2
+    intc_2 // 1
+    +
+    frame_bury 2
+    b appendAppId_for_header@1
+
+appendAppId_after_for@6:
+    // smart_contracts/escreg/contract.algo.ts:60
+    // this.apps(key).value = [...existing, appId]
+    frame_dig -1
+    itob
+    bytec_1 // 0x0001
+    swap
+    concat
+    extract 2 0
+    frame_dig 0
+    swap
+    concat // on error: max array length exceeded
+    dup
+    extract 2 0
+    len
+    intc_3 // 8
+    /
+    itob
+    extract 6 2
+    replace2 0
+    frame_dig -2
+    box_del
+    pop
+    frame_dig -2
+    swap
+    box_put
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.findMatch(address: bytes, apps: bytes) -> uint64:
+findMatch:
+    // smart_contracts/escreg/contract.algo.ts:63
+    // private findMatch(address: Address, apps: Readonly<uint64[]>): uint64 {
+    proto 2 1
+    pushbytes ""
+    // smart_contracts/escreg/contract.algo.ts:64
+    // for (let i: uint64 = 0; i < apps.length; i++) {
+    intc_0 // 0
+
+findMatch_while_top@1:
+    // smart_contracts/escreg/contract.algo.ts:64
+    // for (let i: uint64 = 0; i < apps.length; i++) {
+    frame_dig -1
+    intc_0 // 0
+    extract_uint16
+    frame_dig 1
+    >
+    bz findMatch_after_while@5
+    // smart_contracts/escreg/contract.algo.ts:65
+    // if (address.native.bytes === this.deriveAddr(apps[i])) {
+    frame_dig -1
+    extract 2 0
+    frame_dig 1
+    intc_3 // 8
+    *
+    extract_uint64
+    dup
+    frame_bury 0
+    // smart_contracts/escreg/contract.algo.ts:49
+    // return sha512_256(Bytes`appID`.concat(op.itob(appId)))
+    itob
+    bytec_2 // "appID"
+    swap
+    concat
+    sha512_256
+    // smart_contracts/escreg/contract.algo.ts:65
+    // if (address.native.bytes === this.deriveAddr(apps[i])) {
+    frame_dig -2
+    ==
+    bz findMatch_after_if_else@4
+    // smart_contracts/escreg/contract.algo.ts:66
+    // return apps[i]
+    retsub
+
+findMatch_after_if_else@4:
+    // smart_contracts/escreg/contract.algo.ts:64
+    // for (let i: uint64 = 0; i < apps.length; i++) {
+    frame_dig 1
+    intc_2 // 1
+    +
+    frame_bury 1
+    b findMatch_while_top@1
+
+findMatch_after_while@5:
+    // smart_contracts/escreg/contract.algo.ts:69
+    // return 0
+    intc_0 // 0
+    frame_bury 0
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.exists(address: bytes) -> uint64:
+exists:
+    // smart_contracts/escreg/contract.algo.ts:72-73
+    // @abimethod({ readonly: true })
+    // public exists(address: Address): boolean {
+    proto 1 1
+    // smart_contracts/escreg/contract.algo.ts:74
+    // const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    frame_dig -1
+    len
+    intc_0 // 0
+    dig 1
+    >=
+    intc_0 // 0
+    dig 2
+    uncover 2
+    select
+    intc_1 // 4
+    dig 2
+    >=
+    intc_1 // 4
+    uncover 3
+    uncover 2
+    select
+    frame_dig -1
+    cover 2
+    substring3
+    dupn 2
+    len
+    intc_1 // 4
+    ==
+    assert // Length must be 4
+    // smart_contracts/escreg/contract.algo.ts:76
+    // if (!this.apps(addr4).exists) {
+    box_len
+    bury 1
+    bnz exists_after_if_else@2
+    // smart_contracts/escreg/contract.algo.ts:77
+    // return false
+    intc_0 // 0
+    swap
+    retsub
+
+exists_after_if_else@2:
+    // smart_contracts/escreg/contract.algo.ts:80
+    // const apps = this.apps(addr4).value as Readonly<uint64[]>
+    frame_dig 0
+    box_get
+    assert // Box must have value
+    // smart_contracts/escreg/contract.algo.ts:81
+    // const matchingAppID = this.findMatch(address, apps)
+    frame_dig -1
+    swap
+    callsub findMatch
+    // smart_contracts/escreg/contract.algo.ts:83
+    // return matchingAppID !== 0
+    intc_0 // 0
+    !=
+    swap
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.get(address: bytes) -> uint64:
+get:
+    // smart_contracts/escreg/contract.algo.ts:86-87
+    // @abimethod({ readonly: true })
+    // public get(address: Address): uint64 {
+    proto 1 1
+    // smart_contracts/escreg/contract.algo.ts:88
+    // const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    frame_dig -1
+    len
+    intc_0 // 0
+    dig 1
+    >=
+    intc_0 // 0
+    dig 2
+    uncover 2
+    select
+    intc_1 // 4
+    dig 2
+    >=
+    intc_1 // 4
+    uncover 3
+    uncover 2
+    select
+    frame_dig -1
+    cover 2
+    substring3
+    dupn 2
+    len
+    intc_1 // 4
+    ==
+    assert // Length must be 4
+    // smart_contracts/escreg/contract.algo.ts:90
+    // if (!this.apps(addr4).exists) {
+    box_len
+    bury 1
+    bnz get_after_if_else@2
+    // smart_contracts/escreg/contract.algo.ts:91
+    // return 0
+    intc_0 // 0
+    swap
+    retsub
+
+get_after_if_else@2:
+    // smart_contracts/escreg/contract.algo.ts:94
+    // const apps = this.apps(addr4).value as Readonly<uint64[]>
+    frame_dig 0
+    box_get
+    assert // Box must have value
+    // smart_contracts/escreg/contract.algo.ts:95
+    // const matchingAppID = this.findMatch(address, apps)
+    frame_dig -1
+    swap
+    callsub findMatch
+    // smart_contracts/escreg/contract.algo.ts:97
+    // return matchingAppID
+    swap
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.mustGet(address: bytes) -> uint64:
+mustGet:
+    // smart_contracts/escreg/contract.algo.ts:100-101
+    // @abimethod({ readonly: true })
+    // public mustGet(address: Address): uint64 {
+    proto 1 1
+    // smart_contracts/escreg/contract.algo.ts:102
+    // const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    frame_dig -1
+    len
+    intc_0 // 0
+    dig 1
+    >=
+    intc_0 // 0
+    dig 2
+    uncover 2
+    select
+    intc_1 // 4
+    dig 2
+    >=
+    intc_1 // 4
+    uncover 3
+    uncover 2
+    select
+    frame_dig -1
+    cover 2
+    substring3
+    dup
+    len
+    intc_1 // 4
+    ==
+    assert // Length must be 4
+    // smart_contracts/escreg/contract.algo.ts:104
+    // assert(this.apps(addr4).exists, ERR_APP_NOT_REGISTERED)
+    dup
+    box_len
+    bury 1
+    assert // App not registered
+    // smart_contracts/escreg/contract.algo.ts:106
+    // const apps = this.apps(addr4).value as Readonly<uint64[]>
+    box_get
+    pop
+    // smart_contracts/escreg/contract.algo.ts:107
+    // const matchingAppID = this.findMatch(address, apps)
+    frame_dig -1
+    swap
+    callsub findMatch
+    // smart_contracts/escreg/contract.algo.ts:109
+    // assert(matchingAppID !== 0, ERR_APP_NOT_REGISTERED)
+    dup
+    assert // App not registered
+    // smart_contracts/escreg/contract.algo.ts:111
+    // return matchingAppID
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.getList(addresses: bytes) -> bytes:
+getList:
+    // smart_contracts/escreg/contract.algo.ts:114-115
+    // @abimethod({ readonly: true })
+    // public getList(addresses: Address[]): uint64[] {
+    proto 1 1
+    intc_0 // 0
+    dup
+    // smart_contracts/escreg/contract.algo.ts:116
+    // let apps: uint64[] = []
+    bytec_3 // 0x0000
+    // smart_contracts/escreg/contract.algo.ts:118
+    // for (const address of addresses) {
+    frame_dig -1
+    intc_0 // 0
+    extract_uint16
+    intc_0 // 0
+
+getList_for_header@1:
+    // smart_contracts/escreg/contract.algo.ts:118
+    // for (const address of addresses) {
+    frame_dig 4
+    frame_dig 3
+    <
+    bz getList_after_for@7
+    frame_dig -1
+    extract 2 0
+    frame_dig 4
+    pushint 32 // 32
+    *
+    pushint 32 // 32
+    extract3 // on error: index access is out of bounds
+    dup
+    frame_bury 1
+    // smart_contracts/escreg/contract.algo.ts:119
+    // const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    dup
+    len
+    intc_0 // 0
+    dig 1
+    >=
+    intc_0 // 0
+    dig 2
+    uncover 2
+    select
+    intc_1 // 4
+    dig 2
+    >=
+    intc_1 // 4
+    uncover 3
+    uncover 2
+    select
+    substring3
+    dup
+    frame_bury 0
+    dup
+    len
+    intc_1 // 4
+    ==
+    assert // Length must be 4
+    // smart_contracts/escreg/contract.algo.ts:121
+    // if (!this.apps(addr4).exists) {
+    box_len
+    bury 1
+    bnz getList_after_if_else@4
+    // smart_contracts/escreg/contract.algo.ts:122
+    // apps = [...apps, zero]
+    frame_dig 2
+    pushbytes 0x0000000000000000
+    concat // on error: max array length exceeded
+    dup
+    extract 2 0
+    len
+    intc_3 // 8
+    /
+    itob
+    extract 6 2
+    replace2 0
+    frame_bury 2
+
+getList_block@5:
+    frame_dig 4
+    intc_2 // 1
+    +
+    frame_bury 4
+    b getList_for_header@1
+
+getList_after_if_else@4:
+    // smart_contracts/escreg/contract.algo.ts:126
+    // const appList = this.apps(addr4).value as Readonly<uint64[]>
+    frame_dig 0
+    box_get
+    assert // Box must have value
+    // smart_contracts/escreg/contract.algo.ts:127
+    // apps = [...apps, this.findMatch(address, appList)]
+    frame_dig 1
+    swap
+    callsub findMatch
+    itob
+    bytec_1 // 0x0001
+    swap
+    concat
+    extract 2 0
+    frame_dig 2
+    swap
+    concat // on error: max array length exceeded
+    dup
+    extract 2 0
+    len
+    intc_3 // 8
+    /
+    itob
+    extract 6 2
+    replace2 0
+    frame_bury 2
+    b getList_block@5
+
+getList_after_for@7:
+    // smart_contracts/escreg/contract.algo.ts:129
+    // return apps
+    frame_dig 2
+    frame_bury 0
+    retsub
+
+
+// smart_contracts/escreg/contract.algo.ts::Escreg.mustGetList(addresses: bytes) -> bytes:
+mustGetList:
+    // smart_contracts/escreg/contract.algo.ts:132-133
+    // @abimethod({ readonly: true })
+    // public mustGetList(addresses: Address[]): uint64[] {
+    proto 1 1
+    // smart_contracts/escreg/contract.algo.ts:134
+    // let apps: uint64[] = []
+    bytec_3 // 0x0000
+    // smart_contracts/escreg/contract.algo.ts:135
+    // for (const address of addresses) {
+    frame_dig -1
+    intc_0 // 0
+    extract_uint16
+    intc_0 // 0
+
+mustGetList_for_header@1:
+    // smart_contracts/escreg/contract.algo.ts:135
+    // for (const address of addresses) {
+    frame_dig 2
+    frame_dig 1
+    <
+    bz mustGetList_after_for@6
+    frame_dig -1
+    extract 2 0
+    frame_dig 2
+    dup
+    cover 2
+    pushint 32 // 32
+    *
+    pushint 32 // 32
+    extract3 // on error: index access is out of bounds
+    // smart_contracts/escreg/contract.algo.ts:136
+    // const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    dup
+    len
+    intc_0 // 0
+    dig 1
+    >=
+    intc_0 // 0
+    dig 2
+    uncover 2
+    select
+    intc_1 // 4
+    dig 2
+    >=
+    intc_1 // 4
+    uncover 3
+    uncover 2
+    select
+    dig 2
+    cover 2
+    substring3
+    dup
+    len
+    intc_1 // 4
+    ==
+    assert // Length must be 4
+    // smart_contracts/escreg/contract.algo.ts:138
+    // if (!this.apps(addr4).exists) {
+    dup
+    box_len
+    bury 1
+    assert // App not registered
+    // smart_contracts/escreg/contract.algo.ts:142
+    // const appList = this.apps(addr4).value as Readonly<uint64[]>
+    box_get
+    pop
+    // smart_contracts/escreg/contract.algo.ts:143
+    // const matchingAppID = this.findMatch(address, appList)
+    callsub findMatch
+    // smart_contracts/escreg/contract.algo.ts:145
+    // assert(matchingAppID !== 0, ERR_APP_NOT_REGISTERED)
+    dup
+    assert // App not registered
+    // smart_contracts/escreg/contract.algo.ts:146
+    // apps = [...apps, matchingAppID]
+    itob
+    bytec_1 // 0x0001
+    swap
+    concat
+    extract 2 0
+    frame_dig 0
+    swap
+    concat // on error: max array length exceeded
+    dup
+    extract 2 0
+    len
+    intc_3 // 8
+    /
+    itob
+    extract 6 2
+    replace2 0
+    frame_bury 0
+    intc_2 // 1
+    +
+    frame_bury 2
+    b mustGetList_for_header@1
+
+mustGetList_after_for@6:
+    // smart_contracts/escreg/contract.algo.ts:148
+    // return apps
+    retsub
