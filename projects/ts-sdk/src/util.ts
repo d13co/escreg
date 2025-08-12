@@ -1,10 +1,6 @@
-export function range(start: number, end: number): number[] {
-  return new Array(end - start + 1).fill(1).map((_, i) => start + i)
-}
+import { makeEmptyTransactionSigner } from "algosdk";
 
-export function brange(start: number, end: number): bigint[] {
-  return new Array(end - start + 1).fill(1).map((_, i) => BigInt(start + i))
-}
+export const emptySigner = makeEmptyTransactionSigner()
 
 export function chunk<T>(array: T[], size: number): T[][] {
   if (size <= 0) throw new Error("Chunk size must be greater than 0");

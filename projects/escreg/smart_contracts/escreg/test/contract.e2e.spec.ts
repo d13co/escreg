@@ -12,7 +12,6 @@ describe('Escreg contract', () => {
   beforeAll(() => {
     Config.configure({
       debug: true,
-      // traceAll: true,
     })
     registerDebugEventHandlers()
   })
@@ -109,7 +108,7 @@ describe('Escreg contract', () => {
     const { client } = await deploy(testAccount)
 
     await client.send.register({ args: { appId: 1002 } })
-    await expect(client.send.register({ args: { appId: 1002 } })).rejects.toThrow(/ERR:/)
+    await expect(client.send.register({ args: { appId: 1002 } })).rejects.toThrow(/ERR:EXISTS/)
   })
 
   test('get returns 0 for not found', async () => {
@@ -127,7 +126,7 @@ describe('Escreg contract', () => {
     const { client } = await deploy(testAccount)
 
     const address = getApplicationAddress(1002).toString()
-    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/App not registered/)
+    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/ERR:NOTFOUND/)
   })
 
   test('getList returns 0 for not found', async () => {
@@ -162,7 +161,7 @@ describe('Escreg contract', () => {
     const { client } = await deploy(testAccount)
 
     const address = getApplicationAddress(1002).toString()
-    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/App not registered/)
+    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/ERR:NOTFOUND/)
   })
 
   test('exists returns true for existing', async () => {

@@ -5,15 +5,20 @@ import {
   Bytes,
   bytes,
   Contract,
-  err,
+  ensureBudget,
+  GlobalState,
+  itxn,
   log,
   op,
+  Txn,
   uint64,
 } from '@algorandfoundation/algorand-typescript'
 import { Address } from '@algorandfoundation/algorand-typescript/arc4'
 import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
 
-const ERR_APP_NOT_REGISTERED = 'App not registered'
+const ERR_EXISTS = 'ERR:EXISTS'
+const ERR_UNAUTH = 'ERR:UNAUTH'
+const ERR_APP_NOT_REGISTERED = 'ERR:NOTFOUND'
 
 export type AddressWithAuth = {
   appId: uint64
@@ -22,6 +27,18 @@ export type AddressWithAuth = {
 
 export class Escreg extends Contract {
   apps = BoxMap<bytes<4>, uint64[]>({ keyPrefix: '' })
+  admin = GlobalState<Address>({ initialValue: new Address(Txn.sender) })
+
+  public withdraw(amount: uint64) {
+    assert(Txn.sender === this.admin.value.native, ERR_UNAUTH)
+
+    itxn
+      .payment({
+        receiver: Txn.sender,
+        amount,
+      })
+      .submit()
+  }
 
   public register(appId: uint64): void {
     const key = this.deriveAddrPrefix(appId)
@@ -57,10 +74,7 @@ export class Escreg extends Contract {
   private appendAppId(key: bytes<4>, appId: uint64) {
     const existing = this.apps(key).value as Readonly<uint64[]>
     for (const existingId of existing) {
-      if (existingId === appId) {
-        log('ERR:EXISTS')
-        err('ERR:EXISTS')
-      }
+      assert(existingId !== appId, ERR_EXISTS)
     }
     this.apps(key).value = [...existing, appId]
   }
@@ -157,7 +171,7 @@ export class Escreg extends Contract {
       let authAppId: uint64 = 0
       if (this.apps(authAddr4).exists) {
         const apps = this.apps(authAddr4).value as Readonly<uint64[]>
-        authAppId = this.findMatch(address, apps)
+        authAppId = this.findMatch(new Address(authAddr), apps)
       }
 
       results.push({ appId, authAppId })
@@ -170,6 +184,9 @@ export class Escreg extends Contract {
   public getList(addresses: Address[]): uint64[] {
     let apps: uint64[] = []
     const zero: uint64 = 0
+
+    ensureBudget(200 * addresses.length)
+
     for (const address of addresses) {
       const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
 
