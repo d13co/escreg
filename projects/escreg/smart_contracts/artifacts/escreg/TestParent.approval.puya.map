@@ -1,0 +1,319 @@
+{
+  "version": 3,
+  "sources": [
+    "/home/bit/code/escreg/projects/escreg/smart_contracts/escreg/test-rekeyed-escrow.algo.ts"
+  ],
+  "mappings": ";;;;;AAEA;;AAAA;;;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;;AACE;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;AAAA;;AADF;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAIgB;AAFK;;;;;;;;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAEL;;;;AAAA;;;AAAA;;;AAQZ;AAE6B;;AAAA;AACjB;;;;;;;;AAHZ;;;AAAA;;;AAAA;",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 0 1"
+    },
+    "5": {
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "7": {
+      "op": "bz main_bare_routing@6",
+      "stack_out": []
+    },
+    "10": {
+      "op": "pushbytes 0xa54f3960 // method \"spawn()void\"",
+      "defined_out": [
+        "Method(spawn()void)"
+      ],
+      "stack_out": [
+        "Method(spawn()void)"
+      ]
+    },
+    "16": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(spawn()void)",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "Method(spawn()void)",
+        "tmp%2#0"
+      ]
+    },
+    "19": {
+      "op": "match main_spawn_route@3",
+      "stack_out": []
+    },
+    "23": {
+      "block": "main_after_if_else@10",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "24": {
+      "op": "return",
+      "stack_out": []
+    },
+    "25": {
+      "block": "main_spawn_route@3",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "27": {
+      "op": "!",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "28": {
+      "error": "OnCompletion is not NoOp",
+      "op": "assert // OnCompletion is not NoOp",
+      "stack_out": []
+    },
+    "29": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "31": {
+      "error": "can only call when not creating",
+      "op": "assert // can only call when not creating",
+      "stack_out": []
+    },
+    "32": {
+      "callsub": "smart_contracts/escreg/test-rekeyed-escrow.algo.ts::TestParent.spawn",
+      "op": "callsub spawn"
+    },
+    "35": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "36": {
+      "op": "return",
+      "stack_out": []
+    },
+    "37": {
+      "block": "main_bare_routing@6",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "39": {
+      "op": "bnz main_after_if_else@10",
+      "stack_out": []
+    },
+    "42": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "44": {
+      "op": "!",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "45": {
+      "error": "can only call when creating",
+      "op": "assert // can only call when creating",
+      "stack_out": []
+    },
+    "46": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "47": {
+      "op": "return",
+      "stack_out": []
+    },
+    "48": {
+      "subroutine": "smart_contracts/escreg/test-rekeyed-escrow.algo.ts::TestParent.spawn",
+      "params": {},
+      "block": "spawn",
+      "stack_in": [],
+      "op": "itxn_begin"
+    },
+    "49": {
+      "op": "pushbytes base64(CoEBQw==)",
+      "defined_out": [
+        "CoEBQw=="
+      ],
+      "stack_out": [
+        "CoEBQw=="
+      ]
+    },
+    "55": {
+      "op": "itxn_field ClearStateProgramPages",
+      "stack_out": []
+    },
+    "57": {
+      "op": "pushbytes base64(CiACAQAxGEAAD7EyDkmyILIHIrIQI7IBszEbQAALMRlAAAYxGBREIkMjQw==)",
+      "defined_out": [
+        "CiACAQAxGEAAD7EyDkmyILIHIrIQI7IBszEbQAALMRlAAAYxGBREIkMjQw=="
+      ],
+      "stack_out": [
+        "CiACAQAxGEAAD7EyDkmyILIHIrIQI7IBszEbQAALMRlAAAYxGBREIkMjQw=="
+      ]
+    },
+    "102": {
+      "op": "itxn_field ApprovalProgramPages",
+      "stack_out": []
+    },
+    "104": {
+      "op": "pushint 6 // 6",
+      "defined_out": [
+        "6"
+      ],
+      "stack_out": [
+        "6"
+      ]
+    },
+    "106": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "108": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "109": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "111": {
+      "op": "itxn_submit"
+    },
+    "112": {
+      "op": "itxn CreatedApplicationID",
+      "defined_out": [
+        "txn.CreatedApplicationID#0"
+      ],
+      "stack_out": [
+        "txn.CreatedApplicationID#0"
+      ]
+    },
+    "114": {
+      "op": "itxn_begin"
+    },
+    "115": {
+      "op": "app_params_get AppAddress",
+      "defined_out": [
+        "check%0#0",
+        "value%0#0"
+      ],
+      "stack_out": [
+        "value%0#0",
+        "check%0#0"
+      ]
+    },
+    "117": {
+      "error": "application exists",
+      "op": "assert // application exists",
+      "stack_out": [
+        "value%0#0"
+      ]
+    },
+    "118": {
+      "op": "pushint 100000 // 100000",
+      "defined_out": [
+        "100000",
+        "value%0#0"
+      ],
+      "stack_out": [
+        "value%0#0",
+        "100000"
+      ]
+    },
+    "122": {
+      "op": "itxn_field Amount",
+      "stack_out": [
+        "value%0#0"
+      ]
+    },
+    "124": {
+      "op": "itxn_field Receiver",
+      "stack_out": []
+    },
+    "126": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "127": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "129": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "130": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "132": {
+      "op": "itxn_submit"
+    },
+    "133": {
+      "retsub": true,
+      "op": "retsub"
+    }
+  }
+}

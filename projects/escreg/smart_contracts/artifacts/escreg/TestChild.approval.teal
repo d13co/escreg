@@ -1,0 +1,61 @@
+#pragma version 10
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 0
+    txn ApplicationID
+    bnz main_after_if_else@2
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:27-32
+    // itxn
+    //   .payment({
+    //     receiver: Global.callerApplicationAddress,
+    //     rekeyTo: Global.callerApplicationAddress,
+    //   })
+    //   .submit()
+    itxn_begin
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:29
+    // receiver: Global.callerApplicationAddress,
+    global CallerApplicationAddress
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:30
+    // rekeyTo: Global.callerApplicationAddress,
+    dup
+    itxn_field RekeyTo
+    itxn_field Receiver
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:27-31
+    // itxn
+    //   .payment({
+    //     receiver: Global.callerApplicationAddress,
+    //     rekeyTo: Global.callerApplicationAddress,
+    //   })
+    intc_0 // 1
+    itxn_field TypeEnum
+    intc_1 // 0
+    itxn_field Fee
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:27-32
+    // itxn
+    //   .payment({
+    //     receiver: Global.callerApplicationAddress,
+    //     rekeyTo: Global.callerApplicationAddress,
+    //   })
+    //   .submit()
+    itxn_submit
+
+main_after_if_else@2:
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:24
+    // export class TestChild extends Contract {
+    txn NumAppArgs
+    bnz main_after_if_else@9
+    txn OnCompletion
+    bnz main_after_if_else@9
+    txn ApplicationID
+    !
+    assert // can only call when creating
+    intc_0 // 1
+    return
+
+main_after_if_else@9:
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:24
+    // export class TestChild extends Contract {
+    intc_1 // 0
+    return

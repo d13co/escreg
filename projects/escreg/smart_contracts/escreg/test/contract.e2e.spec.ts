@@ -4,6 +4,7 @@ import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { Address, getApplicationAddress } from 'algosdk'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { EscregFactory } from '../../artifacts/escreg/EscregClient'
+import { TestParentFactory } from '../../artifacts/escreg/TestParentClient'
 import { range } from './util'
 
 describe('Escreg contract', () => {
@@ -32,6 +33,27 @@ describe('Escreg contract', () => {
       receiver: appClient.appAddress,
       amount: (1).algos(),
     })
+
+    return { client: appClient }
+  }
+
+  const deployTestParent = async (account: Address) => {
+    const factory = localnet.algorand.client.getTypedAppFactory(TestParentFactory, {
+      defaultSender: account,
+    })
+
+    const { appClient } = await factory.deploy({
+      onUpdate: 'append',
+      onSchemaBreak: 'append',
+    })
+
+    await localnet.algorand.send.payment({
+      sender: account,
+      receiver: appClient.appAddress,
+      amount: (1).algos(),
+    })
+
+    await appClient.send.spawn({ extraFee: (3000).microAlgo(), args: {} })
 
     return { client: appClient }
   }
@@ -165,5 +187,22 @@ describe('Escreg contract', () => {
     const { return: actual } = await client.send.exists({ args: { address } })
 
     expect(actual).toBe(false)
+  })
+
+  test('getWithAuth', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    const {
+      client: { appId: authAppId },
+    } = await deployTestParent(testAccount)
+
+    const appId = authAppId + 3n
+    await client.send.registerList({ args: { appIds: [authAppId, appId] } })
+
+    const address = getApplicationAddress(authAppId + 3n).toString()
+    const { return: result } = await client.send.getWithAuth({ args: { address } })
+
+    expect(result).toEqual({ appId, authAppId })
   })
 })

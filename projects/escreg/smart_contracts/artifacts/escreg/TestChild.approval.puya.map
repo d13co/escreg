@@ -1,0 +1,171 @@
+{
+  "version": 3,
+  "sources": [
+    "/home/bit/code/escreg/projects/escreg/smart_contracts/escreg/test-rekeyed-escrow.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;AA0BI;AAEqB;;AACD;;;;;AAHpB;;;AAAA;;;AAAA;AAHJ;;AAAA;;;AAAA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1 0"
+    },
+    "5": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "reinterpret_bool%0#0"
+      ],
+      "stack_out": [
+        "reinterpret_bool%0#0"
+      ]
+    },
+    "7": {
+      "op": "bnz main_after_if_else@2",
+      "stack_out": []
+    },
+    "10": {
+      "op": "itxn_begin"
+    },
+    "11": {
+      "op": "global CallerApplicationAddress",
+      "defined_out": [
+        "inner_txn_params%0%%param_Receiver_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Receiver_idx_0#0"
+      ]
+    },
+    "13": {
+      "op": "dup",
+      "defined_out": [
+        "inner_txn_params%0%%param_Receiver_idx_0#0",
+        "inner_txn_params%0%%param_RekeyTo_idx_0#0"
+      ],
+      "stack_out": [
+        "inner_txn_params%0%%param_Receiver_idx_0#0",
+        "inner_txn_params%0%%param_RekeyTo_idx_0#0"
+      ]
+    },
+    "14": {
+      "op": "itxn_field RekeyTo",
+      "stack_out": [
+        "inner_txn_params%0%%param_Receiver_idx_0#0"
+      ]
+    },
+    "16": {
+      "op": "itxn_field Receiver",
+      "stack_out": []
+    },
+    "18": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "19": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "21": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "22": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "24": {
+      "op": "itxn_submit"
+    },
+    "25": {
+      "block": "main_after_if_else@2",
+      "stack_in": [],
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "27": {
+      "op": "bnz main_after_if_else@9",
+      "stack_out": []
+    },
+    "30": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "32": {
+      "op": "bnz main_after_if_else@9",
+      "stack_out": []
+    },
+    "35": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "37": {
+      "op": "!",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "38": {
+      "error": "can only call when creating",
+      "op": "assert // can only call when creating",
+      "stack_out": []
+    },
+    "39": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "40": {
+      "op": "return",
+      "stack_out": []
+    },
+    "41": {
+      "block": "main_after_if_else@9",
+      "stack_in": [],
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "42": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

@@ -1,0 +1,118 @@
+#pragma version 10
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 0 1
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:3
+    // export class TestParent extends Contract {
+    txn NumAppArgs
+    bz main_bare_routing@6
+    pushbytes 0xa54f3960 // method "spawn()void"
+    txna ApplicationArgs 0
+    match main_spawn_route@3
+
+main_after_if_else@10:
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:3
+    // export class TestParent extends Contract {
+    intc_0 // 0
+    return
+
+main_spawn_route@3:
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:4
+    // public spawn() {
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    callsub spawn
+    intc_1 // 1
+    return
+
+main_bare_routing@6:
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:3
+    // export class TestParent extends Contract {
+    txn OnCompletion
+    bnz main_after_if_else@10
+    txn ApplicationID
+    !
+    assert // can only call when creating
+    intc_1 // 1
+    return
+
+
+// smart_contracts/escreg/test-rekeyed-escrow.algo.ts::TestParent.spawn() -> void:
+spawn:
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:7-13
+    // const txn = itxn
+    //   .applicationCall({
+    //     // warning: schema params do not match
+    //     // ok to do here because no storage in testchild
+    //     ...compiled,
+    //   })
+    //   .submit()
+    itxn_begin
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:5
+    // const compiled = compile(TestChild)
+    pushbytes base64(CoEBQw==)
+    itxn_field ClearStateProgramPages
+    pushbytes base64(CiACAQAxGEAAD7EyDkmyILIHIrIQI7IBszEbQAALMRlAAAYxGBREIkMjQw==)
+    itxn_field ApprovalProgramPages
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:7-12
+    // const txn = itxn
+    //   .applicationCall({
+    //     // warning: schema params do not match
+    //     // ok to do here because no storage in testchild
+    //     ...compiled,
+    //   })
+    pushint 6 // 6
+    itxn_field TypeEnum
+    intc_0 // 0
+    itxn_field Fee
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:7-13
+    // const txn = itxn
+    //   .applicationCall({
+    //     // warning: schema params do not match
+    //     // ok to do here because no storage in testchild
+    //     ...compiled,
+    //   })
+    //   .submit()
+    itxn_submit
+    itxn CreatedApplicationID
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:15-20
+    // itxn
+    //   .payment({
+    //     receiver: txn.createdApp.address,
+    //     amount: 100000,
+    //   })
+    //   .submit()
+    itxn_begin
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:17
+    // receiver: txn.createdApp.address,
+    app_params_get AppAddress
+    assert // application exists
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:18
+    // amount: 100000,
+    pushint 100000 // 100000
+    itxn_field Amount
+    itxn_field Receiver
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:15-19
+    // itxn
+    //   .payment({
+    //     receiver: txn.createdApp.address,
+    //     amount: 100000,
+    //   })
+    intc_1 // 1
+    itxn_field TypeEnum
+    intc_0 // 0
+    itxn_field Fee
+    // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:15-20
+    // itxn
+    //   .payment({
+    //     receiver: txn.createdApp.address,
+    //     amount: 100000,
+    //   })
+    //   .submit()
+    itxn_submit
+    retsub

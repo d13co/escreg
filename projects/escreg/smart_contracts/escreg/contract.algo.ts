@@ -15,6 +15,11 @@ import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
 
 const ERR_APP_NOT_REGISTERED = 'App not registered'
 
+export type AddressWithAuth = {
+  appId: uint64
+  authAppId: uint64
+}
+
 export class Escreg extends Contract {
   apps = BoxMap<bytes<4>, uint64[]>({ keyPrefix: '' })
 
@@ -109,6 +114,56 @@ export class Escreg extends Contract {
     assert(matchingAppID !== 0, ERR_APP_NOT_REGISTERED)
 
     return matchingAppID
+  }
+
+  @abimethod({ readonly: true })
+  public getWithAuth(address: Address): AddressWithAuth {
+    const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+
+    let appId: uint64 = 0
+    if (this.apps(addr4).exists) {
+      const apps = this.apps(addr4).value as Readonly<uint64[]>
+      appId = this.findMatch(address, apps)
+    }
+
+    const authAddr = address.native.authAddress
+    const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ length: 4 })
+
+    let authAppId: uint64 = 0
+    if (this.apps(authAddr4).exists) {
+      const apps = this.apps(authAddr4).value as Readonly<uint64[]>
+      authAppId = this.findMatch(new Address(authAddr), apps)
+    }
+
+    return { appId, authAppId }
+  }
+
+  @abimethod({ readonly: true })
+  public getWithAuthList(addresses: Address[]): AddressWithAuth[] {
+    let results: AddressWithAuth[] = []
+
+    for (const address of addresses) {
+      const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+
+      let appId: uint64 = 0
+      if (this.apps(addr4).exists) {
+        const apps = this.apps(addr4).value as Readonly<uint64[]>
+        appId = this.findMatch(address, apps)
+      }
+
+      const authAddr = address.native.authAddress
+      const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ length: 4 })
+
+      let authAppId: uint64 = 0
+      if (this.apps(authAddr4).exists) {
+        const apps = this.apps(authAddr4).value as Readonly<uint64[]>
+        authAppId = this.findMatch(address, apps)
+      }
+
+      results.push({ appId, authAppId })
+    }
+
+    return results
   }
 
   @abimethod({ readonly: true })
