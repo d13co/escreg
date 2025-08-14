@@ -17,7 +17,7 @@ export async function deploy() {
   // If app was just created fund the app account
   if (['create', 'replace'].includes(result.operationPerformed)) {
     await algorand.send.payment({
-      amount: (1).algo(),
+      amount: (5).algo(),
       sender: deployer.addr,
       receiver: appClient.appAddress,
     })

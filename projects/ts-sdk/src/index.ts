@@ -1,8 +1,9 @@
 import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/types/account";
-import { Address, Account, makeEmptyTransactionSigner } from "algosdk";
+import { decodeAddress, getApplicationAddress } from "algosdk";
 import { EscregClient, EscregComposer, EscregFactory } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import { chunk, emptySigner } from "./util";
+import pMap from "p-map";
 
 export type LookupResult = Record<string, bigint | undefined>;
 
@@ -21,64 +22,121 @@ export class EscregSDK {
   }: {
     appId: bigint;
     algorand: AlgorandClient;
-    writerAccount?: Address & TransactionSignerAccount & Account;
+    writerAccount?: TransactionSignerAccount;
     readerAccount?: string;
   }) {
     this.appId = appId;
     this.algorand = algorand;
-    this.client = new EscregFactory({ algorand }).getAppClientById({
+    const args = {
       appId,
-      defaultSender: writerAccount ? writerAccount.toString() : undefined,
+      defaultSender: writerAccount ? writerAccount.addr.toString() : undefined,
       defaultSigner: writerAccount ? writerAccount.signer : undefined,
-    });
+    };
+    this.client = new EscregFactory({ algorand }).getAppClientById(args);
     if (readerAccount) this.readerAccount = readerAccount;
     if (writerAccount) this.writerAccount = writerAccount;
   }
 
-  async register({ appIds }: { appIds: bigint[] }): Promise<string[]> {
-    // max = 7 per txn, 112 per group
-    if (appIds.length > 112) {
-      throw new Error(`Too many app IDs (${appIds.length}) max 112`);
-    }
+  async register({ 
+    appIds, 
+    skipCheck, 
+    debug, 
+    concurrency = 1 
+  }: { 
+    appIds: bigint[]; 
+    skipCheck?: true; 
+    debug?: true;
+    concurrency?: number;
+  }): Promise<string[]> {
+    if (!this.writerAccount) throw new Error("Write operation requested without writer account");
 
-    const chunks = chunk(appIds, 7);
+    if (!skipCheck) {
+      const addresses = appIds.map((appId) => getApplicationAddress(appId).toString());
+      const results = await this.lookup({ addresses });
 
-    let composer: EscregComposer<any> = this.client.newGroup();
+      const existing = Object.entries(results)
+        .map(([address, v], idx) => ({ address, appId: appIds[idx], idx, exists: v !== undefined }))
+        .filter(({ exists }) => exists)
+        .sort(({ idx: a }, { idx: b }) => (a < b ? 1 : -1));
 
-    for (const appIds of chunks) {
-      composer = composer.registerList({ args: { appIds }, maxFee: (2000).microAlgo() });
-    }
-
-    const { confirmations } = await composer.send({ coverAppCallInnerTransactionFees: true, populateAppCallResources: true });
-
-    return confirmations.map(({ txn }) => txn.txn.txID());
-  }
-
-  async lookup({ addresses }: { addresses: string[] }): Promise<LookupResult> {
-    // max 8 per txn, 128 per group
-    if (addresses.length > 128) {
-      throw new Error(`Too many app IDs (${addresses.length}) max 128`);
-    }
-
-    const chunks = chunk(addresses, 8);
-
-    let composer: EscregComposer<any> = this.client.newGroup();
-
-    for (const addresses of chunks) {
-      composer = composer.getList({ args: { addresses }, sender: this.readerAccount, signer: emptySigner });
-    }
-
-    const { returns: grpReturn } = await composer.simulate({ allowEmptySignatures: true, allowUnnamedResources: true, extraOpcodeBudget: 170_000 });
-
-    const out: LookupResult = {};
-
-    let i = 0;
-    for (const txnReturns of grpReturn) {
-      for (const appId of txnReturns) {
-        const address = addresses[i++];
-        out[address] = appId || undefined;
+      if (existing.length) {
+        if (debug) {
+          console.warn(`Found ${existing.length} existing appIDs: ${existing.map(({ appId }) => appId).join(" ")}`);
+          console.log(existing.map(({ exists, idx, ...rest }) => rest));
+        }
+        for (const { idx } of existing) {
+          appIds.splice(idx, 1);
+        }
       }
     }
-    return out;
+
+    if (!appIds.length) return [];
+
+        // max = 7 per txn, 112 per group
+
+    const groupChunks = chunk(appIds, 7 * 16);
+
+    if (debug) console.log(`Doing ${appIds.length} in ${groupChunks.length} chunks with concurrency ${concurrency}`);
+
+    // Process chunks in parallel with pMap
+    const results = await pMap(groupChunks, async (groupChunk) => {
+      const appIdChunk = chunk(groupChunk, 7);
+      let composer: EscregComposer<any> = this.client.newGroup();
+      for(const appIds of appIdChunk) {
+        const boxReferences = appIds.map((appId) => decodeAddress(getApplicationAddress(appId).toString()).publicKey.slice(0, 4));
+        composer = composer.registerList({ args: { appIds }, boxReferences, maxFee: (2000).microAlgo() });
+      }
+
+      const { confirmations } = await composer.send({
+        coverAppCallInnerTransactionFees: true,
+        populateAppCallResources: false,
+      });
+
+      return confirmations.map(({ txn }) => txn.txn.txID());
+    }, { concurrency });
+
+    // Flatten results
+    return results.flat();
+  }
+
+  async lookup({ 
+    addresses, 
+    concurrency = 1 
+  }: { 
+    addresses: string[];
+    concurrency?: number;
+  }): Promise<LookupResult> {
+
+    const chunks = chunk(addresses, 128);
+
+    // Process chunks in parallel with pMap
+    const results = await pMap(chunks, async (addressesChunk) => {
+      let composer: EscregComposer<any> = this.client.newGroup();
+
+      const addressChunks = chunk(addressesChunk, 63);
+
+      for(const addresses of addressChunks) {
+        composer = composer.getList({ args: { addresses }, sender: this.readerAccount, signer: emptySigner });
+      }
+
+      const { returns: grpReturn } = await composer.simulate({
+        allowEmptySignatures: true,
+        allowUnnamedResources: true,
+        extraOpcodeBudget: 170_000,
+      });
+
+      const out: LookupResult = {};
+      let i = 0;
+      for (const txnReturns of grpReturn) {
+        for (const appId of txnReturns) {
+          const address = addressesChunk[i++];
+          out[address] = appId || undefined;
+        }
+      }
+      return out;
+    }, { concurrency });
+
+    // Merge all results
+    return results.reduce((acc, result) => ({ ...acc, ...result }), {});
   }
 }

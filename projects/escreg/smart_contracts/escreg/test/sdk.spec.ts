@@ -61,6 +61,8 @@ describe('Escreg SDK', () => {
 
     const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
 
+    console.log({ addresses })
+    
     const actual = await sdk.lookup({ addresses })
     const expected = Object.fromEntries(appIds.map((appId) => [getApplicationAddress(appId), appId]))
 
@@ -75,7 +77,7 @@ describe('Escreg SDK', () => {
     const appIds = brange(start, start + 128 - 1)
 
     const chunks = chunk(appIds, 112)
-    await Promise.all(chunks.map(appIds => sdk.register({ appIds })))
+    await Promise.all(chunks.map((appIds) => sdk.register({ appIds })))
 
     const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
 
