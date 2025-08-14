@@ -52,7 +52,7 @@ export class EscregSDK {
 
     if (!skipCheck) {
       const addresses = appIds.map((appId) => getApplicationAddress(appId).toString());
-      const results = await this.lookup({ addresses });
+      const results = await this.lookup({ addresses, debug });
 
       const existing = Object.entries(results)
         .map(([address, v], idx) => ({ address, appId: appIds[idx], idx, exists: v !== undefined }))
