@@ -8,8 +8,15 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:standalone": "bun run build-standalone.ts",
+    "build:executable": "bun run build-executable.ts",
+    "build:docker": "bun run build-docker.ts",
+    "build:all": "npm run build && npm run build:executable",
     "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@algorandfoundation/algokit-utils": "^9.0.0",
@@ -22,7 +29,9 @@
     "@types/node": "^24.0.14",
     "@types/yargs": "^17.0.32",
     "ts-node": "^10.9.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8",
+    "@vitest/coverage-v8": "^2.1.8"
   },
   "author": "Tasos Bitsios",
   "license": "ISC"

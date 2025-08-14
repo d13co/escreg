@@ -1,0 +1,11 @@
+[build]
+target = "bun"
+outdir = "dist"
+entrypoints = ["./src/index.ts"]
+
+[build.define]
+process.env.NODE_ENV = "production"
+
+[install]
+# Ensure all dependencies are installed
+production = false

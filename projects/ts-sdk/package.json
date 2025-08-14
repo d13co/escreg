@@ -16,7 +16,7 @@
   "scripts": {
     "clean": "rm -rf dist/ src/generated/",
     "prebuild": "npm run clean && npm run generate",
-    "generate": "npx @algorandfoundation/algokit-client-generator generate -o src/generated/EscregGenerated.ts -a ../escreg/smart_contracts/artifacts/escreg/Escreg.arc56.json",
+    "generate": "npx @algorandfoundation/algokit-client-generator generate -o src/generated/EscregGenerated.ts -a ../contract/smart_contracts/artifacts/escreg/Escreg.arc56.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build": "concurrently 'npm run build:cjs' 'npm run build:esm'"

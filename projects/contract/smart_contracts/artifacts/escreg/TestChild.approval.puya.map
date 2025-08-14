@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": [
-    "/home/bit/code/escreg/projects/escreg/smart_contracts/escreg/test-rekeyed-escrow.algo.ts"
+    "/home/bit/code/escreg/projects/contract/smart_contracts/escreg/test-rekeyed-escrow.algo.ts"
   ],
   "mappings": ";;;;;;;;;;AA0BI;AAEqB;;AACD;;;;;AAHpB;;;AAAA;;;AAAA;AAHJ;;AAAA;;;AAAA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;",
   "op_pc_offset": 0,
