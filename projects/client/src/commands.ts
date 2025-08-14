@@ -28,7 +28,7 @@ export async function handleRegisterCommand(argv: any) {
     }
 
     console.log(`Registering ${appIds.length} application IDs with concurrency ${argv.concurrency}...`);
-    const txIds = await sdk.register({ appIds, concurrency: argv.concurrency });
+    const txIds = await sdk.register({ appIds, concurrency: argv.concurrency, debug: argv.debug, skipCheck: argv.skipCheck });
 
     console.log('Registration successful!');
     console.log('Transaction IDs:');
@@ -66,7 +66,7 @@ export async function handleLookupCommand(argv: any) {
     }
     console.log({ addresses })
     console.log(`Looking up ${addresses.length} addresses with concurrency ${argv.concurrency}...`);
-    const result = await sdk.lookup({ addresses, concurrency: argv.concurrency });
+    const result = await sdk.lookup({ addresses, concurrency: argv.concurrency, debug: argv.debug });
 
     console.log('Lookup results:');
     for (const [address, appId] of Object.entries(result)) {

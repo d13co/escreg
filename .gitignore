@@ -168,3 +168,4 @@ cython_debug/
 # NPM
 node_modules
 
+projects/data

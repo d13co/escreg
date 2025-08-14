@@ -28,8 +28,8 @@ node dist/index.js register app-ids.txt
 # Register with custom concurrency (parallel processing)
 node dist/index.js register 123,456,789 --concurrency 5
 
-# Register with debug output
-node dist/index.js register 123,456,789 --debug
+# Register with debug output and skip validation checks
+node dist/index.js register 123,456,789 --debug --skip-check
 ```
 
 ### Lookup Addresses
@@ -48,6 +48,9 @@ node dist/index.js lookup addresses.txt
 
 # Lookup with custom concurrency (parallel processing)
 node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567,BCDEFGHIJKLMNOPQRSTUVWXYZ234567A --concurrency 10
+
+# Lookup with debug output to show progress
+node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567,BCDEFGHIJKLMNOPQRSTUVWXYZ234567A --debug
 ```
 
 ## Configuration
@@ -61,6 +64,42 @@ ALGOD_TOKEN=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 APP_ID=123
 MNEMONIC="your mnemonic phrase here"
 ADDRESS=your-account-address
+CONCURRENCY=1
+DEBUG=false
+SKIP_CHECK=false
+```
+
+## Command Options
+
+### Registration Options
+
+The `register` command supports additional options to control its behavior:
+
+- **`--debug`**: Enable debug mode for SDK operations (shows detailed logging)
+- **`--skip-check`**: Skip validation checks during registration (faster but less safe)
+
+These options can be set via CLI arguments or environment variables (`DEBUG` and `SKIP_CHECK`).
+
+### Lookup Options
+
+The `lookup` command supports additional options to control its behavior:
+
+- **`--debug`**: Enable debug mode for lookup operations (shows chunk processing progress and results)
+
+### Examples
+
+```bash
+# Register with debug output enabled
+node dist/index.js register 123,456,789 --debug
+
+# Register without validation checks (faster)
+node dist/index.js register 123,456,789 --skip-check
+
+# Register with both debug and skip-check enabled
+node dist/index.js register 123,456,789 --debug --skip-check
+
+# Lookup with debug output to see progress
+node dist/index.js lookup addresses.txt --debug
 ```
 
 ## Parallel Processing

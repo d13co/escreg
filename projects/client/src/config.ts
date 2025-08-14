@@ -10,6 +10,9 @@ export interface Config {
   appId: string;
   mnemonic?: string;
   address?: string;
+  concurrency?: number;
+  debug?: boolean;
+  skipCheck?: boolean;
 }
 
 export function getConfig(): Config {
@@ -20,5 +23,8 @@ export function getConfig(): Config {
     appId: process.env.APP_ID || '',
     mnemonic: process.env.MNEMONIC,
     address: process.env.ADDRESS,
+    concurrency: parseInt(process.env.CONCURRENCY || "1"),
+    debug: process.env.DEBUG === 'true',
+    skipCheck: process.env.SKIP_CHECK === 'true',
   };
 }

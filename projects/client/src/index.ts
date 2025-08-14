@@ -52,8 +52,18 @@ async function main() {
         })
         .option('concurrency', {
           type: 'number',
-          default: 1,
-          description: 'Number of concurrent requests (default: 1)',
+          default: config.concurrency,
+          description: 'Number of concurrent requests',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode for SDK operations',
+        })
+        .option('skip-check', {
+          type: 'boolean',
+          default: config.skipCheck,
+          description: 'Skip validation checks before registration',
         })
         .check((argv: any) => {
           if (!argv.file && !argv.appIds) {
@@ -74,8 +84,13 @@ async function main() {
         })
         .option('concurrency', {
           type: 'number',
-          default: 1,
-          description: 'Number of concurrent requests (default: 1)',
+          default: config.concurrency,
+          description: 'Number of concurrent requests',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode for lookup operations',
         })
         .check((argv: any) => {
           if (!argv.file && !argv.addresses) {

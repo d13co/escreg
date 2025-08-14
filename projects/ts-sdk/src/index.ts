@@ -62,7 +62,7 @@ export class EscregSDK {
       if (existing.length) {
         if (debug) {
           console.warn(`Found ${existing.length} existing appIDs: ${existing.map(({ appId }) => appId).join(" ")}`);
-          console.log(existing.map(({ exists, idx, ...rest }) => rest));
+          console.debug(existing.map(({ exists, idx, ...rest }) => rest));
         }
         for (const { idx } of existing) {
           appIds.splice(idx, 1);
@@ -76,7 +76,7 @@ export class EscregSDK {
 
     const groupChunks = chunk(appIds, 7 * 16);
 
-    if (debug) console.log(`Doing ${appIds.length} in ${groupChunks.length} chunks with concurrency ${concurrency}`);
+    if (debug) console.debug(`Doing ${appIds.length} in ${groupChunks.length} chunks with concurrency ${concurrency}`);
 
     // Process chunks in parallel with pMap
     const results = await pMap(groupChunks, async (groupChunk) => {
@@ -101,16 +101,26 @@ export class EscregSDK {
 
   async lookup({ 
     addresses, 
-    concurrency = 1 
+    concurrency = 1,
+    debug
   }: { 
     addresses: string[];
     concurrency?: number;
+    debug?: boolean;
   }): Promise<LookupResult> {
 
     const chunks = chunk(addresses, 128);
+    const start = Date.now();
+
+    if (debug) {
+      console.debug(`Looking up ${addresses.length} addresses in ${chunks.length} chunks (${addresses.length <= 128 ? addresses.length : '128 per chunk'}) with concurrency ${concurrency}`);
+    }
 
     // Process chunks in parallel with pMap
-    const results = await pMap(chunks, async (addressesChunk) => {
+    const results = await pMap(chunks, async (addressesChunk, chunkIndex) => {
+      if (debug) {
+        console.debug(`Processing chunk ${chunkIndex + 1}/${chunks.length} (${addressesChunk.length} addresses)`);
+      }
       let composer: EscregComposer<any> = this.client.newGroup();
 
       const addressChunks = chunk(addressesChunk, 63);
@@ -133,10 +143,24 @@ export class EscregSDK {
           out[address] = appId || undefined;
         }
       }
+      
+      if (debug) {
+        const found = Object.values(out).filter(appId => appId !== undefined).length;
+        console.debug(`Chunk ${chunkIndex + 1}/${chunks.length} completed: ${found}/${addressesChunk.length} addresses found`);
+      }
+      
       return out;
     }, { concurrency });
 
     // Merge all results
-    return results.reduce((acc, result) => ({ ...acc, ...result }), {});
+    const finalResult = results.reduce((acc, result) => ({ ...acc, ...result }), {});
+    
+    if (debug) {
+      const elapsed = (Date.now() - start) / 1000;
+      const totalFound = Object.values(finalResult).filter(appId => appId !== undefined).length;
+      console.debug(`Lookup completed: ${totalFound}/${addresses.length} addresses found in ${elapsed} seconds`);
+    }
+    
+    return finalResult;
   }
 }

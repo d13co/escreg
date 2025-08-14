@@ -13,7 +13,7 @@ import {
   Txn,
   uint64,
 } from '@algorandfoundation/algorand-typescript'
-import { Address } from '@algorandfoundation/algorand-typescript/arc4'
+import { Address, ConventionalRouting } from '@algorandfoundation/algorand-typescript/arc4'
 import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
 
 const ERR_EXISTS = 'ERR:EXISTS'
@@ -25,9 +25,17 @@ export type AddressWithAuth = {
   authAppId: uint64
 }
 
-export class Escreg extends Contract {
+export class Escreg extends Contract implements ConventionalRouting {
   apps = BoxMap<bytes<4>, uint64[]>({ keyPrefix: '' })
   admin = GlobalState<Address>({ initialValue: new Address(Txn.sender) })
+
+  public deleteApplication() {
+    assert(Txn.sender === this.admin.value.native, ERR_UNAUTH)
+  }
+
+  public updateApplication() {
+    assert(Txn.sender === this.admin.value.native, ERR_UNAUTH)
+  }
 
   public withdraw(amount: uint64) {
     assert(Txn.sender === this.admin.value.native, ERR_UNAUTH)
