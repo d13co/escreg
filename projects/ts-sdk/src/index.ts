@@ -26,7 +26,7 @@ export class EscregSDK {
     readerAccount?: string;
   }) {
     this.appId = appId;
-    this.algorand = algorand;
+    this.algorand = algorand.setSuggestedParamsCacheTimeout(3 * 60 * 1000);
     const args = {
       appId,
       defaultSender: writerAccount ? writerAccount.addr.toString() : undefined,
@@ -37,14 +37,14 @@ export class EscregSDK {
     if (writerAccount) this.writerAccount = writerAccount;
   }
 
-  async register({ 
-    appIds, 
-    skipCheck, 
-    debug, 
-    concurrency = 1 
-  }: { 
-    appIds: bigint[]; 
-    skipCheck?: true; 
+  async register({
+    appIds,
+    skipCheck,
+    debug,
+    concurrency = 1
+  }: {
+    appIds: bigint[];
+    skipCheck?: true;
     debug?: true;
     concurrency?: number;
   }): Promise<string[]> {
@@ -99,16 +99,15 @@ export class EscregSDK {
     return results.flat();
   }
 
-  async lookup({ 
-    addresses, 
+  async lookup({
+    addresses,
     concurrency = 1,
     debug
-  }: { 
+  }: {
     addresses: string[];
     concurrency?: number;
     debug?: boolean;
   }): Promise<LookupResult> {
-
     const chunks = chunk(addresses, 128);
     const start = Date.now();
 
@@ -118,9 +117,6 @@ export class EscregSDK {
 
     // Process chunks in parallel with pMap
     const results = await pMap(chunks, async (addressesChunk, chunkIndex) => {
-      if (debug) {
-        console.debug(`Processing chunk ${chunkIndex + 1}/${chunks.length} (${addressesChunk.length} addresses)`);
-      }
       let composer: EscregComposer<any> = this.client.newGroup();
 
       const addressChunks = chunk(addressesChunk, 63);
@@ -143,24 +139,24 @@ export class EscregSDK {
           out[address] = appId || undefined;
         }
       }
-      
+
       if (debug) {
         const found = Object.values(out).filter(appId => appId !== undefined).length;
         console.debug(`Chunk ${chunkIndex + 1}/${chunks.length} completed: ${found}/${addressesChunk.length} addresses found`);
       }
-      
+
       return out;
     }, { concurrency });
 
     // Merge all results
     const finalResult = results.reduce((acc, result) => ({ ...acc, ...result }), {});
-    
+
     if (debug) {
       const elapsed = (Date.now() - start) / 1000;
       const totalFound = Object.values(finalResult).filter(appId => appId !== undefined).length;
       console.debug(`Lookup completed: ${totalFound}/${addresses.length} addresses found in ${elapsed} seconds`);
     }
-    
+
     return finalResult;
   }
 }
