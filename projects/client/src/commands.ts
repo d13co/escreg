@@ -1,9 +1,11 @@
 import { EscregSDK } from 'escreg-sdk';
 import { parseAppIdsFromFile, parseAppIdsFromArgs, parseAddressesFromFile, parseAddressesFromArgs } from './parse';
 import { createAlgorandClient, createWriterAccount, convertAppIdsToAddresses } from './utils';
+import { getConfig } from './config';
 
 export async function handleRegisterCommand(argv: any) {
   try {
+    const config = getConfig();
     const algorand = createAlgorandClient({
       algodHost: argv.algodHost,
       algodPort: argv.algodPort,
@@ -11,7 +13,11 @@ export async function handleRegisterCommand(argv: any) {
       appId: argv.appId,
     });
 
-    const writerAccount = createWriterAccount(argv.mnemonic, argv.address);
+    // Use CLI mnemonic if provided, otherwise fall back to config/env
+    const mnemonic = argv.mnemonic || config.mnemonic;
+    const address = argv.address || config.address;
+    
+    const writerAccount = createWriterAccount(mnemonic, address);
     console.log({ writerAccount: writerAccount?.addr.toString() })
 
     const sdk = new EscregSDK({
@@ -43,6 +49,7 @@ export async function handleRegisterCommand(argv: any) {
 
 export async function handleLookupCommand(argv: any) {
   try {
+    const config = getConfig();
     const algorand = createAlgorandClient({
       algodHost: argv.algodHost,
       algodPort: argv.algodPort,
@@ -50,7 +57,11 @@ export async function handleLookupCommand(argv: any) {
       appId: argv.appId,
     });
 
-    const writerAccount = createWriterAccount(argv.mnemonic, argv.address);
+    // Use CLI mnemonic if provided, otherwise fall back to config/env
+    const mnemonic = argv.mnemonic || config.mnemonic;
+    const address = argv.address || config.address;
+    
+    const writerAccount = createWriterAccount(mnemonic, address);
 
     const sdk = new EscregSDK({
       appId: BigInt(argv.appId),

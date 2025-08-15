@@ -41,7 +41,7 @@ export class EscregSDK {
     appIds,
     skipCheck,
     debug,
-    concurrency = 1
+    concurrency = 1,
   }: {
     appIds: bigint[];
     skipCheck?: true;
@@ -72,28 +72,31 @@ export class EscregSDK {
 
     if (!appIds.length) return [];
 
-        // max = 7 per txn, 112 per group
+    // max = 7 per txn, 112 per group
 
     const groupChunks = chunk(appIds, 7 * 16);
 
     if (debug) console.debug(`Doing ${appIds.length} in ${groupChunks.length} chunks with concurrency ${concurrency}`);
 
+    let chunkIdx = 0;
     // Process chunks in parallel with pMap
-    const results = await pMap(groupChunks, async (groupChunk) => {
-      const appIdChunk = chunk(groupChunk, 7);
-      let composer: EscregComposer<any> = this.client.newGroup();
-      for(const appIds of appIdChunk) {
-        const boxReferences = appIds.map((appId) => decodeAddress(getApplicationAddress(appId).toString()).publicKey.slice(0, 4));
-        composer = composer.registerList({ args: { appIds }, boxReferences, maxFee: (2000).microAlgo() });
-      }
+    const results = await pMap(
+      groupChunks,
+      async (groupChunk) => {
+        if (debug) console.debug(`Starting chunkIdx ${chunkIdx++}/${groupChunks.length}`);
+        const appIdChunk = chunk(groupChunk, 7);
+        let composer: EscregComposer<any> = this.client.newGroup();
+        for (const appIds of appIdChunk) {
+          const boxReferences = appIds.map((appId) => decodeAddress(getApplicationAddress(appId).toString()).publicKey.slice(0, 4));
+          composer = composer.registerList({ args: { appIds }, boxReferences });
+        }
 
-      const { confirmations } = await composer.send({
-        coverAppCallInnerTransactionFees: true,
-        populateAppCallResources: false,
-      });
+        const { confirmations } = await composer.send();
 
-      return confirmations.map(({ txn }) => txn.txn.txID());
-    }, { concurrency });
+        return confirmations.map(({ txn }) => txn.txn.txID());
+      },
+      { concurrency },
+    );
 
     // Flatten results
     return results.flat();
@@ -102,7 +105,7 @@ export class EscregSDK {
   async lookup({
     addresses,
     concurrency = 1,
-    debug
+    debug,
   }: {
     addresses: string[];
     concurrency?: number;
@@ -112,48 +115,54 @@ export class EscregSDK {
     const start = Date.now();
 
     if (debug) {
-      console.debug(`Looking up ${addresses.length} addresses in ${chunks.length} chunks (${addresses.length <= 128 ? addresses.length : '128 per chunk'}) with concurrency ${concurrency}`);
+      console.debug(
+        `Looking up ${addresses.length} addresses in ${chunks.length} chunks (${addresses.length <= 128 ? addresses.length : "128 per chunk"}) with concurrency ${concurrency}`,
+      );
     }
 
     // Process chunks in parallel with pMap
-    const results = await pMap(chunks, async (addressesChunk, chunkIndex) => {
-      let composer: EscregComposer<any> = this.client.newGroup();
+    const results = await pMap(
+      chunks,
+      async (addressesChunk, chunkIndex) => {
+        let composer: EscregComposer<any> = this.client.newGroup();
 
-      const addressChunks = chunk(addressesChunk, 63);
+        const addressChunks = chunk(addressesChunk, 63);
 
-      for(const addresses of addressChunks) {
-        composer = composer.getList({ args: { addresses }, sender: this.readerAccount, signer: emptySigner });
-      }
-
-      const { returns: grpReturn } = await composer.simulate({
-        allowEmptySignatures: true,
-        allowUnnamedResources: true,
-        extraOpcodeBudget: 170_000,
-      });
-
-      const out: LookupResult = {};
-      let i = 0;
-      for (const txnReturns of grpReturn) {
-        for (const appId of txnReturns) {
-          const address = addressesChunk[i++];
-          out[address] = appId || undefined;
+        for (const addresses of addressChunks) {
+          composer = composer.getList({ args: { addresses }, sender: this.readerAccount, signer: emptySigner });
         }
-      }
 
-      if (debug) {
-        const found = Object.values(out).filter(appId => appId !== undefined).length;
-        console.debug(`Chunk ${chunkIndex + 1}/${chunks.length} completed: ${found}/${addressesChunk.length} addresses found`);
-      }
+        const { returns: grpReturn } = await composer.simulate({
+          allowEmptySignatures: true,
+          allowUnnamedResources: true,
+          extraOpcodeBudget: 170_000,
+        });
 
-      return out;
-    }, { concurrency });
+        const out: LookupResult = {};
+        let i = 0;
+        for (const txnReturns of grpReturn) {
+          for (const appId of txnReturns) {
+            const address = addressesChunk[i++];
+            out[address] = appId || undefined;
+          }
+        }
+
+        if (debug) {
+          const found = Object.values(out).filter((appId) => appId !== undefined).length;
+          console.debug(`Chunk ${chunkIndex + 1}/${chunks.length} completed: ${found}/${addressesChunk.length} addresses found`);
+        }
+
+        return out;
+      },
+      { concurrency },
+    );
 
     // Merge all results
     const finalResult = results.reduce((acc, result) => ({ ...acc, ...result }), {});
 
     if (debug) {
       const elapsed = (Date.now() - start) / 1000;
-      const totalFound = Object.values(finalResult).filter(appId => appId !== undefined).length;
+      const totalFound = Object.values(finalResult).filter((appId) => appId !== undefined).length;
       console.debug(`Lookup completed: ${totalFound}/${addresses.length} addresses found in ${elapsed} seconds`);
     }
 

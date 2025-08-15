@@ -8,7 +8,13 @@ import { handleRegisterCommand, handleLookupCommand, handleConvertCommand } from
 async function main() {
   const config = getConfig();
 
+  // Get the proper script name for help display
+  const scriptName = process.argv0?.includes('bun') || process.argv[0]?.includes('bun') 
+    ? 'escreg' 
+    : process.argv[1]?.split('/').pop()?.replace(/\.(js|ts)$/, '') || 'escreg';
+
   yargs(hideBin(process.argv))
+    .scriptName(scriptName)
     .option('algod-host', {
       type: 'string',
       default: config.algodHost,
@@ -32,13 +38,11 @@ async function main() {
     })
     .option('mnemonic', {
       type: 'string',
-      default: config.mnemonic,
       description: 'Account mnemonic for signing transactions',
     })
     .option('address', {
       type: 'string',
-      default: config.address,
-      description: 'Account address (optional, will be derived from mnemonic if not provided)',
+      description: 'Account address (optional, required when account is rekeyed)',
     })
     .command('register [app-ids]', 'Register application IDs', (yargs: any) => {
       return yargs

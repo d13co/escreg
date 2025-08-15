@@ -10,6 +10,7 @@ import {
   itxn,
   log,
   op,
+  OpUpFeeSource,
   Txn,
   uint64,
 } from '@algorandfoundation/algorand-typescript'
@@ -61,12 +62,13 @@ export class Escreg extends Contract implements ConventionalRouting {
     for (const appId of appIds) {
       const key = this.deriveAddrPrefix(appId)
       if (!this.apps(key).exists) {
+        ensureBudget(77, OpUpFeeSource.AppAccount)
         this.apps(key).value = [appId]
       } else {
+        ensureBudget(131, OpUpFeeSource.AppAccount)
         this.appendAppId(key, appId)
       }
     }
-    log(Global.opcodeBudget)
   }
 
   private deriveAddrPrefix(appId: uint64): bytes<4> {
@@ -82,7 +84,9 @@ export class Escreg extends Contract implements ConventionalRouting {
   private appendAppId(key: bytes<4>, appId: uint64) {
     const existing = this.apps(key).value as Readonly<uint64[]>
     for (const existingId of existing) {
-      assert(existingId !== appId, ERR_EXISTS)
+      if (existingId === appId) {
+        return
+      }
     }
     this.apps(key).value = [...existing, appId]
   }
