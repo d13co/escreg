@@ -36,19 +36,13 @@ export async function deploy() {
       },
     })
 
-    // If app was just created fund the app account
-    if (['create', 'replace'].includes(result.operationPerformed)) {
-      await algorand.send.payment({
-        amount: (5).algo(),
-        sender: deployer.addr,
-        receiver: appClient.appAddress,
-      })
+    const { isLocalNet } = await algorand.client.network()
+    if (isLocalNet) {
+      const dispenser = await algorand.account.dispenserFromEnvironment()
+      await algorand.account.ensureFunded(appClient.appAddress, dispenser, (1000).algos())
+      const { balance, minBalance } = await algorand.account.getInformation(appClient.appAddress)
+      console.log('Balance: ', balance.algos, 'spendable:', balance.algo - minBalance.algo)
     }
-
-    const dispenser = await algorand.account.dispenserFromEnvironment()
-    await algorand.account.ensureFunded(appClient.appAddress, dispenser, (1000).algos())
-    const { balance, minBalance } = await algorand.account.getInformation(appClient.appAddress)
-    console.log('Balance: ', balance.algos, 'spendable:', balance.algo - minBalance.algo)
   } catch (e) {
     console.error(e)
   }

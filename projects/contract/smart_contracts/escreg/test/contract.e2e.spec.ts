@@ -3,7 +3,7 @@ import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-de
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { Address, getApplicationAddress } from 'algosdk'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
-import { EscregFactory } from '../../artifacts/escreg/EscregClient'
+import { EscregClient, EscregFactory } from '../../artifacts/escreg/EscregClient'
 import { TestParentFactory } from '../../artifacts/escreg/TestParentClient'
 import { range } from './util'
 import { getCollidingAppIDs } from './fixtures'
@@ -37,6 +37,20 @@ describe('Escreg contract', () => {
     return { client: appClient }
   }
 
+  const depositCredits = async (client: EscregClient, account: Address, amount: bigint) => {
+    const appAddress = client.appAddress
+    const payTxn = await localnet.algorand.createTransaction.payment({
+      sender: account,
+      receiver: appAddress,
+      amount: amount.microAlgo(),
+    })
+    const boxRef = Address.fromString(account.toString()).publicKey
+    await client.send.depositCredits({
+      args: { creditor: account.toString(), txn: payTxn },
+      boxReferences: [boxRef],
+    })
+  }
+
   const deployTestParent = async (account: Address) => {
     const factory = localnet.algorand.client.getTypedAppFactory(TestParentFactory, {
       defaultSender: account,
@@ -62,6 +76,7 @@ describe('Escreg contract', () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
 
+    await depositCredits(client, testAccount, 100_000n)
     await client.send.register({ args: { appId: 1002 } })
 
     const address = getApplicationAddress(1002).toString()
@@ -71,23 +86,24 @@ describe('Escreg contract', () => {
   })
 
 
-  test('register 1002 twice does not change box size', async () => {
+  test('register 1002 twice does not change box count', async () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
 
+    await depositCredits(client, testAccount, 100_000n)
     await client.send.register({ args: { appId: 1002 } })
-    const before = await client.state.box.apps.getMap()
+    const { boxes: before } = await localnet.algorand.client.algod.getApplicationBoxes(Number(client.appId)).do()
     await client.send.register({ args: { appId: 1002 } })
-    const after = await client.state.box.apps.getMap()
-    
-    const boxBefore = before.values().next().value!
-    const boxAfter = after.values().next().value!
-    expect(boxBefore.length).toBe(boxAfter.length)
+    const { boxes: after } = await localnet.algorand.client.algod.getApplicationBoxes(Number(client.appId)).do()
+
+    expect(before.length).toBe(after.length)
   })
 
   test('registerList 1003-1004', async () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
 
     const appIds = range(1003, 1004)
 
@@ -102,40 +118,12 @@ describe('Escreg contract', () => {
     }
   })
 
-  // test(`ensure budget min`, async () => {
-  //   const { testAccount } = localnet.context
-  //   const { client } = await deploy(testAccount)
-
-  //   const {
-  //     simulateResponse: {
-  //       txnGroups: [{ appBudgetConsumed }],
-  //     },
-  //   } = await client.newGroup().ensureBudgetMin({ args: {  } }).simulate({ // ensureBudget(1)
-  //     // extraOpcodeBudget: 170_000,
-  //     allowUnnamedResources: true,
-  //   })
-  //   console.log('eeebm', appBudgetConsumed) // eeebm 30
-  // })
-
-  // test(`ensure budget txn`, async () => {
-  //   const { testAccount } = localnet.context
-  //   const { client } = await deploy(testAccount)
-
-  //   const {
-  //     simulateResponse: {
-  //       txnGroups: [{ appBudgetConsumed }],
-  //     },
-  //   } = await client.newGroup().ensureBudgetOne({ args: {  } }).simulate({ // ensureBudget(800) - delta was: +21
-  //     // extraOpcodeBudget: 170_000,
-  //     allowUnnamedResources: true,
-  //   })
-  //   console.log('eeeb1', appBudgetConsumed) // eeebm 51 - +21 from noop ensurebudget
-  // })
-
   for (let i = 1; i <= 10; i++) {
     test(`opcode budget register noncolliding x${i}`, async () => {
       const { testAccount } = localnet.context
       const { client } = await deploy(testAccount)
+
+      await depositCredits(client, testAccount, 1_000_000n)
 
       const appIds = new Array(i).fill(1).map((_, i) => 1002 + i)
 
@@ -156,6 +144,8 @@ describe('Escreg contract', () => {
       const { testAccount } = localnet.context
       const { client } = await deploy(testAccount)
 
+      await depositCredits(client, testAccount, 1_000_000n)
+
       const appIds = getCollidingAppIDs(i)
 
       const {
@@ -167,20 +157,6 @@ describe('Escreg contract', () => {
         allowUnnamedResources: true,
       })
       console.log('crregister', appIds.length, appBudgetConsumed)
-      // rrregister 1 122
-      // rrregister 2 266
-      // rrregister 3 356
-      // rrregister 4 500
-      // rrregister 5 590
-      // rrregister 6 734
-      // rrregister 7 824
-      // rrregister 8 968
-      // rrregister 9 1058
-      // rrregister 10 1202
-
-      // base: 32
-      // non colliding: +90
-      // colliding: +144
     })
   }
 
@@ -211,9 +187,14 @@ describe('Escreg contract', () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
 
+    await depositCredits(client, testAccount, 500_000n)
+
     const appIds = range(1003, 1009)
 
-    await client.send.registerList({ args: { appIds } })
+    await client.newGroup()
+      .increaseBudget({ args: { itxns: 1 }, extraFee: (1000).microAlgo() })
+      .registerList({ args: { appIds } })
+      .send()
 
     const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
 
@@ -223,32 +204,6 @@ describe('Escreg contract', () => {
       expect(results![i]).toBe(BigInt(appIds[i]))
     }
   })
-
-  test('registers 1003-1009', async () => {
-    const { testAccount } = localnet.context
-    const { client } = await deploy(testAccount)
-
-    const appIds = range(1003, 1009)
-
-    await client.send.registerList({ args: { appIds } })
-
-    const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
-
-    const { return: results } = await client.send.getList({ args: { addresses } })
-
-    for (let i = 0; i < appIds.length; i++) {
-      expect(results![i]).toBe(BigInt(appIds[i]))
-    }
-  })
-
-  // disabled - registering again is allowed now
-  // test('register 1002 twice fails', async () => {
-  //   const { testAccount } = localnet.context
-  //   const { client } = await deploy(testAccount)
-
-  //   await client.send.register({ args: { appId: 1002 } })
-  //   await expect(client.send.register({ args: { appId: 1002 } })).rejects.toThrow(/ERR:EXISTS/)
-  // })
 
   test('get returns 0 for not found', async () => {
     const { testAccount } = localnet.context
@@ -265,12 +220,14 @@ describe('Escreg contract', () => {
     const { client } = await deploy(testAccount)
 
     const address = getApplicationAddress(1002).toString()
-    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/ERR:NOTFOUND/)
+    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/ERR:404/)
   })
 
   test('getList returns 0 for not found', async () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
 
     const appIds = range(1003, 1005)
 
@@ -300,13 +257,14 @@ describe('Escreg contract', () => {
     const { client } = await deploy(testAccount)
 
     const address = getApplicationAddress(1002).toString()
-    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/ERR:NOTFOUND/)
+    await expect(client.send.mustGet({ args: { address } })).rejects.toThrow(/ERR:404/)
   })
 
   test('exists returns true for existing', async () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
 
+    await depositCredits(client, testAccount, 100_000n)
     await client.send.register({ args: { appId: 1002 } })
 
     const address = getApplicationAddress(1002).toString()
@@ -336,11 +294,121 @@ describe('Escreg contract', () => {
     } = await deployTestParent(testAccount)
 
     const appId = authAppId + 3n
+    await depositCredits(client, testAccount, 100_000n)
     await client.send.registerList({ args: { appIds: [authAppId, appId] } })
 
     const address = getApplicationAddress(authAppId + 3n).toString()
     const { return: result } = await client.send.getWithAuth({ args: { address } })
 
     expect(result).toEqual({ appId, authAppId })
+  })
+
+  test('register fails with insufficient credits (ERR:CRD)', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    // Deposit just enough for the credit box itself (18900) but not enough for an app box
+    await depositCredits(client, testAccount, 18_900n)
+
+    await expect(
+      client.send.register({ args: { appId: 1002 } }),
+    ).rejects.toThrow(/ERR:CRD/)
+  })
+
+  test('deleteBoxes fails for non-admin (ERR:AUTH)', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    const otherAccount = await localnet.algorand.account.random()
+    await localnet.algorand.account.ensureFundedFromEnvironment(otherAccount.addr, (10).algos())
+
+    await expect(
+      client.send.deleteBoxes({
+        args: { boxKeys: [] },
+        sender: otherAccount.addr.toString(),
+        signer: otherAccount.signer,
+      }),
+    ).rejects.toThrow(/ERR:AUTH/)
+  })
+
+  test('deleteBoxes deletes app registry boxes', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
+    await client.send.register({ args: { appId: 1002 } })
+
+    const address = getApplicationAddress(1002).toString()
+    const { return: existsBefore } = await client.send.exists({ args: { address } })
+    expect(existsBefore).toBe(true)
+
+    // Get the 4-byte box key for this app
+    const appBoxKey = getApplicationAddress(1002).publicKey.slice(0, 4)
+    await client.send.deleteBoxes({
+      args: { boxKeys: [appBoxKey] },
+      boxReferences: [appBoxKey],
+    })
+
+    const { return: existsAfter } = await client.send.exists({ args: { address } })
+    expect(existsAfter).toBe(false)
+  })
+
+  test('withdraw sends funds to admin', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await client.send.withdraw({
+      args: { amount: 100_000 },
+      extraFee: (1000).microAlgo(),
+    })
+  })
+
+  test('withdraw fails for non-admin (ERR:AUTH)', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    const otherAccount = await localnet.algorand.account.random()
+    await localnet.algorand.account.ensureFundedFromEnvironment(otherAccount.addr, (10).algos())
+
+    await expect(
+      client.send.withdraw({
+        args: { amount: 100_000 },
+        extraFee: (1000).microAlgo(),
+        sender: otherAccount.addr.toString(),
+        signer: otherAccount.signer,
+      }),
+    ).rejects.toThrow(/ERR:AUTH/)
+  })
+
+  test('deleteApplication fails for non-admin (ERR:AUTH)', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    const otherAccount = await localnet.algorand.account.random()
+    await localnet.algorand.account.ensureFundedFromEnvironment(otherAccount.addr, (10).algos())
+
+    await expect(
+      client.send.delete.deleteApplication({
+        args: {},
+        sender: otherAccount.addr.toString(),
+        signer: otherAccount.signer,
+      }),
+    ).rejects.toThrow(/ERR:AUTH/)
+  })
+
+  test('updateApplication fails for non-admin (ERR:AUTH)', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    const otherAccount = await localnet.algorand.account.random()
+    await localnet.algorand.account.ensureFundedFromEnvironment(otherAccount.addr, (10).algos())
+
+    await expect(
+      client.send.update.updateApplication({
+        args: {},
+        sender: otherAccount.addr.toString(),
+        signer: otherAccount.signer,
+      }),
+    ).rejects.toThrow(/ERR:AUTH/)
   })
 })

@@ -9,7 +9,7 @@ import { EscregFactory } from '../../artifacts/escreg/EscregClient'
 import { brange } from './util'
 import { getCollidingAppIDs } from './fixtures'
 
-describe('Escreg SDK', () => {
+describe('Escreg SDK - Registration & Lookup', () => {
   const localnet = algorandFixture()
   beforeAll(() => {
     Config.configure({
@@ -40,12 +40,13 @@ describe('Escreg SDK', () => {
     const { testAccount } = localnet.context
     const { sdk } = await deploy(testAccount)
 
+    const creditor = testAccount.addr.toString()
+    await sdk.depositCredit({ creditor, amount: 100_000n })
+
     const appId = 1002n
     const address = getApplicationAddress(appId).toString()
 
-    console.log({ reg: 1 })
     await sdk.register({ appIds: [appId] })
-    console.log({ reg: 2 })
     const actual = await sdk.lookup({ addresses: [address] })
 
     expect(actual).toEqual({ [address]: 1002n })
@@ -54,6 +55,9 @@ describe('Escreg SDK', () => {
   test('registers 128x', async () => {
     const { testAccount } = localnet.context
     const { sdk } = await deploy(testAccount)
+
+    const creditor = testAccount.addr.toString()
+    await sdk.depositCredit({ creditor, amount: 1_500_000n })
 
     const start = 1003
     const appIds = brange(start, start + 128 - 1)
@@ -72,6 +76,9 @@ describe('Escreg SDK', () => {
     const { testAccount } = localnet.context
     const { sdk } = await deploy(testAccount)
 
+    const creditor = testAccount.addr.toString()
+    await sdk.depositCredit({ creditor, amount: 1_000_000n })
+
     const appIds = getCollidingAppIDs()
 
     await sdk.register({ appIds })
@@ -87,6 +94,9 @@ describe('Escreg SDK', () => {
   test('lookup 128x', async () => {
     const { testAccount } = localnet.context
     const { sdk } = await deploy(testAccount)
+
+    const creditor = testAccount.addr.toString()
+    await sdk.depositCredit({ creditor, amount: 1_500_000n })
 
     let start = 1003
     const appIds = brange(start, start + 128 - 1)
@@ -105,6 +115,9 @@ describe('Escreg SDK', () => {
     const { testAccount } = localnet.context
     const { sdk } = await deploy(testAccount)
 
+    const creditor = testAccount.addr.toString()
+    await sdk.depositCredit({ creditor, amount: 3_000_000n })
+
     let start = 1003
     const appIds = brange(start, start + 256 - 1)
 
@@ -117,5 +130,4 @@ describe('Escreg SDK', () => {
 
     expect(actual).toEqual(expected)
   })
-
 })

@@ -5,7 +5,16 @@
       "name": "ROOT"
     },
     {
-      "path": "projects/escreg"
+      "path": "projects/contract"
+    },
+    {
+      "path": "projects/ts-sdk"
+    },
+    {
+      "path": "projects/client"
+    },
+    {
+      "path": "projects/worker"
     }
   ],
   "settings": {

@@ -6,7 +6,7 @@ Every Algorand application has a deterministic escrow address derived from its a
 
 This contract stores registered app IDs in box storage using a 4-byte address prefix bucketing scheme, enabling efficient lookups from address to app ID.
 
-App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to the input address, computing the app escrow on the fly from each application ID, and returning the app ID if a match is found. Offloading the computation to runtime allows us to store less - 4+8 bytes for a new bucket, or 8 bytes to add to an existing bucket.
+App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to the input address, computing the app escrow on the fly from each application ID, and returning the app ID if a match is found. Offloading the computation to runtime allows us to store less: 4+8 bytes for a new bucket, or 8 bytes to add to an existing bucket.
 
 This is currently deployed to Fnet as [App ID 16382607](https://lora.algokit.io/fnet/application/16382607).
 

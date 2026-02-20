@@ -3,7 +3,7 @@ min_version = "v2.6.0"
 
 [project]
 type = 'backend'
-name = 'sdk'
+name = 'ts-sdk'
 
 [project.run]
 # Commands intended for use locally and in CI

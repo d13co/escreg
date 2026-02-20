@@ -1,0 +1,3134 @@
+{
+  "version": 3,
+  "sources": [
+    "../../common.algo.ts",
+    "../../mbr-manager/contract.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;ACKA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;;;;;;AAgCE;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAiB;;AAAjB;ADnCL;;;ACmCwD;ADlC1D;AACA;ACkCO;AAAA;;AAAA;AAAA;;ADpCL;;;ACoCqB;ADnCvB;AACA;ACCY;AAAA;;AAAA;AAAA;AAAA;;AAkCY;AAAA;;AAAA;;;AAAoC;;AAAA;AAAA;AAAA;AAE1C;;AAAA;;AAAA;AAAA;AAAA;;AAAA;;AAAA;AACiB;AAAA;;AAAA;AAAnC;AAAA;;AAAA;AAAA;AA5BiB;;AAAA;;AAAA;AAAA;AAAA;;AAAA;;AAAA;AACb;AAAJ;;;AACS;;AAAA;;AAAA;AAAJ;;;AAC0B;;AAAA;;AAAA;AAAA;;AAZnB;AAakC;;AAblC;AAaiB;AAAA;;AAAA;;;AAbjB;AAawE;;AAbxE;AAauD;AAAA;AAAA;;;AAC1D;;AAAA;;AAAA;ADjBP;;;ACiBmC;;;;;;;;;ADhBrC;AACA;ACgBuC;;AAAA;;AAAA;AAf3B;AAeO;;AAfP;AAeV;AAAA;AAAA;AAgBJ;AAAA;AAlB0G;;;;;;AAIvE;;AAAA;;AAAA;AAAA;;AAjBrB;AAkBc;;AAlBd;AAkBH;AAAA;;ADrBP;;;ACqB4C;ADpB9C;AACA;ACCY;AAmBO;;AAnBP;AAmBV;AAAA;AAAA;AAAA;;AAAA;AAnBU;AAmBO;;AAnBP;AAmBV;AAAA;AAAA;;;;AAe6F;;;;AAa7E;;AAAA;;AAAA;AA/CN;AAiDY;;AAjDZ;AAiDL;AAAA;;ADpDL;;;ACoD0C;ADnD5C;AACA;ACCY;AAkD4B;;AAlD5B;AAkDW;AAAA;AAAA;AAlDX;AAqDK;;AArDL;AAqDZ;;AACiB;;AAAA;;AAAA;AACqB;;AAAA;AAAA;AAAV;AAE5B;AAEc;;;;;;AAFd;;;AAIS;;;AAJT;AAXF;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1 0"
+    },
+    "5": {
+      "op": "bytecblock \"c\" \"ERR:RCV\" \"ERR:AMT\""
+    },
+    "25": {
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "27": {
+      "op": "bz main___algots__.defaultCreate@9",
+      "stack_out": []
+    },
+    "30": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "32": {
+      "op": "!",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "33": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "34": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "36": {
+      "op": "assert",
+      "stack_out": []
+    },
+    "37": {
+      "op": "pushbytess 0x3d75f0c4 0xeaee7fbd // method \"depositCredits(address,pay)void\", method \"withdrawCredits()void\"",
+      "defined_out": [
+        "Method(depositCredits(address,pay)void)",
+        "Method(withdrawCredits()void)"
+      ],
+      "stack_out": [
+        "Method(depositCredits(address,pay)void)",
+        "Method(withdrawCredits()void)"
+      ]
+    },
+    "49": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(depositCredits(address,pay)void)",
+        "Method(withdrawCredits()void)",
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "Method(depositCredits(address,pay)void)",
+        "Method(withdrawCredits()void)",
+        "tmp%6#0"
+      ]
+    },
+    "52": {
+      "op": "match depositCredits withdrawCredits",
+      "stack_out": []
+    },
+    "58": {
+      "op": "err"
+    },
+    "59": {
+      "block": "main___algots__.defaultCreate@9",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "61": {
+      "op": "!",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "62": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%8#0",
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%8#0",
+        "tmp%9#0"
+      ]
+    },
+    "64": {
+      "op": "!",
+      "defined_out": [
+        "tmp%10#0",
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0",
+        "tmp%10#0"
+      ]
+    },
+    "65": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "66": {
+      "error": "OnCompletion must be NoOp && can only call when creating",
+      "op": "assert // OnCompletion must be NoOp && can only call when creating",
+      "stack_out": []
+    },
+    "67": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "68": {
+      "op": "return",
+      "stack_out": []
+    },
+    "69": {
+      "subroutine": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.depositCredits[routing]",
+      "params": {},
+      "block": "depositCredits",
+      "stack_in": [],
+      "op": "intc_1 // 0",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "70": {
+      "op": "pushbytes \"\"",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0"
+      ]
+    },
+    "72": {
+      "op": "dupn 5",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0"
+      ]
+    },
+    "74": {
+      "op": "txna ApplicationArgs 1"
+    },
+    "77": {
+      "op": "dup",
+      "defined_out": [
+        "creditor#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "creditor#0"
+      ]
+    },
+    "78": {
+      "op": "len",
+      "defined_out": [
+        "creditor#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "len%0#0"
+      ]
+    },
+    "79": {
+      "op": "pushint 32 // 32",
+      "defined_out": [
+        "32",
+        "creditor#0",
+        "len%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "81": {
+      "op": "==",
+      "defined_out": [
+        "creditor#0",
+        "eq%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "eq%0#0"
+      ]
+    },
+    "82": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0"
+      ]
+    },
+    "83": {
+      "op": "txn GroupIndex",
+      "defined_out": [
+        "creditor#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "tmp%2#0"
+      ]
+    },
+    "85": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "creditor#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "tmp%2#0",
+        "1"
+      ]
+    },
+    "86": {
+      "op": "-",
+      "defined_out": [
+        "creditor#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "87": {
+      "op": "dupn 2",
+      "defined_out": [
+        "creditor#0",
+        "txn#0",
+        "txn#0 (copy)"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "txn#0",
+        "txn#0 (copy)"
+      ]
+    },
+    "89": {
+      "op": "gtxns TypeEnum",
+      "defined_out": [
+        "creditor#0",
+        "gtxn_type%0#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "txn#0",
+        "gtxn_type%0#0"
+      ]
+    },
+    "91": {
+      "op": "intc_0 // pay",
+      "defined_out": [
+        "creditor#0",
+        "gtxn_type%0#0",
+        "pay",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "txn#0",
+        "gtxn_type%0#0",
+        "pay"
+      ]
+    },
+    "92": {
+      "op": "==",
+      "defined_out": [
+        "creditor#0",
+        "gtxn_type_matches%0#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "txn#0",
+        "gtxn_type_matches%0#0"
+      ]
+    },
+    "93": {
+      "error": "transaction type is pay",
+      "op": "assert // transaction type is pay",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "txn#0"
+      ]
+    },
+    "94": {
+      "op": "gtxns Receiver",
+      "defined_out": [
+        "creditor#0",
+        "tmp%0#1",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%0#1"
+      ]
+    },
+    "96": {
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "creditor#0",
+        "tmp%0#1",
+        "tmp%1#1",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ]
+    },
+    "98": {
+      "op": "==",
+      "defined_out": [
+        "condition#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "condition#0"
+      ]
+    },
+    "99": {
+      "op": "bnz depositCredits_after_if_else@25",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "102": {
+      "op": "bytec_1 // \"ERR:RCV\"",
+      "defined_out": [
+        "\"ERR:RCV\"",
+        "creditor#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"ERR:RCV\""
+      ]
+    },
+    "103": {
+      "op": "log",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "104": {
+      "op": "err"
+    },
+    "105": {
+      "block": "depositCredits_after_if_else@25",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "dup",
+      "defined_out": [
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "txn#0"
+      ]
+    },
+    "106": {
+      "op": "gtxns Amount",
+      "defined_out": [
+        "tmp%3#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%3#0"
+      ]
+    },
+    "108": {
+      "op": "dup",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%3#0",
+        "tmp%3#0"
+      ]
+    },
+    "109": {
+      "op": "bury 5",
+      "defined_out": [
+        "tmp%3#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%3#0"
+      ]
+    },
+    "111": {
+      "op": "bnz depositCredits_after_if_else@29",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "114": {
+      "op": "bytec_2 // \"ERR:AMT\"",
+      "defined_out": [
+        "\"ERR:AMT\"",
+        "tmp%3#0",
+        "txn#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"ERR:AMT\""
+      ]
+    },
+    "115": {
+      "op": "log",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "116": {
+      "op": "err"
+    },
+    "117": {
+      "block": "depositCredits_after_if_else@29",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "bytec_0 // \"c\"",
+      "defined_out": [
+        "\"c\""
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\""
+      ]
+    },
+    "118": {
+      "op": "dig 2",
+      "defined_out": [
+        "\"c\"",
+        "creditor#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\"",
+        "creditor#0"
+      ]
+    },
+    "120": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "creditor#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "121": {
+      "op": "dup",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "122": {
+      "op": "bury 10",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "creditor#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "124": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "box_prefixed_key%0#0",
+        "creditor#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "125": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "127": {
+      "op": "bz depositCredits_ternary_false@3",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "130": {
+      "op": "dig 8",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "132": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0",
+        "box_prefixed_key%0#0",
+        "creditor#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "133": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "134": {
+      "op": "btoi",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "creditor#0",
+        "current#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0"
+      ]
+    },
+    "135": {
+      "block": "depositCredits_ternary_merge@4",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0"
+      ],
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0",
+        "tmp%5#0"
+      ]
+    },
+    "137": {
+      "op": "acct_params_get AcctMinBalance",
+      "defined_out": [
+        "check%0#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0",
+        "mbrBefore#0",
+        "check%0#0"
+      ]
+    },
+    "139": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0",
+        "check%0#0",
+        "mbrBefore#0"
+      ]
+    },
+    "140": {
+      "op": "dup",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0",
+        "check%0#0",
+        "mbrBefore#0",
+        "mbrBefore#0 (copy)"
+      ]
+    },
+    "141": {
+      "op": "cover 2",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0",
+        "mbrBefore#0",
+        "check%0#0",
+        "mbrBefore#0"
+      ]
+    },
+    "143": {
+      "op": "bury 8",
+      "defined_out": [
+        "check%0#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0",
+        "mbrBefore#0",
+        "check%0#0"
+      ]
+    },
+    "145": {
+      "error": "account funded",
+      "op": "assert // account funded",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0",
+        "mbrBefore#0"
+      ]
+    },
+    "146": {
+      "op": "swap",
+      "defined_out": [
+        "current#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "current#0"
+      ]
+    },
+    "147": {
+      "op": "dig 5",
+      "defined_out": [
+        "current#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "current#0",
+        "tmp%3#0"
+      ]
+    },
+    "149": {
+      "op": "+",
+      "defined_out": [
+        "mbrBefore#0",
+        "tmp%3#0",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "tmp%7#0"
+      ]
+    },
+    "150": {
+      "op": "itob",
+      "defined_out": [
+        "encoded_value%0#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "151": {
+      "op": "dig 10",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "encoded_value%0#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "153": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "154": {
+      "op": "box_put",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0"
+      ]
+    },
+    "155": {
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "mbrBefore#0",
+        "tmp%0#1",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "tmp%0#1"
+      ]
+    },
+    "157": {
+      "op": "acct_params_get AcctMinBalance",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "check%0#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "mbrAfter#0",
+        "check%0#0"
+      ]
+    },
+    "159": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "check%0#0",
+        "mbrAfter#0"
+      ]
+    },
+    "160": {
+      "op": "dup",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "check%0#0",
+        "mbrAfter#0",
+        "mbrAfter#0 (copy)"
+      ]
+    },
+    "161": {
+      "op": "cover 2",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "mbrAfter#0",
+        "check%0#0",
+        "mbrAfter#0"
+      ]
+    },
+    "163": {
+      "op": "bury 9",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "check%0#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "mbrAfter#0",
+        "check%0#0"
+      ]
+    },
+    "165": {
+      "error": "account funded",
+      "op": "assert // account funded",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "mbrAfter#0"
+      ]
+    },
+    "166": {
+      "op": "==",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%1#2",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%1#2"
+      ]
+    },
+    "167": {
+      "op": "bnz depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.manageMbrCredits@14",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "170": {
+      "op": "dig 5",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrAfter#0"
+      ]
+    },
+    "172": {
+      "op": "dig 5",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ]
+    },
+    "174": {
+      "op": ">",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%2#2",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%2#2"
+      ]
+    },
+    "175": {
+      "op": "bz depositCredits_else_body@12",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "178": {
+      "op": "dig 5",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrAfter#0"
+      ]
+    },
+    "180": {
+      "op": "dig 5",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ]
+    },
+    "182": {
+      "op": "-",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "creditNeeded#0"
+      ]
+    },
+    "183": {
+      "op": "bury 8",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "185": {
+      "op": "bytec_0 // \"c\"",
+      "defined_out": [
+        "\"c\"",
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\""
+      ]
+    },
+    "186": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "materialized_values%0#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\"",
+        "materialized_values%0#0"
+      ]
+    },
+    "188": {
+      "op": "concat",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "189": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "maybe_exists%0#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "190": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "192": {
+      "op": "bz depositCredits_ternary_false@10",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "195": {
+      "op": "bytec_0 // \"c\"",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\""
+      ]
+    },
+    "196": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "materialized_values%1#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\"",
+        "materialized_values%1#0"
+      ]
+    },
+    "198": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%1#0",
+        "creditNeeded#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%1#0"
+      ]
+    },
+    "199": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%2#0",
+        "aggregate%box_get%3#0",
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "aggregate%box_get%2#0",
+        "aggregate%box_get%3#0"
+      ]
+    },
+    "200": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "aggregate%box_get%2#0"
+      ]
+    },
+    "201": {
+      "op": "btoi",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "userCredit#0"
+      ]
+    },
+    "202": {
+      "op": "bury 3",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "204": {
+      "block": "depositCredits_ternary_merge@11",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "dig 2",
+      "defined_out": [
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "userCredit#0"
+      ]
+    },
+    "206": {
+      "op": "dig 8",
+      "defined_out": [
+        "creditNeeded#0",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "userCredit#0",
+        "creditNeeded#0"
+      ]
+    },
+    "208": {
+      "op": ">=",
+      "defined_out": [
+        "condition#0",
+        "creditNeeded#0",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "condition#0"
+      ]
+    },
+    "209": {
+      "op": "bnz depositCredits_after_if_else@21",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "212": {
+      "op": "pushbytes \"ERR:CRD\"",
+      "defined_out": [
+        "\"ERR:CRD\"",
+        "creditNeeded#0",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"ERR:CRD\""
+      ]
+    },
+    "221": {
+      "op": "log",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "222": {
+      "op": "err"
+    },
+    "223": {
+      "block": "depositCredits_after_if_else@21",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "dig 2",
+      "defined_out": [
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "userCredit#0"
+      ]
+    },
+    "225": {
+      "op": "dig 8",
+      "defined_out": [
+        "creditNeeded#0",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "userCredit#0",
+        "creditNeeded#0"
+      ]
+    },
+    "227": {
+      "op": "-",
+      "defined_out": [
+        "creditNeeded#0",
+        "tmp%5#1",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%5#1"
+      ]
+    },
+    "228": {
+      "op": "bytec_0 // \"c\"",
+      "defined_out": [
+        "\"c\"",
+        "creditNeeded#0",
+        "tmp%5#1",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%5#1",
+        "\"c\""
+      ]
+    },
+    "229": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "creditNeeded#0",
+        "materialized_values%2#0",
+        "tmp%5#1",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%5#1",
+        "\"c\"",
+        "materialized_values%2#0"
+      ]
+    },
+    "231": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%2#0",
+        "creditNeeded#0",
+        "tmp%5#1",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%5#1",
+        "box_prefixed_key%2#0"
+      ]
+    },
+    "232": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%2#0",
+        "tmp%5#1"
+      ]
+    },
+    "233": {
+      "op": "itob",
+      "defined_out": [
+        "box_prefixed_key%2#0",
+        "creditNeeded#0",
+        "encoded_value%0#0",
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%2#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "234": {
+      "op": "box_put",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "235": {
+      "block": "depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.manageMbrCredits@14",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "1"
+      ]
+    },
+    "236": {
+      "op": "return",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "237": {
+      "block": "depositCredits_ternary_false@10",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "userCredit#0"
+      ]
+    },
+    "238": {
+      "op": "bury 3",
+      "defined_out": [
+        "userCredit#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "240": {
+      "op": "b depositCredits_ternary_merge@11"
+    },
+    "243": {
+      "block": "depositCredits_else_body@12",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "dig 4",
+      "defined_out": [
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0"
+      ]
+    },
+    "245": {
+      "op": "dig 6",
+      "defined_out": [
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "mbrBefore#0",
+        "mbrAfter#0"
+      ]
+    },
+    "247": {
+      "op": "-",
+      "defined_out": [
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "creditToReturn#0"
+      ]
+    },
+    "248": {
+      "op": "bury 7",
+      "defined_out": [
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "250": {
+      "op": "bytec_0 // \"c\"",
+      "defined_out": [
+        "\"c\"",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\""
+      ]
+    },
+    "251": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "creditToReturn#0",
+        "materialized_values%3#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\"",
+        "materialized_values%3#0"
+      ]
+    },
+    "253": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%3#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%3#0"
+      ]
+    },
+    "254": {
+      "op": "box_len",
+      "defined_out": [
+        "_%1#0",
+        "condition#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "_%1#0",
+        "condition#0"
+      ]
+    },
+    "255": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "condition#0"
+      ]
+    },
+    "257": {
+      "op": "bnz depositCredits_after_if_else@17",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "260": {
+      "op": "bytec_1 // \"ERR:RCV\"",
+      "defined_out": [
+        "\"ERR:RCV\"",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"ERR:RCV\""
+      ]
+    },
+    "261": {
+      "op": "log",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "262": {
+      "op": "err"
+    },
+    "263": {
+      "block": "depositCredits_after_if_else@17",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "bytec_0 // \"c\"",
+      "defined_out": [
+        "\"c\""
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\""
+      ]
+    },
+    "264": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "materialized_values%4#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "\"c\"",
+        "materialized_values%4#0"
+      ]
+    },
+    "266": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%4#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%4#0"
+      ]
+    },
+    "267": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%4#0",
+        "aggregate%box_get%5#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "aggregate%box_get%4#0",
+        "aggregate%box_get%5#0"
+      ]
+    },
+    "268": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "aggregate%box_get%4#0"
+      ]
+    },
+    "269": {
+      "op": "btoi",
+      "defined_out": [
+        "maybe_value_converted%1#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "maybe_value_converted%1#0"
+      ]
+    },
+    "270": {
+      "op": "dig 7",
+      "defined_out": [
+        "creditToReturn#0",
+        "maybe_value_converted%1#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "maybe_value_converted%1#0",
+        "creditToReturn#0"
+      ]
+    },
+    "272": {
+      "op": "+",
+      "defined_out": [
+        "creditToReturn#0",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%7#0"
+      ]
+    },
+    "273": {
+      "op": "bytec_0 // \"c\"",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%7#0",
+        "\"c\""
+      ]
+    },
+    "274": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "creditToReturn#0",
+        "materialized_values%5#0",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%7#0",
+        "\"c\"",
+        "materialized_values%5#0"
+      ]
+    },
+    "276": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%5#0",
+        "creditToReturn#0",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "tmp%7#0",
+        "box_prefixed_key%5#0"
+      ]
+    },
+    "277": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%5#0",
+        "tmp%7#0"
+      ]
+    },
+    "278": {
+      "op": "itob",
+      "defined_out": [
+        "box_prefixed_key%5#0",
+        "creditToReturn#0",
+        "encoded_value%1#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "box_prefixed_key%5#0",
+        "encoded_value%1#0"
+      ]
+    },
+    "279": {
+      "op": "box_put",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ]
+    },
+    "280": {
+      "op": "b depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.manageMbrCredits@14"
+    },
+    "283": {
+      "block": "depositCredits_ternary_false@3",
+      "stack_in": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0"
+      ],
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "current#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "creditNeeded#0",
+        "creditToReturn#0",
+        "mbrAfter#0",
+        "mbrBefore#0",
+        "tmp%3#0",
+        "userCredit#0",
+        "creditor#0",
+        "txn#0",
+        "current#0"
+      ]
+    },
+    "284": {
+      "op": "b depositCredits_ternary_merge@4"
+    },
+    "287": {
+      "subroutine": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.withdrawCredits[routing]",
+      "params": {},
+      "block": "withdrawCredits",
+      "stack_in": [],
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "289": {
+      "op": "acct_params_get AcctMinBalance",
+      "defined_out": [
+        "check%0#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "check%0#0"
+      ]
+    },
+    "291": {
+      "error": "account funded",
+      "op": "assert // account funded",
+      "stack_out": [
+        "mbrBefore#0"
+      ]
+    },
+    "292": {
+      "op": "bytec_0 // \"c\"",
+      "defined_out": [
+        "\"c\"",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "\"c\""
+      ]
+    },
+    "293": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "materialized_values%0#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "\"c\"",
+        "materialized_values%0#0"
+      ]
+    },
+    "295": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "296": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "condition#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "_%0#0",
+        "condition#0"
+      ]
+    },
+    "297": {
+      "op": "bury 1",
+      "stack_out": [
+        "mbrBefore#0",
+        "condition#0"
+      ]
+    },
+    "299": {
+      "op": "bnz withdrawCredits_after_if_else@3",
+      "stack_out": [
+        "mbrBefore#0"
+      ]
+    },
+    "302": {
+      "op": "bytec_2 // \"ERR:AMT\"",
+      "defined_out": [
+        "\"ERR:AMT\"",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "\"ERR:AMT\""
+      ]
+    },
+    "303": {
+      "op": "log",
+      "stack_out": [
+        "mbrBefore#0"
+      ]
+    },
+    "304": {
+      "op": "err"
+    },
+    "305": {
+      "block": "withdrawCredits_after_if_else@3",
+      "stack_in": [
+        "mbrBefore#0"
+      ],
+      "op": "bytec_0 // \"c\"",
+      "defined_out": [
+        "\"c\""
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "\"c\""
+      ]
+    },
+    "306": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "materialized_values%1#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "\"c\"",
+        "materialized_values%1#0"
+      ]
+    },
+    "308": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%1#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "box_prefixed_key%1#0"
+      ]
+    },
+    "309": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "310": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "mbrBefore#0",
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "311": {
+      "op": "btoi",
+      "defined_out": [
+        "credit#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0"
+      ]
+    },
+    "312": {
+      "op": "bytec_0 // \"c\"",
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "\"c\""
+      ]
+    },
+    "313": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"c\"",
+        "credit#0",
+        "materialized_values%2#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "\"c\"",
+        "materialized_values%2#0"
+      ]
+    },
+    "315": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%2#0",
+        "credit#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "box_prefixed_key%2#0"
+      ]
+    },
+    "316": {
+      "op": "box_del",
+      "defined_out": [
+        "credit#0",
+        "{box_del}"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "{box_del}"
+      ]
+    },
+    "317": {
+      "op": "pop",
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0"
+      ]
+    },
+    "318": {
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "credit#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "tmp%1#0"
+      ]
+    },
+    "320": {
+      "op": "acct_params_get AcctMinBalance",
+      "defined_out": [
+        "check%1#0",
+        "credit#0",
+        "mbrAfter#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "mbrAfter#0",
+        "check%1#0"
+      ]
+    },
+    "322": {
+      "error": "account funded",
+      "op": "assert // account funded",
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "mbrAfter#0"
+      ]
+    },
+    "323": {
+      "op": "dig 2",
+      "defined_out": [
+        "credit#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "mbrAfter#0",
+        "mbrBefore#0"
+      ]
+    },
+    "325": {
+      "op": "swap",
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "mbrBefore#0",
+        "mbrAfter#0"
+      ]
+    },
+    "326": {
+      "op": "-",
+      "defined_out": [
+        "credit#0",
+        "mbrBefore#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "credit#0",
+        "tmp%2#0"
+      ]
+    },
+    "327": {
+      "op": "+",
+      "defined_out": [
+        "finalCredit#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "finalCredit#0"
+      ]
+    },
+    "328": {
+      "op": "itxn_begin"
+    },
+    "329": {
+      "op": "txn Sender",
+      "defined_out": [
+        "finalCredit#0",
+        "inner_txn_params%0%%param_Receiver_idx_0#0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "finalCredit#0",
+        "inner_txn_params%0%%param_Receiver_idx_0#0"
+      ]
+    },
+    "331": {
+      "op": "itxn_field Receiver"
+    },
+    "333": {
+      "op": "itxn_field Amount",
+      "stack_out": [
+        "mbrBefore#0"
+      ]
+    },
+    "335": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "1"
+      ]
+    },
+    "336": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": [
+        "mbrBefore#0"
+      ]
+    },
+    "338": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "mbrBefore#0"
+      ],
+      "stack_out": [
+        "mbrBefore#0",
+        "0"
+      ]
+    },
+    "339": {
+      "op": "itxn_field Fee",
+      "stack_out": [
+        "mbrBefore#0"
+      ]
+    },
+    "341": {
+      "op": "itxn_submit"
+    },
+    "342": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "mbrBefore#0",
+        "1"
+      ]
+    },
+    "343": {
+      "op": "return",
+      "stack_out": [
+        "mbrBefore#0"
+      ]
+    }
+  }
+}

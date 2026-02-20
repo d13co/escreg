@@ -15,8 +15,9 @@
   ],
   "scripts": {
     "clean": "rm -rf dist/ src/generated/",
-    "prebuild": "npm run clean && npm run generate",
-    "generate": "npx @algorandfoundation/algokit-client-generator generate -o src/generated/EscregGenerated.ts -a ../contract/smart_contracts/artifacts/escreg/Escreg.arc56.json",
+    "prebuild": "npm run clean && npm run generate && npm run generate:errors",
+    "generate": "npx @algorandfoundation/algokit-client-generator generate -m minimal -o src/generated/EscregGenerated.ts -a ../contract/smart_contracts/artifacts/escreg/Escreg.arc56.json",
+    "generate:errors": "tsx scripts/generate-errors.ts",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build": "concurrently 'npm run build:cjs' 'npm run build:esm'"
@@ -28,6 +29,7 @@
     "@algorandfoundation/algokit-client-generator": "^6.0.0",
     "@types/node": "^24.0.14",
     "concurrently": "^9.2.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {

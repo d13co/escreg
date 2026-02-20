@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { getConfig } from './config';
-import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleWithdrawCommand } from './commands';
+import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand } from './commands';
 
 async function main() {
   const config = getConfig();
@@ -120,7 +120,32 @@ async function main() {
           return true;
         });
     }, handleConvertCommand)
-    .command('withdraw <amount>', 'Withdraw funds from the contract', (yargs: any) => {
+    .command('deposit <amount>', 'Deposit MBR credits for registration', (yargs: any) => {
+      return yargs
+        .positional('amount', {
+          type: 'string',
+          description: 'Amount in microAlgos to deposit as credits',
+          demandOption: true,
+        })
+        .option('creditor', {
+          type: 'string',
+          description: 'Address to credit (defaults to sender)',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode',
+        });
+    }, handleDepositCreditCommand)
+    .command('withdraw-credit', 'Withdraw all MBR credits', (yargs: any) => {
+      return yargs
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode',
+        });
+    }, handleWithdrawCreditCommand)
+    .command('withdraw <amount>', 'Withdraw funds from the contract (admin)', (yargs: any) => {
       return yargs
         .positional('amount', {
           type: 'string',
@@ -133,7 +158,8 @@ async function main() {
           description: 'Enable debug mode for withdrawal operations',
         });
     }, handleWithdrawCommand)
-    .demandCommand(1, 'You must specify a command: register, lookup, convert, or withdraw')
+    // destroy command disabled while using minimal client for bundle size
+    .demandCommand(1, 'You must specify a command: register, lookup, convert, deposit, withdraw-credit, or withdraw')
     .help()
     .argv;
 }

@@ -4,6 +4,14 @@ import { EscregComposer } from "./generated/EscregGenerated";
 
 export const emptySigner = makeEmptyTransactionSigner();
 
+/** Prepend the 'c' key prefix to a public key for the userCredits box */
+export function creditBoxRef(publicKey: Uint8Array): Uint8Array {
+  const ref = new Uint8Array(1 + publicKey.length);
+  ref[0] = 0x63; // 'c'
+  ref.set(publicKey, 1);
+  return ref;
+}
+
 export function chunk<T>(array: T[], size: number): T[][] {
   if (size <= 0) throw new Error("Chunk size must be greater than 0");
 
@@ -70,11 +78,11 @@ export async function getIncreaseBudgetBuilder(
 
   // get existing budget: count app calls
   // NOTE only goes 1 level deep in itxns
-  const numAppCalls = txnResults.map(({ txnResult }: any) => {
-    if (txnResult?.txn.txn.type !== "appl") return 0;
+  const numAppCalls = txnResults.reduce((sum: number, { txnResult }: any) => {
+    if (txnResult?.txn.txn.type !== "appl") return sum;
     const innerTxns = txnResult.innerTxns ?? [];
-    return 1 + innerTxns.length;
-  }).length;
+    return sum + 1 + innerTxns.length;
+  }, 0);
 
   let existingBudget = 700 * numAppCalls;
 
