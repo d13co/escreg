@@ -3,14 +3,14 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { getConfig } from './config';
-import { handleRegisterCommand, handleLookupCommand, handleConvertCommand } from './commands';
+import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleWithdrawCommand } from './commands';
 
 async function main() {
   const config = getConfig();
 
   // Get the proper script name for help display
-  const scriptName = process.argv0?.includes('bun') || process.argv[0]?.includes('bun') 
-    ? 'escreg' 
+  const scriptName = process.argv0?.includes('bun') || process.argv[0]?.includes('bun')
+    ? 'escreg'
     : process.argv[1]?.split('/').pop()?.replace(/\.(js|ts)$/, '') || 'escreg';
 
   yargs(hideBin(process.argv))
@@ -120,13 +120,26 @@ async function main() {
           return true;
         });
     }, handleConvertCommand)
-    .demandCommand(1, 'You must specify a command: register, lookup, or convert')
+    .command('withdraw <amount>', 'Withdraw funds from the contract', (yargs: any) => {
+      return yargs
+        .positional('amount', {
+          type: 'string',
+          description: 'Amount in microAlgos to withdraw',
+          demandOption: true,
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode for withdrawal operations',
+        });
+    }, handleWithdrawCommand)
+    .demandCommand(1, 'You must specify a command: register, lookup, convert, or withdraw')
     .help()
     .argv;
 }
 
 main().catch((error) => {
-  console.error('Unexpected error:', error);
+  console.error('Unexpected error:', error.message);
   process.exit(1);
 });
 

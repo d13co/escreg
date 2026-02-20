@@ -16,7 +16,7 @@ export async function handleRegisterCommand(argv: any) {
     // Use CLI mnemonic if provided, otherwise fall back to config/env
     const mnemonic = argv.mnemonic || config.mnemonic;
     const address = argv.address || config.address;
-    
+
     const writerAccount = createWriterAccount(mnemonic, address);
     console.log({ writerAccount: writerAccount?.addr.toString() })
 
@@ -42,7 +42,7 @@ export async function handleRegisterCommand(argv: any) {
       console.log(`  ${index + 1}. ${txId}`);
     });
   } catch (error) {
-    console.error('Error registering app IDs:', error);
+    console.error('Error registering app IDs:', (error as Error).message);
     process.exit(1);
   }
 }
@@ -60,7 +60,7 @@ export async function handleLookupCommand(argv: any) {
     // Use CLI mnemonic if provided, otherwise fall back to config/env
     const mnemonic = argv.mnemonic || config.mnemonic;
     const address = argv.address || config.address;
-    
+
     const writerAccount = createWriterAccount(mnemonic, address);
 
     const sdk = new EscregSDK({
@@ -75,20 +75,24 @@ export async function handleLookupCommand(argv: any) {
     } else {
       addresses = parseAddressesFromArgs(argv.addresses);
     }
-    console.log({ addresses })
-    console.log(`Looking up ${addresses.length} addresses with concurrency ${argv.concurrency}...`);
+    console.debug(`Looking up ${addresses.length} addresses with concurrency ${argv.concurrency}...`);
     const result = await sdk.lookup({ addresses, concurrency: argv.concurrency, debug: argv.debug });
 
-    console.log('Lookup results:');
+    let notfound = 0
+    console.debug('Lookup results:');
     for (const [address, appId] of Object.entries(result)) {
       if (appId !== undefined) {
-        console.log(`  ${address}: ${appId.toString()}`);
+        console.log(`${address} ${appId.toString()}`);
       } else {
-        console.log(`  ${address}: Not found`);
+        notfound++
+        console.log(`${address} N/A`);
       }
     }
+    if (notfound > 0) {
+      console.warn(`WARNING: ${notfound} addresses were not found in the registry`);
+    }
   } catch (error) {
-    console.error('Error looking up addresses:', error);
+    console.error('Error looking up addresses:', (error as Error).message);
     process.exit(1);
   }
 }
@@ -111,7 +115,46 @@ export async function handleConvertCommand(argv: any) {
       process.stdout.write(`${addresses[index]}\n`);
     });
   } catch (error) {
-    console.error('Error converting app IDs:', error);
+    console.error('Error converting app IDs:', (error as Error).message);
+    process.exit(1);
+  }
+}
+
+export async function handleWithdrawCommand(argv: any) {
+  try {
+    const config = getConfig();
+    const algorand = createAlgorandClient({
+      algodHost: argv.algodHost,
+      algodPort: argv.algodPort,
+      algodToken: argv.algodToken,
+      appId: argv.appId,
+    });
+
+    // Use CLI mnemonic if provided, otherwise fall back to config/env
+    const mnemonic = argv.mnemonic || config.mnemonic;
+    const address = argv.address || config.address;
+
+    const writerAccount = createWriterAccount(mnemonic, address);
+
+    if (!writerAccount) {
+      throw new Error('Writer account is required for withdraw operation. Please provide a mnemonic.');
+    }
+
+    const sdk = new EscregSDK({
+      appId: BigInt(argv.appId),
+      algorand,
+      writerAccount,
+    });
+
+    const amount = BigInt(argv.amount);
+
+    console.log(`Withdrawing ${amount.toString()} microAlgos from contract ${argv.appId}...`);
+    const txId = await sdk.withdraw({ amount, debug: argv.debug });
+
+    console.log('Withdrawal successful!');
+    console.log(`Transaction ID: ${txId}`);
+  } catch (error) {
+    console.error('Error withdrawing funds:', (error as Error).message);
     process.exit(1);
   }
 }

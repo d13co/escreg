@@ -5,19 +5,16 @@ import {
   Bytes,
   bytes,
   Contract,
-  ensureBudget,
   GlobalState,
   itxn,
-  log,
+  OnCompleteAction,
   op,
-  OpUpFeeSource,
   Txn,
   uint64,
 } from '@algorandfoundation/algorand-typescript'
 import { Address, ConventionalRouting } from '@algorandfoundation/algorand-typescript/arc4'
-import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
+import { sha512_256 } from '@algorandfoundation/algorand-typescript/op'
 
-const ERR_EXISTS = 'ERR:EXISTS'
 const ERR_UNAUTH = 'ERR:UNAUTH'
 const ERR_APP_NOT_REGISTERED = 'ERR:NOTFOUND'
 
@@ -26,21 +23,39 @@ export type AddressWithAuth = {
   authAppId: uint64
 }
 
+const RETURN_TRUE = Bytes.fromHex('0a8101') // #pragma version 10; pushint 1
+
 export class Escreg extends Contract implements ConventionalRouting {
   apps = BoxMap<bytes<4>, uint64[]>({ keyPrefix: '' })
   admin = GlobalState<Address>({ initialValue: new Address(Txn.sender) })
 
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
+  public increaseBudget(itxns: uint64) {
+    for (let i: uint64 = 0; i < itxns; i++) {
+      itxn
+        .applicationCall({
+          approvalProgram: RETURN_TRUE,
+          clearStateProgram: RETURN_TRUE,
+          onCompletion: OnCompleteAction.DeleteApplication,
+          fee: 0,
+        })
+        .submit()
+    }
+  }
+
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
   public deleteApplication() {
     assert(Txn.sender === this.admin.value.native, ERR_UNAUTH)
   }
 
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
   public updateApplication() {
     assert(Txn.sender === this.admin.value.native, ERR_UNAUTH)
   }
 
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
   public withdraw(amount: uint64) {
     assert(Txn.sender === this.admin.value.native, ERR_UNAUTH)
-
     itxn
       .payment({
         receiver: Txn.sender,
@@ -49,6 +64,7 @@ export class Escreg extends Contract implements ConventionalRouting {
       .submit()
   }
 
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
   public register(appId: uint64): void {
     const key = this.deriveAddrPrefix(appId)
     if (!this.apps(key).exists) {
@@ -58,14 +74,13 @@ export class Escreg extends Contract implements ConventionalRouting {
     }
   }
 
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
   public registerList(appIds: uint64[]): void {
     for (const appId of appIds) {
       const key = this.deriveAddrPrefix(appId)
       if (!this.apps(key).exists) {
-        ensureBudget(77, OpUpFeeSource.AppAccount)
         this.apps(key).value = [appId]
       } else {
-        ensureBudget(131, OpUpFeeSource.AppAccount)
         this.appendAppId(key, appId)
       }
     }
@@ -74,7 +89,7 @@ export class Escreg extends Contract implements ConventionalRouting {
   private deriveAddrPrefix(appId: uint64): bytes<4> {
     return sha512_256(Bytes`appID`.concat(op.itob(appId)))
       .slice(0, 4)
-      .toFixed({ length: 4 })
+      .toFixed({ strategy: 'unsafe-cast', length: 4 })
   }
 
   private deriveAddr(appId: uint64): bytes<32> {
@@ -100,9 +115,9 @@ export class Escreg extends Contract implements ConventionalRouting {
     return 0
   }
 
-  @abimethod({ readonly: true })
+  @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public exists(address: Address): boolean {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
     if (!this.apps(addr4).exists) {
       return false
@@ -114,9 +129,9 @@ export class Escreg extends Contract implements ConventionalRouting {
     return matchingAppID !== 0
   }
 
-  @abimethod({ readonly: true })
+  @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public get(address: Address): uint64 {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
     if (!this.apps(addr4).exists) {
       return 0
@@ -128,9 +143,9 @@ export class Escreg extends Contract implements ConventionalRouting {
     return matchingAppID
   }
 
-  @abimethod({ readonly: true })
+  @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public mustGet(address: Address): uint64 {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
     assert(this.apps(addr4).exists, ERR_APP_NOT_REGISTERED)
 
@@ -142,9 +157,9 @@ export class Escreg extends Contract implements ConventionalRouting {
     return matchingAppID
   }
 
-  @abimethod({ readonly: true })
+  @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public getWithAuth(address: Address): AddressWithAuth {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
     let appId: uint64 = 0
     if (this.apps(addr4).exists) {
@@ -153,7 +168,7 @@ export class Escreg extends Contract implements ConventionalRouting {
     }
 
     const authAddr = address.native.authAddress
-    const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ length: 4 })
+    const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
     let authAppId: uint64 = 0
     if (this.apps(authAddr4).exists) {
@@ -164,12 +179,12 @@ export class Escreg extends Contract implements ConventionalRouting {
     return { appId, authAppId }
   }
 
-  @abimethod({ readonly: true })
+  @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public getWithAuthList(addresses: Address[]): AddressWithAuth[] {
     let results: AddressWithAuth[] = []
 
     for (const address of addresses) {
-      const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+      const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
       let appId: uint64 = 0
       if (this.apps(addr4).exists) {
@@ -178,7 +193,7 @@ export class Escreg extends Contract implements ConventionalRouting {
       }
 
       const authAddr = address.native.authAddress
-      const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ length: 4 })
+      const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
       let authAppId: uint64 = 0
       if (this.apps(authAddr4).exists) {
@@ -192,15 +207,13 @@ export class Escreg extends Contract implements ConventionalRouting {
     return results
   }
 
-  @abimethod({ readonly: true })
+  @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public getList(addresses: Address[]): uint64[] {
     let apps: uint64[] = []
     const zero: uint64 = 0
 
-    ensureBudget(200 * addresses.length)
-
     for (const address of addresses) {
-      const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+      const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
       if (!this.apps(addr4).exists) {
         apps = [...apps, zero]
@@ -213,11 +226,11 @@ export class Escreg extends Contract implements ConventionalRouting {
     return apps
   }
 
-  @abimethod({ readonly: true })
+  @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public mustGetList(addresses: Address[]): uint64[] {
     let apps: uint64[] = []
     for (const address of addresses) {
-      const addr4 = address.bytes.slice(0, 4).toFixed({ length: 4 })
+      const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
       if (!this.apps(addr4).exists) {
         assert(false, ERR_APP_NOT_REGISTERED)

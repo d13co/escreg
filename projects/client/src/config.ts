@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file if it exists
-dotenv.config();
+// If ENV is set, load .env.{ENV} file, otherwise load .env
+const envFile = process.env.ENV ? `.env.${process.env.ENV}` : '.env';
+dotenv.config({ path: envFile });
 
 export interface Config {
   algodHost: string;

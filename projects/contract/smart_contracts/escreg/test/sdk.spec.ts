@@ -6,7 +6,8 @@ import { Account, Address, getApplicationAddress } from 'algosdk'
 import { EscregSDK } from 'escreg-sdk'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { EscregFactory } from '../../artifacts/escreg/EscregClient'
-import { brange, chunk } from './util'
+import { brange } from './util'
+import { getCollidingAppIDs } from './fixtures'
 
 describe('Escreg SDK', () => {
   const localnet = algorandFixture()
@@ -50,19 +51,33 @@ describe('Escreg SDK', () => {
     expect(actual).toEqual({ [address]: 1002n })
   })
 
-  test('registers 112x', async () => {
+  test('registers 128x', async () => {
     const { testAccount } = localnet.context
     const { sdk } = await deploy(testAccount)
 
     const start = 1003
-    const appIds = brange(start, start + 112 - 1)
+    const appIds = brange(start, start + 128 - 1)
 
     await sdk.register({ appIds })
 
     const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
 
-    console.log({ addresses })
-    
+    const actual = await sdk.lookup({ addresses })
+    const expected = Object.fromEntries(appIds.map((appId) => [getApplicationAddress(appId), appId]))
+
+    expect(actual).toEqual(expected)
+  })
+
+  test('registers colliding', async () => {
+    const { testAccount } = localnet.context
+    const { sdk } = await deploy(testAccount)
+
+    const appIds = getCollidingAppIDs()
+
+    await sdk.register({ appIds })
+
+    const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
+
     const actual = await sdk.lookup({ addresses })
     const expected = Object.fromEntries(appIds.map((appId) => [getApplicationAddress(appId), appId]))
 
@@ -76,8 +91,7 @@ describe('Escreg SDK', () => {
     let start = 1003
     const appIds = brange(start, start + 128 - 1)
 
-    const chunks = chunk(appIds, 112)
-    await Promise.all(chunks.map((appIds) => sdk.register({ appIds })))
+    await sdk.register({ appIds })
 
     const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
 
@@ -87,32 +101,21 @@ describe('Escreg SDK', () => {
     expect(actual).toEqual(expected)
   })
 
-  // test('getList returns 0 for not found', async () => {
-  //   const { testAccount } = localnet.context
-  //   const { client } = await deploy(testAccount)
+  test('lookup 256x', async () => {
+    const { testAccount } = localnet.context
+    const { sdk } = await deploy(testAccount)
 
-  //   const appIds = range(1003, 1005)
+    let start = 1003
+    const appIds = brange(start, start + 256 - 1)
 
-  //   await client.send.registerList({ args: { appIds } })
+    await sdk.register({ appIds })
 
-  //   const expected = [0, 1003, 0, 1004, 0]
+    const addresses = appIds.map((appId) => getApplicationAddress(appId).toString())
 
-  //   const [app1003, app1004] = appIds.map((appId) => getApplicationAddress(appId).toString())
-  //   const notFound = getApplicationAddress(1002).toString()
+    const actual = await sdk.lookup({ addresses })
+    const expected = Object.fromEntries(appIds.map((appId) => [getApplicationAddress(appId), appId]))
 
-  //   const { return: results } = await client.send.getList({
-  //     args: { addresses: [notFound, app1003, notFound, app1004, notFound] },
-  //   })
+    expect(actual).toEqual(expected)
+  })
 
-  //   for (let i = 0; i < appIds.length; i++) {
-  //     expect(results![i]).toBe(BigInt(expected[i]))
-  //   }
-
-  //   const address = getApplicationAddress(1002).toString()
-  //   const { return: result } = await client.send.get({ args: { address } })
-
-  //   expect(result).toBe(0n)
-  // })
-
-  // test('getWithAuth', async () => {})
 })

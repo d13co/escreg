@@ -53,9 +53,33 @@ node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567,BCDEFGHIJKLMNOPQRSTUV
 node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567,BCDEFGHIJKLMNOPQRSTUVWXYZ234567A --debug
 ```
 
+### Withdraw Funds
+
+Withdraw funds from the Escreg contract (admin only).
+
+```bash
+# Withdraw 1000 microAlgos from the contract
+node dist/index.js withdraw 1000
+
+# Withdraw with debug output
+node dist/index.js withdraw 1000 --debug
+
+# Withdraw 1 Algo (1,000,000 microAlgos)
+node dist/index.js withdraw 1000000
+```
+
 ## Configuration
 
-Set environment variables in a `.env` file:
+The client supports environment-specific configuration files. Set the `ENV` environment variable to load different configuration files:
+
+- **Default**: Loads `.env` file
+- **ENV=local**: Loads `.env.local` file  
+- **ENV=testnet**: Loads `.env.testnet` file
+- **ENV=mainnet**: Loads `.env.mainnet` file
+
+### Environment Files
+
+Set environment variables in a `.env` file (or environment-specific file):
 
 ```env
 ALGOD_HOST=localhost
@@ -67,6 +91,22 @@ ADDRESS=your-account-address
 CONCURRENCY=1
 DEBUG=false
 SKIP_CHECK=false
+```
+
+### Usage Examples
+
+```bash
+# Use default .env file
+node dist/index.js register 123,456,789
+
+# Use .env.local file for local development
+ENV=local node dist/index.js register 123,456,789
+
+# Use .env.testnet file for testnet operations
+ENV=testnet node dist/index.js lookup addresses.txt
+
+# Use .env.mainnet file for mainnet operations  
+ENV=mainnet node dist/index.js withdraw 1000000
 ```
 
 ## Command Options
@@ -86,6 +126,12 @@ The `lookup` command supports additional options to control its behavior:
 
 - **`--debug`**: Enable debug mode for lookup operations (shows chunk processing progress and results)
 
+### Withdraw Options
+
+The `withdraw` command supports additional options to control its behavior:
+
+- **`--debug`**: Enable debug mode for withdrawal operations (shows withdrawal progress and transaction details)
+
 ### Examples
 
 ```bash
@@ -100,6 +146,9 @@ node dist/index.js register 123,456,789 --debug --skip-check
 
 # Lookup with debug output to see progress
 node dist/index.js lookup addresses.txt --debug
+
+# Withdraw funds with debug output
+node dist/index.js withdraw 1000000 --debug
 ```
 
 ## Parallel Processing
@@ -108,6 +157,7 @@ The client now supports parallel processing using the `--concurrency` flag:
 
 - **register**: Processes chunks of up to 7 app IDs per transaction in parallel
 - **lookup**: Processes chunks of up to 8 addresses per transaction in parallel
+- **withdraw**: Admin-only operation to withdraw funds from the contract
 
 The concurrency parameter controls how many chunks are processed simultaneously. Higher values can improve performance but may be limited by network capacity and rate limits.
 

@@ -1,11 +1,12 @@
 import { Config } from '@algorandfoundation/algokit-utils'
 import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-debug'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
-import { Address, decodeUint64, encodeUint64, getApplicationAddress } from 'algosdk'
+import { Address, getApplicationAddress } from 'algosdk'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { EscregFactory } from '../../artifacts/escreg/EscregClient'
 import { TestParentFactory } from '../../artifacts/escreg/TestParentClient'
 import { range } from './util'
+import { getCollidingAppIDs } from './fixtures'
 
 describe('Escreg contract', () => {
   const localnet = algorandFixture()
@@ -69,6 +70,21 @@ describe('Escreg contract', () => {
     expect(actual).toBe(1002n)
   })
 
+
+  test('register 1002 twice does not change box size', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await client.send.register({ args: { appId: 1002 } })
+    const before = await client.state.box.apps.getMap()
+    await client.send.register({ args: { appId: 1002 } })
+    const after = await client.state.box.apps.getMap()
+    
+    const boxBefore = before.values().next().value!
+    const boxAfter = after.values().next().value!
+    expect(boxBefore.length).toBe(boxAfter.length)
+  })
+
   test('registerList 1003-1004', async () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
@@ -86,12 +102,42 @@ describe('Escreg contract', () => {
     }
   })
 
+  // test(`ensure budget min`, async () => {
+  //   const { testAccount } = localnet.context
+  //   const { client } = await deploy(testAccount)
+
+  //   const {
+  //     simulateResponse: {
+  //       txnGroups: [{ appBudgetConsumed }],
+  //     },
+  //   } = await client.newGroup().ensureBudgetMin({ args: {  } }).simulate({ // ensureBudget(1)
+  //     // extraOpcodeBudget: 170_000,
+  //     allowUnnamedResources: true,
+  //   })
+  //   console.log('eeebm', appBudgetConsumed) // eeebm 30
+  // })
+
+  // test(`ensure budget txn`, async () => {
+  //   const { testAccount } = localnet.context
+  //   const { client } = await deploy(testAccount)
+
+  //   const {
+  //     simulateResponse: {
+  //       txnGroups: [{ appBudgetConsumed }],
+  //     },
+  //   } = await client.newGroup().ensureBudgetOne({ args: {  } }).simulate({ // ensureBudget(800) - delta was: +21
+  //     // extraOpcodeBudget: 170_000,
+  //     allowUnnamedResources: true,
+  //   })
+  //   console.log('eeeb1', appBudgetConsumed) // eeebm 51 - +21 from noop ensurebudget
+  // })
+
   for (let i = 1; i <= 10; i++) {
-    test(`opcode budget register colliding x${i}`, async () => {
+    test(`opcode budget register noncolliding x${i}`, async () => {
       const { testAccount } = localnet.context
       const { client } = await deploy(testAccount)
 
-      const appIds = makeCollidingAppIDs(i)
+      const appIds = new Array(i).fill(1).map((_, i) => 1002 + i)
 
       const {
         simulateResponse: {
@@ -101,7 +147,26 @@ describe('Escreg contract', () => {
         extraOpcodeBudget: 170_000,
         allowUnnamedResources: true,
       })
-      console.log('rrregister', appIds.length, appBudgetConsumed)
+      console.log('nrregister', appIds.length, appBudgetConsumed)
+    })
+  }
+
+  for (let i = 1; i <= 10; i++) {
+    test(`opcode budget register colliding x${i}`, async () => {
+      const { testAccount } = localnet.context
+      const { client } = await deploy(testAccount)
+
+      const appIds = getCollidingAppIDs(i)
+
+      const {
+        simulateResponse: {
+          txnGroups: [{ appBudgetConsumed }],
+        },
+      } = await client.newGroup().registerList({ args: { appIds } }).simulate({
+        extraOpcodeBudget: 170_000,
+        allowUnnamedResources: true,
+      })
+      console.log('crregister', appIds.length, appBudgetConsumed)
       // rrregister 1 122
       // rrregister 2 266
       // rrregister 3 356
@@ -117,30 +182,28 @@ describe('Escreg contract', () => {
       // non colliding: +90
       // colliding: +144
     })
+  }
 
-    test(`opcode budget internal colliding x${i}`, async () => {
+  for (let i = 0; i < 3; i++) {
+    test(`increaseBudget opcode cost itxns=${i}`, async () => {
       const { testAccount } = localnet.context
       const { client } = await deploy(testAccount)
 
-      const appIds = makeCollidingAppIDs(i)
-
       const {
-        confirmations: [{ logs }],
         simulateResponse: {
           txnGroups: [{ appBudgetConsumed }],
         },
-      } = await client.newGroup().registerList({ args: { appIds } }).simulate({
-        extraOpcodeBudget: 170_000,
-        allowUnnamedResources: true,
-      })
+      } = await client
+        .newGroup()
+        .increaseBudget({
+          args: { itxns: i },
+          extraFee: (i * 1000).microAlgo(),
+        })
+        .simulate()
 
-      console.log({ logs })
-      for(let j=0; j<(logs ?? []).length; j+=2) {
-        const start = decodeUint64(logs ? logs[j] : Buffer.from([2**53]))
-        const end = decodeUint64(logs ? logs[j+1] : Buffer.from([2**53]))
-        const loopCost = start-end
-        console.log('rrregister', i, j, loopCost)
-      }
+      console.log(`increaseBudget itxns=${i} cost=${appBudgetConsumed}`)
+      // Expected: baseCost + i * incrementCost
+      // Update increaseBudgetBaseCost and increaseBudgetIncrementCost in SDK util.ts
     })
   }
 
@@ -178,13 +241,14 @@ describe('Escreg contract', () => {
     }
   })
 
-  test('register 1002 twice fails', async () => {
-    const { testAccount } = localnet.context
-    const { client } = await deploy(testAccount)
+  // disabled - registering again is allowed now
+  // test('register 1002 twice fails', async () => {
+  //   const { testAccount } = localnet.context
+  //   const { client } = await deploy(testAccount)
 
-    await client.send.register({ args: { appId: 1002 } })
-    await expect(client.send.register({ args: { appId: 1002 } })).rejects.toThrow(/ERR:EXISTS/)
-  })
+  //   await client.send.register({ args: { appId: 1002 } })
+  //   await expect(client.send.register({ args: { appId: 1002 } })).rejects.toThrow(/ERR:EXISTS/)
+  // })
 
   test('get returns 0 for not found', async () => {
     const { testAccount } = localnet.context
@@ -280,10 +344,3 @@ describe('Escreg contract', () => {
     expect(result).toEqual({ appId, authAppId })
   })
 })
-
-function makeCollidingAppIDs(len: number) {
-  return [
-    2744314563, 2870264260, 1170497781, 3051682051, 2986105595, 3146317774, 1017298967, 3098880338, 2147488012,
-    2332511508,
-  ].slice(0, len)
-}
