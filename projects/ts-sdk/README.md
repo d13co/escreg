@@ -33,6 +33,13 @@ const results = await sdk.lookup({
 
 // For write operations, pass a writerAccount
 const writer = new EscregSDK({ writerAccount })
+
+// Deposit MBR credits before registering (covers box storage costs)
+await writer.depositCredit({
+  creditor: writerAccount.addr.toString(),
+  amount: 1_000_000n, // 1 Algo
+})
+
 await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 ```
 
