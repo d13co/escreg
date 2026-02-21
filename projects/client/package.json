@@ -22,7 +22,7 @@
     "@algorandfoundation/algokit-utils": "^9.0.0",
     "algosdk": "^3.0.0",
     "dotenv": "^16.3.1",
-    "escreg-sdk": "file:../ts-sdk",
+    "@d13co/escreg-sdk": "file:../ts-sdk",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

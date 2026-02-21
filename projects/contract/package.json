@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@algorandfoundation/algorand-typescript": "~1.1.0",
-    "escreg-sdk": "file:../ts-sdk"
+    "@d13co/escreg-sdk": "file:../ts-sdk"
   },
   "devDependencies": {
     "@algorandfoundation/algokit-client-generator": "^5.0.0",

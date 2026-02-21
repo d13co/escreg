@@ -1,4 +1,4 @@
-import { EscregSDK } from "escreg-sdk";
+import { EscregSDK } from "@d13co/escreg-sdk";
 import { parseAppIdsFromFile, parseAppIdsFromArgs, parseAddressesFromFile, parseAddressesFromArgs } from "./parse";
 import { createAlgorandClient, createWriterAccount, convertAppIdsToAddresses } from "./utils";
 import { getConfig } from "./config";

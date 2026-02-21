@@ -1,5 +1,5 @@
 {
-  "name": "escreg-sdk",
+  "name": "@d13co/escreg-sdk",
   "version": "0.0.1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,8 @@
     }
   },
   "files": [
-    "dist/"
+    "dist/",
+    "README.md"
   ],
   "scripts": {
     "clean": "rm -rf dist/ src/generated/",
@@ -24,7 +25,22 @@
   },
   "author": "Tasos Bitsios",
   "license": "ISC",
-  "description": "",
+  "description": "TypeScript SDK for the Escreg on-chain escrow registry on Algorand",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d13co/escreg.git",
+    "directory": "projects/ts-sdk"
+  },
+  "homepage": "https://github.com/d13co/escreg#sdk",
+  "bugs": {
+    "url": "https://github.com/d13co/escreg/issues"
+  },
+  "keywords": [
+    "algorand",
+    "escrow",
+    "registry",
+    "sdk"
+  ],
   "devDependencies": {
     "@algorandfoundation/algokit-client-generator": "^6.0.0",
     "@types/node": "^24.0.14",
