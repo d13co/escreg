@@ -183,7 +183,7 @@ export async function handleDepositCreditCommand(argv: any) {
       writerAccount,
     });
 
-    const amount = BigInt(argv.amount);
+    const amount = BigInt(parseFloat(argv.amount) * 1e6);
     const creditor = argv.creditor || writerAccount.addr.toString();
 
     console.log(`Depositing ${amount.toString()} microAlgos as credits for ${creditor}...`);

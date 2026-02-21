@@ -2,7 +2,7 @@ import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/type
 import { Address, getApplicationAddress, waitForConfirmation } from "algosdk";
 import { EscregClient, EscregComposer } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
-import { chunk, creditBoxRef, emptySigner, getIncreaseBudgetBuilder } from "./util";
+import { chunk, creditBoxRef, emptySigner, fnetNodelyClient, getIncreaseBudgetBuilder } from "./util";
 import { errorTransformer, wrapErrorsInternal } from "./wrapErrors";
 import pMap from "p-map";
 
@@ -16,11 +16,11 @@ export type LookupResult = Record<string, bigint | undefined>;
  */
 export class EscregSDK {
   /** The Escreg application ID. */
-  public appId: bigint;
+  public appId: bigint = 16954321n;
   /** Escreg algokit generated client */
   public client: EscregClient;
   /** Algorand client instance for interacting with the network. */
-  public algorand: AlgorandClient;
+  public algorand: AlgorandClient = fnetNodelyClient;
   /** Address used as sender for read-only simulate calls. Defaults to fee sink, funded mostly everywhere. */
   public readerAccount = "A7NMWS3NT3IUDMLVO26ULGXGIIOUQ3ND2TXSER6EBGRZNOBOUIQXHIBGDE";
   /** Account with signing capability for write operations (register, deposit, withdraw). */
@@ -35,25 +35,30 @@ export class EscregSDK {
   constructor({
     appId,
     algorand,
-    writerAccount,
     readerAccount,
+    writerAccount,
   }: {
-    appId: bigint;
-    algorand: AlgorandClient;
+    appId?: bigint;
+    algorand?: AlgorandClient;
     writerAccount?: TransactionSignerAccount;
     readerAccount?: string;
   }) {
-    this.appId = appId;
-    this.algorand = algorand.setSuggestedParamsCacheTimeout(3 * 60 * 1000).setDefaultValidityWindow(1000);
-    algorand.registerErrorTransformer(errorTransformer);
-    const args = {
-      appId,
-      defaultSender: writerAccount ? writerAccount.addr.toString() : undefined,
-      defaultSigner: writerAccount ? writerAccount.signer : undefined,
-    };
-    this.client = new EscregClient({ algorand, appId, defaultSender: args.defaultSender, defaultSigner: args.defaultSigner });
-    if (readerAccount) this.readerAccount = readerAccount;
-    if (writerAccount) this.writerAccount = writerAccount;
+    this.appId = appId ?? this.appId;
+    this.algorand = algorand ?? this.algorand;
+    this.readerAccount = readerAccount ?? this.readerAccount;
+    this.writerAccount = writerAccount ?? this.writerAccount;
+
+    this.algorand
+      .setSuggestedParamsCacheTimeout(3 * 60 * 1000)
+      .setDefaultValidityWindow(1000)
+      .registerErrorTransformer(errorTransformer);
+
+    this.client = new EscregClient({
+      algorand: this.algorand,
+      appId: this.appId,
+      defaultSender: this.writerAccount ? this.writerAccount.addr.toString() : undefined,
+      defaultSigner: this.writerAccount ? this.writerAccount.signer : undefined,
+    });
   }
 
   /**

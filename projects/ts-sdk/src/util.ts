@@ -1,8 +1,20 @@
 import { Algodv2, makeEmptyTransactionSigner, modelsv2, TransactionSigner } from "algosdk";
 import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/types/account";
 import { EscregComposer } from "./generated/EscregGenerated";
+import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 
 export const emptySigner = makeEmptyTransactionSigner();
+
+export const fnetNodelyClient = AlgorandClient.fromConfig({
+  algodConfig: {
+    server: "https://fnet-api.4160.nodely.dev",
+    port: 443,
+  },
+  indexerConfig: {
+    server: "https://fnet-idx.4160.nodely.dev",
+    port: 443,
+  },
+});
 
 /** Prepend the 'c' key prefix to a public key for the userCredits box */
 export function creditBoxRef(publicKey: Uint8Array): Uint8Array {

@@ -30,7 +30,7 @@ export async function deploy() {
         apps: {
           // @ts-ignore
           Escreg: {
-            appId: 16382607n,
+            appId: 16954321n,
           },
         },
       },

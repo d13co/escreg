@@ -3,6 +3,7 @@ import {
   BoxMap,
   Bytes,
   bytes,
+  contract,
   GlobalState,
   itxn,
   OnCompleteAction,
@@ -23,6 +24,7 @@ export type AddressWithAuth = {
   authAppId: uint64
 }
 
+@contract({ stateTotals: { globalBytes: 32, globalUints: 32 } })
 export class Escreg extends MbrManager implements ConventionalRouting {
   /** Contract admin */
   admin = GlobalState<Address>({ initialValue: new Address(Txn.sender) })
