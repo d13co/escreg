@@ -1,12 +1,17 @@
 {
-  "name": "escreg-client",
+  "name": "@d13co/escreg",
   "version": "0.0.1",
-  "description": "CLI client for escreg",
+  "description": "CLI for the Escreg on-chain escrow registry on Algorand",
   "main": "dist/index.js",
   "bin": {
     "escreg": "dist/index.js"
   },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
   "scripts": {
+    "prepublishOnly": "npm run build:ts",
     "build": "npm run build:ts && npm run build:executables",
     "build:ts": "tsc",
     "build:executables": "bun run build-executables.ts",
@@ -20,9 +25,9 @@
   },
   "dependencies": {
     "@algorandfoundation/algokit-utils": "^9.0.0",
+    "@d13co/escreg-sdk": "^0.0.3",
     "algosdk": "^3.0.0",
     "dotenv": "^16.3.1",
-    "@d13co/escreg-sdk": "file:../ts-sdk",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
@@ -34,6 +39,24 @@
     "typescript": "^5.8.3",
     "vitest": "^2.1.8"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d13co/escreg.git",
+    "directory": "projects/client"
+  },
+  "homepage": "https://github.com/d13co/escreg#cli",
+  "bugs": {
+    "url": "https://github.com/d13co/escreg/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "algorand",
+    "escrow",
+    "registry",
+    "cli"
+  ],
   "author": "Tasos Bitsios",
   "license": "ISC"
 }

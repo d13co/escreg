@@ -34,7 +34,6 @@ async function main() {
       type: 'string',
       default: config.appId,
       description: 'Escreg application ID',
-      demandOption: true,
     })
     .option('mnemonic', {
       type: 'string',

@@ -1,194 +1,104 @@
-# Escreg Client
+# @d13co/escreg
 
-A command-line client for interacting with the Escreg smart contract.
+[![npm](https://img.shields.io/npm/v/@d13co/escreg)](https://www.npmjs.com/package/@d13co/escreg)
 
-## Installation
+Command-line client for the [Escreg](https://github.com/d13co/escreg) on-chain escrow registry on Algorand.
+
+## Quick start
+
+```bash
+# Run directly with npx (no install needed)
+npx @d13co/escreg lookup ADDR1,ADDR2
+
+# Or install globally
+npm install -g @d13co/escreg
+escreg lookup ADDR1,ADDR2
+```
+
+## Build from source
 
 ```bash
 npm install
-npm run build
+npm run build:ts              # compile TypeScript only
+npm run build                 # compile + build standalone executables via Bun
 ```
 
-## Usage
+## Commands
 
-### Register Application IDs
+### register
 
-Register one or more application IDs with the Escreg contract.
+Register application IDs with the Escreg contract.
 
 ```bash
-# Register a single app ID
-node dist/index.js register 123
-
-# Register multiple app IDs (comma-separated)
-node dist/index.js register 123,456,789
-
-# Register app IDs from a file (one per line)
-node dist/index.js register app-ids.txt
-
-# Register with custom concurrency (parallel processing)
-node dist/index.js register 123,456,789 --concurrency 5
-
-# Register with debug output and skip validation checks
-node dist/index.js register 123,456,789 --debug --skip-check
+escreg register 123,456,789
+escreg register --file app-ids.txt --concurrency 4 --skip-check
 ```
 
-### Lookup Addresses
+### lookup
 
-Lookup addresses to find registered application IDs.
+Look up addresses to find registered application IDs.
 
 ```bash
-# Lookup a single address
-node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
-
-# Lookup multiple addresses (comma-separated)
-node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567,BCDEFGHIJKLMNOPQRSTUVWXYZ234567A
-
-# Lookup addresses from a file (one per line)
-node dist/index.js lookup addresses.txt
-
-# Lookup with custom concurrency (parallel processing)
-node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567,BCDEFGHIJKLMNOPQRSTUVWXYZ234567A --concurrency 10
-
-# Lookup with debug output to show progress
-node dist/index.js lookup ABCDEFGHIJKLMNOPQRSTUVWXYZ234567,BCDEFGHIJKLMNOPQRSTUVWXYZ234567A --debug
+escreg lookup ADDR1,ADDR2
+escreg lookup --file addresses.txt --concurrency 4
 ```
 
-### Withdraw Funds
+### convert
 
-Withdraw funds from the Escreg contract (admin only).
+Convert application IDs to escrow addresses (local, no network call).
 
 ```bash
-# Withdraw 1000 microAlgos from the contract
-node dist/index.js withdraw 1000
+escreg convert 123,456,789
+escreg convert --file app-ids.txt
+```
 
-# Withdraw with debug output
-node dist/index.js withdraw 1000 --debug
+### deposit-credits
 
-# Withdraw 1 Algo (1,000,000 microAlgos)
-node dist/index.js withdraw 1000000
+Deposit MBR credits before registering app IDs (amount in Algos).
+
+```bash
+escreg deposit-credits 1                    # deposit 1 Algo
+escreg deposit-credits 0.5 --creditor ADDR  # credit a different account
+```
+
+### credits
+
+Check MBR credit balances.
+
+```bash
+escreg credits ADDR1,ADDR2
+escreg credits --file addresses.txt
+escreg credits --all
+```
+
+### withdraw-credits
+
+Withdraw all remaining MBR credits.
+
+```bash
+escreg withdraw-credits
+```
+
+### withdraw
+
+Withdraw funds from the contract (admin only, amount in Algos).
+
+```bash
+escreg withdraw 1
 ```
 
 ## Configuration
 
-The client supports environment-specific configuration files. Set the `ENV` environment variable to load different configuration files:
+Defaults to the Fnet deployment (app ID `16954321`, Nodely Fnet endpoint). Override via CLI flags, environment variables, or a `.env` file. Set `ENV` to load environment-specific files (e.g. `ENV=testnet` loads `.env.testnet`).
 
-- **Default**: Loads `.env` file
-- **ENV=local**: Loads `.env.local` file  
-- **ENV=testnet**: Loads `.env.testnet` file
-- **ENV=mainnet**: Loads `.env.mainnet` file
+| Variable | Flag | Default | Description |
+|---|---|---|---|
+| `ALGOD_HOST` | `--algod-host` | `fnet-api.4160.nodely.dev` | Algorand node host |
+| `ALGOD_PORT` | `--algod-port` | `443` | Algorand node port |
+| `ALGOD_TOKEN` | `--algod-token` | (empty) | Algorand node token |
+| `APP_ID` | `--app-id` | `16954321` | Escreg application ID |
+| `MNEMONIC` | `--mnemonic` | | Account mnemonic for write operations |
+| `ADDRESS` | `--address` | | Account address (for rekeyed accounts) |
+| `CONCURRENCY` | `--concurrency` | `1` | Parallel request count |
 
-### Environment Files
-
-Set environment variables in a `.env` file (or environment-specific file):
-
-```env
-ALGOD_HOST=localhost
-ALGOD_PORT=4001
-ALGOD_TOKEN=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-APP_ID=123
-MNEMONIC="your mnemonic phrase here"
-ADDRESS=your-account-address
-CONCURRENCY=1
-DEBUG=false
-SKIP_CHECK=false
-```
-
-### Usage Examples
-
-```bash
-# Use default .env file
-node dist/index.js register 123,456,789
-
-# Use .env.local file for local development
-ENV=local node dist/index.js register 123,456,789
-
-# Use .env.testnet file for testnet operations
-ENV=testnet node dist/index.js lookup addresses.txt
-
-# Use .env.mainnet file for mainnet operations  
-ENV=mainnet node dist/index.js withdraw 1000000
-```
-
-## Command Options
-
-### Registration Options
-
-The `register` command supports additional options to control its behavior:
-
-- **`--debug`**: Enable debug mode for SDK operations (shows detailed logging)
-- **`--skip-check`**: Skip validation checks during registration (faster but less safe)
-
-These options can be set via CLI arguments or environment variables (`DEBUG` and `SKIP_CHECK`).
-
-### Lookup Options
-
-The `lookup` command supports additional options to control its behavior:
-
-- **`--debug`**: Enable debug mode for lookup operations (shows chunk processing progress and results)
-
-### Withdraw Options
-
-The `withdraw` command supports additional options to control its behavior:
-
-- **`--debug`**: Enable debug mode for withdrawal operations (shows withdrawal progress and transaction details)
-
-### Examples
-
-```bash
-# Register with debug output enabled
-node dist/index.js register 123,456,789 --debug
-
-# Register without validation checks (faster)
-node dist/index.js register 123,456,789 --skip-check
-
-# Register with both debug and skip-check enabled
-node dist/index.js register 123,456,789 --debug --skip-check
-
-# Lookup with debug output to see progress
-node dist/index.js lookup addresses.txt --debug
-
-# Withdraw funds with debug output
-node dist/index.js withdraw 1000000 --debug
-```
-
-## Parallel Processing
-
-The client now supports parallel processing using the `--concurrency` flag:
-
-- **register**: Processes chunks of up to 7 app IDs per transaction in parallel
-- **lookup**: Processes chunks of up to 8 addresses per transaction in parallel
-- **withdraw**: Admin-only operation to withdraw funds from the contract
-
-The concurrency parameter controls how many chunks are processed simultaneously. Higher values can improve performance but may be limited by network capacity and rate limits.
-
-### Examples
-
-```bash
-# Process 5 chunks simultaneously (up to 35 app IDs in parallel for register)
-node dist/index.js register app-ids.txt --concurrency 5
-
-# Process 10 chunks simultaneously (up to 80 addresses in parallel for lookup)
-node dist/index.js lookup addresses.txt --concurrency 10
-```
-
-## File Format
-
-### App IDs File
-```
-123
-456
-789
-```
-
-### Addresses File
-```
-ABCDEFGHIJKLMNOPQRSTUVWXYZ234567
-BCDEFGHIJKLMNOPQRSTUVWXYZ234567A
-CDEFGHIJKLMNOPQRSTUVWXYZ234567AB
-```
-
-## Limits
-
-- **register**: Maximum 112 app IDs per operation (16 chunks of 7)
-- **lookup**: Maximum 128 addresses per operation (16 chunks of 8)
-- **concurrency**: No hard limit, but consider network capacity and rate limits
+All commands support `--debug` for verbose logging.

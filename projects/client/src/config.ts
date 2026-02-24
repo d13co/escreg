@@ -19,10 +19,10 @@ export interface Config {
 
 export function getConfig(): Config {
   return {
-    algodHost: process.env.ALGOD_HOST || 'localhost',
-    algodPort: parseInt(process.env.ALGOD_PORT || '4001'),
-    algodToken: process.env.ALGOD_TOKEN || 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    appId: process.env.APP_ID || '',
+    algodHost: process.env.ALGOD_HOST || 'fnet-api.4160.nodely.dev',
+    algodPort: parseInt(process.env.ALGOD_PORT || '443'),
+    algodToken: process.env.ALGOD_TOKEN || '',
+    appId: process.env.APP_ID || '16954321',
     mnemonic: process.env.MNEMONIC,
     address: process.env.ADDRESS,
     concurrency: parseInt(process.env.CONCURRENCY || "1"),
