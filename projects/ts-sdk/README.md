@@ -41,6 +41,15 @@ await writer.depositCredit({
 })
 
 await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
+
+// Check credit balances for specific addresses
+const credits = await sdk.getCredits({
+  addresses: ['A7NMWS3NT3IU...'],
+})
+// credits: { 'A7NMWS3NT3IU...': 950000n }
+
+// Or get all credit balances
+const allCredits = await sdk.getCredits({ all: true })
 ```
 
 ### Constructor options
@@ -68,6 +77,7 @@ All options are optional and default to the current Fnet deployment.
 | `register({ appIds, concurrency, skipCheck })` | Batch register app IDs (requires `writerAccount`) |
 | `depositCredit({ creditor, amount })` | Deposit MBR credits for an account |
 | `withdrawCredit()` | Withdraw all remaining MBR credits |
+| `getCredits({ addresses?, all? })` | Check MBR credit balances for specific addresses or all accounts |
 | `deleteBoxes({ boxKeys, concurrency })` | Delete registry boxes by key (admin only) |
 | `withdraw({ amount })` | Withdraw funds from the contract (admin only) |
 
