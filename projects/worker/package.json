@@ -1,0 +1,20 @@
+{
+  "name": "escreg-worker",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "dependencies": {
+    "@algorandfoundation/algokit-utils": "^9.0.0",
+    "algosdk": "^3.0.0",
+    "@d13co/escreg-sdk": "file:../ts-sdk"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250214.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.0.0"
+  }
+}

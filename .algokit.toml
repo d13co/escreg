@@ -6,7 +6,7 @@ type = 'workspace'
 projects_root_path = 'projects'
 
 [project.run]
-build = ['contract', 'ts-sdk', 'client']
+build = ['contract', 'ts-sdk', 'client', 'worker']
 
 [generate.devcontainer]
 description = "Generate a default 'devcontainer.json' configuration that pre-installs algokit and launches Algorand sandbox as part of codespace container provisioning."

@@ -1,0 +1,19 @@
+{
+  "name": "escreg-watcher",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "triggers": {
+    "crons": ["* * * * *"]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "STATE",
+      "id": "c7292aa71efb4e9e8cd1eb6c79d5493f"
+    }
+  ],
+  "vars": {
+    "SENDER": "REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4"
+  }
+  // Secret: MNEMONIC (set via `wrangler secret put MNEMONIC`)
+}
