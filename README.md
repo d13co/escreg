@@ -1,6 +1,7 @@
 # escreg
 
-[![npm](https://img.shields.io/npm/v/@d13co/escreg-sdk)](https://www.npmjs.com/package/@d13co/escreg-sdk)
+[![sdk](https://img.shields.io/npm/v/@d13co/escreg-sdk?label=sdk)](https://www.npmjs.com/package/@d13co/escreg-sdk)
+[![cli](https://img.shields.io/npm/v/@d13co/escreg?label=cli)](https://www.npmjs.com/package/@d13co/escreg)
 
 An on-chain registry for Algorand application escrow addresses. Given any Algorand address, escreg lets you answer: "Is this address an application escrow, and if so, which app ID owns it?"
 
@@ -10,7 +11,7 @@ This contract stores registered app IDs in box storage using a 4-byte address pr
 
 App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to the input address, computing the app escrow on the fly from each application ID, and returning the app ID if a match is found. Offloading the computation to runtime allows us to store less: 4+8 bytes for a new bucket, or 8 bytes to add to an existing bucket.
 
-This is currently deployed to Fnet as [App ID 16382607](https://lora.algokit.io/fnet/application/16382607).
+This is currently deployed to Fnet as [App ID 16954321](https://lora.algokit.io/fnet/application/16954321).
 
 ## Project Structure
 
@@ -20,8 +21,9 @@ projects/
     smart_contracts/
       mbr-manager/   # Reusable MBR credit base contract
       escreg/        # Registry contract (extends MbrManager)
-  ts-sdk/            # TypeScript SDK
-  client/            # CLI tool
+  ts-sdk/            # TypeScript SDK (@d13co/escreg-sdk)
+  client/            # CLI tool (escreg)
+  worker/            # Cloudflare Worker — auto-registers new apps
 ```
 
 Workspace build order: `contract` -> `ts-sdk` -> `client`
@@ -145,8 +147,9 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 
 ### Key behaviors
 
-- **Register:** chunks app IDs into groups of 8 per transaction, 15 transactions per atomic group (120 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
+- **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group (105 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
 - **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
+- **Credits:** deposit, withdraw, and check MBR credit balances.
 
 ### Build
 
@@ -159,48 +162,75 @@ npm run generate   # regenerate typed client from contract artifacts
 
 ## CLI
 
-**Binary:** `escreg`
+**Package:** `@d13co/escreg`
 **Source:** `projects/client/src/index.ts`
+
+```bash
+npx @d13co/escreg lookup ADDR1,ADDR2
+```
 
 ### Commands
 
 ```bash
 # Register app IDs
-escreg register 1001,1002,1003 --app-id 16382607
+escreg register 1001,1002,1003
 escreg register --file app-ids.txt --concurrency 4 --skip-check
 
 # Lookup addresses
-escreg lookup ADDR1,ADDR2 --app-id 16382607
+escreg lookup ADDR1,ADDR2
 escreg lookup --file addresses.txt --concurrency 4
 
 # Convert app IDs to escrow addresses (local, no network)
 escreg convert 1001,1002,1003
 
+# MBR credit management
+escreg deposit-credits 1         # deposit 1 Algo of credits
+escreg credits --all             # check all credit balances
+escreg credits ADDR1,ADDR2       # check specific balances
+escreg withdraw-credits           # withdraw all your credits
+
 # Withdraw funds (admin only)
-escreg withdraw 1000000 --app-id 16382607
+escreg withdraw 1
 ```
 
 ### Configuration
 
-Set via CLI flags, environment variables, or a `.env` file:
+Defaults to the Fnet deployment. Override via CLI flags, environment variables, or a `.env` file:
 
-| Variable | Flag | Description |
-|---|---|---|
-| `ALGOD_HOST` | `--algod-host` | Algorand node host |
-| `ALGOD_PORT` | `--algod-port` | Algorand node port |
-| `ALGOD_TOKEN` | `--algod-token` | Algorand node token |
-| `APP_ID` | `--app-id` | Escreg application ID (required) |
-| `MNEMONIC` | `--mnemonic` | Account mnemonic for write operations |
-| `ADDRESS` | `--address` | Account address (for rekeyed accounts) |
-| `CONCURRENCY` | `--concurrency` | Parallel request count (default: 1) |
+| Variable | Flag | Default | Description |
+|---|---|---|---|
+| `ALGOD_HOST` | `--algod-host` | `fnet-api.4160.nodely.dev` | Algorand node host |
+| `ALGOD_PORT` | `--algod-port` | `443` | Algorand node port |
+| `ALGOD_TOKEN` | `--algod-token` | (empty) | Algorand node token |
+| `APP_ID` | `--app-id` | `16954321` | Escreg application ID |
+| `MNEMONIC` | `--mnemonic` | | Account mnemonic for write operations |
+| `ADDRESS` | `--address` | | Account address (for rekeyed accounts) |
+| `CONCURRENCY` | `--concurrency` | `1` | Parallel request count |
 
 ### Build
 
 ```bash
 cd projects/client
 npm install
-npm run build           # compile TypeScript
-npm run build:exe       # build standalone executables (linux/macos/windows)
+npm run build:ts              # compile TypeScript
+npm run build                 # compile + build standalone executables via Bun
+```
+
+## Worker
+
+**Source:** `projects/worker/`
+
+A Cloudflare Worker that automatically discovers and registers new Algorand application escrow addresses. Runs on a cron schedule (every minute), polling indexers across multiple networks (mainnet, testnet, fnet, betanet) for newly created applications and batch-registering them via the SDK.
+
+- Uses KV storage to track indexer cursors per network
+- Exposes a `/status` endpoint to inspect current cursor positions
+- Exposes `POST /start/:network?appId=N` to initialize a cursor for a new network
+
+```bash
+cd projects/worker
+wrangler secret put MNEMONIC   # set the signing account mnemonic
+wrangler dev                   # local development
+wrangler deploy                # deploy to Cloudflare
 ```
 
 ## Development
