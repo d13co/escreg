@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { getConfig } from './config';
-import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand } from './commands';
+import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleCreditsCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand } from './commands';
 
 async function main() {
   const config = getConfig();
@@ -62,7 +62,7 @@ async function main() {
         .option('debug', {
           type: 'boolean',
           default: config.debug,
-          description: 'Enable debug mode for SDK operations',
+          description: 'Enable debug mode',
         })
         .option('skip-check', {
           type: 'boolean',
@@ -94,7 +94,7 @@ async function main() {
         .option('debug', {
           type: 'boolean',
           default: config.debug,
-          description: 'Enable debug mode for lookup operations',
+          description: 'Enable debug mode',
         })
         .check((argv: any) => {
           if (!argv.file && !argv.addresses) {
@@ -120,11 +120,38 @@ async function main() {
           return true;
         });
     }, handleConvertCommand)
-    .command('deposit <amount>', 'Deposit MBR credits for registration', (yargs: any) => {
+    .command('credits [addresses]', 'Check MBR credit balances', (yargs: any) => {
+      return yargs
+        .positional('addresses', {
+          type: 'string',
+          description: 'Comma-separated addresses to check (or use --all)',
+        })
+        .option('file', {
+          type: 'string',
+          description: 'File path containing addresses (one per line)',
+        })
+        .option('all', {
+          type: 'boolean',
+          default: false,
+          description: 'Check all accounts with MBR credits',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode',
+        })
+        .check((argv: any) => {
+          if (!argv.file && !argv.addresses && !argv.all) {
+            throw new Error('Either addresses argument, --file option, or --all flag must be provided');
+          }
+          return true;
+        });
+    }, handleCreditsCommand)
+    .command('deposit-credits <amount>', 'Deposit MBR credits for registration', (yargs: any) => {
       return yargs
         .positional('amount', {
           type: 'string',
-          description: 'Amount in microAlgos to deposit as credits',
+          description: 'Amount in Algos to deposit as credits',
           demandOption: true,
         })
         .option('creditor', {
@@ -137,7 +164,7 @@ async function main() {
           description: 'Enable debug mode',
         });
     }, handleDepositCreditCommand)
-    .command('withdraw-credit', 'Withdraw all MBR credits', (yargs: any) => {
+    .command('withdraw-credits', 'Withdraw all MBR credits', (yargs: any) => {
       return yargs
         .option('debug', {
           type: 'boolean',
@@ -149,17 +176,17 @@ async function main() {
       return yargs
         .positional('amount', {
           type: 'string',
-          description: 'Amount in microAlgos to withdraw',
+          description: 'Amount in Algos to withdraw',
           demandOption: true,
         })
         .option('debug', {
           type: 'boolean',
           default: config.debug,
-          description: 'Enable debug mode for withdrawal operations',
+          description: 'Enable debug mode',
         });
     }, handleWithdrawCommand)
     // destroy command disabled while using minimal client for bundle size
-    .demandCommand(1, 'You must specify a command: register, lookup, convert, deposit, withdraw-credit, or withdraw')
+    .demandCommand(1, 'You must specify a command: register, lookup, convert, credits, deposit-credits, withdraw-credits, or withdraw')
     .help()
     .argv;
 }

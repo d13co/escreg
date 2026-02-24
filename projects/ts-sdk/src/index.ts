@@ -1,5 +1,5 @@
 import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/types/account";
-import { Address, getApplicationAddress, waitForConfirmation } from "algosdk";
+import { Address, encodeAddress, getApplicationAddress, waitForConfirmation } from "algosdk";
 import { EscregClient, EscregComposer } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import { chunk, creditBoxRef, emptySigner, fnetNodelyClient, getIncreaseBudgetBuilder } from "./util";
@@ -8,6 +8,9 @@ import pMap from "p-map";
 
 /** Map of address to app ID, or undefined if not registered. */
 export type LookupResult = Record<string, bigint | undefined>;
+
+/** Map of address to credit balance in microAlgos. */
+export type CreditResult = Record<string, bigint>;
 
 /**
  * SDK for interacting with the Escreg (Escrow Registry) smart contract.
@@ -444,6 +447,58 @@ export class EscregSDK {
 
       return confirmation.txn.txn.txID();
     });
+  }
+
+  /**
+   * Check MBR credit balances. Either provide specific addresses to check,
+   * or set `all` to true to retrieve all accounts with credit boxes.
+   *
+   * @param addresses - Array of Algorand addresses to check credits for.
+   * @param all - If true, retrieve credits for all accounts with credit boxes.
+   * @param debug - Enable debug logging.
+   * @returns Map of address to credit balance in microAlgos.
+   */
+  async getCredits({
+    addresses,
+    all,
+    debug,
+  }: {
+    addresses?: string[];
+    all?: boolean;
+    debug?: boolean;
+  }): Promise<CreditResult> {
+    const appId = Number(this.appId);
+    const algod = this.algorand.client.algod;
+    const result: CreditResult = {};
+
+    let boxNames: Uint8Array[];
+
+    if (all) {
+      const { boxes } = await algod.getApplicationBoxes(appId).do();
+      // Credit boxes: 'c' prefix (0x63) + 32-byte public key = 33 bytes
+      boxNames = boxes
+        .filter((b: { name: Uint8Array }) => b.name.length === 33 && b.name[0] === 0x63)
+        .map((b: { name: Uint8Array }) => b.name);
+      if (debug) console.debug(`Found ${boxNames.length} credit boxes`);
+    } else if (addresses?.length) {
+      boxNames = addresses.map((addr) => creditBoxRef(Address.fromString(addr).publicKey));
+    } else {
+      throw new Error("Either 'addresses' or 'all' must be provided");
+    }
+
+    for (const boxName of boxNames) {
+      const publicKey = boxName.slice(1);
+      const address = encodeAddress(publicKey);
+      try {
+        const { value } = await algod.getApplicationBoxByName(appId, boxName).do();
+        const view = new DataView(value.buffer, value.byteOffset, value.byteLength);
+        result[address] = view.getBigUint64(0);
+      } catch (e: any) {
+        if (debug) console.debug(`No credit box found for ${address}`);
+      }
+    }
+
+    return result;
   }
 
   /**

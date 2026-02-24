@@ -158,6 +158,57 @@ export async function handleConvertCommand(argv: any) {
 //   }
 // }
 
+export async function handleCreditsCommand(argv: any) {
+  try {
+    const config = getConfig();
+    const algorand = createAlgorandClient({
+      algodHost: argv.algodHost,
+      algodPort: argv.algodPort,
+      algodToken: argv.algodToken,
+      appId: argv.appId,
+    });
+
+    const sdk = new EscregSDK({
+      appId: BigInt(argv.appId),
+      algorand,
+    });
+
+    let addresses: string[] | undefined;
+    if (argv.file) {
+      addresses = parseAddressesFromFile(argv.file);
+    } else if (argv.addresses) {
+      addresses = parseAddressesFromArgs(argv.addresses);
+    }
+
+    const result = await sdk.getCredits({
+      addresses,
+      all: argv.all,
+      debug: argv.debug,
+    });
+
+    const entries = Object.entries(result);
+    if (entries.length === 0) {
+      console.log("No credit boxes found.");
+      return;
+    }
+
+    for (const [address, credits] of entries) {
+      const algo = Number(credits) / 1e6;
+      console.log(`${address} ${algo} ALGO`);
+    }
+
+    if (addresses && !argv.all) {
+      const missing = addresses.filter((a) => !(a in result));
+      if (missing.length > 0) {
+        console.warn(`WARNING: ${missing.length} addresses have no credit box`);
+      }
+    }
+  } catch (error) {
+    console.error("Error checking credits:", (error as Error).message);
+    process.exit(1);
+  }
+}
+
 export async function handleDepositCreditCommand(argv: any) {
   try {
     const config = getConfig();
@@ -186,7 +237,7 @@ export async function handleDepositCreditCommand(argv: any) {
     const amount = BigInt(parseFloat(argv.amount) * 1e6);
     const creditor = argv.creditor || writerAccount.addr.toString();
 
-    console.log(`Depositing ${amount.toString()} microAlgos as credits for ${creditor}...`);
+    console.log(`Depositing ${argv.amount} Algos as credits for ${creditor}...`);
     const txId = await sdk.depositCredit({ creditor, amount, debug: argv.debug });
 
     console.log("Deposit successful!");
@@ -213,7 +264,7 @@ export async function handleWithdrawCreditCommand(argv: any) {
     const writerAccount = createWriterAccount(mnemonic, address);
 
     if (!writerAccount) {
-      throw new Error("Writer account is required for withdraw-credit operation. Please provide a mnemonic.");
+      throw new Error("Writer account is required for withdraw-credits operation. Please provide a mnemonic.");
     }
 
     const sdk = new EscregSDK({
@@ -259,9 +310,9 @@ export async function handleWithdrawCommand(argv: any) {
       writerAccount,
     });
 
-    const amount = BigInt(argv.amount);
+    const amount = BigInt(parseFloat(argv.amount) * 1e6);
 
-    console.log(`Withdrawing ${amount.toString()} microAlgos from contract ${argv.appId}...`);
+    console.log(`Withdrawing ${argv.amount} Algos from contract ${argv.appId}...`);
     const txId = await sdk.withdraw({ amount, debug: argv.debug });
 
     console.log("Withdrawal successful!");

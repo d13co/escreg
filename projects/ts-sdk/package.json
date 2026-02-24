@@ -35,6 +35,9 @@
   "bugs": {
     "url": "https://github.com/d13co/escreg/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "algorand",
     "escrow",
