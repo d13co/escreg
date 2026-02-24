@@ -7,13 +7,10 @@ import { join } from "path";
 
 async function buildStandalone() {
   const distDir = "dist";
-  const standaloneDir = join(distDir, "standalone");
-  
+  const exeDir = "dist-exe";
+  const standaloneDir = join(exeDir, "standalone");
+
   // Ensure directories exist
-  if (!existsSync(distDir)) {
-    mkdirSync(distDir, { recursive: true });
-  }
-  
   if (!existsSync(standaloneDir)) {
     mkdirSync(standaloneDir, { recursive: true });
   }

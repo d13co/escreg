@@ -7,13 +7,10 @@ import { join } from "path";
 
 async function buildExecutable() {
   const distDir = "dist";
-  const executableDir = join(distDir, "executable");
-  
+  const exeDir = "dist-exe";
+  const executableDir = join(exeDir, "executable");
+
   // Ensure directories exist
-  if (!existsSync(distDir)) {
-    mkdirSync(distDir, { recursive: true });
-  }
-  
   if (!existsSync(executableDir)) {
     mkdirSync(executableDir, { recursive: true });
   }
