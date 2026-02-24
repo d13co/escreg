@@ -63,10 +63,12 @@ All options are optional and default to the current Fnet deployment.
 | `writerAccount` | `TransactionSignerAccount` | Signing account for write operations |
 | `readerAccount` | `string` | Address used as sender for read-only simulate calls |
 
+The deployed instance on Fnet contains registrations for all Algorand networks (mainnet, testnet, fnet, betanet) as well as app IDs 1,001-100,000 for localnet lookups. To use it, either pass no `algorand` client (the default) or pass one configured for Fnet.
+
 ### Key behaviors
 
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group. Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
-- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
+- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks up to 128 addresses per simulate call.
 - **MBR credits:** before registering, deposit credits via `depositCredit()` to cover box storage costs. Withdraw unused credits with `withdrawCredit()`.
 
 ## API
