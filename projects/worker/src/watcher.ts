@@ -7,6 +7,7 @@ export interface Env {
   STATE: KVNamespace;
   MNEMONIC: string;
   SENDER?: string;
+  INDEXER_TOKEN?: string;
 }
 
 interface PollResult {
@@ -30,6 +31,7 @@ export async function setCursor(env: Env, network: NetworkName, appId: string): 
 export async function pollNetwork(
   indexerUrl: string,
   lastAppId: string | null,
+  token?: string,
 ): Promise<PollResult> {
   const url = new URL(`${indexerUrl}/v2/applications`);
   url.searchParams.set("limit", "500");
@@ -37,7 +39,8 @@ export async function pollNetwork(
     url.searchParams.set("next", lastAppId);
   }
 
-  const res = await fetch(url.toString());
+  const headers = token ? { "X-Indexer-API-Token": token } : undefined;
+  const res = await fetch(url.toString(), { headers });
   if (!res.ok) {
     throw new Error(`Indexer ${indexerUrl} returned ${res.status}: ${await res.text()}`);
   }
@@ -65,7 +68,11 @@ export async function pollAllNetworks(
       const network = name as NetworkName;
       const lastAppId = await getCursor(env, network);
 
-      const { appIds, nextToken } = await pollNetwork(config.indexerUrl, lastAppId);
+      const { appIds, nextToken } = await pollNetwork(
+        config.indexerUrl,
+        lastAppId,
+        env.INDEXER_TOKEN,
+      );
 
       if (appIds.length > 0) {
         // nextToken is the last app ID on the page, use it as the new cursor

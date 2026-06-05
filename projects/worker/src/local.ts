@@ -13,10 +13,11 @@
  *   tsx src/local.ts status              # print current cursors and exit
  *
  * Config (env vars, optionally loaded from a .dev.vars file in the cwd):
- *   MNEMONIC     account mnemonic for signing (required to register)
- *   SENDER       optional sender address override (for rekeyed accounts)
- *   STATE_FILE   cursor file path (default: ./.local-state/cursors.json)
- *   INTERVAL_MS  poll interval for `run` (default: 60000)
+ *   MNEMONIC      account mnemonic for signing (required to register)
+ *   SENDER        optional sender address override (for rekeyed accounts)
+ *   INDEXER_TOKEN optional indexer API token (X-Indexer-API-Token header)
+ *   STATE_FILE    cursor file path (default: ./.local-state/cursors.json)
+ *   INTERVAL_MS   poll interval for `run` (default: 60000)
  */
 import { readFileSync } from "node:fs";
 import { NETWORK_NAMES, type NetworkName } from "./networks";
@@ -60,6 +61,7 @@ function buildEnv(store: FileStore): Env {
     STATE: store as unknown as KVNamespace,
     MNEMONIC: process.env.MNEMONIC ?? "",
     SENDER: process.env.SENDER,
+    INDEXER_TOKEN: process.env.INDEXER_TOKEN,
   };
 }
 

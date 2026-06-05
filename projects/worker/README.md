@@ -25,6 +25,7 @@ Runs on a cron schedule (every minute). Each invocation:
 |---|---|
 | `MNEMONIC` | Account mnemonic for signing registration transactions (secret) |
 | `SENDER` | Optional sender address override (for rekeyed accounts) |
+| `INDEXER_TOKEN` | Optional indexer API token, sent as `X-Indexer-API-Token` (secret) |
 
 ### KV namespace
 
@@ -76,6 +77,7 @@ npm run local:tick
 |---|---|---|
 | `MNEMONIC` | — | Signing account mnemonic (required to register) |
 | `SENDER` | — | Optional sender address override (rekeyed accounts) |
+| `INDEXER_TOKEN` | — | Optional indexer API token (`X-Indexer-API-Token` header) |
 | `STATE_FILE` | `./.local-state/cursors.json` | Cursor file path |
 | `INTERVAL_MS` | `60000` | Poll interval for `npm run local` |
 

@@ -8,6 +8,12 @@ MNEMONIC="word1 word2 word3 ... word25"
 # Optional sender address override, for rekeyed accounts. Leave unset otherwise.
 # SENDER=REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4
 
+# Optional indexer API token, sent as the X-Indexer-API-Token header (the
+# default Algorand indexer header, e.g. a Nodely paid-tier key). Leave unset
+# to use the free/public indexer endpoints.
+# In the Worker, set this as a secret instead: `wrangler secret put INDEXER_TOKEN`.
+# INDEXER_TOKEN=your-indexer-api-token
+
 # --- Local backup runner only (ignored by wrangler) ---
 
 # Cursor file path. Default: ./.local-state/cursors.json
