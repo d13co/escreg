@@ -1,0 +1,7 @@
+# Local backup runner
+.local-state/
+.dev.vars
+
+# Wrangler
+.wrangler/
+node_modules/

@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "tail": "wrangler tail"
+    "tail": "wrangler tail",
+    "local": "tsx src/local.ts run",
+    "local:tick": "tsx src/local.ts tick",
+    "local:status": "tsx src/local.ts status",
+    "local:seed": "tsx src/local.ts seed"
   },
   "dependencies": {
     "@algorandfoundation/algokit-utils": "^9.0.0",
@@ -14,6 +18,8 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250214.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
     "typescript": "^5.8.3",
     "wrangler": "^4.0.0"
   }

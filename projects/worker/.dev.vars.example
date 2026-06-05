@@ -1,0 +1,17 @@
+# Copy to `.dev.vars` and fill in. Same KEY=VALUE format wrangler uses.
+# Used by both `wrangler dev` and the local backup runner (src/local.ts).
+# `.dev.vars` is gitignored — never commit real secrets.
+
+# Account mnemonic for signing registration transactions (required to register).
+MNEMONIC="word1 word2 word3 ... word25"
+
+# Optional sender address override, for rekeyed accounts. Leave unset otherwise.
+# SENDER=REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4
+
+# --- Local backup runner only (ignored by wrangler) ---
+
+# Cursor file path. Default: ./.local-state/cursors.json
+# STATE_FILE=/var/lib/escreg/cursors.json
+
+# Poll interval in ms for `npm run local`. Default: 60000
+# INTERVAL_MS=60000
