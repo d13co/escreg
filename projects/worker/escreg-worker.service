@@ -1,0 +1,32 @@
+[Unit]
+Description=escreg watcher (local backup runner)
+Documentation=https://github.com/d13co/escreg
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=escreg
+Group=escreg
+WorkingDirectory=/home/escreg/escreg/projects/worker
+
+# Runs `tsx src/local.ts run` — one discovery/registration pass every INTERVAL_MS.
+# MNEMONIC/SENDER/INDEXER_TOKEN are read from .dev.vars in WorkingDirectory by
+# the runner itself; STATE_FILE defaults to ./.local-state/cursors.json (owned
+# by escreg). Override any of these with Environment= lines below if preferred.
+ExecStart=/usr/bin/npm run local
+
+Restart=always
+RestartSec=10
+
+# The runner traps SIGTERM and drains the in-flight pass before exiting; give it
+# room, and ensure the node child is signalled too (npm is just a launcher).
+KillMode=mixed
+TimeoutStopSec=30
+
+# Logs go to the journal: journalctl -u escreg-worker -f
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
