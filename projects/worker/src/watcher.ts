@@ -1,7 +1,7 @@
 import { mnemonicToSecretKey, makeBasicAccountTransactionSigner, Address } from "algosdk";
 import { EscregSDK } from "@d13co/escreg-sdk";
 import type { NetworkName } from "./networks";
-import { NETWORKS } from "./networks";
+import { NETWORK_NAMES, indexerUrl } from "./networks";
 
 export interface Env {
   STATE: KVNamespace;
@@ -63,15 +63,16 @@ export async function pollAllNetworks(
   const allAppIds: bigint[] = [];
   const cursors: Record<string, string> = {};
 
+  const hasToken = Boolean(env.INDEXER_TOKEN);
+
   // Each network is polled independently and catches its own errors, so one
   // network's indexer being down never aborts the others.
   const results = await Promise.all(
-    Object.entries(NETWORKS).map(async ([name, config]) => {
-      const network = name as NetworkName;
+    NETWORK_NAMES.map(async (network) => {
       try {
         const lastAppId = await getCursor(env, network);
         const { appIds, nextToken } = await pollNetwork(
-          config.indexerUrl,
+          indexerUrl(network, hasToken),
           lastAppId,
           env.INDEXER_TOKEN,
         );
