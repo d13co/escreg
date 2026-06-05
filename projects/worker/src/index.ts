@@ -14,13 +14,13 @@ export default {
       return;
     }
 
-    console.log(`Discovered ${allAppIds.length} new apps, registering...`);
+    const networks = Object.keys(cursors).join(", ");
+    console.log(`Discovered ${allAppIds.length} new apps from ${networks}, registering...`);
 
     const txIds = await registerBatch(env, allAppIds);
     console.log(`Registered ${allAppIds.length} apps in ${txIds.length} txns`);
 
     await advanceCursors(env, cursors);
-    console.log("Cursors advanced:", cursors);
   },
 
   async fetch(request: Request, env: Env): Promise<Response> {

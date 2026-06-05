@@ -63,33 +63,32 @@ export async function pollAllNetworks(
   const allAppIds: bigint[] = [];
   const cursors: Record<string, string> = {};
 
-  const results = await Promise.allSettled(
+  // Each network is polled independently and catches its own errors, so one
+  // network's indexer being down never aborts the others.
+  const results = await Promise.all(
     Object.entries(NETWORKS).map(async ([name, config]) => {
       const network = name as NetworkName;
-      const lastAppId = await getCursor(env, network);
-
-      const { appIds, nextToken } = await pollNetwork(
-        config.indexerUrl,
-        lastAppId,
-        env.INDEXER_TOKEN,
-      );
-
-      if (appIds.length > 0) {
+      try {
+        const lastAppId = await getCursor(env, network);
+        const { appIds, nextToken } = await pollNetwork(
+          config.indexerUrl,
+          lastAppId,
+          env.INDEXER_TOKEN,
+        );
         // nextToken is the last app ID on the page, use it as the new cursor
-        const newCursor = nextToken ?? appIds[appIds.length - 1].toString();
+        const newCursor =
+          appIds.length > 0 ? (nextToken ?? appIds[appIds.length - 1].toString()) : null;
         return { network, appIds, newCursor };
+      } catch (err) {
+        console.error(`[${network}] poll failed:`, err);
+        return { network, appIds: [] as bigint[], newCursor: null };
       }
-      return { network, appIds: [] as bigint[], newCursor: null };
     }),
   );
 
-  for (const result of results) {
-    if (result.status === "rejected") {
-      console.error("Network poll failed:", result.reason);
-      continue;
-    }
-    const { network, appIds, newCursor } = result.value;
+  for (const { network, appIds, newCursor } of results) {
     if (appIds.length > 0 && newCursor) {
+      console.log(`[${network}] discovered ${appIds.length} new apps (cursor -> ${newCursor})`);
       allAppIds.push(...appIds);
       cursors[network] = newCursor;
     }
@@ -117,9 +116,17 @@ export async function advanceCursors(
   env: Env,
   cursors: Record<string, string>,
 ): Promise<void> {
-  await Promise.all(
+  const results = await Promise.allSettled(
     Object.entries(cursors).map(([network, cursor]) =>
       setCursor(env, network as NetworkName, cursor),
     ),
   );
+  results.forEach((result, i) => {
+    const [network, cursor] = Object.entries(cursors)[i];
+    if (result.status === "rejected") {
+      console.error(`[${network}] failed to advance cursor to ${cursor}:`, result.reason);
+    } else {
+      console.log(`[${network}] cursor advanced to ${cursor}`);
+    }
+  });
 }
