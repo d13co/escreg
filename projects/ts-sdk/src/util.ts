@@ -24,6 +24,24 @@ export function creditBoxRef(publicKey: Uint8Array): Uint8Array {
   return ref;
 }
 
+/**
+ * Decode a registry bucket box value into the app IDs it holds.
+ *
+ * Buckets store big-endian 8-byte app IDs packed back to back with no length header, so the
+ * entry count is the box length divided by 8.
+ *
+ * @param value - Raw box value, as returned by `getApplicationBoxByName`.
+ * @returns The app IDs in the bucket, in insertion order.
+ * @throws If the value length is not a multiple of 8.
+ */
+export function decodeBucket(value: Uint8Array): bigint[] {
+  if (value.length % 8 !== 0) {
+    throw new Error(`Malformed bucket: ${value.length} bytes is not a multiple of 8`);
+  }
+  const view = new DataView(value.buffer, value.byteOffset, value.byteLength);
+  return Array.from({ length: value.length / 8 }, (_, i) => view.getBigUint64(i * 8));
+}
+
 export function chunk<T>(array: T[], size: number): T[][] {
   if (size <= 0) throw new Error("Chunk size must be greater than 0");
 

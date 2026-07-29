@@ -6,6 +6,8 @@ import { chunk, creditBoxRef, emptySigner, fnetNodelyClient, getIncreaseBudgetBu
 import { errorTransformer, wrapErrorsInternal } from "./wrapErrors";
 import pMap from "p-map";
 
+export { decodeBucket } from "./util";
+
 /** Map of address to app ID, or undefined if not registered. */
 export type LookupResult = Record<string, bigint | undefined>;
 

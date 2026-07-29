@@ -11,6 +11,8 @@ This contract stores registered app IDs in box storage using a 4-byte address pr
 
 App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to the input address, computing the app escrow on the fly from each application ID, and returning the app ID if a match is found. Offloading the computation to runtime allows us to store less: 4+8 bytes for a new bucket, or 8 bytes to add to an existing bucket.
 
+Buckets are stored as big-endian 8-byte app IDs packed back to back with no length header, so the entry count is derived from the box length (`length / 8`). Avoiding the 2-byte header an ARC-4 dynamic array would carry saves 800 microAlgos of MBR on every box, putting a new single-entry bucket at exactly the 7,300 microAlgos implied above (`2500 + 400 * (4 + 8)`).
+
 This is currently deployed to Fnet as [App ID 16954321](https://lora.algokit.io/fnet/application/16954321).
 
 ## Project Structure
@@ -80,7 +82,7 @@ Snapshot `minBalance` before the box operation, then call `manageMbrCredits` aft
 
 **Source:** `projects/contract/smart_contracts/escreg/contract.algo.ts`
 
-The registry contract. Extends `MbrManager` so that callers pre-fund credits before registering app IDs (which allocates box storage). Written in [Algorand TypeScript (PuyaTS)](https://github.com/algorandfoundation/puya-ts). State is stored in a `BoxMap<bytes<4>, uint64[]>` keyed by the first 4 bytes of each app's escrow address. Multiple app IDs can share a prefix bucket; exact matches are resolved by recomputing the full address.
+The registry contract. Extends `MbrManager` so that callers pre-fund credits before registering app IDs (which allocates box storage). Written in [Algorand TypeScript (PuyaTS)](https://github.com/algorandfoundation/puya-ts). State is stored in a `BoxMap<bytes<4>, bytes>` keyed by the first 4 bytes of each app's escrow address, each box holding a packed, headerless array of 8-byte app IDs. Multiple app IDs can share a prefix bucket; exact matches are resolved by recomputing the full address.
 
 ### Methods
 
