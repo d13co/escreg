@@ -14,6 +14,9 @@ export type LookupResult = Record<string, bigint | undefined>;
 /** Map of address to credit balance in microAlgos. */
 export type CreditResult = Record<string, bigint>;
 
+/** Where to list registry box names from. `auto` uses the indexer when one is configured. */
+export type BoxListingSource = "auto" | "indexer" | "algod";
+
 /**
  * SDK for interacting with the Escreg (Escrow Registry) smart contract.
  * Provides methods for registering app escrow accounts, looking up addresses,
@@ -352,6 +355,182 @@ export class EscregSDK {
 
           if (increasedBuilder) {
             group = addDeleteBoxesCalls(increasedBuilder);
+          }
+
+          const composer = await group.composer();
+          const { transactions } = await composer.build();
+          const txns = transactions.map(({ txn }) => txn);
+          const signed = await transactions[0].signer(
+            txns,
+            txns.map((_, i) => i),
+          );
+
+          await this.algorand.client.algod.sendRawTransaction(signed).do();
+          await waitForConfirmation(this.algorand.client.algod, txns[0].txID(), 8);
+
+          return txns.map((t) => t.txID());
+        },
+        { concurrency },
+      );
+
+      return results.flat();
+    });
+  }
+
+  /**
+   * List the keys of every registry bucket box.
+   *
+   * Defaults to the indexer, which pages, since algod's box listing returns everything in one
+   * response and fails with "Result limit exceeded" once an app has more boxes than the node's
+   * `MaxAPIBoxPerApplication`. The tradeoff is that indexer results lag the chain by a few rounds,
+   * so a scan can miss buckets written moments ago.
+   *
+   * @param pageSize - Box names to request per indexer page.
+   * @param source - Where to list from. `auto` uses the indexer when one is configured.
+   * @param debug - Enable debug logging.
+   * @returns The 4-byte keys of all registry buckets.
+   */
+  private async listBucketKeys({
+    pageSize = 1000,
+    source = "auto",
+    debug,
+  }: {
+    pageSize?: number;
+    source?: BoxListingSource;
+    debug?: boolean;
+  }): Promise<Uint8Array[]> {
+    const appId = Number(this.appId);
+    // registry buckets are keyed by a bare 4-byte address prefix; credit boxes are 'c' + 32 bytes
+    const bucketKeys = (boxes: { name: Uint8Array }[]) => boxes.filter((b) => b.name.length === 4).map((b) => b.name);
+
+    const indexer = source === "algod" ? undefined : this.algorand.client.indexerIfPresent;
+    if (!indexer) {
+      if (source === "indexer") throw new Error("Box listing from indexer requested with no indexer configured");
+      if (debug) console.debug("Listing boxes from algod in a single request");
+      const { boxes } = await this.algorand.client.algod.getApplicationBoxes(appId).do();
+      return bucketKeys(boxes);
+    }
+
+    const keys: Uint8Array[] = [];
+    let nextToken: string | undefined;
+
+    for (;;) {
+      let request = indexer.searchForApplicationBoxes(appId).limit(pageSize);
+      if (nextToken) request = request.nextToken(nextToken);
+
+      const { boxes, nextToken: token } = await request.do();
+      keys.push(...bucketKeys(boxes));
+
+      if (!token || !boxes.length) break;
+      nextToken = token;
+    }
+
+    return keys;
+  }
+
+  /**
+   * Scan the registry for boxes still using the legacy ARC-4 `uint64[]` bucket layout.
+   *
+   * Legacy buckets carry a 2-byte length header, so their size is 2 mod 8, while packed buckets are
+   * a whole number of 8-byte app IDs. Box listing does not report sizes, so every registry box has
+   * to be fetched to classify it.
+   *
+   * @param concurrency - Number of box fetches to run in parallel.
+   * @param debug - Enable debug logging.
+   * @param pageSize - Box names to request per indexer listing page.
+   * @param source - Where to list box names from. `auto` uses the indexer when one is configured.
+   * @returns The 4-byte keys of the boxes that still need migrating.
+   */
+  async findLegacyBoxes({
+    concurrency = 8,
+    debug,
+    pageSize = 1000,
+    source = "auto",
+  }: {
+    concurrency?: number;
+    debug?: boolean;
+    pageSize?: number;
+    source?: BoxListingSource;
+  } = {}): Promise<Uint8Array[]> {
+    const appId = Number(this.appId);
+    const algod = this.algorand.client.algod;
+
+    const names = await this.listBucketKeys({ pageSize, source, debug });
+
+    if (debug) console.debug(`Found ${names.length} registry boxes, checking layout with concurrency ${concurrency}`);
+
+    const checked = await pMap(
+      names,
+      async (name) => {
+        const { value } = await algod.getApplicationBoxByName(appId, name).do();
+        return value.length % 8 === 2 ? name : undefined;
+      },
+      { concurrency },
+    );
+
+    const legacy = checked.filter((name): name is Uint8Array => name !== undefined);
+    if (debug) console.debug(`${legacy.length}/${names.length} registry boxes need migrating`);
+
+    return legacy;
+  }
+
+  /**
+   * Convert registry boxes to the packed bucket layout, freeing 800 microAlgos of MBR each. Admin only.
+   *
+   * The contract skips keys that do not exist or are already packed, so passing a stale or mixed
+   * set is safe. The freed MBR stays in the contract balance and can be recovered with `withdraw`.
+   *
+   * @param boxKeys - Array of 4-byte box keys to migrate, e.g. from `findLegacyBoxes`.
+   * @param debug - Enable debug logging.
+   * @param concurrency - Number of transaction groups to send in parallel.
+   * @returns Array of transaction IDs.
+   * @throws If writer account is not set, or if sender is not the admin (ERR:AUTH).
+   */
+  async migrateBoxes({
+    boxKeys,
+    debug,
+    concurrency = 1,
+  }: {
+    boxKeys: Uint8Array[];
+    debug?: boolean;
+    concurrency?: number;
+  }): Promise<string[]> {
+    return wrapErrorsInternal(async () => {
+      if (!this.writerAccount) throw new Error("Write operation requested without writer account");
+
+      if (!boxKeys.length) return [];
+
+      const perTxn = 8;
+      const groupChunks = chunk(boxKeys, perTxn * 15);
+
+      if (debug) console.debug(`Migrating ${boxKeys.length} boxes in ${groupChunks.length} chunks with concurrency ${concurrency}`);
+
+      const results = await pMap(
+        groupChunks,
+        async (groupChunk, chunkIdx) => {
+          if (debug) console.debug(`Starting chunk ${chunkIdx + 1}/${groupChunks.length} (${groupChunk.length} keys)`);
+
+          const keyChunks = chunk(groupChunk, perTxn);
+
+          const addMigrateBoxesCalls = (builder: EscregComposer<any>) => {
+            for (const keys of keyChunks) {
+              builder = builder.migrateBoxes({ args: { boxKeys: keys }, boxReferences: keys });
+            }
+            return builder;
+          };
+
+          let group = addMigrateBoxesCalls(this.client.newGroup());
+
+          const increasedBuilder = await getIncreaseBudgetBuilder(
+            group,
+            () => this.client.newGroup(),
+            this.writerAccount!.addr.toString(),
+            this.writerAccount!.signer,
+            this.algorand.client.algod,
+          );
+
+          if (increasedBuilder) {
+            group = addMigrateBoxesCalls(increasedBuilder);
           }
 
           const composer = await group.composer();

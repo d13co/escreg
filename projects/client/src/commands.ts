@@ -284,6 +284,76 @@ export async function handleWithdrawCreditCommand(argv: any) {
   }
 }
 
+export async function handleMigrateCommand(argv: any) {
+  try {
+    const config = getConfig();
+    const algorand = createAlgorandClient({
+      algodHost: argv.algodHost,
+      algodPort: argv.algodPort,
+      algodToken: argv.algodToken,
+      appId: argv.appId,
+    });
+
+    const mnemonic = argv.mnemonic || config.mnemonic;
+    const address = argv.address || config.address;
+
+    const writerAccount = createWriterAccount(mnemonic, address);
+
+    if (!argv.dryRun && !writerAccount) {
+      throw new Error("Writer account is required for migrate operation. Please provide a mnemonic.");
+    }
+
+    const sdk = new EscregSDK({
+      appId: BigInt(argv.appId),
+      algorand,
+      writerAccount,
+    });
+
+    const scanOptions = { concurrency: argv.concurrency, debug: argv.debug, source: argv.source };
+
+    let totalMigrated = 0;
+    const txIds: string[] = [];
+
+    // An indexer-sourced scan lags the chain, so re-scan until a pass comes back clean
+    for (let pass = 1; pass <= argv.maxPasses; pass++) {
+      console.log(`Pass ${pass}/${argv.maxPasses}: scanning registry boxes for the legacy layout...`);
+      const boxKeys = await sdk.findLegacyBoxes(scanOptions);
+
+      if (!boxKeys.length) {
+        console.log(totalMigrated ? "No legacy boxes left." : "No legacy boxes found, nothing to migrate.");
+        break;
+      }
+
+      console.log(`Found ${boxKeys.length} legacy boxes (${boxKeys.length * 800} microAlgos of MBR to free).`);
+
+      if (argv.dryRun) {
+        console.log("Dry run, not migrating.");
+        return;
+      }
+
+      txIds.push(...(await sdk.migrateBoxes({ boxKeys, concurrency: argv.concurrency, debug: argv.debug })));
+      totalMigrated += boxKeys.length;
+      console.log(`Migrated ${boxKeys.length} boxes (${totalMigrated} total).`);
+
+      if (pass === argv.maxPasses) {
+        console.warn(`Reached the pass limit with boxes still being found. Re-run to continue.`);
+      }
+    }
+
+    if (totalMigrated) {
+      console.log(`Migration complete: ${totalMigrated} boxes, ${totalMigrated * 800} microAlgos of MBR freed.`);
+      console.log(`The freed MBR sits in the contract balance; recover it with 'withdraw'.`);
+      if (argv.debug) {
+        console.log("Transaction IDs:");
+        txIds.forEach((txId, index) => console.log(`  ${index + 1}. ${txId}`));
+      }
+    }
+  } catch (error) {
+    console.error("Error migrating boxes:", (error as Error).message);
+    process.exit(1);
+  }
+}
+
 export async function handleWithdrawCommand(argv: any) {
   try {
     const config = getConfig();

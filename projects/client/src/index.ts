@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { getConfig } from './config';
-import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleCreditsCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand } from './commands';
+import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleCreditsCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand, handleMigrateCommand } from './commands';
 
 async function main() {
   const config = getConfig();
@@ -184,8 +184,37 @@ async function main() {
           description: 'Enable debug mode',
         });
     }, handleWithdrawCommand)
+    .command('migrate', 'Convert registry boxes to the packed bucket layout (admin)', (yargs: any) => {
+      return yargs
+        .option('concurrency', {
+          type: 'number',
+          default: config.concurrency,
+          description: 'Number of concurrent requests',
+        })
+        .option('source', {
+          type: 'string',
+          choices: ['auto', 'indexer', 'algod'],
+          default: 'auto',
+          description: 'Where to list box names from. algod returns all boxes in one response, indexer pages but lags',
+        })
+        .option('max-passes', {
+          type: 'number',
+          default: 3,
+          description: 'Scan/migrate passes to run, since an indexer listing can lag the chain',
+        })
+        .option('dry-run', {
+          type: 'boolean',
+          default: false,
+          description: 'Report how many boxes need migrating without sending transactions',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode',
+        });
+    }, handleMigrateCommand)
     // destroy command disabled while using minimal client for bundle size
-    .demandCommand(1, 'You must specify a command: register, lookup, convert, credits, deposit-credits, withdraw-credits, or withdraw')
+    .demandCommand(1, 'You must specify a command: register, lookup, convert, credits, deposit-credits, withdraw-credits, withdraw, or migrate')
     .help()
     .argv;
 }

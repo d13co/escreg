@@ -13,6 +13,16 @@ App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to t
 
 Buckets are stored as big-endian 8-byte app IDs packed back to back with no length header, so the entry count is derived from the box length (`length / 8`). Avoiding the 2-byte header an ARC-4 dynamic array would carry saves 800 microAlgos of MBR on every box, putting a new single-entry bucket at exactly the 7,300 microAlgos implied above (`2500 + 400 * (4 + 8)`).
 
+### Bucket layout migration
+
+Buckets written before the packed layout are ARC-4 `uint64[]`: the same 8-byte app IDs behind a 2-byte length header. Their size is therefore 2 mod 8, while a packed bucket's is 0 mod 8, so the two can never be confused and readers handle both without a version flag or a migration deadline. Deployments carrying legacy buckets keep working as-is.
+
+Converting is optional and reclaims the 800 microAlgos each header holds:
+
+- `migrateBoxes(bytes<4>[])` strips the header from the given keys, skipping any that are missing or already packed, and returns how many it converted. The freed MBR is not credited back to any account; it stays in the contract balance for the admin to `withdraw`.
+- Registering a new app ID into a legacy bucket converts that bucket as a side effect, so writes drift toward the packed layout on their own.
+- `escreg migrate` (CLI) scans for legacy buckets and converts them in batches. See [CLI](#cli).
+
 This is currently deployed to Fnet as [App ID 16954321](https://lora.algokit.io/fnet/application/16954321).
 
 ## Project Structure
@@ -99,6 +109,7 @@ The registry contract. Extends `MbrManager` so that callers pre-fund credits bef
 | `getWithAuthList(address[]) -> (uint64, uint64)[]` | read | Batch version of getWithAuth |
 | `increaseBudget(uint64)` | noop | Add opcode budget via inner transactions |
 | `deleteBoxes(bytes<4>[])` | admin | Delete app registry boxes by key |
+| `migrateBoxes(bytes<4>[]) -> uint64` | admin | Convert legacy buckets to the packed layout, returning the number converted |
 | `withdraw(uint64)` | admin | Withdraw microAlgos from the contract |
 | `updateApplication()` | admin | Update the contract |
 | `deleteApplication()` | admin | Delete the contract |
@@ -152,6 +163,7 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group (105 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
 - **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
 - **Credits:** deposit, withdraw, and check MBR credit balances.
+- **Migration:** `findLegacyBoxes` lists every registry box and returns the keys of those still in the legacy layout; `migrateBoxes` converts them in batches of 8 per transaction. `decodeBucket` decodes a raw bucket box value into app IDs. Box listing prefers the indexer, which pages, since algod returns every box in one response and fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`; pass `source: 'algod'` to force it, at the cost of that ceiling.
 
 ### Build
 
@@ -193,7 +205,14 @@ escreg withdraw-credits           # withdraw all your credits
 
 # Withdraw funds (admin only)
 escreg withdraw 1
+
+# Convert legacy buckets to the packed layout (admin only)
+escreg migrate --dry-run          # report how many boxes need migrating
+escreg migrate --concurrency 8    # scan and convert
+escreg migrate --source algod     # list boxes from algod instead of the indexer
 ```
+
+`migrate` is safe to re-run: the contract skips keys that are missing or already packed. Because an indexer listing lags the chain by a few rounds, the command re-scans until a pass comes back clean, up to `--max-passes` (default 3).
 
 ### Configuration
 
