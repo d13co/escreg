@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { getConfig } from './config';
-import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleCreditsCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand, handleMigrateCommand } from './commands';
+import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleCreditsCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand, handleMigrateCommand, handleDumpCommand } from './commands';
 
 async function main() {
   const config = getConfig();
@@ -28,7 +28,25 @@ async function main() {
     .option('algod-token', {
       type: 'string',
       default: config.algodToken,
+      // never render the token itself: --help output ends up in screenshots and bug reports
+      defaultDescription: config.algodToken ? '(set via ALGOD_TOKEN)' : '(empty)',
       description: 'Algorand node token',
+    })
+    .option('indexer-host', {
+      type: 'string',
+      default: config.indexerHost,
+      description: 'Indexer host, used to page through box listings. Empty to use algod only',
+    })
+    .option('indexer-port', {
+      type: 'number',
+      default: config.indexerPort,
+      description: 'Indexer port',
+    })
+    .option('indexer-token', {
+      type: 'string',
+      default: config.indexerToken,
+      defaultDescription: config.indexerToken ? '(set via INDEXER_TOKEN)' : '(empty)',
+      description: 'Indexer token',
     })
     .option('app-id', {
       type: 'string',
@@ -213,8 +231,27 @@ async function main() {
           description: 'Enable debug mode',
         });
     }, handleMigrateCommand)
+    .command('dump', 'Dump registry boxes and the app IDs they hold', (yargs: any) => {
+      return yargs
+        .option('concurrency', {
+          type: 'number',
+          default: config.concurrency,
+          description: 'Number of concurrent requests',
+        })
+        .option('source', {
+          type: 'string',
+          choices: ['auto', 'indexer', 'algod'],
+          default: 'auto',
+          description: 'Where to list box names from. algod returns all boxes in one response, indexer pages but lags',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode',
+        });
+    }, handleDumpCommand)
     // destroy command disabled while using minimal client for bundle size
-    .demandCommand(1, 'You must specify a command: register, lookup, convert, credits, deposit-credits, withdraw-credits, withdraw, or migrate')
+    .demandCommand(1, 'You must specify a command: register, lookup, convert, credits, deposit-credits, withdraw-credits, withdraw, migrate, or dump')
     .help()
     .argv;
 }

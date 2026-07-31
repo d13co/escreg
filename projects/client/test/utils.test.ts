@@ -7,6 +7,7 @@ vi.mock('algosdk', () => ({
   getApplicationAddress: vi.fn(),
   mnemonicToSecretKey: vi.fn(),
   Algodv2: vi.fn(),
+  Indexer: vi.fn(),
   Address: {
     fromString: vi.fn(),
   },
@@ -21,7 +22,7 @@ vi.mock('@algorandfoundation/algokit-utils', () => ({
 }));
 
 // Import mocked functions
-import { getApplicationAddress, mnemonicToSecretKey, Algodv2, Address, makeBasicAccountTransactionSigner } from 'algosdk';
+import { getApplicationAddress, mnemonicToSecretKey, Algodv2, Indexer, Address, makeBasicAccountTransactionSigner } from 'algosdk';
 import { AlgorandClient } from '@algorandfoundation/algokit-utils';
 
 describe('Utils Module', () => {
@@ -82,6 +83,42 @@ describe('Utils Module', () => {
 
       expect(Algodv2).toHaveBeenCalledWith('custom-token', 'http://custom-host:8080', 8080);
       expect(result).toBe(mockAlgorandClient);
+    });
+
+    it('should create an indexer client when an indexer host is configured', () => {
+      const config: Config = {
+        algodHost: 'localhost',
+        algodPort: 4001,
+        algodToken: 'test-token',
+        indexerHost: 'idx-host',
+        indexerPort: 8980,
+        indexerToken: 'idx-token',
+        appId: '1234',
+      };
+
+      vi.mocked(AlgorandClient.fromClients).mockReturnValue({} as any);
+
+      createAlgorandClient(config);
+
+      expect(Indexer).toHaveBeenCalledWith('idx-token', 'http://idx-host:8980', 8980);
+      expect(vi.mocked(AlgorandClient.fromClients).mock.calls[0][0].indexer).toBeDefined();
+    });
+
+    it('should omit the indexer when no indexer host is configured', () => {
+      const config: Config = {
+        algodHost: 'localhost',
+        algodPort: 4001,
+        algodToken: 'test-token',
+        indexerHost: '',
+        appId: '1234',
+      };
+
+      vi.mocked(AlgorandClient.fromClients).mockReturnValue({} as any);
+
+      createAlgorandClient(config);
+
+      expect(Indexer).not.toHaveBeenCalled();
+      expect(vi.mocked(AlgorandClient.fromClients).mock.calls[0][0].indexer).toBeUndefined();
     });
   });
 

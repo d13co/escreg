@@ -25,10 +25,26 @@ export function creditBoxRef(publicKey: Uint8Array): Uint8Array {
 }
 
 /**
+ * Length of the leading length header in a bucket of the given size.
+ *
+ * Mirrors the contract's own `bucketHeaderLen`. Packed buckets are a whole number of 8-byte app
+ * IDs, so their size is 0 mod 8; legacy ARC-4 `uint64[]` buckets carry a 2-byte length header
+ * ahead of the same app IDs, so their size is 2 mod 8. The two can never be confused, which makes
+ * the remainder the header length.
+ *
+ * @param size - Box size in bytes.
+ * @returns 2 for a legacy bucket, 0 for a packed one.
+ */
+export function bucketHeaderLen(size: number): number {
+  return size % 8;
+}
+
+/**
  * Decode a registry bucket box value into the app IDs it holds.
  *
  * Buckets store big-endian 8-byte app IDs packed back to back with no length header, so the
- * entry count is the box length divided by 8.
+ * entry count is the box length divided by 8. To decode a legacy bucket, drop its header first:
+ * `decodeBucket(value.subarray(bucketHeaderLen(value.length)))`.
  *
  * @param value - Raw box value, as returned by `getApplicationBoxByName`.
  * @returns The app IDs in the bucket, in insertion order.

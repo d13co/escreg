@@ -11,9 +11,15 @@ describe('Config Module', () => {
     delete process.env.ALGOD_HOST;
     delete process.env.ALGOD_PORT;
     delete process.env.ALGOD_TOKEN;
+    delete process.env.INDEXER_HOST;
+    delete process.env.INDEXER_PORT;
+    delete process.env.INDEXER_TOKEN;
     delete process.env.APP_ID;
     delete process.env.MNEMONIC;
     delete process.env.ADDRESS;
+    delete process.env.CONCURRENCY;
+    delete process.env.DEBUG;
+    delete process.env.SKIP_CHECK;
   });
 
   afterEach(() => {
@@ -26,12 +32,18 @@ describe('Config Module', () => {
       const config = getConfig();
       
       expect(config).toEqual({
-        algodHost: 'localhost',
-        algodPort: 4001,
-        algodToken: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        appId: '',
+        algodHost: 'fnet-api.4160.nodely.dev',
+        algodPort: 443,
+        algodToken: '',
+        indexerHost: 'fnet-idx.4160.nodely.dev',
+        indexerPort: 443,
+        indexerToken: '',
+        appId: '16954321',
         mnemonic: undefined,
         address: undefined,
+        concurrency: 1,
+        debug: false,
+        skipCheck: false,
       });
     });
 
@@ -39,19 +51,29 @@ describe('Config Module', () => {
       process.env.ALGOD_HOST = 'test-host';
       process.env.ALGOD_PORT = '8080';
       process.env.ALGOD_TOKEN = 'test-token-123';
+      process.env.INDEXER_HOST = 'test-idx';
+      process.env.INDEXER_PORT = '8980';
+      process.env.INDEXER_TOKEN = 'test-idx-token';
       process.env.APP_ID = '5678';
       process.env.MNEMONIC = 'test mnemonic phrase';
       process.env.ADDRESS = 'test-address';
+      process.env.CONCURRENCY = '4';
 
       const config = getConfig();
-      
+
       expect(config).toEqual({
         algodHost: 'test-host',
         algodPort: 8080,
         algodToken: 'test-token-123',
+        indexerHost: 'test-idx',
+        indexerPort: 8980,
+        indexerToken: 'test-idx-token',
         appId: '5678',
         mnemonic: 'test mnemonic phrase',
         address: 'test-address',
+        concurrency: 4,
+        debug: false,
+        skipCheck: false,
       });
     });
 
@@ -84,11 +106,17 @@ describe('Config Module', () => {
       process.env.APP_ID = '';
 
       const config = getConfig();
-      
-      expect(config.algodHost).toBe('localhost');
-      expect(config.algodPort).toBe(4001);
-      expect(config.algodToken).toBe('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-      expect(config.appId).toBe('');
+
+      expect(config.algodHost).toBe('fnet-api.4160.nodely.dev');
+      expect(config.algodPort).toBe(443);
+      expect(config.algodToken).toBe('');
+      expect(config.appId).toBe('16954321');
+    });
+
+    it('should keep an empty indexer host, which disables the indexer', () => {
+      process.env.INDEXER_HOST = '';
+
+      expect(getConfig().indexerHost).toBe('');
     });
   });
 

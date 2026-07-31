@@ -1,14 +1,23 @@
 import { AlgorandClient } from '@algorandfoundation/algokit-utils';
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account';
-import { mnemonicToSecretKey, Algodv2, Address, makeBasicAccountTransactionSigner, getApplicationAddress } from 'algosdk';
+import { mnemonicToSecretKey, Algodv2, Address, Indexer, makeBasicAccountTransactionSigner, getApplicationAddress } from 'algosdk';
 import { Config } from './config';
 
+const scheme = (port: number) => (port === 443 ? 'https' : 'http');
+
 export function createAlgorandClient(config: Config): AlgorandClient {
-  const scheme = config.algodPort === 443 ? 'https' : 'http';
-  const algodClient = new Algodv2(config.algodToken, `${scheme}://${config.algodHost}:${config.algodPort}`, config.algodPort);
+  const algodClient = new Algodv2(config.algodToken, `${scheme(config.algodPort)}://${config.algodHost}:${config.algodPort}`, config.algodPort);
+
+  // Box listing needs an indexer to page: algod returns every box in one response and fails past
+  // the node's MaxAPIBoxPerApplication. Commands that do not list boxes never touch it.
+  const { indexerHost, indexerPort = 443, indexerToken = '' } = config;
+  const indexer = indexerHost
+    ? new Indexer(indexerToken, `${scheme(indexerPort)}://${indexerHost}:${indexerPort}`, indexerPort)
+    : undefined;
 
   return AlgorandClient.fromClients({
     algod: algodClient,
+    indexer,
   });
 }
 

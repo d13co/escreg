@@ -1,6 +1,7 @@
 import { EscregSDK } from "@d13co/escreg-sdk";
 import { parseAppIdsFromFile, parseAppIdsFromArgs, parseAddressesFromFile, parseAddressesFromArgs } from "./parse";
 import { createAlgorandClient, createWriterAccount, convertAppIdsToAddresses } from "./utils";
+import { bucketHeader, formatBucketRow } from "./format";
 import { getConfig } from "./config";
 
 export async function handleRegisterCommand(argv: any) {
@@ -291,6 +292,9 @@ export async function handleMigrateCommand(argv: any) {
       algodHost: argv.algodHost,
       algodPort: argv.algodPort,
       algodToken: argv.algodToken,
+      indexerHost: argv.indexerHost,
+      indexerPort: argv.indexerPort,
+      indexerToken: argv.indexerToken,
       appId: argv.appId,
     });
 
@@ -350,6 +354,56 @@ export async function handleMigrateCommand(argv: any) {
     }
   } catch (error) {
     console.error("Error migrating boxes:", (error as Error).message);
+    process.exit(1);
+  }
+}
+
+export async function handleDumpCommand(argv: any) {
+  try {
+    const algorand = createAlgorandClient({
+      algodHost: argv.algodHost,
+      algodPort: argv.algodPort,
+      algodToken: argv.algodToken,
+      indexerHost: argv.indexerHost,
+      indexerPort: argv.indexerPort,
+      indexerToken: argv.indexerToken,
+      appId: argv.appId,
+    });
+
+    const sdk = new EscregSDK({
+      appId: BigInt(argv.appId),
+      algorand,
+    });
+
+    // a full dump is long, so quit quietly when a downstream pipe closes early ('| head')
+    process.stdout.on("error", (error: NodeJS.ErrnoException) => {
+      if (error.code === "EPIPE") process.exit(0);
+      throw error;
+    });
+
+    // rows go to stdout so the dump can be piped; everything else to stderr
+    process.stderr.write(`${bucketHeader}\n`);
+
+    let legacy = 0;
+    let packed = 0;
+    let entries = 0;
+
+    for await (const bucket of sdk.scanBuckets({ concurrency: argv.concurrency, source: argv.source, debug: argv.debug })) {
+      process.stdout.write(`${formatBucketRow(bucket)}\n`);
+      if (bucket.version === 1) legacy++;
+      else packed++;
+      entries += bucket.appIds.length;
+    }
+
+    const boxes = legacy + packed;
+    if (!boxes) {
+      process.stderr.write("No registry boxes found.\n");
+      return;
+    }
+
+    process.stderr.write(`${boxes} boxes (${legacy} v1, ${packed} v2), ${entries} app IDs\n`);
+  } catch (error) {
+    console.error("Error dumping boxes:", (error as Error).message);
     process.exit(1);
   }
 }
