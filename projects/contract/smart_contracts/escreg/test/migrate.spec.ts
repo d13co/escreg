@@ -326,26 +326,15 @@ describe('Legacy bucket migration', () => {
       return { client, sdk }
     }
 
-    /** Block until the indexer has caught up with algod, so indexer-sourced listings are complete */
-    const waitForIndexer = async () => {
-      const { lastRound } = await localnet.algorand.client.algod.status().do()
-      for (let attempt = 0; attempt < 100; attempt++) {
-        const { round } = await localnet.algorand.client.indexer.makeHealthCheck().do()
-        if (round >= lastRound) return
-        await new Promise((resolve) => setTimeout(resolve, 100))
-      }
-      throw new Error(`Indexer did not catch up to round ${lastRound}`)
-    }
-
-    test('findLegacyBoxes reports only legacy buckets, paging through the indexer listing', async () => {
+    test('findLegacyBoxes reports only legacy buckets', async () => {
       const { testAccount } = localnet.context
       const { client, sdk } = await deployWithSdk(testAccount)
 
       const { legacyKeys } = await seedMixedRegistry(client, sdk, testAccount)
-      await waitForIndexer()
 
-      // pageSize 2 over 5 registry boxes plus a credit box, so the listing cursor is exercised
-      const found = await sdk.findLegacyBoxes({ source: 'indexer', pageSize: 2 })
+      // pageSize 2 over 5 registry boxes plus a credit box, so the listing cursor is exercised on a
+      // node that pages; an older one answers with the whole listing and has its values fetched per box
+      const found = await sdk.findLegacyBoxes({ pageSize: 2 })
 
       expect(sortedHex(found)).toEqual(sortedHex(legacyKeys))
     })
@@ -356,11 +345,10 @@ describe('Legacy bucket migration', () => {
 
       const { legacyKeys, colliding } = await seedMixedRegistry(client, sdk, testAccount)
 
-      // algod, so the scan cannot miss a bucket to indexer lag
-      const txIds = await sdk.migrateBoxes({ boxKeys: await sdk.findLegacyBoxes({ source: 'algod' }) })
+      const txIds = await sdk.migrateBoxes({ boxKeys: await sdk.findLegacyBoxes() })
       expect(txIds.length).toBeGreaterThan(0)
 
-      expect(await sdk.findLegacyBoxes({ source: 'algod' })).toEqual([])
+      expect(await sdk.findLegacyBoxes()).toEqual([])
       for (const key of legacyKeys) {
         expect((await getBox(client, key)).length % 8).toBe(0)
       }
@@ -378,7 +366,7 @@ describe('Legacy bucket migration', () => {
       await sdk.depositCredit({ creditor: testAccount.addr.toString(), amount: 100_000n })
       await sdk.register({ appIds: [1002n] })
 
-      expect(await sdk.findLegacyBoxes({ source: 'algod' })).toEqual([])
+      expect(await sdk.findLegacyBoxes()).toEqual([])
       expect(await sdk.migrateBoxes({ boxKeys: [] })).toEqual([])
       expect(decodePacked(await getBox(client, boxKeyOf(1002n)))).toEqual([1002n])
     })

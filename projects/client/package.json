@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "@algorandfoundation/algokit-utils": "^9.0.0",
-    "@d13co/escreg-sdk": "^0.0.5",
-    "algosdk": "^3.0.0",
+    "@d13co/escreg-sdk": "^0.0.6",
+    "algosdk": "^3.6.0",
     "dotenv": "^16.3.1",
     "yargs": "^17.7.2"
   },

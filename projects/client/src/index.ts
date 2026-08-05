@@ -32,22 +32,6 @@ async function main() {
       defaultDescription: config.algodToken ? '(set via ALGOD_TOKEN)' : '(empty)',
       description: 'Algorand node token',
     })
-    .option('indexer-host', {
-      type: 'string',
-      default: config.indexerHost,
-      description: 'Indexer host, used to page through box listings. Empty to use algod only',
-    })
-    .option('indexer-port', {
-      type: 'number',
-      default: config.indexerPort,
-      description: 'Indexer port',
-    })
-    .option('indexer-token', {
-      type: 'string',
-      default: config.indexerToken,
-      defaultDescription: config.indexerToken ? '(set via INDEXER_TOKEN)' : '(empty)',
-      description: 'Indexer token',
-    })
     .option('app-id', {
       type: 'string',
       default: config.appId,
@@ -209,16 +193,15 @@ async function main() {
           default: config.concurrency,
           description: 'Number of concurrent requests',
         })
-        .option('source', {
-          type: 'string',
-          choices: ['auto', 'indexer', 'algod'],
-          default: 'auto',
-          description: 'Where to list box names from. algod returns all boxes in one response, indexer pages but lags',
+        .option('page-size', {
+          type: 'number',
+          default: 1000,
+          description: 'Boxes to list per request',
         })
         .option('max-passes', {
           type: 'number',
           default: 3,
-          description: 'Scan/migrate passes to run, since an indexer listing can lag the chain',
+          description: 'Scan/migrate passes to run, since a box written mid-scan can fall behind the listing cursor',
         })
         .option('dry-run', {
           type: 'boolean',
@@ -233,16 +216,19 @@ async function main() {
     }, handleMigrateCommand)
     .command('dump', 'Dump registry boxes and the app IDs they hold', (yargs: any) => {
       return yargs
+        .option('resume', {
+          type: 'string',
+          description: 'Checkpoint file. Resumed from when it exists, kept up to date as the dump runs, removed once it completes',
+        })
+        .option('page-size', {
+          type: 'number',
+          default: 1000,
+          description: 'Boxes to list per request',
+        })
         .option('concurrency', {
           type: 'number',
           default: config.concurrency,
-          description: 'Number of concurrent requests',
-        })
-        .option('source', {
-          type: 'string',
-          choices: ['auto', 'indexer', 'algod'],
-          default: 'auto',
-          description: 'Where to list box names from. algod returns all boxes in one response, indexer pages but lags',
+          description: 'Box value fetches to run in parallel, on nodes that list box names without their values',
         })
         .option('debug', {
           type: 'boolean',

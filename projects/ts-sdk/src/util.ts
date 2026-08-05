@@ -1,4 +1,4 @@
-import { Algodv2, makeEmptyTransactionSigner, modelsv2, TransactionSigner } from "algosdk";
+import { Algodv2, bytesToBase64, makeEmptyTransactionSigner, modelsv2, TransactionSigner } from "algosdk";
 import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/types/account";
 import { EscregComposer } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
@@ -10,11 +10,20 @@ export const fnetNodelyClient = AlgorandClient.fromConfig({
     server: "https://fnet-api.4160.nodely.dev",
     port: 443,
   },
-  indexerConfig: {
-    server: "https://fnet-idx.4160.nodely.dev",
-    port: 443,
-  },
 });
+
+/**
+ * Encode a box name as a box listing cursor, i.e. the `next-token` algod's box listing returns.
+ *
+ * The cursor is the box name to resume *after*, in the goal app call arg form, so the cursor of
+ * the last box a caller has processed is where a resumed listing should pick up.
+ *
+ * @param name - Raw box name.
+ * @returns The name as a `b64:`-prefixed cursor.
+ */
+export function boxCursor(name: Uint8Array): string {
+  return `b64:${bytesToBase64(name)}`;
+}
 
 /** Prepend the 'c' key prefix to a public key for the userCredits box */
 export function creditBoxRef(publicKey: Uint8Array): Uint8Array {

@@ -2,20 +2,17 @@ import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/type
 import { Address, encodeAddress, getApplicationAddress, waitForConfirmation } from "algosdk";
 import { EscregClient, EscregComposer } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
-import { bucketHeaderLen, chunk, creditBoxRef, decodeBucket, emptySigner, fnetNodelyClient, getIncreaseBudgetBuilder } from "./util";
+import { boxCursor, bucketHeaderLen, chunk, creditBoxRef, decodeBucket, emptySigner, fnetNodelyClient, getIncreaseBudgetBuilder } from "./util";
 import { errorTransformer, wrapErrorsInternal } from "./wrapErrors";
-import pMap, { pMapIterable } from "p-map";
+import pMap from "p-map";
 
-export { bucketHeaderLen, decodeBucket } from "./util";
+export { boxCursor, bucketHeaderLen, decodeBucket } from "./util";
 
 /** Map of address to app ID, or undefined if not registered. */
 export type LookupResult = Record<string, bigint | undefined>;
 
 /** Map of address to credit balance in microAlgos. */
 export type CreditResult = Record<string, bigint>;
-
-/** Where to list registry box names from. `auto` uses the indexer when one is configured. */
-export type BoxListingSource = "auto" | "indexer" | "algod";
 
 /** Bucket storage layout: 1 for the legacy ARC-4 `uint64[]`, 2 for packed headerless app IDs. */
 export type BucketVersion = 1 | 2;
@@ -30,6 +27,16 @@ export interface RegistryBucket {
   size: number;
   /** The app IDs the bucket holds, in insertion order. */
   appIds: bigint[];
+}
+
+/** One page of a registry box listing. */
+export interface BucketPage {
+  /** The buckets on this page, in listing order. Credit boxes are left out. */
+  buckets: RegistryBucket[];
+  /** Cursor to resume the listing after this page, or undefined once it is exhausted. */
+  next?: string;
+  /** Round the page was read at, when the node reports one. */
+  round?: number;
 }
 
 /**
@@ -392,160 +399,129 @@ export class EscregSDK {
     });
   }
 
-  /**
-   * Stream the keys of every registry bucket box, a page at a time.
-   *
-   * Defaults to the indexer, which pages, since algod's box listing returns everything in one
-   * response and fails with "Result limit exceeded" once an app has more boxes than the node's
-   * `MaxAPIBoxPerApplication`. The tradeoff is that indexer results lag the chain by a few rounds,
-   * so a scan can miss buckets written moments ago.
-   *
-   * @param pageSize - Box names to request per indexer page.
-   * @param source - Where to list from. `auto` uses the indexer when one is configured.
-   * @param debug - Enable debug logging.
-   * @returns An async iterable of the 4-byte keys of all registry buckets.
-   */
-  private async *streamBucketKeys({
-    pageSize = 1000,
-    source = "auto",
-    debug,
-  }: {
-    pageSize?: number;
-    source?: BoxListingSource;
-    debug?: boolean;
-  }): AsyncGenerator<Uint8Array> {
-    const appId = Number(this.appId);
-    // registry buckets are keyed by a bare 4-byte address prefix; credit boxes are 'c' + 32 bytes
-    const bucketKeys = (boxes: { name: Uint8Array }[]) => boxes.filter((b) => b.name.length === 4).map((b) => b.name);
-
-    const indexer = source === "algod" ? undefined : this.algorand.client.indexerIfPresent;
-    if (!indexer) {
-      if (source === "indexer") throw new Error("Box listing from indexer requested with no indexer configured");
-      if (debug) console.debug("Listing boxes from algod in a single request");
-      const { boxes } = await this.algorand.client.algod.getApplicationBoxes(appId).do();
-      yield* bucketKeys(boxes);
-      return;
-    }
-
-    let nextToken: string | undefined;
-
-    for (let page = 1; ; page++) {
-      let request = indexer.searchForApplicationBoxes(appId).limit(pageSize);
-      if (nextToken) request = request.nextToken(nextToken);
-
-      const { boxes, nextToken: token } = await request.do();
-      if (debug) console.debug(`Listed indexer page ${page}: ${boxes.length} boxes`);
-      yield* bucketKeys(boxes);
-
-      if (!token || !boxes.length) break;
-      nextToken = token;
-    }
+  /** Decode a raw registry box into a bucket, reading its layout from the value length. */
+  private toBucket(key: Uint8Array, value: Uint8Array): RegistryBucket {
+    const headerLen = bucketHeaderLen(value.length);
+    return {
+      key,
+      version: headerLen === 0 ? 2 : 1,
+      size: value.length,
+      appIds: decodeBucket(value.subarray(headerLen)),
+    };
   }
 
   /**
-   * List the keys of every registry bucket box.
+   * Stream the registry's bucket boxes from algod, a page at a time.
    *
-   * Collects the whole listing in memory; prefer `streamBucketKeys` for large registries.
+   * Boxes are listed with their values, so a page costs one request no matter how many boxes it
+   * holds. Nodes older than the paginated listing ignore the pagination and value parameters and
+   * answer with every box name in one response, which this falls back to fetching values for with
+   * bounded concurrency; that path still hits "Result limit exceeded" past the node's
+   * `MaxAPIBoxPerApplication`, so a large registry needs a node that pages.
    *
-   * @param pageSize - Box names to request per indexer page.
-   * @param source - Where to list from. `auto` uses the indexer when one is configured.
+   * Each page carries the cursor to resume after it, so an interrupted scan can pick up where it
+   * stopped by passing that cursor back as `next`. `boxCursor` builds the same cursor from the name
+   * of the last box a caller finished with, for resuming mid-page. A resumed scan lists at the
+   * current round, so boxes written behind the cursor while it was stopped are not picked up.
+   *
+   * @param pageSize - Boxes to request per page.
+   * @param next - Cursor to resume the listing after, from an earlier page or `boxCursor`.
+   * @param concurrency - Box value fetches to run in parallel, when the node does not return values.
    * @param debug - Enable debug logging.
-   * @returns The 4-byte keys of all registry buckets.
+   * @returns An async iterable of pages of decoded buckets.
    */
-  private async listBucketKeys(options: { pageSize?: number; source?: BoxListingSource; debug?: boolean }): Promise<Uint8Array[]> {
-    const keys: Uint8Array[] = [];
-    for await (const key of this.streamBucketKeys(options)) keys.push(key);
-    return keys;
+  async *scanBucketPages({
+    pageSize = 1000,
+    next,
+    concurrency = 8,
+    debug,
+  }: {
+    pageSize?: number;
+    next?: string;
+    concurrency?: number;
+    debug?: boolean;
+  } = {}): AsyncGenerator<BucketPage> {
+    const appId = Number(this.appId);
+    const algod = this.algorand.client.algod;
+    let cursor = next;
+
+    for (let page = 1; ; page++) {
+      let request = algod.getApplicationBoxes(appId).limit(pageSize).include("values");
+      if (cursor) request = request.next(cursor);
+
+      const { boxes, nextToken, round } = await request.do();
+
+      // registry buckets are keyed by a bare 4-byte address prefix; credit boxes are 'c' + 32 bytes
+      const descriptors = boxes.filter((box) => box.name.length === 4);
+
+      if (debug && descriptors.some(({ value }) => value === undefined)) {
+        console.debug(`Node returned box names without values, fetching values with concurrency ${concurrency}`);
+      }
+
+      const buckets = await pMap(
+        descriptors,
+        async ({ name, value }) => this.toBucket(name, value ?? (await algod.getApplicationBoxByName(appId, name).do()).value),
+        { concurrency },
+      );
+
+      if (debug) console.debug(`Listed page ${page}${round ? ` at round ${round}` : ""}: ${boxes.length} boxes, ${buckets.length} of them buckets`);
+
+      yield { buckets, next: nextToken, round };
+
+      if (!nextToken || !boxes.length) return;
+      cursor = nextToken;
+    }
   }
 
   /**
    * Stream every registry bucket box with its layout and decoded contents.
    *
-   * Yields buckets in listing order as their fetches settle, so a caller can print or process each
-   * one without holding the whole registry in memory: box names are listed a page at a time and
-   * their values fetched with bounded concurrency as the consumer pulls. Credit boxes are skipped:
-   * only the 4-byte bucket keys are listed.
+   * Yields buckets in listing order as pages arrive, so a caller can print or process each one
+   * without holding the whole registry in memory. Credit boxes are skipped. Use `scanBucketPages`
+   * instead to see page boundaries, which is what resuming a scan needs.
    *
-   * @param concurrency - Number of box fetches to run in parallel.
+   * @param pageSize - Boxes to request per listing page.
+   * @param next - Cursor to resume the listing after.
+   * @param concurrency - Box value fetches to run in parallel, when the node does not return values.
    * @param debug - Enable debug logging.
-   * @param pageSize - Box names to request per indexer listing page.
-   * @param source - Where to list box names from. `auto` uses the indexer when one is configured.
    * @returns An async iterable of decoded buckets.
    */
-  async *scanBuckets({
-    concurrency = 8,
-    debug,
-    pageSize = 1000,
-    source = "auto",
-  }: {
-    concurrency?: number;
-    debug?: boolean;
-    pageSize?: number;
-    source?: BoxListingSource;
-  } = {}): AsyncGenerator<RegistryBucket> {
-    const appId = Number(this.appId);
-    const algod = this.algorand.client.algod;
-
-    if (debug) console.debug(`Reading registry boxes with concurrency ${concurrency}`);
-
-    yield* pMapIterable(
-      this.streamBucketKeys({ pageSize, source, debug }),
-      async (name): Promise<RegistryBucket> => {
-        const { value } = await algod.getApplicationBoxByName(appId, name).do();
-        const headerLen = bucketHeaderLen(value.length);
-        return {
-          key: name,
-          version: headerLen === 0 ? 2 : 1,
-          size: value.length,
-          appIds: decodeBucket(value.subarray(headerLen)),
-        };
-      },
-      { concurrency },
-    );
+  async *scanBuckets(options: { pageSize?: number; next?: string; concurrency?: number; debug?: boolean } = {}): AsyncGenerator<RegistryBucket> {
+    for await (const { buckets } of this.scanBucketPages(options)) yield* buckets;
   }
 
   /**
    * Scan the registry for boxes still using the legacy ARC-4 `uint64[]` bucket layout.
    *
    * Legacy buckets carry a 2-byte length header, so their size is 2 mod 8, while packed buckets are
-   * a whole number of 8-byte app IDs. Box listing does not report sizes, so every registry box has
-   * to be fetched to classify it.
+   * a whole number of 8-byte app IDs. Box listing does not report sizes, so classifying a box needs
+   * its value.
    *
-   * @param concurrency - Number of box fetches to run in parallel.
+   * @param pageSize - Boxes to request per listing page.
+   * @param concurrency - Box value fetches to run in parallel, when the node does not return values.
    * @param debug - Enable debug logging.
-   * @param pageSize - Box names to request per indexer listing page.
-   * @param source - Where to list box names from. `auto` uses the indexer when one is configured.
    * @returns The 4-byte keys of the boxes that still need migrating.
    */
   async findLegacyBoxes({
+    pageSize = 1000,
     concurrency = 8,
     debug,
-    pageSize = 1000,
-    source = "auto",
   }: {
+    pageSize?: number;
     concurrency?: number;
     debug?: boolean;
-    pageSize?: number;
-    source?: BoxListingSource;
   } = {}): Promise<Uint8Array[]> {
-    const appId = Number(this.appId);
-    const algod = this.algorand.client.algod;
+    const legacy: Uint8Array[] = [];
+    let scanned = 0;
 
-    const names = await this.listBucketKeys({ pageSize, source, debug });
+    for await (const { buckets } of this.scanBucketPages({ pageSize, concurrency, debug })) {
+      scanned += buckets.length;
+      for (const { key, version } of buckets) {
+        if (version === 1) legacy.push(key);
+      }
+    }
 
-    if (debug) console.debug(`Found ${names.length} registry boxes, checking layout with concurrency ${concurrency}`);
-
-    const checked = await pMap(
-      names,
-      async (name) => {
-        const { value } = await algod.getApplicationBoxByName(appId, name).do();
-        return value.length % 8 === 2 ? name : undefined;
-      },
-      { concurrency },
-    );
-
-    const legacy = checked.filter((name): name is Uint8Array => name !== undefined);
-    if (debug) console.debug(`${legacy.length}/${names.length} registry boxes need migrating`);
+    if (debug) console.debug(`${legacy.length}/${scanned} registry boxes need migrating`);
 
     return legacy;
   }

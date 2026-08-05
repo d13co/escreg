@@ -163,8 +163,9 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group (105 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
 - **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
 - **Credits:** deposit, withdraw, and check MBR credit balances.
-- **Migration:** `findLegacyBoxes` lists every registry box and returns the keys of those still in the legacy layout; `migrateBoxes` converts them in batches of 8 per transaction. `decodeBucket` decodes a raw bucket box value into app IDs, and `bucketHeaderLen` gives the header length to skip when the value may be legacy. Box listing prefers the indexer, which pages, since algod returns every box in one response and fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`; pass `source: 'algod'` to force it, at the cost of that ceiling.
-- **Scanning:** `scanBuckets` is an async iterable of every bucket with its layout version and decoded app IDs. Names are listed a page at a time and values fetched with bounded concurrency as the consumer pulls, so a registry of millions of boxes streams in constant memory. Backs `escreg dump`.
+- **Migration:** `findLegacyBoxes` lists every registry box and returns the keys of those still in the legacy layout; `migrateBoxes` converts them in batches of 8 per transaction. `decodeBucket` decodes a raw bucket box value into app IDs, and `bucketHeaderLen` gives the header length to skip when the value may be legacy.
+- **Scanning:** `scanBucketPages` reads the registry from algod's paginated box listing, a page of boxes and their values per request, and `scanBuckets` flattens it into an async iterable of every bucket with its layout version and decoded app IDs. A registry of millions of boxes streams in constant memory. Backs `escreg dump`. Nodes predating the paginated listing answer with every box name in one response, which the SDK falls back to fetching values for with bounded `concurrency`; that path still fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`.
+- **Resuming a scan:** every page carries the `next` cursor to resume after it, and `boxCursor` builds the same cursor from the name of the last box a caller finished with, so an interrupted scan restarts from where it stopped rather than from the top. A resumed scan lists at the current round, so a box written behind the cursor while it was stopped is not picked up.
 
 ### Build
 
@@ -210,12 +211,12 @@ escreg withdraw 1
 # Convert legacy buckets to the packed layout (admin only)
 escreg migrate --dry-run          # report how many boxes need migrating
 escreg migrate --concurrency 8    # scan and convert
-escreg migrate --source algod     # list boxes from algod instead of the indexer
 
 # Dump every registry box and the app IDs it holds
 escreg dump                       # one row per box, streamed as they are read
-escreg dump --concurrency 8 | head -20
+escreg dump --page-size 5000 | head -20
 escreg dump | grep '^1 '          # only boxes still in the legacy layout
+escreg dump --resume dump.state >> dump.txt   # pick up where an interrupted dump left off
 ```
 
 `dump` writes one row per box to stdout, and its header and closing summary to stderr, so the rows pipe cleanly:
@@ -228,9 +229,11 @@ v  key b64 (b32)       values
 
 The `v` column is the bucket layout: `1` for a legacy ARC-4 bucket, `2` for a packed one. The key is the 4-byte bucket prefix in base64 and, in parens, base32 — the alphabet addresses use, so it shares its first six characters with every escrow address filed under it. Each value is an app ID followed by the first 8 characters of its escrow address.
 
-Boxes stream as they are read rather than being collected first, so `dump` starts printing immediately and holds only a page of box names at a time.
+Boxes stream as they are read rather than being collected first, so `dump` starts printing immediately and holds only a page of boxes at a time.
 
-`migrate` is safe to re-run: the contract skips keys that are missing or already packed. Because an indexer listing lags the chain by a few rounds, the command re-scans until a pass comes back clean, up to `--max-passes` (default 3).
+A registry of millions of boxes takes a while to dump, so `--resume <file>` makes the run restartable: the file records the listing cursor and the counts behind it after every page, and Ctrl-C stops between rows so what stdout has written and what the file records stay in step. Re-running the same command continues after the recorded cursor — redirect with `>>` to append to the same output — and the file is removed once the dump completes. A resumed dump lists at the current round, so a box registered behind the cursor while the dump was stopped is not picked up.
+
+`migrate` is safe to re-run: the contract skips keys that are missing or already packed. A box written behind the listing cursor while a scan is running is missed, so the command re-scans until a pass comes back clean, up to `--max-passes` (default 3).
 
 ### Configuration
 
@@ -241,15 +244,12 @@ Defaults to the Fnet deployment. Override via CLI flags, environment variables, 
 | `ALGOD_HOST` | `--algod-host` | `fnet-api.4160.nodely.dev` | Algorand node host |
 | `ALGOD_PORT` | `--algod-port` | `443` | Algorand node port |
 | `ALGOD_TOKEN` | `--algod-token` | (empty) | Algorand node token |
-| `INDEXER_HOST` | `--indexer-host` | `fnet-idx.4160.nodely.dev` | Indexer host, used to page box listings. Set empty to use algod only |
-| `INDEXER_PORT` | `--indexer-port` | `443` | Indexer port |
-| `INDEXER_TOKEN` | `--indexer-token` | (empty) | Indexer token |
 | `APP_ID` | `--app-id` | `16954321` | Escreg application ID |
 | `MNEMONIC` | `--mnemonic` | | Account mnemonic for write operations |
 | `ADDRESS` | `--address` | | Account address (for rekeyed accounts) |
 | `CONCURRENCY` | `--concurrency` | `1` | Parallel request count |
 
-Both the node and indexer defaults point at Fnet, so pointing `ALGOD_HOST` at another network means pointing `INDEXER_HOST` there too. Only the box-listing commands (`dump`, `migrate`) use the indexer; the rest never touch it.
+Every command talks to the node alone. The box-listing commands (`dump`, `migrate`) page through algod's box listing and read box values straight off it, which needs go-algorand 4.7 or newer — the public API nodes are, the AlgoKit LocalNet image (4.4) is not. An older node ignores the paging and answers with every box name in one response, leaving the values to be fetched one box at a time (`--concurrency`) and failing with "Result limit exceeded" past its `MaxAPIBoxPerApplication`.
 
 ### Build
 

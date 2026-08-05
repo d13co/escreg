@@ -1,6 +1,6 @@
 {
   "name": "@d13co/escreg-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -54,7 +54,7 @@
   },
   "peerDependencies": {
     "@algorandfoundation/algokit-utils": "^9.0.0",
-    "algosdk": "^3.0.0"
+    "algosdk": "^3.6.0"
   },
   "dependencies": {
     "p-map": "^7.0.3"

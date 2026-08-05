@@ -1,6 +1,8 @@
-import { EscregSDK } from "@d13co/escreg-sdk";
+import { once } from "events";
+import { boxCursor, EscregSDK } from "@d13co/escreg-sdk";
 import { parseAppIdsFromFile, parseAppIdsFromArgs, parseAddressesFromFile, parseAddressesFromArgs } from "./parse";
 import { createAlgorandClient, createWriterAccount, convertAppIdsToAddresses } from "./utils";
+import { clearCheckpoint, readCheckpoint, writeCheckpoint } from "./checkpoint";
 import { bucketHeader, formatBucketRow } from "./format";
 import { getConfig } from "./config";
 
@@ -292,9 +294,6 @@ export async function handleMigrateCommand(argv: any) {
       algodHost: argv.algodHost,
       algodPort: argv.algodPort,
       algodToken: argv.algodToken,
-      indexerHost: argv.indexerHost,
-      indexerPort: argv.indexerPort,
-      indexerToken: argv.indexerToken,
       appId: argv.appId,
     });
 
@@ -313,12 +312,12 @@ export async function handleMigrateCommand(argv: any) {
       writerAccount,
     });
 
-    const scanOptions = { concurrency: argv.concurrency, debug: argv.debug, source: argv.source };
+    const scanOptions = { concurrency: argv.concurrency, pageSize: argv.pageSize, debug: argv.debug };
 
     let totalMigrated = 0;
     const txIds: string[] = [];
 
-    // An indexer-sourced scan lags the chain, so re-scan until a pass comes back clean
+    // A box written behind the listing cursor mid-scan is missed, so re-scan until a pass comes back clean
     for (let pass = 1; pass <= argv.maxPasses; pass++) {
       console.log(`Pass ${pass}/${argv.maxPasses}: scanning registry boxes for the legacy layout...`);
       const boxKeys = await sdk.findLegacyBoxes(scanOptions);
@@ -364,9 +363,6 @@ export async function handleDumpCommand(argv: any) {
       algodHost: argv.algodHost,
       algodPort: argv.algodPort,
       algodToken: argv.algodToken,
-      indexerHost: argv.indexerHost,
-      indexerPort: argv.indexerPort,
-      indexerToken: argv.indexerToken,
       appId: argv.appId,
     });
 
@@ -381,21 +377,82 @@ export async function handleDumpCommand(argv: any) {
       throw error;
     });
 
+    const appId = String(argv.appId);
+    const resumePath: string | undefined = argv.resume;
+    const resumed = resumePath ? readCheckpoint(resumePath, appId) : undefined;
+
+    let legacy = resumed?.legacy ?? 0;
+    let packed = resumed?.packed ?? 0;
+    let entries = resumed?.entries ?? 0;
+    // cursor covering every row written so far, which is what a resumed dump picks up from
+    let cursor = resumed?.next;
+    let round = resumed?.round;
+
+    // stop between rows rather than mid-write, so the cursor and what stdout holds stay in step
+    let interrupted = false;
+    const onSignal = () => {
+      interrupted = true;
+    };
+    process.on("SIGINT", onSignal).on("SIGTERM", onSignal);
+
+    // never checkpoint ahead of the rows it covers: a queued write is not on disk yet
+    const flush = async () => {
+      if (process.stdout.writableNeedDrain) await once(process.stdout, "drain");
+    };
+
+    const save = async () => {
+      if (!resumePath || !cursor) return;
+      await flush();
+      writeCheckpoint(resumePath, { appId, next: cursor, round, legacy, packed, entries });
+    };
+
+    if (resumed) {
+      process.stderr.write(`Resuming after box ${resumed.next}, ${legacy + packed} boxes already dumped\n`);
+    }
+
     // rows go to stdout so the dump can be piped; everything else to stderr
     process.stderr.write(`${bucketHeader}\n`);
 
-    let legacy = 0;
-    let packed = 0;
-    let entries = 0;
+    try {
+      const pages = sdk.scanBucketPages({ pageSize: argv.pageSize, concurrency: argv.concurrency, next: cursor, debug: argv.debug });
 
-    for await (const bucket of sdk.scanBuckets({ concurrency: argv.concurrency, source: argv.source, debug: argv.debug })) {
-      process.stdout.write(`${formatBucketRow(bucket)}\n`);
-      if (bucket.version === 1) legacy++;
-      else packed++;
-      entries += bucket.appIds.length;
+      for await (const page of pages) {
+        for (const bucket of page.buckets) {
+          process.stdout.write(`${formatBucketRow(bucket)}\n`);
+          if (bucket.version === 1) legacy++;
+          else packed++;
+          entries += bucket.appIds.length;
+          cursor = boxCursor(bucket.key);
+          if (interrupted) break;
+        }
+
+        round = page.round;
+        // the page cursor also covers any credit boxes trailing the last bucket
+        if (!interrupted && page.next) cursor = page.next;
+        if (interrupted || !page.next) break;
+
+        await save();
+      }
+    } catch (error) {
+      // the rows before a failed page are still dumped, so checkpoint them before bailing out
+      await save();
+      throw error;
+    } finally {
+      process.off("SIGINT", onSignal).off("SIGTERM", onSignal);
     }
 
     const boxes = legacy + packed;
+
+    if (interrupted) {
+      await save();
+      const resumeHint = resumePath ? "Re-run the same command to continue." : "Pass --resume <file> to make a dump resumable.";
+      process.stderr.write(`Interrupted after ${boxes} boxes. ${resumeHint}\n`);
+      process.exitCode = 130;
+      return;
+    }
+
+    if (resumePath) clearCheckpoint(resumePath);
+
     if (!boxes) {
       process.stderr.write("No registry boxes found.\n");
       return;

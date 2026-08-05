@@ -169,3 +169,6 @@ cython_debug/
 node_modules
 
 projects/data
+
+.claude/
+*.data
