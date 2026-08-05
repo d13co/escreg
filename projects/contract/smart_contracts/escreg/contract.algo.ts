@@ -234,7 +234,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
     const packedLen: uint64 = size - headerLen
 
     for (let i: uint64 = 0; i < packedLen / 8; i++) {
-      if (op.btoi(this.apps(key).extract(headerLen + i * 8, 8)) === appId) {
+      if (this.getAppIdAtBucketPosition(key, i, headerLen) === appId) {
         return
       }
     }
@@ -248,17 +248,35 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   }
 
   /**
+   * Get the application ID at position $pos in bucket with key $key
+   * Supports legacy (headerLen==2) and latest (no header)
+   * @param key 4-byte key of the bucket to search. The box must exist.
+   * @param pos index of app id
+   * @param headerLen 2 for legacy, 0 for latest
+   * @returns uint64 of stored app ID
+   */
+  private getAppIdAtBucketPosition(key: bytes<4>, pos: uint64, headerLen: uint64): uint64 {
+    return op.btoi(this.apps(key).extract(headerLen + pos * 8, 8))
+  }
+
+  /**
    * Find the app ID whose escrow address matches the given address.
+   *
+   * Candidates are read one at a time with `box_extract`, never as a whole box value, so buckets
+   * larger than the 4096-byte AVM value limit stay readable up to the 32768-byte box limit. The
+   * caller still needs enough box references in the group to cover the bucket size, at 1024 bytes
+   * of read budget per reference.
    * @param address Address to match against.
-   * @param bucket Bucket bytes: one big-endian 8-byte app ID per candidate, after any legacy length header.
+   * @param key 4-byte key of the bucket to search. The box must exist.
+   * @param size Bucket size in bytes.
    * @returns The matching app ID, or 0 if no match is found.
    */
-  private findAddr(address: Address, bucket: bytes): uint64 {
-    const headerLen = this.bucketHeaderLen(bucket.length)
-    const count: uint64 = (bucket.length - headerLen) / 8
+  private findAddr(address: Address, key: bytes<4>, size: uint64): uint64 {
+    const headerLen = this.bucketHeaderLen(size)
+    const count: uint64 = (size - headerLen) / 8
 
     for (let i: uint64 = 0; i < count; i++) {
-      const appId = op.extractUint64(bucket, headerLen + i * 8)
+      const appId = this.getAppIdAtBucketPosition(key, i, headerLen)
       if (address.native.bytes === this.deriveAddr(appId)) {
         return appId
       }
@@ -274,12 +292,11 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   private lookup(address: Address): uint64 {
     const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
 
-    const [bucket, bucketExists] = this.apps(addr4).maybe()
-    if (!bucketExists) {
+    if (!this.apps(addr4).exists) {
       return 0
     }
 
-    return this.findAddr(address, bucket)
+    return this.findAddr(address, addr4, this.apps(addr4).length)
   }
 
   /**
