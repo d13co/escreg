@@ -213,6 +213,25 @@ describe('Legacy bucket migration', () => {
     expect((await client.send.getList({ args: { addresses } })).return).toEqual(colliding)
   })
 
+  test('migrateBoxes rejects a bucket in neither layout (ERR:BKT)', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    // 12 bytes is 4 mod 8: neither a packed bucket nor a legacy one. Reading the remainder as a
+    // header length would shift every app ID in it and drop the leading bytes for good.
+    const key = boxKeyOf(1002n)
+    await client.send.plantBucket({ args: { key, value: new Uint8Array(12), entries: 1 }, boxReferences: [key] })
+
+    await expect(client.send.migrateBoxes({ args: { boxKeys: [key] }, boxReferences: [key] })).rejects.toThrow(
+      /ERR:BKT/,
+    )
+    expect((await getBox(client, key)).length).toBe(12)
+
+    // and the SDK refuses to hand such a box to migrateBoxes in the first place
+    const sdk = new EscregSDK({ algorand: localnet.algorand, appId: client.appId, writerAccount: testAccount })
+    await expect(sdk.findLegacyBoxes()).rejects.toThrow(/Malformed registry box/)
+  })
+
   test('migrateBoxes fails for non-admin (ERR:AUTH)', async () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
@@ -336,7 +355,11 @@ describe('Legacy bucket migration', () => {
       // node that pages; an older one answers with the whole listing and has its values fetched per box
       const found = await sdk.findLegacyBoxes({ pageSize: 2 })
 
-      expect(sortedHex(found)).toEqual(sortedHex(legacyKeys))
+      expect(sortedHex(found.map(({ key }) => key))).toEqual(sortedHex(legacyKeys))
+      // sizes come back alongside the keys, which is what migrateBoxes budgets its box references by
+      for (const { key, size } of found) {
+        expect(size).toBe((await getBox(client, key)).length)
+      }
     })
 
     test('migrateBoxes converts every box findLegacyBoxes reports', async () => {
@@ -345,8 +368,10 @@ describe('Legacy bucket migration', () => {
 
       const { legacyKeys, colliding } = await seedMixedRegistry(client, sdk, testAccount)
 
-      const txIds = await sdk.migrateBoxes({ boxKeys: await sdk.findLegacyBoxes() })
+      const { txIds, migrated } = await sdk.migrateBoxes({ boxes: await sdk.findLegacyBoxes() })
       expect(txIds.length).toBeGreaterThan(0)
+      // the count comes from the contract's own return value, not from the keys that were submitted
+      expect(migrated).toBe(legacyKeys.length)
 
       expect(await sdk.findLegacyBoxes()).toEqual([])
       for (const key of legacyKeys) {
@@ -359,6 +384,52 @@ describe('Legacy bucket migration', () => {
       expect(await sdk.lookup({ addresses })).toEqual(expected)
     })
 
+    test('migrateBoxes converts a bucket larger than one box reference covers', async () => {
+      const { testAccount } = localnet.context
+      const { client, sdk } = await deployWithSdk(testAccount)
+
+      // 512 entries behind the legacy header: 4098 bytes, the largest a bucket could reach under the
+      // pre-migration layout, and four times the 1024 bytes a single box reference budgets for. The
+      // app IDs do not hash to the key, which migrating a bucket does not depend on.
+      const appIds = [...Array(512).keys()].map((i) => BigInt(i + 1))
+      const encoded = legacyBucketType.encode(appIds)
+      const key = boxKeyOf(appIds[0])
+      expect(encoded.length).toBe(4098)
+
+      // covers the MBR of the planted box: 2500 + 400 * (4 + 4098)
+      await localnet.algorand.send.payment({
+        sender: testAccount,
+        receiver: client.appAddress,
+        amount: (2).algos(),
+      })
+
+      // 200 entries at a time, to stay under the 2048-byte cap on application arguments
+      const chunkBytes = 1600
+      await client.send.plantBucket({
+        args: { key, value: encoded.subarray(0, 2 + chunkBytes), entries: chunkBytes / 8 },
+        boxReferences: [key],
+      })
+      for (let offset = 2 + chunkBytes; offset < encoded.length; offset += chunkBytes) {
+        const value = encoded.subarray(offset, offset + chunkBytes)
+        const padding = Math.ceil((offset + value.length) / 1024) - 1
+        await client.send.growBucket({
+          args: { key, value, entries: value.length / 8 },
+          // 1024 bytes of write budget per reference, so a box this size needs padding alongside it
+          boxReferences: [key, ...[...Array(padding).keys()].map((i) => new Uint8Array([i]))],
+        })
+      }
+      expect((await getBox(client, key)).length).toBe(4098)
+
+      const found = await sdk.findLegacyBoxes()
+      expect(found).toEqual([{ key, size: 4098 }])
+
+      const { migrated } = await sdk.migrateBoxes({ boxes: found })
+
+      expect(migrated).toBe(1)
+      expect(decodePacked(await getBox(client, key))).toEqual(appIds)
+      expect(await sdk.findLegacyBoxes()).toEqual([])
+    })
+
     test('migrateBoxes on an already packed registry is a no-op', async () => {
       const { testAccount } = localnet.context
       const { client, sdk } = await deployWithSdk(testAccount)
@@ -367,7 +438,7 @@ describe('Legacy bucket migration', () => {
       await sdk.register({ appIds: [1002n] })
 
       expect(await sdk.findLegacyBoxes()).toEqual([])
-      expect(await sdk.migrateBoxes({ boxKeys: [] })).toEqual([])
+      expect(await sdk.migrateBoxes({ boxes: [] })).toEqual({ txIds: [], migrated: 0 })
       expect(decodePacked(await getBox(client, boxKeyOf(1002n)))).toEqual([1002n])
     })
   })

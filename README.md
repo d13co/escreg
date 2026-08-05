@@ -19,7 +19,7 @@ Buckets written before the packed layout are ARC-4 `uint64[]`: the same 8-byte a
 
 Converting is optional and reclaims the 800 microAlgos each header holds:
 
-- `migrateBoxes(bytes<4>[])` strips the header from the given keys, skipping any that are missing or already packed, and returns how many it converted. The freed MBR is not credited back to any account; it stays in the contract balance for the admin to `withdraw`.
+- `migrateBoxes(bytes<4>[])` strips the header from the given keys, skipping any that are missing or already packed, and returns how many it converted. A box whose size is neither layout's is rejected (`ERR:BKT`) rather than read as a header of that length, which would shift every app ID in it. The freed MBR is not credited back to any account; it stays in the contract balance for the admin to `withdraw`.
 - Registering a new app ID into a legacy bucket converts that bucket as a side effect, so writes drift toward the packed layout on their own.
 - `escreg migrate` (CLI) scans for legacy buckets and converts them in batches, and `escreg dump` shows which layout each box is in. See [CLI](#cli).
 
@@ -163,9 +163,9 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group (105 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
 - **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
 - **Credits:** deposit, withdraw, and check MBR credit balances.
-- **Migration:** `findLegacyBoxes` lists every registry box and returns the keys of those still in the legacy layout; `migrateBoxes` converts them in batches of 8 per transaction. `decodeBucket` decodes a raw bucket box value into app IDs, and `bucketHeaderLen` gives the header length to skip when the value may be legacy.
+- **Migration:** `findLegacyBoxes` lists every registry box and returns the keys of those still in the legacy layout with their sizes; `migrateBoxes` converts them, batching up to 8 keys per transaction and no more bytes than the box references it carries cover (1024 bytes each, padded past that), and returns the count the contract itself reports. `decodeBucket` decodes a raw bucket box value into app IDs, and `bucketHeaderLen` gives the header length to skip when the value may be legacy.
 - **Scanning:** `scanBucketPages` reads the registry from algod's paginated box listing, a page of boxes and their values per request, and `scanBuckets` flattens it into an async iterable of every bucket with its layout version and decoded app IDs. A registry of millions of boxes streams in constant memory. Backs `escreg dump`. Nodes predating the paginated listing answer with every box name in one response, which the SDK falls back to fetching values for with bounded `concurrency`; that path still fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`.
-- **Resuming a scan:** every page carries the `next` cursor to resume after it, and `boxCursor` builds the same cursor from the name of the last box a caller finished with, so an interrupted scan restarts from where it stopped rather than from the top. A resumed scan lists at the current round, so a box written behind the cursor while it was stopped is not picked up.
+- **Resuming a scan:** every page carries the `next` cursor to resume after it, and `boxCursor` builds the same cursor from the name of the last box a caller finished with, so an interrupted scan restarts from where it stopped rather than from the top. A resumed scan lists at the current round, so a box written behind the cursor while it was stopped is not picked up. A node that ignores the pagination would answer a resumed scan from the first box, which the SDK rejects rather than handing back rows the caller has already processed.
 
 ### Build
 
@@ -231,9 +231,9 @@ The `v` column is the bucket layout: `1` for a legacy ARC-4 bucket, `2` for a pa
 
 Boxes stream as they are read rather than being collected first, so `dump` starts printing immediately and holds only a page of boxes at a time.
 
-A registry of millions of boxes takes a while to dump, so `--resume <file>` makes the run restartable: the file records the listing cursor and the counts behind it after every page, and Ctrl-C stops between rows so what stdout has written and what the file records stay in step. Re-running the same command continues after the recorded cursor — redirect with `>>` to append to the same output — and the file is removed once the dump completes. A resumed dump lists at the current round, so a box registered behind the cursor while the dump was stopped is not picked up.
+A registry of millions of boxes takes a while to dump, so `--resume <file>` makes the run restartable: the file records the listing cursor and the counts behind it after every page, and Ctrl-C stops between rows so what stdout has written and what the file records stay in step. Ctrl-C again quits immediately, without a checkpoint, for when the scan is stuck waiting on the node. Re-running the same command continues after the recorded cursor — redirect with `>>` to append to the same output — and the file is removed once the dump completes, including when the interrupt lands on the last row there was. Resuming needs a node that honours the listing cursor; on one that does not, the command stops rather than dumping from the top again. A resumed dump lists at the current round, so a box registered behind the cursor while the dump was stopped is not picked up.
 
-`migrate` is safe to re-run: the contract skips keys that are missing or already packed. A box written behind the listing cursor while a scan is running is missed, so the command re-scans until a pass comes back clean, up to `--max-passes` (default 3).
+`migrate` is safe to re-run: the contract skips keys that are missing or already packed, and reports how many it actually converted, which is what the freed MBR follows from. A box written behind the listing cursor while a scan is running is missed, so the command re-scans until a pass comes back clean, up to `--max-passes` (default 3); short of a clean pass it says so, since only an empty scan proves nothing is left.
 
 ### Configuration
 

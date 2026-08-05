@@ -6,7 +6,7 @@
     "../../escreg/test-legacy-bucket.algo.ts",
     "../../mbr-manager/contract.algo.ts"
   ],
-  "mappings": "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",
+  "mappings": "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",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -2450,16 +2450,7 @@
       ]
     },
     "518": {
-      "op": "dup",
-      "defined_out": [
-        "aggregate%array_length%0#0",
-        "boxKeys#0",
-        "headerLen#0",
-        "item_index_internal%0#0",
-        "size#0",
-        "temp#0",
-        "temp#0 (copy)"
-      ],
+      "op": "dig 5",
       "stack_out": [
         "temp#0",
         "headerLen#0",
@@ -2469,26 +2460,11 @@
         "aggregate%array_length%0#0",
         "item_index_internal%0#0",
         "temp#0",
-        "temp#0 (copy)"
-      ]
-    },
-    "519": {
-      "op": "intc_0 // 0",
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "temp#0 (copy)",
-        "0"
+        "size#0"
       ]
     },
     "520": {
-      "op": "dig 8",
+      "op": "dig 7",
       "stack_out": [
         "temp#0",
         "headerLen#0",
@@ -2498,155 +2474,13 @@
         "aggregate%array_length%0#0",
         "item_index_internal%0#0",
         "temp#0",
-        "temp#0 (copy)",
-        "0",
+        "size#0",
         "headerLen#0"
       ]
     },
     "522": {
-      "op": "dup",
-      "defined_out": [
-        "0",
-        "aggregate%array_length%0#0",
-        "boxKeys#0",
-        "headerLen#0",
-        "headerLen#0 (copy)",
-        "item_index_internal%0#0",
-        "size#0",
-        "temp#0",
-        "temp#0 (copy)"
-      ],
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "temp#0 (copy)",
-        "0",
-        "headerLen#0 (copy)",
-        "headerLen#0 (copy)"
-      ]
-    },
-    "523": {
-      "op": "cover 3",
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "headerLen#0",
-        "temp#0 (copy)",
-        "0",
-        "headerLen#0 (copy)"
-      ]
-    },
-    "525": {
-      "op": "bytec_3 // \"\"",
-      "defined_out": [
-        "\"\"",
-        "0",
-        "aggregate%array_length%0#0",
-        "boxKeys#0",
-        "headerLen#0",
-        "headerLen#0 (copy)",
-        "item_index_internal%0#0",
-        "size#0",
-        "temp#0",
-        "temp#0 (copy)"
-      ],
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "headerLen#0",
-        "temp#0 (copy)",
-        "0",
-        "headerLen#0 (copy)",
-        "\"\""
-      ]
-    },
-    "526": {
-      "op": "box_splice",
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "headerLen#0"
-      ]
-    },
-    "527": {
-      "op": "dig 6",
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "headerLen#0",
-        "size#0"
-      ]
-    },
-    "529": {
-      "op": "swap",
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "size#0",
-        "headerLen#0"
-      ]
-    },
-    "530": {
-      "op": "-",
-      "defined_out": [
-        "aggregate%array_length%0#0",
-        "boxKeys#0",
-        "headerLen#0",
-        "item_index_internal%0#0",
-        "size#0",
-        "temp#0",
-        "tmp%0#0"
-      ],
-      "stack_out": [
-        "temp#0",
-        "headerLen#0",
-        "size#0",
-        "boxKeys#0",
-        "migrated#0",
-        "aggregate%array_length%0#0",
-        "item_index_internal%0#0",
-        "temp#0",
-        "tmp%0#0"
-      ]
-    },
-    "531": {
-      "op": "box_resize",
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.dropLegacyHeader",
+      "op": "callsub dropLegacyHeader",
       "stack_out": [
         "temp#0",
         "headerLen#0",
@@ -2657,7 +2491,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "532": {
+    "525": {
       "op": "dig 2",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -2679,7 +2513,7 @@
         "migrated#0"
       ]
     },
-    "534": {
+    "527": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -2703,7 +2537,7 @@
         "1"
       ]
     },
-    "535": {
+    "528": {
       "op": "+",
       "stack_out": [
         "temp#0",
@@ -2716,7 +2550,7 @@
         "migrated#0"
       ]
     },
-    "536": {
+    "529": {
       "op": "bury 3",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -2737,7 +2571,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "538": {
+    "531": {
       "block": "migrateBoxes_after_if_else@7",
       "stack_in": [
         "temp#0",
@@ -2763,7 +2597,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "539": {
+    "532": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -2781,7 +2615,7 @@
         "1"
       ]
     },
-    "540": {
+    "533": {
       "op": "+",
       "stack_out": [
         "temp#0",
@@ -2794,7 +2628,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "541": {
+    "534": {
       "op": "bury 1",
       "defined_out": [
         "item_index_internal%0#0"
@@ -2809,10 +2643,10 @@
         "item_index_internal%0#0"
       ]
     },
-    "543": {
+    "536": {
       "op": "b migrateBoxes_for_header@2"
     },
-    "546": {
+    "539": {
       "block": "migrateBoxes_after_for@9",
       "stack_in": [
         "temp#0",
@@ -2838,7 +2672,7 @@
         "migrated#0"
       ]
     },
-    "548": {
+    "541": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -2855,7 +2689,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "549": {
+    "542": {
       "op": "bytec_2 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -2874,7 +2708,7 @@
         "0x151f7c75"
       ]
     },
-    "550": {
+    "543": {
       "op": "swap",
       "stack_out": [
         "temp#0",
@@ -2888,7 +2722,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "551": {
+    "544": {
       "op": "concat",
       "defined_out": [
         "migrated#0",
@@ -2905,7 +2739,7 @@
         "tmp%3#0"
       ]
     },
-    "552": {
+    "545": {
       "op": "log",
       "stack_out": [
         "temp#0",
@@ -2917,7 +2751,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "553": {
+    "546": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -2934,7 +2768,7 @@
         "1"
       ]
     },
-    "554": {
+    "547": {
       "op": "return",
       "stack_out": [
         "temp#0",
@@ -2946,7 +2780,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "555": {
+    "548": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.register[routing]",
       "params": {},
       "block": "register",
@@ -2959,7 +2793,7 @@
         "tmp%0#0"
       ]
     },
-    "558": {
+    "551": {
       "op": "btoi",
       "defined_out": [
         "appId#0"
@@ -2968,7 +2802,7 @@
         "appId#0"
       ]
     },
-    "559": {
+    "552": {
       "op": "dup",
       "defined_out": [
         "appId#0"
@@ -2978,7 +2812,7 @@
         "appId#0"
       ]
     },
-    "560": {
+    "553": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "appId#0",
@@ -2990,7 +2824,7 @@
         "tmp%0#1"
       ]
     },
-    "562": {
+    "555": {
       "op": "acct_params_get AcctMinBalance",
       "defined_out": [
         "appId#0",
@@ -3004,7 +2838,7 @@
         "check%0#0"
       ]
     },
-    "564": {
+    "557": {
       "op": "swap",
       "stack_out": [
         "appId#0",
@@ -3013,7 +2847,7 @@
         "mbrBefore#0"
       ]
     },
-    "565": {
+    "558": {
       "op": "cover 2",
       "defined_out": [
         "appId#0",
@@ -3027,7 +2861,7 @@
         "check%0#0"
       ]
     },
-    "567": {
+    "560": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -3036,7 +2870,7 @@
         "appId#0"
       ]
     },
-    "568": {
+    "561": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.deriveAddrPrefix",
       "op": "callsub deriveAddrPrefix",
       "defined_out": [
@@ -3050,7 +2884,7 @@
         "key#0"
       ]
     },
-    "571": {
+    "564": {
       "op": "dup",
       "defined_out": [
         "appId#0",
@@ -3064,7 +2898,7 @@
         "key#0"
       ]
     },
-    "572": {
+    "565": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -3081,7 +2915,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "573": {
+    "566": {
       "op": "bury 1",
       "stack_out": [
         "appId#0",
@@ -3090,7 +2924,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "575": {
+    "568": {
       "op": "bnz register_else_body@3",
       "stack_out": [
         "appId#0",
@@ -3098,7 +2932,7 @@
         "key#0"
       ]
     },
-    "578": {
+    "571": {
       "op": "intc_0 // 0",
       "stack_out": [
         "appId#0",
@@ -3107,7 +2941,7 @@
         "0"
       ]
     },
-    "579": {
+    "572": {
       "op": "bytec_0 // \"counter\"",
       "defined_out": [
         "\"counter\"",
@@ -3124,7 +2958,7 @@
         "\"counter\""
       ]
     },
-    "580": {
+    "573": {
       "op": "app_global_get_ex",
       "defined_out": [
         "appId#0",
@@ -3141,7 +2975,7 @@
         "maybe_exists%1#0"
       ]
     },
-    "581": {
+    "574": {
       "error": "check GlobalState exists",
       "op": "assert // check GlobalState exists",
       "stack_out": [
@@ -3151,7 +2985,7 @@
         "maybe_value%0#0"
       ]
     },
-    "582": {
+    "575": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -3168,7 +3002,7 @@
         "1"
       ]
     },
-    "583": {
+    "576": {
       "op": "+",
       "defined_out": [
         "appId#0",
@@ -3183,7 +3017,7 @@
         "tmp%2#0"
       ]
     },
-    "584": {
+    "577": {
       "op": "bytec_0 // \"counter\"",
       "stack_out": [
         "appId#0",
@@ -3193,7 +3027,7 @@
         "\"counter\""
       ]
     },
-    "585": {
+    "578": {
       "op": "swap",
       "stack_out": [
         "appId#0",
@@ -3203,7 +3037,7 @@
         "tmp%2#0"
       ]
     },
-    "586": {
+    "579": {
       "op": "app_global_put",
       "stack_out": [
         "appId#0",
@@ -3211,7 +3045,7 @@
         "key#0"
       ]
     },
-    "587": {
+    "580": {
       "op": "dig 2",
       "stack_out": [
         "appId#0",
@@ -3220,7 +3054,7 @@
         "appId#0"
       ]
     },
-    "589": {
+    "582": {
       "op": "itob",
       "defined_out": [
         "appId#0",
@@ -3235,7 +3069,7 @@
         "tmp%3#0"
       ]
     },
-    "590": {
+    "583": {
       "op": "swap",
       "stack_out": [
         "appId#0",
@@ -3244,7 +3078,7 @@
         "key#0"
       ]
     },
-    "591": {
+    "584": {
       "op": "dup",
       "defined_out": [
         "appId#0",
@@ -3261,7 +3095,7 @@
         "key#0 (copy)"
       ]
     },
-    "592": {
+    "585": {
       "op": "box_del",
       "defined_out": [
         "appId#0",
@@ -3278,7 +3112,7 @@
         "{box_del}"
       ]
     },
-    "593": {
+    "586": {
       "op": "pop",
       "stack_out": [
         "appId#0",
@@ -3287,7 +3121,7 @@
         "key#0"
       ]
     },
-    "594": {
+    "587": {
       "op": "swap",
       "stack_out": [
         "appId#0",
@@ -3296,14 +3130,14 @@
         "tmp%3#0"
       ]
     },
-    "595": {
+    "588": {
       "op": "box_put",
       "stack_out": [
         "appId#0",
         "mbrBefore#0"
       ]
     },
-    "596": {
+    "589": {
       "block": "register_after_if_else@4",
       "stack_in": [
         "appId#0",
@@ -3319,7 +3153,7 @@
         "mbrBefore#0"
       ]
     },
-    "597": {
+    "590": {
       "callsub": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.manageMbrCredits",
       "op": "callsub manageMbrCredits",
       "stack_out": [
@@ -3327,7 +3161,7 @@
         "mbrBefore#0"
       ]
     },
-    "600": {
+    "593": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -3339,14 +3173,14 @@
         "1"
       ]
     },
-    "601": {
+    "594": {
       "op": "return",
       "stack_out": [
         "appId#0",
         "mbrBefore#0"
       ]
     },
-    "602": {
+    "595": {
       "block": "register_else_body@3",
       "stack_in": [
         "appId#0",
@@ -3365,7 +3199,7 @@
         "appId#0"
       ]
     },
-    "604": {
+    "597": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.appendAppId",
       "op": "callsub appendAppId",
       "stack_out": [
@@ -3373,10 +3207,10 @@
         "mbrBefore#0"
       ]
     },
-    "607": {
+    "600": {
       "op": "b register_after_if_else@4"
     },
-    "610": {
+    "603": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.registerList[routing]",
       "params": {},
       "block": "registerList",
@@ -3386,13 +3220,13 @@
         "key#0"
       ]
     },
-    "611": {
+    "604": {
       "op": "txna ApplicationArgs 1"
     },
-    "614": {
+    "607": {
       "op": "dup"
     },
-    "615": {
+    "608": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "appIds#0",
@@ -3405,7 +3239,7 @@
         "tmp%0#1"
       ]
     },
-    "617": {
+    "610": {
       "op": "acct_params_get AcctMinBalance",
       "defined_out": [
         "appIds#0",
@@ -3420,7 +3254,7 @@
         "check%0#0"
       ]
     },
-    "619": {
+    "612": {
       "op": "swap",
       "stack_out": [
         "key#0",
@@ -3430,7 +3264,7 @@
         "mbrBefore#0"
       ]
     },
-    "620": {
+    "613": {
       "op": "cover 2",
       "defined_out": [
         "appIds#0",
@@ -3445,7 +3279,7 @@
         "check%0#0"
       ]
     },
-    "622": {
+    "615": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -3455,7 +3289,7 @@
         "appIds#0"
       ]
     },
-    "623": {
+    "616": {
       "op": "intc_0 // 0",
       "stack_out": [
         "key#0",
@@ -3465,7 +3299,7 @@
         "0"
       ]
     },
-    "624": {
+    "617": {
       "error": "invalid array length header",
       "op": "extract_uint16 // on error: invalid array length header",
       "defined_out": [
@@ -3480,7 +3314,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "625": {
+    "618": {
       "op": "intc_0 // 0",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3496,7 +3330,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "626": {
+    "619": {
       "block": "registerList_for_header@2",
       "stack_in": [
         "key#0",
@@ -3518,7 +3352,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "627": {
+    "620": {
       "op": "dig 2",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3534,7 +3368,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "629": {
+    "622": {
       "op": "<",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3550,7 +3384,7 @@
         "continue_looping%0#0"
       ]
     },
-    "630": {
+    "623": {
       "op": "bz registerList_after_for@8",
       "stack_out": [
         "key#0",
@@ -3560,7 +3394,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "633": {
+    "626": {
       "op": "dig 3",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3576,7 +3410,7 @@
         "appIds#0"
       ]
     },
-    "635": {
+    "628": {
       "op": "extract 2 0",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3593,7 +3427,7 @@
         "aggregate%array_trimmed%0#0"
       ]
     },
-    "638": {
+    "631": {
       "op": "dig 1",
       "stack_out": [
         "key#0",
@@ -3605,7 +3439,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "640": {
+    "633": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -3625,7 +3459,7 @@
         "8"
       ]
     },
-    "641": {
+    "634": {
       "op": "*",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3644,7 +3478,7 @@
         "aggregate%bytes_offset%0#0"
       ]
     },
-    "642": {
+    "635": {
       "op": "extract_uint64",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3661,7 +3495,7 @@
         "temp#0"
       ]
     },
-    "643": {
+    "636": {
       "op": "dup",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3679,7 +3513,7 @@
         "temp#0"
       ]
     },
-    "644": {
+    "637": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.deriveAddrPrefix",
       "op": "callsub deriveAddrPrefix",
       "defined_out": [
@@ -3699,7 +3533,7 @@
         "key#0"
       ]
     },
-    "647": {
+    "640": {
       "op": "dup",
       "stack_out": [
         "key#0",
@@ -3712,7 +3546,7 @@
         "key#0"
       ]
     },
-    "648": {
+    "641": {
       "op": "bury 7",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3731,7 +3565,7 @@
         "key#0"
       ]
     },
-    "650": {
+    "643": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -3753,7 +3587,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "651": {
+    "644": {
       "op": "bury 1",
       "stack_out": [
         "key#0",
@@ -3765,7 +3599,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "653": {
+    "646": {
       "op": "bnz registerList_else_body@5",
       "stack_out": [
         "key#0",
@@ -3776,7 +3610,7 @@
         "temp#0"
       ]
     },
-    "656": {
+    "649": {
       "op": "intc_0 // 0",
       "stack_out": [
         "key#0",
@@ -3788,7 +3622,7 @@
         "0"
       ]
     },
-    "657": {
+    "650": {
       "op": "bytec_0 // \"counter\"",
       "defined_out": [
         "\"counter\"",
@@ -3810,7 +3644,7 @@
         "\"counter\""
       ]
     },
-    "658": {
+    "651": {
       "op": "app_global_get_ex",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3832,7 +3666,7 @@
         "maybe_exists%1#0"
       ]
     },
-    "659": {
+    "652": {
       "error": "check GlobalState exists",
       "op": "assert // check GlobalState exists",
       "stack_out": [
@@ -3845,7 +3679,7 @@
         "maybe_value%0#0"
       ]
     },
-    "660": {
+    "653": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -3867,7 +3701,7 @@
         "1"
       ]
     },
-    "661": {
+    "654": {
       "op": "+",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3887,7 +3721,7 @@
         "tmp%2#0"
       ]
     },
-    "662": {
+    "655": {
       "op": "bytec_0 // \"counter\"",
       "stack_out": [
         "key#0",
@@ -3900,7 +3734,7 @@
         "\"counter\""
       ]
     },
-    "663": {
+    "656": {
       "op": "swap",
       "stack_out": [
         "key#0",
@@ -3913,7 +3747,7 @@
         "tmp%2#0"
       ]
     },
-    "664": {
+    "657": {
       "op": "app_global_put",
       "stack_out": [
         "key#0",
@@ -3924,7 +3758,7 @@
         "temp#0"
       ]
     },
-    "665": {
+    "658": {
       "op": "itob",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3942,7 +3776,7 @@
         "tmp%3#0"
       ]
     },
-    "666": {
+    "659": {
       "op": "dig 5",
       "stack_out": [
         "key#0",
@@ -3954,7 +3788,7 @@
         "key#0"
       ]
     },
-    "668": {
+    "661": {
       "op": "dup",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3975,7 +3809,7 @@
         "key#0 (copy)"
       ]
     },
-    "669": {
+    "662": {
       "op": "box_del",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -3996,7 +3830,7 @@
         "{box_del}"
       ]
     },
-    "670": {
+    "663": {
       "op": "pop",
       "stack_out": [
         "key#0",
@@ -4008,7 +3842,7 @@
         "key#0"
       ]
     },
-    "671": {
+    "664": {
       "op": "swap",
       "stack_out": [
         "key#0",
@@ -4020,7 +3854,7 @@
         "tmp%3#0"
       ]
     },
-    "672": {
+    "665": {
       "op": "box_put",
       "stack_out": [
         "key#0",
@@ -4030,7 +3864,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "673": {
+    "666": {
       "block": "registerList_after_if_else@6",
       "stack_in": [
         "key#0",
@@ -4052,7 +3886,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "674": {
+    "667": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -4068,7 +3902,7 @@
         "1"
       ]
     },
-    "675": {
+    "668": {
       "op": "+",
       "stack_out": [
         "key#0",
@@ -4079,7 +3913,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "676": {
+    "669": {
       "op": "bury 1",
       "defined_out": [
         "item_index_internal%0#0"
@@ -4092,10 +3926,10 @@
         "item_index_internal%0#0"
       ]
     },
-    "678": {
+    "671": {
       "op": "b registerList_for_header@2"
     },
-    "681": {
+    "674": {
       "block": "registerList_else_body@5",
       "stack_in": [
         "key#0",
@@ -4119,7 +3953,7 @@
         "key#0"
       ]
     },
-    "683": {
+    "676": {
       "op": "swap",
       "defined_out": [
         "key#0",
@@ -4135,7 +3969,7 @@
         "temp#0"
       ]
     },
-    "684": {
+    "677": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.appendAppId",
       "op": "callsub appendAppId",
       "stack_out": [
@@ -4146,10 +3980,10 @@
         "item_index_internal%0#0"
       ]
     },
-    "687": {
+    "680": {
       "op": "b registerList_after_if_else@6"
     },
-    "690": {
+    "683": {
       "block": "registerList_after_for@8",
       "stack_in": [
         "key#0",
@@ -4171,7 +4005,7 @@
         "mbrBefore#0"
       ]
     },
-    "692": {
+    "685": {
       "callsub": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.manageMbrCredits",
       "op": "callsub manageMbrCredits",
       "stack_out": [
@@ -4182,7 +4016,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "695": {
+    "688": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -4197,7 +4031,7 @@
         "1"
       ]
     },
-    "696": {
+    "689": {
       "op": "return",
       "stack_out": [
         "key#0",
@@ -4207,7 +4041,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "697": {
+    "690": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.exists[routing]",
       "params": {},
       "block": "exists",
@@ -4220,7 +4054,7 @@
         "address#0"
       ]
     },
-    "700": {
+    "693": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -4230,7 +4064,7 @@
         "tmp%0#1"
       ]
     },
-    "703": {
+    "696": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -4241,7 +4075,7 @@
         "0"
       ]
     },
-    "704": {
+    "697": {
       "op": "!=",
       "defined_out": [
         "tmp%1#1"
@@ -4250,7 +4084,7 @@
         "tmp%1#1"
       ]
     },
-    "705": {
+    "698": {
       "op": "pushbytes 0x00",
       "defined_out": [
         "0x00",
@@ -4261,7 +4095,7 @@
         "0x00"
       ]
     },
-    "708": {
+    "701": {
       "op": "intc_0 // 0",
       "stack_out": [
         "tmp%1#1",
@@ -4269,7 +4103,7 @@
         "0"
       ]
     },
-    "709": {
+    "702": {
       "op": "uncover 2",
       "stack_out": [
         "0x00",
@@ -4277,7 +4111,7 @@
         "tmp%1#1"
       ]
     },
-    "711": {
+    "704": {
       "op": "setbit",
       "defined_out": [
         "aggregate%encoded_bool%0#0"
@@ -4286,7 +4120,7 @@
         "aggregate%encoded_bool%0#0"
       ]
     },
-    "712": {
+    "705": {
       "op": "bytec_2 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -4297,14 +4131,14 @@
         "0x151f7c75"
       ]
     },
-    "713": {
+    "706": {
       "op": "swap",
       "stack_out": [
         "0x151f7c75",
         "aggregate%encoded_bool%0#0"
       ]
     },
-    "714": {
+    "707": {
       "op": "concat",
       "defined_out": [
         "tmp%3#0"
@@ -4313,11 +4147,11 @@
         "tmp%3#0"
       ]
     },
-    "715": {
+    "708": {
       "op": "log",
       "stack_out": []
     },
-    "716": {
+    "709": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1"
@@ -4326,11 +4160,11 @@
         "1"
       ]
     },
-    "717": {
+    "710": {
       "op": "return",
       "stack_out": []
     },
-    "718": {
+    "711": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.get[routing]",
       "params": {},
       "block": "get",
@@ -4343,7 +4177,7 @@
         "address#0"
       ]
     },
-    "721": {
+    "714": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -4353,7 +4187,7 @@
         "tmp%0#1"
       ]
     },
-    "724": {
+    "717": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0"
@@ -4362,7 +4196,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "725": {
+    "718": {
       "op": "bytec_2 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -4373,14 +4207,14 @@
         "0x151f7c75"
       ]
     },
-    "726": {
+    "719": {
       "op": "swap",
       "stack_out": [
         "0x151f7c75",
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "727": {
+    "720": {
       "op": "concat",
       "defined_out": [
         "tmp%3#0"
@@ -4389,11 +4223,11 @@
         "tmp%3#0"
       ]
     },
-    "728": {
+    "721": {
       "op": "log",
       "stack_out": []
     },
-    "729": {
+    "722": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1"
@@ -4402,11 +4236,11 @@
         "1"
       ]
     },
-    "730": {
+    "723": {
       "op": "return",
       "stack_out": []
     },
-    "731": {
+    "724": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.mustGet[routing]",
       "params": {},
       "block": "mustGet",
@@ -4419,7 +4253,7 @@
         "address#0"
       ]
     },
-    "734": {
+    "727": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -4429,7 +4263,7 @@
         "matchingAppID#0"
       ]
     },
-    "737": {
+    "730": {
       "op": "dup",
       "defined_out": [
         "matchingAppID#0"
@@ -4439,13 +4273,13 @@
         "matchingAppID#0"
       ]
     },
-    "738": {
+    "731": {
       "op": "bnz mustGet_after_if_else@3",
       "stack_out": [
         "matchingAppID#0"
       ]
     },
-    "741": {
+    "734": {
       "op": "bytec 6 // \"ERR:404\"",
       "defined_out": [
         "\"ERR:404\"",
@@ -4456,16 +4290,16 @@
         "\"ERR:404\""
       ]
     },
-    "743": {
+    "736": {
       "op": "log",
       "stack_out": [
         "matchingAppID#0"
       ]
     },
-    "744": {
+    "737": {
       "op": "err"
     },
-    "745": {
+    "738": {
       "block": "mustGet_after_if_else@3",
       "stack_in": [
         "matchingAppID#0"
@@ -4479,7 +4313,7 @@
         "matchingAppID#0"
       ]
     },
-    "746": {
+    "739": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -4490,7 +4324,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "747": {
+    "740": {
       "op": "bytec_2 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -4503,7 +4337,7 @@
         "0x151f7c75"
       ]
     },
-    "748": {
+    "741": {
       "op": "swap",
       "stack_out": [
         "matchingAppID#0",
@@ -4511,7 +4345,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "749": {
+    "742": {
       "op": "concat",
       "defined_out": [
         "matchingAppID#0",
@@ -4522,13 +4356,13 @@
         "tmp%3#0"
       ]
     },
-    "750": {
+    "743": {
       "op": "log",
       "stack_out": [
         "matchingAppID#0"
       ]
     },
-    "751": {
+    "744": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -4539,13 +4373,13 @@
         "1"
       ]
     },
-    "752": {
+    "745": {
       "op": "return",
       "stack_out": [
         "matchingAppID#0"
       ]
     },
-    "753": {
+    "746": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.getWithAuth[routing]",
       "params": {},
       "block": "getWithAuth",
@@ -4558,7 +4392,7 @@
         "address#0"
       ]
     },
-    "756": {
+    "749": {
       "op": "dup",
       "defined_out": [
         "address#0",
@@ -4569,7 +4403,7 @@
         "address#0 (copy)"
       ]
     },
-    "757": {
+    "750": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -4581,14 +4415,14 @@
         "appId#0"
       ]
     },
-    "760": {
+    "753": {
       "op": "swap",
       "stack_out": [
         "appId#0",
         "address#0"
       ]
     },
-    "761": {
+    "754": {
       "op": "acct_params_get AcctAuthAddr",
       "defined_out": [
         "appId#0",
@@ -4601,7 +4435,7 @@
         "check%0#0"
       ]
     },
-    "763": {
+    "756": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -4609,7 +4443,7 @@
         "value%0#0"
       ]
     },
-    "764": {
+    "757": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -4621,14 +4455,14 @@
         "authAppId#0"
       ]
     },
-    "767": {
+    "760": {
       "op": "swap",
       "stack_out": [
         "authAppId#0",
         "appId#0"
       ]
     },
-    "768": {
+    "761": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -4639,14 +4473,14 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "769": {
+    "762": {
       "op": "swap",
       "stack_out": [
         "aggregate%val_as_bytes%0#0",
         "authAppId#0"
       ]
     },
-    "770": {
+    "763": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -4657,7 +4491,7 @@
         "aggregate%val_as_bytes%1#0"
       ]
     },
-    "771": {
+    "764": {
       "op": "concat",
       "defined_out": [
         "aggregate%head%1#0"
@@ -4666,7 +4500,7 @@
         "aggregate%head%1#0"
       ]
     },
-    "772": {
+    "765": {
       "op": "bytec_2 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -4677,14 +4511,14 @@
         "0x151f7c75"
       ]
     },
-    "773": {
+    "766": {
       "op": "swap",
       "stack_out": [
         "0x151f7c75",
         "aggregate%head%1#0"
       ]
     },
-    "774": {
+    "767": {
       "op": "concat",
       "defined_out": [
         "tmp%2#0"
@@ -4693,11 +4527,11 @@
         "tmp%2#0"
       ]
     },
-    "775": {
+    "768": {
       "op": "log",
       "stack_out": []
     },
-    "776": {
+    "769": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1"
@@ -4706,24 +4540,24 @@
         "1"
       ]
     },
-    "777": {
+    "770": {
       "op": "return",
       "stack_out": []
     },
-    "778": {
+    "771": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.getWithAuthList[routing]",
       "params": {},
       "block": "getWithAuthList",
       "stack_in": [],
       "op": "txna ApplicationArgs 1"
     },
-    "781": {
+    "774": {
       "op": "bytec 4 // 0x0000"
     },
-    "783": {
+    "776": {
       "op": "txna ApplicationArgs 1"
     },
-    "786": {
+    "779": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -4737,7 +4571,7 @@
         "0"
       ]
     },
-    "787": {
+    "780": {
       "error": "invalid array length header",
       "op": "extract_uint16 // on error: invalid array length header",
       "defined_out": [
@@ -4751,7 +4585,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "788": {
+    "781": {
       "op": "intc_0 // 0",
       "defined_out": [
         "addresses#0",
@@ -4766,7 +4600,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "789": {
+    "782": {
       "block": "getWithAuthList_for_header@2",
       "stack_in": [
         "addresses#0",
@@ -4786,7 +4620,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "790": {
+    "783": {
       "op": "dig 2",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -4801,7 +4635,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "792": {
+    "785": {
       "op": "<",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -4816,7 +4650,7 @@
         "continue_looping%0#0"
       ]
     },
-    "793": {
+    "786": {
       "op": "bz getWithAuthList_after_for@5",
       "stack_out": [
         "addresses#0",
@@ -4825,7 +4659,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "796": {
+    "789": {
       "op": "dig 3",
       "defined_out": [
         "addresses#0",
@@ -4840,7 +4674,7 @@
         "addresses#0"
       ]
     },
-    "798": {
+    "791": {
       "op": "extract 2 0",
       "defined_out": [
         "addresses#0",
@@ -4856,7 +4690,7 @@
         "aggregate%array_trimmed%0#0"
       ]
     },
-    "801": {
+    "794": {
       "op": "dig 1",
       "stack_out": [
         "addresses#0",
@@ -4867,7 +4701,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "803": {
+    "796": {
       "op": "dup",
       "defined_out": [
         "addresses#0",
@@ -4886,7 +4720,7 @@
         "item_index_internal%0#0 (copy)"
       ]
     },
-    "804": {
+    "797": {
       "op": "cover 2",
       "stack_out": [
         "addresses#0",
@@ -4898,7 +4732,7 @@
         "item_index_internal%0#0 (copy)"
       ]
     },
-    "806": {
+    "799": {
       "op": "pushint 32 // 32",
       "defined_out": [
         "32",
@@ -4919,7 +4753,7 @@
         "32"
       ]
     },
-    "808": {
+    "801": {
       "op": "*",
       "defined_out": [
         "addresses#0",
@@ -4938,7 +4772,7 @@
         "aggregate%bytes_offset%0#0"
       ]
     },
-    "809": {
+    "802": {
       "op": "pushint 32 // 32",
       "stack_out": [
         "addresses#0",
@@ -4951,7 +4785,7 @@
         "32"
       ]
     },
-    "811": {
+    "804": {
       "error": "index access is out of bounds",
       "op": "extract3 // on error: index access is out of bounds",
       "defined_out": [
@@ -4969,7 +4803,7 @@
         "temp#0"
       ]
     },
-    "812": {
+    "805": {
       "op": "dup",
       "defined_out": [
         "addresses#0",
@@ -4988,7 +4822,7 @@
         "temp#0 (copy)"
       ]
     },
-    "813": {
+    "806": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -5008,7 +4842,7 @@
         "appId#0"
       ]
     },
-    "816": {
+    "809": {
       "op": "swap",
       "stack_out": [
         "addresses#0",
@@ -5020,7 +4854,7 @@
         "temp#0"
       ]
     },
-    "817": {
+    "810": {
       "op": "acct_params_get AcctAuthAddr",
       "defined_out": [
         "addresses#0",
@@ -5041,7 +4875,7 @@
         "check%0#0"
       ]
     },
-    "819": {
+    "812": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -5054,7 +4888,7 @@
         "value%0#0"
       ]
     },
-    "820": {
+    "813": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -5074,7 +4908,7 @@
         "authAppId#0"
       ]
     },
-    "823": {
+    "816": {
       "op": "swap",
       "stack_out": [
         "addresses#0",
@@ -5086,7 +4920,7 @@
         "appId#0"
       ]
     },
-    "824": {
+    "817": {
       "op": "itob",
       "defined_out": [
         "addresses#0",
@@ -5105,7 +4939,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "825": {
+    "818": {
       "op": "swap",
       "stack_out": [
         "addresses#0",
@@ -5117,7 +4951,7 @@
         "authAppId#0"
       ]
     },
-    "826": {
+    "819": {
       "op": "itob",
       "defined_out": [
         "addresses#0",
@@ -5136,7 +4970,7 @@
         "aggregate%val_as_bytes%1#0"
       ]
     },
-    "827": {
+    "820": {
       "op": "concat",
       "defined_out": [
         "addresses#0",
@@ -5153,7 +4987,7 @@
         "aggregate%head%1#0"
       ]
     },
-    "828": {
+    "821": {
       "op": "dig 4",
       "defined_out": [
         "addresses#0",
@@ -5172,10 +5006,10 @@
         "results#0"
       ]
     },
-    "830": {
+    "823": {
       "op": "dup"
     },
-    "831": {
+    "824": {
       "op": "uncover 2",
       "defined_out": [
         "addresses#0",
@@ -5196,7 +5030,7 @@
         "aggregate%head%1#0"
       ]
     },
-    "833": {
+    "826": {
       "error": "max array length exceeded",
       "op": "concat // on error: max array length exceeded",
       "defined_out": [
@@ -5216,7 +5050,7 @@
         "concat%0#0"
       ]
     },
-    "834": {
+    "827": {
       "op": "swap",
       "stack_out": [
         "addresses#0",
@@ -5228,7 +5062,7 @@
         "results#0"
       ]
     },
-    "835": {
+    "828": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -5249,7 +5083,7 @@
         "0"
       ]
     },
-    "836": {
+    "829": {
       "op": "extract_uint16",
       "defined_out": [
         "addresses#0",
@@ -5269,7 +5103,7 @@
         "extract_uint16%0#0"
       ]
     },
-    "837": {
+    "830": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -5291,7 +5125,7 @@
         "1"
       ]
     },
-    "838": {
+    "831": {
       "op": "+",
       "defined_out": [
         "add%0#0",
@@ -5311,7 +5145,7 @@
         "add%0#0"
       ]
     },
-    "839": {
+    "832": {
       "op": "itob",
       "defined_out": [
         "addresses#0",
@@ -5331,7 +5165,7 @@
         "as_bytes%0#0"
       ]
     },
-    "840": {
+    "833": {
       "op": "extract 6 2",
       "defined_out": [
         "addresses#0",
@@ -5351,7 +5185,7 @@
         "as_u16_bytes%0#0"
       ]
     },
-    "843": {
+    "836": {
       "op": "replace2 0",
       "stack_out": [
         "addresses#0",
@@ -5362,7 +5196,7 @@
         "results#0"
       ]
     },
-    "845": {
+    "838": {
       "op": "bury 4",
       "defined_out": [
         "addresses#0",
@@ -5378,7 +5212,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "847": {
+    "840": {
       "op": "intc_1 // 1",
       "stack_out": [
         "addresses#0",
@@ -5389,7 +5223,7 @@
         "1"
       ]
     },
-    "848": {
+    "841": {
       "op": "+",
       "stack_out": [
         "addresses#0",
@@ -5399,7 +5233,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "849": {
+    "842": {
       "op": "bury 1",
       "defined_out": [
         "addresses#0",
@@ -5414,10 +5248,10 @@
         "item_index_internal%0#0"
       ]
     },
-    "851": {
+    "844": {
       "op": "b getWithAuthList_for_header@2"
     },
-    "854": {
+    "847": {
       "block": "getWithAuthList_after_for@5",
       "stack_in": [
         "addresses#0",
@@ -5437,7 +5271,7 @@
         "0x151f7c75"
       ]
     },
-    "855": {
+    "848": {
       "op": "dig 3",
       "defined_out": [
         "0x151f7c75",
@@ -5452,7 +5286,7 @@
         "results#0"
       ]
     },
-    "857": {
+    "850": {
       "op": "concat",
       "defined_out": [
         "results#0",
@@ -5466,7 +5300,7 @@
         "tmp%2#0"
       ]
     },
-    "858": {
+    "851": {
       "op": "log",
       "stack_out": [
         "addresses#0",
@@ -5475,7 +5309,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "859": {
+    "852": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -5489,7 +5323,7 @@
         "1"
       ]
     },
-    "860": {
+    "853": {
       "op": "return",
       "stack_out": [
         "addresses#0",
@@ -5498,20 +5332,20 @@
         "item_index_internal%0#0"
       ]
     },
-    "861": {
+    "854": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.getList[routing]",
       "params": {},
       "block": "getList",
       "stack_in": [],
       "op": "txna ApplicationArgs 1"
     },
-    "864": {
+    "857": {
       "op": "bytec 4 // 0x0000"
     },
-    "866": {
+    "859": {
       "op": "txna ApplicationArgs 1"
     },
-    "869": {
+    "862": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -5525,7 +5359,7 @@
         "0"
       ]
     },
-    "870": {
+    "863": {
       "error": "invalid array length header",
       "op": "extract_uint16 // on error: invalid array length header",
       "defined_out": [
@@ -5539,7 +5373,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "871": {
+    "864": {
       "op": "intc_0 // 0",
       "defined_out": [
         "addresses#0",
@@ -5554,7 +5388,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "872": {
+    "865": {
       "block": "getList_for_header@2",
       "stack_in": [
         "addresses#0",
@@ -5574,7 +5408,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "873": {
+    "866": {
       "op": "dig 2",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -5589,7 +5423,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "875": {
+    "868": {
       "op": "<",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -5604,7 +5438,7 @@
         "continue_looping%0#0"
       ]
     },
-    "876": {
+    "869": {
       "op": "bz getList_after_for@5",
       "stack_out": [
         "addresses#0",
@@ -5613,7 +5447,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "879": {
+    "872": {
       "op": "dig 3",
       "defined_out": [
         "addresses#0",
@@ -5628,7 +5462,7 @@
         "addresses#0"
       ]
     },
-    "881": {
+    "874": {
       "op": "extract 2 0",
       "defined_out": [
         "addresses#0",
@@ -5644,7 +5478,7 @@
         "aggregate%array_trimmed%0#0"
       ]
     },
-    "884": {
+    "877": {
       "op": "dig 1",
       "stack_out": [
         "addresses#0",
@@ -5655,7 +5489,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "886": {
+    "879": {
       "op": "dup",
       "defined_out": [
         "addresses#0",
@@ -5674,7 +5508,7 @@
         "item_index_internal%0#0 (copy)"
       ]
     },
-    "887": {
+    "880": {
       "op": "cover 2",
       "stack_out": [
         "addresses#0",
@@ -5686,7 +5520,7 @@
         "item_index_internal%0#0 (copy)"
       ]
     },
-    "889": {
+    "882": {
       "op": "pushint 32 // 32",
       "defined_out": [
         "32",
@@ -5707,7 +5541,7 @@
         "32"
       ]
     },
-    "891": {
+    "884": {
       "op": "*",
       "defined_out": [
         "addresses#0",
@@ -5726,7 +5560,7 @@
         "aggregate%bytes_offset%0#0"
       ]
     },
-    "892": {
+    "885": {
       "op": "pushint 32 // 32",
       "stack_out": [
         "addresses#0",
@@ -5739,7 +5573,7 @@
         "32"
       ]
     },
-    "894": {
+    "887": {
       "error": "index access is out of bounds",
       "op": "extract3 // on error: index access is out of bounds",
       "defined_out": [
@@ -5757,7 +5591,7 @@
         "temp#0"
       ]
     },
-    "895": {
+    "888": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -5775,7 +5609,7 @@
         "tmp%0#1"
       ]
     },
-    "898": {
+    "891": {
       "op": "itob",
       "defined_out": [
         "addresses#0",
@@ -5792,7 +5626,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "899": {
+    "892": {
       "op": "bytec 7 // 0x0001",
       "defined_out": [
         "0x0001",
@@ -5811,7 +5645,7 @@
         "0x0001"
       ]
     },
-    "901": {
+    "894": {
       "op": "swap",
       "stack_out": [
         "addresses#0",
@@ -5823,7 +5657,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "902": {
+    "895": {
       "op": "concat",
       "defined_out": [
         "addresses#0",
@@ -5840,7 +5674,7 @@
         "aggregate%head%0#0"
       ]
     },
-    "903": {
+    "896": {
       "op": "extract 2 0",
       "defined_out": [
         "addresses#0",
@@ -5857,7 +5691,7 @@
         "extract_to_end%0#0"
       ]
     },
-    "906": {
+    "899": {
       "op": "dig 4",
       "defined_out": [
         "addresses#0",
@@ -5876,7 +5710,7 @@
         "apps#0"
       ]
     },
-    "908": {
+    "901": {
       "op": "swap",
       "stack_out": [
         "addresses#0",
@@ -5888,7 +5722,7 @@
         "extract_to_end%0#0"
       ]
     },
-    "909": {
+    "902": {
       "error": "max array length exceeded",
       "op": "concat // on error: max array length exceeded",
       "defined_out": [
@@ -5907,7 +5741,7 @@
         "concat%0#0"
       ]
     },
-    "910": {
+    "903": {
       "op": "dup",
       "defined_out": [
         "addresses#0",
@@ -5927,7 +5761,7 @@
         "concat%0#0 (copy)"
       ]
     },
-    "911": {
+    "904": {
       "op": "extract 2 0",
       "defined_out": [
         "addresses#0",
@@ -5947,7 +5781,7 @@
         "extract_to_end%1#0"
       ]
     },
-    "914": {
+    "907": {
       "op": "len",
       "defined_out": [
         "addresses#0",
@@ -5967,7 +5801,7 @@
         "len%0#0"
       ]
     },
-    "915": {
+    "908": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -5989,7 +5823,7 @@
         "8"
       ]
     },
-    "916": {
+    "909": {
       "op": "/",
       "defined_out": [
         "addresses#0",
@@ -6009,7 +5843,7 @@
         "div_floor%0#0"
       ]
     },
-    "917": {
+    "910": {
       "op": "itob",
       "defined_out": [
         "addresses#0",
@@ -6029,7 +5863,7 @@
         "as_bytes%0#0"
       ]
     },
-    "918": {
+    "911": {
       "op": "extract 6 2",
       "defined_out": [
         "addresses#0",
@@ -6049,7 +5883,7 @@
         "as_u16_bytes%0#0"
       ]
     },
-    "921": {
+    "914": {
       "op": "replace2 0",
       "stack_out": [
         "addresses#0",
@@ -6060,7 +5894,7 @@
         "apps#0"
       ]
     },
-    "923": {
+    "916": {
       "op": "bury 4",
       "defined_out": [
         "addresses#0",
@@ -6076,7 +5910,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "925": {
+    "918": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -6094,7 +5928,7 @@
         "1"
       ]
     },
-    "926": {
+    "919": {
       "op": "+",
       "stack_out": [
         "addresses#0",
@@ -6104,7 +5938,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "927": {
+    "920": {
       "op": "bury 1",
       "defined_out": [
         "addresses#0",
@@ -6119,10 +5953,10 @@
         "item_index_internal%0#0"
       ]
     },
-    "929": {
+    "922": {
       "op": "b getList_for_header@2"
     },
-    "932": {
+    "925": {
       "block": "getList_after_for@5",
       "stack_in": [
         "addresses#0",
@@ -6142,7 +5976,7 @@
         "0x151f7c75"
       ]
     },
-    "933": {
+    "926": {
       "op": "dig 3",
       "defined_out": [
         "0x151f7c75",
@@ -6157,7 +5991,7 @@
         "apps#0"
       ]
     },
-    "935": {
+    "928": {
       "op": "concat",
       "defined_out": [
         "apps#0",
@@ -6171,7 +6005,7 @@
         "tmp%2#0"
       ]
     },
-    "936": {
+    "929": {
       "op": "log",
       "stack_out": [
         "addresses#0",
@@ -6180,7 +6014,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "937": {
+    "930": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -6194,7 +6028,7 @@
         "1"
       ]
     },
-    "938": {
+    "931": {
       "op": "return",
       "stack_out": [
         "addresses#0",
@@ -6203,7 +6037,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "939": {
+    "932": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.mustGetList[routing]",
       "params": {},
       "block": "mustGetList",
@@ -6213,16 +6047,16 @@
         "matchingAppID#0"
       ]
     },
-    "940": {
+    "933": {
       "op": "txna ApplicationArgs 1"
     },
-    "943": {
+    "936": {
       "op": "bytec 4 // 0x0000"
     },
-    "945": {
+    "938": {
       "op": "txna ApplicationArgs 1"
     },
-    "948": {
+    "941": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -6237,7 +6071,7 @@
         "0"
       ]
     },
-    "949": {
+    "942": {
       "error": "invalid array length header",
       "op": "extract_uint16 // on error: invalid array length header",
       "defined_out": [
@@ -6252,7 +6086,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "950": {
+    "943": {
       "op": "intc_0 // 0",
       "defined_out": [
         "addresses#0",
@@ -6268,7 +6102,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "951": {
+    "944": {
       "block": "mustGetList_for_header@2",
       "stack_in": [
         "matchingAppID#0",
@@ -6290,7 +6124,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "952": {
+    "945": {
       "op": "dig 2",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -6306,7 +6140,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "954": {
+    "947": {
       "op": "<",
       "defined_out": [
         "aggregate%array_length%0#0",
@@ -6322,7 +6156,7 @@
         "continue_looping%0#0"
       ]
     },
-    "955": {
+    "948": {
       "op": "bz mustGetList_after_for@5",
       "stack_out": [
         "matchingAppID#0",
@@ -6332,7 +6166,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "958": {
+    "951": {
       "op": "dig 3",
       "defined_out": [
         "addresses#0",
@@ -6348,7 +6182,7 @@
         "addresses#0"
       ]
     },
-    "960": {
+    "953": {
       "op": "extract 2 0",
       "defined_out": [
         "addresses#0",
@@ -6365,7 +6199,7 @@
         "aggregate%array_trimmed%0#0"
       ]
     },
-    "963": {
+    "956": {
       "op": "dig 1",
       "stack_out": [
         "matchingAppID#0",
@@ -6377,7 +6211,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "965": {
+    "958": {
       "op": "pushint 32 // 32",
       "defined_out": [
         "32",
@@ -6397,7 +6231,7 @@
         "32"
       ]
     },
-    "967": {
+    "960": {
       "op": "*",
       "defined_out": [
         "addresses#0",
@@ -6416,7 +6250,7 @@
         "aggregate%bytes_offset%0#0"
       ]
     },
-    "968": {
+    "961": {
       "op": "pushint 32 // 32",
       "stack_out": [
         "matchingAppID#0",
@@ -6429,7 +6263,7 @@
         "32"
       ]
     },
-    "970": {
+    "963": {
       "error": "index access is out of bounds",
       "op": "extract3 // on error: index access is out of bounds",
       "defined_out": [
@@ -6447,7 +6281,7 @@
         "temp#0"
       ]
     },
-    "971": {
+    "964": {
       "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "op": "callsub lookup",
       "defined_out": [
@@ -6465,7 +6299,7 @@
         "matchingAppID#0"
       ]
     },
-    "974": {
+    "967": {
       "op": "dup",
       "stack_out": [
         "matchingAppID#0",
@@ -6477,7 +6311,7 @@
         "matchingAppID#0"
       ]
     },
-    "975": {
+    "968": {
       "op": "bury 6",
       "defined_out": [
         "addresses#0",
@@ -6494,7 +6328,7 @@
         "matchingAppID#0"
       ]
     },
-    "977": {
+    "970": {
       "op": "bnz mustGetList_after_if_else@8",
       "stack_out": [
         "matchingAppID#0",
@@ -6504,7 +6338,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "980": {
+    "973": {
       "op": "bytec 6 // \"ERR:404\"",
       "defined_out": [
         "\"ERR:404\"",
@@ -6522,7 +6356,7 @@
         "\"ERR:404\""
       ]
     },
-    "982": {
+    "975": {
       "op": "log",
       "stack_out": [
         "matchingAppID#0",
@@ -6532,10 +6366,10 @@
         "item_index_internal%0#0"
       ]
     },
-    "983": {
+    "976": {
       "op": "err"
     },
-    "984": {
+    "977": {
       "block": "mustGetList_after_if_else@8",
       "stack_in": [
         "matchingAppID#0",
@@ -6557,7 +6391,7 @@
         "matchingAppID#0"
       ]
     },
-    "986": {
+    "979": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -6572,7 +6406,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "987": {
+    "980": {
       "op": "bytec 7 // 0x0001",
       "defined_out": [
         "0x0001",
@@ -6589,7 +6423,7 @@
         "0x0001"
       ]
     },
-    "989": {
+    "982": {
       "op": "swap",
       "stack_out": [
         "matchingAppID#0",
@@ -6601,7 +6435,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "990": {
+    "983": {
       "op": "concat",
       "defined_out": [
         "aggregate%head%0#0",
@@ -6616,7 +6450,7 @@
         "aggregate%head%0#0"
       ]
     },
-    "991": {
+    "984": {
       "op": "extract 2 0",
       "defined_out": [
         "extract_to_end%0#0",
@@ -6631,7 +6465,7 @@
         "extract_to_end%0#0"
       ]
     },
-    "994": {
+    "987": {
       "op": "dig 3",
       "defined_out": [
         "apps#0",
@@ -6648,7 +6482,7 @@
         "apps#0"
       ]
     },
-    "996": {
+    "989": {
       "op": "swap",
       "stack_out": [
         "matchingAppID#0",
@@ -6660,7 +6494,7 @@
         "extract_to_end%0#0"
       ]
     },
-    "997": {
+    "990": {
       "error": "max array length exceeded",
       "op": "concat // on error: max array length exceeded",
       "defined_out": [
@@ -6677,7 +6511,7 @@
         "concat%0#0"
       ]
     },
-    "998": {
+    "991": {
       "op": "dup",
       "defined_out": [
         "apps#0",
@@ -6695,7 +6529,7 @@
         "concat%0#0 (copy)"
       ]
     },
-    "999": {
+    "992": {
       "op": "extract 2 0",
       "defined_out": [
         "apps#0",
@@ -6713,7 +6547,7 @@
         "extract_to_end%1#0"
       ]
     },
-    "1002": {
+    "995": {
       "op": "len",
       "defined_out": [
         "apps#0",
@@ -6731,7 +6565,7 @@
         "len%0#0"
       ]
     },
-    "1003": {
+    "996": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -6751,7 +6585,7 @@
         "8"
       ]
     },
-    "1004": {
+    "997": {
       "op": "/",
       "defined_out": [
         "apps#0",
@@ -6769,7 +6603,7 @@
         "div_floor%0#0"
       ]
     },
-    "1005": {
+    "998": {
       "op": "itob",
       "defined_out": [
         "apps#0",
@@ -6787,7 +6621,7 @@
         "as_bytes%0#0"
       ]
     },
-    "1006": {
+    "999": {
       "op": "extract 6 2",
       "defined_out": [
         "apps#0",
@@ -6805,7 +6639,7 @@
         "as_u16_bytes%0#0"
       ]
     },
-    "1009": {
+    "1002": {
       "op": "replace2 0",
       "stack_out": [
         "matchingAppID#0",
@@ -6816,7 +6650,7 @@
         "apps#0"
       ]
     },
-    "1011": {
+    "1004": {
       "op": "bury 3",
       "defined_out": [
         "apps#0",
@@ -6830,7 +6664,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "1013": {
+    "1006": {
       "op": "dup",
       "defined_out": [
         "apps#0",
@@ -6846,7 +6680,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "1014": {
+    "1007": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -6864,7 +6698,7 @@
         "1"
       ]
     },
-    "1015": {
+    "1008": {
       "op": "+",
       "stack_out": [
         "matchingAppID#0",
@@ -6875,7 +6709,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "1016": {
+    "1009": {
       "op": "bury 1",
       "defined_out": [
         "apps#0",
@@ -6890,10 +6724,10 @@
         "item_index_internal%0#0"
       ]
     },
-    "1018": {
+    "1011": {
       "op": "b mustGetList_for_header@2"
     },
-    "1021": {
+    "1014": {
       "block": "mustGetList_after_for@5",
       "stack_in": [
         "matchingAppID#0",
@@ -6915,7 +6749,7 @@
         "0x151f7c75"
       ]
     },
-    "1022": {
+    "1015": {
       "op": "dig 3",
       "defined_out": [
         "0x151f7c75",
@@ -6931,7 +6765,7 @@
         "apps#0"
       ]
     },
-    "1024": {
+    "1017": {
       "op": "concat",
       "defined_out": [
         "apps#0",
@@ -6946,7 +6780,7 @@
         "tmp%2#0"
       ]
     },
-    "1025": {
+    "1018": {
       "op": "log",
       "stack_out": [
         "matchingAppID#0",
@@ -6956,7 +6790,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "1026": {
+    "1019": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -6971,7 +6805,7 @@
         "1"
       ]
     },
-    "1027": {
+    "1020": {
       "op": "return",
       "stack_out": [
         "matchingAppID#0",
@@ -6981,7 +6815,7 @@
         "item_index_internal%0#0"
       ]
     },
-    "1028": {
+    "1021": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.increaseBudget[routing]",
       "params": {},
       "block": "increaseBudget",
@@ -6994,7 +6828,7 @@
         "tmp%0#0"
       ]
     },
-    "1031": {
+    "1024": {
       "op": "btoi",
       "defined_out": [
         "itxns#0"
@@ -7003,7 +6837,7 @@
         "itxns#0"
       ]
     },
-    "1032": {
+    "1025": {
       "op": "intc_0 // 0",
       "defined_out": [
         "i#0",
@@ -7014,7 +6848,7 @@
         "i#0"
       ]
     },
-    "1033": {
+    "1026": {
       "block": "increaseBudget_while_top@2",
       "stack_in": [
         "itxns#0",
@@ -7030,7 +6864,7 @@
         "i#0"
       ]
     },
-    "1034": {
+    "1027": {
       "op": "dig 2",
       "defined_out": [
         "i#0",
@@ -7043,7 +6877,7 @@
         "itxns#0"
       ]
     },
-    "1036": {
+    "1029": {
       "op": "<",
       "defined_out": [
         "i#0",
@@ -7056,17 +6890,17 @@
         "tmp%0#1"
       ]
     },
-    "1037": {
+    "1030": {
       "op": "bz increaseBudget_after_while@5",
       "stack_out": [
         "itxns#0",
         "i#0"
       ]
     },
-    "1040": {
+    "1033": {
       "op": "itxn_begin"
     },
-    "1041": {
+    "1034": {
       "op": "pushint 5 // 5",
       "defined_out": [
         "5",
@@ -7079,14 +6913,14 @@
         "5"
       ]
     },
-    "1043": {
+    "1036": {
       "op": "itxn_field OnCompletion",
       "stack_out": [
         "itxns#0",
         "i#0"
       ]
     },
-    "1045": {
+    "1038": {
       "op": "bytec 8 // 0x0a8101",
       "defined_out": [
         "0x0a8101",
@@ -7099,14 +6933,14 @@
         "0x0a8101"
       ]
     },
-    "1047": {
+    "1040": {
       "op": "itxn_field ClearStateProgramPages",
       "stack_out": [
         "itxns#0",
         "i#0"
       ]
     },
-    "1049": {
+    "1042": {
       "op": "bytec 8 // 0x0a8101",
       "stack_out": [
         "itxns#0",
@@ -7114,14 +6948,14 @@
         "0x0a8101"
       ]
     },
-    "1051": {
+    "1044": {
       "op": "itxn_field ApprovalProgramPages",
       "stack_out": [
         "itxns#0",
         "i#0"
       ]
     },
-    "1053": {
+    "1046": {
       "op": "pushint 6 // 6",
       "defined_out": [
         "6",
@@ -7134,14 +6968,14 @@
         "6"
       ]
     },
-    "1055": {
+    "1048": {
       "op": "itxn_field TypeEnum",
       "stack_out": [
         "itxns#0",
         "i#0"
       ]
     },
-    "1057": {
+    "1050": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -7154,17 +6988,17 @@
         "0"
       ]
     },
-    "1058": {
+    "1051": {
       "op": "itxn_field Fee",
       "stack_out": [
         "itxns#0",
         "i#0"
       ]
     },
-    "1060": {
+    "1053": {
       "op": "itxn_submit"
     },
-    "1061": {
+    "1054": {
       "op": "dup",
       "stack_out": [
         "itxns#0",
@@ -7172,7 +7006,7 @@
         "i#0"
       ]
     },
-    "1062": {
+    "1055": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -7186,7 +7020,7 @@
         "1"
       ]
     },
-    "1063": {
+    "1056": {
       "op": "+",
       "stack_out": [
         "itxns#0",
@@ -7194,7 +7028,7 @@
         "i#0"
       ]
     },
-    "1064": {
+    "1057": {
       "op": "bury 1",
       "defined_out": [
         "i#0",
@@ -7205,10 +7039,10 @@
         "i#0"
       ]
     },
-    "1066": {
+    "1059": {
       "op": "b increaseBudget_while_top@2"
     },
-    "1069": {
+    "1062": {
       "block": "increaseBudget_after_while@5",
       "stack_in": [
         "itxns#0",
@@ -7224,14 +7058,14 @@
         "1"
       ]
     },
-    "1070": {
+    "1063": {
       "op": "return",
       "stack_out": [
         "itxns#0",
         "i#0"
       ]
     },
-    "1071": {
+    "1064": {
       "subroutine": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.depositCredits[routing]",
       "params": {},
       "block": "depositCredits",
@@ -7241,17 +7075,17 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1072": {
+    "1065": {
       "op": "bytec_3 // \"\"",
       "stack_out": [
         "box_prefixed_key%0#0",
         "tmp%3#0"
       ]
     },
-    "1073": {
+    "1066": {
       "op": "txna ApplicationArgs 1"
     },
-    "1076": {
+    "1069": {
       "op": "dup",
       "defined_out": [
         "creditor#0"
@@ -7263,7 +7097,7 @@
         "creditor#0"
       ]
     },
-    "1077": {
+    "1070": {
       "op": "len",
       "defined_out": [
         "creditor#0",
@@ -7276,7 +7110,7 @@
         "len%0#0"
       ]
     },
-    "1078": {
+    "1071": {
       "op": "pushint 32 // 32",
       "defined_out": [
         "32",
@@ -7291,7 +7125,7 @@
         "32"
       ]
     },
-    "1080": {
+    "1073": {
       "op": "==",
       "defined_out": [
         "creditor#0",
@@ -7304,7 +7138,7 @@
         "eq%0#0"
       ]
     },
-    "1081": {
+    "1074": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -7313,7 +7147,7 @@
         "creditor#0"
       ]
     },
-    "1082": {
+    "1075": {
       "op": "txn GroupIndex",
       "defined_out": [
         "creditor#0",
@@ -7326,7 +7160,7 @@
         "tmp%2#0"
       ]
     },
-    "1084": {
+    "1077": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -7341,7 +7175,7 @@
         "1"
       ]
     },
-    "1085": {
+    "1078": {
       "op": "-",
       "defined_out": [
         "creditor#0",
@@ -7354,7 +7188,7 @@
         "txn#0"
       ]
     },
-    "1086": {
+    "1079": {
       "op": "dupn 2",
       "defined_out": [
         "creditor#0",
@@ -7370,7 +7204,7 @@
         "txn#0 (copy)"
       ]
     },
-    "1088": {
+    "1081": {
       "op": "gtxns TypeEnum",
       "defined_out": [
         "creditor#0",
@@ -7386,7 +7220,7 @@
         "gtxn_type%0#0"
       ]
     },
-    "1090": {
+    "1083": {
       "op": "intc_1 // pay",
       "defined_out": [
         "creditor#0",
@@ -7404,7 +7238,7 @@
         "pay"
       ]
     },
-    "1091": {
+    "1084": {
       "op": "==",
       "defined_out": [
         "creditor#0",
@@ -7420,7 +7254,7 @@
         "gtxn_type_matches%0#0"
       ]
     },
-    "1092": {
+    "1085": {
       "error": "transaction type is pay",
       "op": "assert // transaction type is pay",
       "stack_out": [
@@ -7431,7 +7265,7 @@
         "txn#0"
       ]
     },
-    "1093": {
+    "1086": {
       "op": "gtxns Receiver",
       "defined_out": [
         "creditor#0",
@@ -7446,7 +7280,7 @@
         "tmp%0#1"
       ]
     },
-    "1095": {
+    "1088": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "creditor#0",
@@ -7463,7 +7297,7 @@
         "tmp%1#1"
       ]
     },
-    "1097": {
+    "1090": {
       "op": "==",
       "defined_out": [
         "condition#0",
@@ -7478,7 +7312,7 @@
         "condition#0"
       ]
     },
-    "1098": {
+    "1091": {
       "op": "bnz depositCredits_after_if_else@7",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7487,7 +7321,7 @@
         "txn#0"
       ]
     },
-    "1101": {
+    "1094": {
       "op": "bytec 9 // \"ERR:RCV\"",
       "defined_out": [
         "\"ERR:RCV\"",
@@ -7502,7 +7336,7 @@
         "\"ERR:RCV\""
       ]
     },
-    "1103": {
+    "1096": {
       "op": "log",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7511,10 +7345,10 @@
         "txn#0"
       ]
     },
-    "1104": {
+    "1097": {
       "op": "err"
     },
-    "1105": {
+    "1098": {
       "block": "depositCredits_after_if_else@7",
       "stack_in": [
         "box_prefixed_key%0#0",
@@ -7534,7 +7368,7 @@
         "txn#0"
       ]
     },
-    "1106": {
+    "1099": {
       "op": "gtxns Amount",
       "defined_out": [
         "tmp%3#0",
@@ -7548,7 +7382,7 @@
         "tmp%3#0"
       ]
     },
-    "1108": {
+    "1101": {
       "op": "dup",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7559,7 +7393,7 @@
         "tmp%3#0"
       ]
     },
-    "1109": {
+    "1102": {
       "op": "bury 4",
       "defined_out": [
         "tmp%3#0",
@@ -7573,7 +7407,7 @@
         "tmp%3#0"
       ]
     },
-    "1111": {
+    "1104": {
       "op": "bnz depositCredits_after_if_else@11",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7582,7 +7416,7 @@
         "txn#0"
       ]
     },
-    "1114": {
+    "1107": {
       "op": "bytec 10 // \"ERR:AMT\"",
       "defined_out": [
         "\"ERR:AMT\"",
@@ -7597,7 +7431,7 @@
         "\"ERR:AMT\""
       ]
     },
-    "1116": {
+    "1109": {
       "op": "log",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7606,10 +7440,10 @@
         "txn#0"
       ]
     },
-    "1117": {
+    "1110": {
       "op": "err"
     },
-    "1118": {
+    "1111": {
       "block": "depositCredits_after_if_else@11",
       "stack_in": [
         "box_prefixed_key%0#0",
@@ -7629,7 +7463,7 @@
         "\"c\""
       ]
     },
-    "1119": {
+    "1112": {
       "op": "dig 2",
       "defined_out": [
         "\"c\"",
@@ -7644,7 +7478,7 @@
         "creditor#0"
       ]
     },
-    "1121": {
+    "1114": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%0#0",
@@ -7658,7 +7492,7 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1122": {
+    "1115": {
       "op": "dup",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7669,7 +7503,7 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1123": {
+    "1116": {
       "op": "bury 5",
       "defined_out": [
         "box_prefixed_key%0#0",
@@ -7683,7 +7517,7 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1125": {
+    "1118": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -7700,7 +7534,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "1126": {
+    "1119": {
       "op": "bury 1",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7710,7 +7544,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "1128": {
+    "1121": {
       "op": "bz depositCredits_ternary_false@3",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7719,7 +7553,7 @@
         "txn#0"
       ]
     },
-    "1131": {
+    "1124": {
       "op": "dig 3",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7729,7 +7563,7 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1133": {
+    "1126": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%0#0",
@@ -7746,7 +7580,7 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "1134": {
+    "1127": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -7757,7 +7591,7 @@
         "aggregate%box_get%0#0"
       ]
     },
-    "1135": {
+    "1128": {
       "op": "btoi",
       "defined_out": [
         "box_prefixed_key%0#0",
@@ -7772,7 +7606,7 @@
         "current#0"
       ]
     },
-    "1136": {
+    "1129": {
       "block": "depositCredits_ternary_merge@4",
       "stack_in": [
         "box_prefixed_key%0#0",
@@ -7794,7 +7628,7 @@
         "tmp%5#0"
       ]
     },
-    "1138": {
+    "1131": {
       "op": "acct_params_get AcctMinBalance",
       "defined_out": [
         "check%0#0",
@@ -7810,7 +7644,7 @@
         "check%0#0"
       ]
     },
-    "1140": {
+    "1133": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -7822,7 +7656,7 @@
         "mbrBefore#0"
       ]
     },
-    "1141": {
+    "1134": {
       "op": "swap",
       "defined_out": [
         "current#0",
@@ -7837,7 +7671,7 @@
         "current#0"
       ]
     },
-    "1142": {
+    "1135": {
       "op": "dig 4",
       "defined_out": [
         "current#0",
@@ -7854,7 +7688,7 @@
         "tmp%3#0"
       ]
     },
-    "1144": {
+    "1137": {
       "op": "+",
       "defined_out": [
         "mbrBefore#0",
@@ -7870,7 +7704,7 @@
         "tmp%7#0"
       ]
     },
-    "1145": {
+    "1138": {
       "op": "itob",
       "defined_out": [
         "encoded_value%0#0",
@@ -7886,7 +7720,7 @@
         "encoded_value%0#0"
       ]
     },
-    "1146": {
+    "1139": {
       "op": "dig 5",
       "defined_out": [
         "box_prefixed_key%0#0",
@@ -7904,7 +7738,7 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1148": {
+    "1141": {
       "op": "swap",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7916,7 +7750,7 @@
         "encoded_value%0#0"
       ]
     },
-    "1149": {
+    "1142": {
       "op": "box_put",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7926,7 +7760,7 @@
         "mbrBefore#0"
       ]
     },
-    "1150": {
+    "1143": {
       "callsub": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.manageMbrCredits",
       "op": "callsub manageMbrCredits",
       "stack_out": [
@@ -7936,7 +7770,7 @@
         "txn#0"
       ]
     },
-    "1153": {
+    "1146": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -7951,7 +7785,7 @@
         "1"
       ]
     },
-    "1154": {
+    "1147": {
       "op": "return",
       "stack_out": [
         "box_prefixed_key%0#0",
@@ -7960,7 +7794,7 @@
         "txn#0"
       ]
     },
-    "1155": {
+    "1148": {
       "block": "depositCredits_ternary_false@3",
       "stack_in": [
         "box_prefixed_key%0#0",
@@ -7980,10 +7814,10 @@
         "current#0"
       ]
     },
-    "1156": {
+    "1149": {
       "op": "b depositCredits_ternary_merge@4"
     },
-    "1159": {
+    "1152": {
       "subroutine": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.withdrawCredits[routing]",
       "params": {},
       "block": "withdrawCredits",
@@ -7996,7 +7830,7 @@
         "tmp%0#0"
       ]
     },
-    "1161": {
+    "1154": {
       "op": "acct_params_get AcctMinBalance",
       "defined_out": [
         "check%0#0",
@@ -8007,14 +7841,14 @@
         "check%0#0"
       ]
     },
-    "1163": {
+    "1156": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
         "mbrBefore#0"
       ]
     },
-    "1164": {
+    "1157": {
       "op": "bytec_1 // \"c\"",
       "defined_out": [
         "\"c\"",
@@ -8025,7 +7859,7 @@
         "\"c\""
       ]
     },
-    "1165": {
+    "1158": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -8038,7 +7872,7 @@
         "materialized_values%0#0"
       ]
     },
-    "1167": {
+    "1160": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%0#0",
@@ -8049,7 +7883,7 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1168": {
+    "1161": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -8062,20 +7896,20 @@
         "condition#0"
       ]
     },
-    "1169": {
+    "1162": {
       "op": "bury 1",
       "stack_out": [
         "mbrBefore#0",
         "condition#0"
       ]
     },
-    "1171": {
+    "1164": {
       "op": "bnz withdrawCredits_after_if_else@3",
       "stack_out": [
         "mbrBefore#0"
       ]
     },
-    "1174": {
+    "1167": {
       "op": "bytec 10 // \"ERR:AMT\"",
       "defined_out": [
         "\"ERR:AMT\"",
@@ -8086,16 +7920,16 @@
         "\"ERR:AMT\""
       ]
     },
-    "1176": {
+    "1169": {
       "op": "log",
       "stack_out": [
         "mbrBefore#0"
       ]
     },
-    "1177": {
+    "1170": {
       "op": "err"
     },
-    "1178": {
+    "1171": {
       "block": "withdrawCredits_after_if_else@3",
       "stack_in": [
         "mbrBefore#0"
@@ -8109,7 +7943,7 @@
         "\"c\""
       ]
     },
-    "1179": {
+    "1172": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -8121,7 +7955,7 @@
         "materialized_values%1#0"
       ]
     },
-    "1181": {
+    "1174": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%1#0"
@@ -8131,7 +7965,7 @@
         "box_prefixed_key%1#0"
       ]
     },
-    "1182": {
+    "1175": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%0#0",
@@ -8143,7 +7977,7 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "1183": {
+    "1176": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -8151,7 +7985,7 @@
         "aggregate%box_get%0#0"
       ]
     },
-    "1184": {
+    "1177": {
       "op": "btoi",
       "defined_out": [
         "credit#0"
@@ -8161,7 +7995,7 @@
         "credit#0"
       ]
     },
-    "1185": {
+    "1178": {
       "op": "bytec_1 // \"c\"",
       "stack_out": [
         "mbrBefore#0",
@@ -8169,7 +8003,7 @@
         "\"c\""
       ]
     },
-    "1186": {
+    "1179": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -8183,7 +8017,7 @@
         "materialized_values%2#0"
       ]
     },
-    "1188": {
+    "1181": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%2#0",
@@ -8195,7 +8029,7 @@
         "box_prefixed_key%2#0"
       ]
     },
-    "1189": {
+    "1182": {
       "op": "box_del",
       "defined_out": [
         "credit#0",
@@ -8207,14 +8041,14 @@
         "{box_del}"
       ]
     },
-    "1190": {
+    "1183": {
       "op": "pop",
       "stack_out": [
         "mbrBefore#0",
         "credit#0"
       ]
     },
-    "1191": {
+    "1184": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "credit#0",
@@ -8226,7 +8060,7 @@
         "tmp%1#0"
       ]
     },
-    "1193": {
+    "1186": {
       "op": "acct_params_get AcctMinBalance",
       "defined_out": [
         "check%1#0",
@@ -8240,7 +8074,7 @@
         "check%1#0"
       ]
     },
-    "1195": {
+    "1188": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -8249,7 +8083,7 @@
         "mbrAfter#0"
       ]
     },
-    "1196": {
+    "1189": {
       "op": "dig 2",
       "defined_out": [
         "credit#0",
@@ -8263,7 +8097,7 @@
         "mbrBefore#0"
       ]
     },
-    "1198": {
+    "1191": {
       "op": "swap",
       "stack_out": [
         "mbrBefore#0",
@@ -8272,7 +8106,7 @@
         "mbrAfter#0"
       ]
     },
-    "1199": {
+    "1192": {
       "op": "-",
       "defined_out": [
         "credit#0",
@@ -8285,7 +8119,7 @@
         "tmp%2#0"
       ]
     },
-    "1200": {
+    "1193": {
       "op": "+",
       "defined_out": [
         "finalCredit#0",
@@ -8296,10 +8130,10 @@
         "finalCredit#0"
       ]
     },
-    "1201": {
+    "1194": {
       "op": "itxn_begin"
     },
-    "1202": {
+    "1195": {
       "op": "txn Sender",
       "defined_out": [
         "finalCredit#0",
@@ -8312,16 +8146,16 @@
         "inner_txn_params%0%%param_Receiver_idx_0#0"
       ]
     },
-    "1204": {
+    "1197": {
       "op": "itxn_field Receiver"
     },
-    "1206": {
+    "1199": {
       "op": "itxn_field Amount",
       "stack_out": [
         "mbrBefore#0"
       ]
     },
-    "1208": {
+    "1201": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -8332,13 +8166,13 @@
         "1"
       ]
     },
-    "1209": {
+    "1202": {
       "op": "itxn_field TypeEnum",
       "stack_out": [
         "mbrBefore#0"
       ]
     },
-    "1211": {
+    "1204": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -8349,29 +8183,29 @@
         "0"
       ]
     },
-    "1212": {
+    "1205": {
       "op": "itxn_field Fee",
       "stack_out": [
         "mbrBefore#0"
       ]
     },
-    "1214": {
+    "1207": {
       "op": "itxn_submit"
     },
-    "1215": {
+    "1208": {
       "op": "intc_1 // 1",
       "stack_out": [
         "mbrBefore#0",
         "1"
       ]
     },
-    "1216": {
+    "1209": {
       "op": "return",
       "stack_out": [
         "mbrBefore#0"
       ]
     },
-    "1217": {
+    "1210": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.adminOnly",
       "params": {},
       "block": "adminOnly",
@@ -8384,7 +8218,7 @@
         "tmp%0#0"
       ]
     },
-    "1219": {
+    "1212": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -8395,7 +8229,7 @@
         "0"
       ]
     },
-    "1220": {
+    "1213": {
       "op": "bytec 5 // \"admin\"",
       "defined_out": [
         "\"admin\"",
@@ -8408,7 +8242,7 @@
         "\"admin\""
       ]
     },
-    "1222": {
+    "1215": {
       "op": "app_global_get_ex",
       "defined_out": [
         "maybe_exists%0#0",
@@ -8421,7 +8255,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "1223": {
+    "1216": {
       "error": "check GlobalState exists",
       "op": "assert // check GlobalState exists",
       "stack_out": [
@@ -8429,7 +8263,7 @@
         "maybe_value%0#0"
       ]
     },
-    "1224": {
+    "1217": {
       "op": "==",
       "defined_out": [
         "condition#0"
@@ -8438,11 +8272,11 @@
         "condition#0"
       ]
     },
-    "1225": {
+    "1218": {
       "op": "bnz adminOnly_after_if_else@3",
       "stack_out": []
     },
-    "1228": {
+    "1221": {
       "op": "pushbytes \"ERR:AUTH\"",
       "defined_out": [
         "\"ERR:AUTH\""
@@ -8451,20 +8285,20 @@
         "\"ERR:AUTH\""
       ]
     },
-    "1238": {
+    "1231": {
       "op": "log",
       "stack_out": []
     },
-    "1239": {
+    "1232": {
       "op": "err"
     },
-    "1240": {
+    "1233": {
       "block": "adminOnly_after_if_else@3",
       "stack_in": [],
       "retsub": true,
       "op": "retsub"
     },
-    "1241": {
+    "1234": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.deriveAddrPrefix",
       "params": {
         "appId#0": "uint64"
@@ -8473,7 +8307,7 @@
       "stack_in": [],
       "op": "proto 1 1"
     },
-    "1244": {
+    "1237": {
       "op": "frame_dig -1",
       "defined_out": [
         "appId#0 (copy)"
@@ -8482,7 +8316,7 @@
         "appId#0 (copy)"
       ]
     },
-    "1246": {
+    "1239": {
       "op": "itob",
       "defined_out": [
         "tmp%0#0"
@@ -8491,7 +8325,7 @@
         "tmp%0#0"
       ]
     },
-    "1247": {
+    "1240": {
       "op": "bytec 11 // \"appID\"",
       "defined_out": [
         "\"appID\"",
@@ -8502,14 +8336,14 @@
         "\"appID\""
       ]
     },
-    "1249": {
+    "1242": {
       "op": "swap",
       "stack_out": [
         "\"appID\"",
         "tmp%0#0"
       ]
     },
-    "1250": {
+    "1243": {
       "op": "concat",
       "defined_out": [
         "tmp%1#0"
@@ -8518,7 +8352,7 @@
         "tmp%1#0"
       ]
     },
-    "1251": {
+    "1244": {
       "op": "sha512_256",
       "defined_out": [
         "tmp%2#0"
@@ -8527,7 +8361,7 @@
         "tmp%2#0"
       ]
     },
-    "1252": {
+    "1245": {
       "op": "substring 0 4",
       "defined_out": [
         "reinterpret_bytes[4]%0#0"
@@ -8536,11 +8370,172 @@
         "reinterpret_bytes[4]%0#0"
       ]
     },
-    "1255": {
+    "1248": {
       "retsub": true,
       "op": "retsub"
     },
+    "1249": {
+      "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.dropLegacyHeader",
+      "params": {
+        "key#0": "bytes",
+        "size#0": "uint64",
+        "headerLen#0": "uint64"
+      },
+      "block": "dropLegacyHeader",
+      "stack_in": [],
+      "op": "proto 3 0"
+    },
+    "1252": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "headerLen#0 (copy)"
+      ],
+      "stack_out": [
+        "headerLen#0 (copy)"
+      ]
+    },
+    "1254": {
+      "op": "pushint 2 // 2",
+      "defined_out": [
+        "2",
+        "headerLen#0 (copy)"
+      ],
+      "stack_out": [
+        "headerLen#0 (copy)",
+        "2"
+      ]
+    },
     "1256": {
+      "op": "==",
+      "defined_out": [
+        "condition#0"
+      ],
+      "stack_out": [
+        "condition#0"
+      ]
+    },
+    "1257": {
+      "op": "bnz dropLegacyHeader_after_if_else@3",
+      "stack_out": []
+    },
+    "1260": {
+      "op": "pushbytes \"ERR:BKT\"",
+      "defined_out": [
+        "\"ERR:BKT\""
+      ],
+      "stack_out": [
+        "\"ERR:BKT\""
+      ]
+    },
+    "1269": {
+      "op": "log",
+      "stack_out": []
+    },
+    "1270": {
+      "op": "err"
+    },
+    "1271": {
+      "block": "dropLegacyHeader_after_if_else@3",
+      "stack_in": [],
+      "op": "frame_dig -3",
+      "defined_out": [
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0 (copy)"
+      ]
+    },
+    "1273": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0 (copy)",
+        "0"
+      ]
+    },
+    "1274": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "0",
+        "headerLen#0 (copy)",
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0 (copy)",
+        "0",
+        "headerLen#0 (copy)"
+      ]
+    },
+    "1276": {
+      "op": "bytec_3 // \"\"",
+      "defined_out": [
+        "\"\"",
+        "0",
+        "headerLen#0 (copy)",
+        "key#0 (copy)"
+      ],
+      "stack_out": [
+        "key#0 (copy)",
+        "0",
+        "headerLen#0 (copy)",
+        "\"\""
+      ]
+    },
+    "1277": {
+      "op": "box_splice",
+      "stack_out": []
+    },
+    "1278": {
+      "op": "frame_dig -2",
+      "defined_out": [
+        "size#0 (copy)"
+      ],
+      "stack_out": [
+        "size#0 (copy)"
+      ]
+    },
+    "1280": {
+      "op": "frame_dig -1",
+      "stack_out": [
+        "size#0 (copy)",
+        "headerLen#0 (copy)"
+      ]
+    },
+    "1282": {
+      "op": "-",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "1283": {
+      "op": "frame_dig -3",
+      "stack_out": [
+        "tmp%1#0",
+        "key#0 (copy)"
+      ]
+    },
+    "1285": {
+      "op": "swap",
+      "stack_out": [
+        "key#0 (copy)",
+        "tmp%1#0"
+      ]
+    },
+    "1286": {
+      "op": "box_resize",
+      "stack_out": []
+    },
+    "1287": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "1288": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.appendAppId",
       "params": {
         "key#0": "bytes",
@@ -8550,7 +8545,7 @@
       "stack_in": [],
       "op": "proto 2 0"
     },
-    "1259": {
+    "1291": {
       "op": "frame_dig -2",
       "defined_out": [
         "key#0 (copy)"
@@ -8559,7 +8554,7 @@
         "key#0 (copy)"
       ]
     },
-    "1261": {
+    "1293": {
       "op": "box_len",
       "defined_out": [
         "check%0#0",
@@ -8570,14 +8565,42 @@
         "check%0#0"
       ]
     },
-    "1262": {
-      "error": "Box must have value",
-      "op": "assert // Box must have value",
+    "1294": {
+      "op": "swap",
       "stack_out": [
+        "check%0#0",
         "size#0"
       ]
     },
-    "1263": {
+    "1295": {
+      "op": "dup",
+      "stack_out": [
+        "check%0#0",
+        "size#0",
+        "size#0 (copy)"
+      ]
+    },
+    "1296": {
+      "op": "uncover 2",
+      "defined_out": [
+        "check%0#0",
+        "size#0"
+      ],
+      "stack_out": [
+        "size#0",
+        "size#0",
+        "check%0#0"
+      ]
+    },
+    "1298": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "size#0",
+        "size#0"
+      ]
+    },
+    "1299": {
       "op": "dup",
       "defined_out": [
         "size#0",
@@ -8585,10 +8608,11 @@
       ],
       "stack_out": [
         "size#0",
+        "size#0",
         "size#0 (copy)"
       ]
     },
-    "1264": {
+    "1300": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -8597,11 +8621,12 @@
       ],
       "stack_out": [
         "size#0",
+        "size#0",
         "size#0 (copy)",
         "8"
       ]
     },
-    "1265": {
+    "1301": {
       "op": "%",
       "defined_out": [
         "headerLen#0",
@@ -8609,78 +8634,88 @@
       ],
       "stack_out": [
         "size#0",
+        "size#0",
         "headerLen#0"
       ]
     },
-    "1266": {
+    "1302": {
       "op": "dup",
       "stack_out": [
+        "size#0",
         "size#0",
         "headerLen#0",
         "headerLen#0"
       ]
     },
-    "1267": {
+    "1303": {
       "op": "cover 2",
       "defined_out": [
         "headerLen#0",
         "size#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "size#0",
         "headerLen#0"
       ]
     },
-    "1269": {
+    "1305": {
       "op": "-",
       "defined_out": [
         "headerLen#0",
-        "packedLen#0"
+        "packedLen#0",
+        "size#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0"
       ]
     },
-    "1270": {
+    "1306": {
       "op": "intc_0 // 0",
       "defined_out": [
         "headerLen#0",
         "i#0",
-        "packedLen#0"
+        "packedLen#0",
+        "size#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1271": {
+    "1307": {
       "block": "appendAppId_while_top@1",
       "stack_in": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ],
-      "op": "frame_dig 1",
+      "op": "frame_dig 2",
       "defined_out": [
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "packedLen#0"
       ]
     },
-    "1273": {
+    "1309": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8688,27 +8723,29 @@
         "8"
       ]
     },
-    "1274": {
+    "1310": {
       "op": "/",
       "defined_out": [
         "packedLen#0",
         "tmp%2#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "tmp%2#0"
       ]
     },
-    "1275": {
-      "op": "frame_dig 2",
+    "1311": {
+      "op": "frame_dig 3",
       "defined_out": [
         "i#0",
         "packedLen#0",
         "tmp%2#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8716,7 +8753,7 @@
         "i#0"
       ]
     },
-    "1277": {
+    "1313": {
       "op": ">",
       "defined_out": [
         "i#0",
@@ -8724,32 +8761,36 @@
         "tmp%3#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "tmp%3#0"
       ]
     },
-    "1278": {
+    "1314": {
       "op": "bz appendAppId_after_while@5",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1281": {
-      "op": "frame_dig 2",
+    "1317": {
+      "op": "frame_dig 3",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "i#0"
       ]
     },
-    "1283": {
+    "1319": {
       "op": "intc_2 // 8",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8757,37 +8798,39 @@
         "8"
       ]
     },
-    "1284": {
+    "1320": {
       "op": "*",
       "defined_out": [
         "i#0",
         "packedLen#0",
-        "tmp%0#1"
+        "tmp%0#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
-        "tmp%0#1"
+        "tmp%0#0"
       ]
     },
-    "1285": {
-      "op": "frame_dig 0",
+    "1321": {
+      "op": "frame_dig 1",
       "defined_out": [
         "headerLen#0",
         "i#0",
         "packedLen#0",
-        "tmp%0#1"
+        "tmp%0#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
-        "tmp%0#1",
+        "tmp%0#0",
         "headerLen#0"
       ]
     },
-    "1287": {
+    "1323": {
       "op": "+",
       "defined_out": [
         "headerLen#0",
@@ -8796,13 +8839,14 @@
         "tmp%1#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "tmp%1#0"
       ]
     },
-    "1288": {
+    "1324": {
       "op": "frame_dig -2",
       "defined_out": [
         "headerLen#0",
@@ -8812,6 +8856,7 @@
         "tmp%1#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8819,9 +8864,10 @@
         "key#0 (copy)"
       ]
     },
-    "1290": {
+    "1326": {
       "op": "swap",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8829,9 +8875,10 @@
         "tmp%1#0"
       ]
     },
-    "1291": {
+    "1327": {
       "op": "intc_2 // 8",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8840,7 +8887,7 @@
         "8"
       ]
     },
-    "1292": {
+    "1328": {
       "op": "box_extract",
       "defined_out": [
         "headerLen#0",
@@ -8849,13 +8896,14 @@
         "tmp%2#1"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "tmp%2#1"
       ]
     },
-    "1293": {
+    "1329": {
       "op": "btoi",
       "defined_out": [
         "headerLen#0",
@@ -8864,13 +8912,14 @@
         "tmp%3#1"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "tmp%3#1"
       ]
     },
-    "1294": {
+    "1330": {
       "op": "frame_dig -1",
       "defined_out": [
         "appId#0 (copy)",
@@ -8880,6 +8929,7 @@
         "tmp%3#1"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8887,7 +8937,7 @@
         "appId#0 (copy)"
       ]
     },
-    "1296": {
+    "1332": {
       "op": "==",
       "defined_out": [
         "headerLen#0",
@@ -8896,49 +8946,54 @@
         "tmp%5#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "tmp%5#0"
       ]
     },
-    "1297": {
+    "1333": {
       "op": "bz appendAppId_after_if_else@4",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1300": {
+    "1336": {
       "retsub": true,
       "op": "retsub"
     },
-    "1301": {
+    "1337": {
       "block": "appendAppId_after_if_else@4",
       "stack_in": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ],
-      "op": "frame_dig 2",
+      "op": "frame_dig 3",
       "defined_out": [
         "i#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "i#0"
       ]
     },
-    "1303": {
+    "1339": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
         "i#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -8946,177 +9001,140 @@
         "1"
       ]
     },
-    "1304": {
+    "1340": {
       "op": "+",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "i#0"
       ]
     },
-    "1305": {
-      "op": "frame_bury 2",
+    "1341": {
+      "op": "frame_bury 3",
       "defined_out": [
         "i#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1307": {
+    "1343": {
       "op": "b appendAppId_while_top@1"
     },
-    "1310": {
+    "1346": {
       "block": "appendAppId_after_while@5",
       "stack_in": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ],
-      "op": "frame_dig 0",
+      "op": "frame_dig 1",
       "defined_out": [
         "headerLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "headerLen#0"
       ]
     },
-    "1312": {
+    "1348": {
       "op": "bz appendAppId_after_if_else@7",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1315": {
+    "1351": {
       "op": "frame_dig -2",
       "defined_out": [
         "headerLen#0",
         "key#0 (copy)"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "key#0 (copy)"
       ]
     },
-    "1317": {
-      "op": "intc_0 // 0",
+    "1353": {
+      "op": "frame_dig 0",
       "defined_out": [
-        "0",
         "headerLen#0",
-        "key#0 (copy)"
+        "key#0 (copy)",
+        "size#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "key#0 (copy)",
-        "0"
+        "size#0"
       ]
     },
-    "1318": {
-      "op": "frame_dig 0",
+    "1355": {
+      "op": "frame_dig 1",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "key#0 (copy)",
-        "0",
+        "size#0",
         "headerLen#0"
       ]
     },
-    "1320": {
-      "op": "bytec_3 // \"\"",
-      "defined_out": [
-        "\"\"",
-        "0",
-        "headerLen#0",
-        "key#0 (copy)"
-      ],
+    "1357": {
+      "callsub": "smart_contracts/escreg/contract.algo.ts::Escreg.dropLegacyHeader",
+      "op": "callsub dropLegacyHeader",
       "stack_out": [
-        "headerLen#0",
-        "packedLen#0",
-        "i#0",
-        "key#0 (copy)",
-        "0",
-        "headerLen#0",
-        "\"\""
-      ]
-    },
-    "1321": {
-      "op": "box_splice",
-      "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1322": {
-      "op": "frame_dig -2",
-      "stack_out": [
-        "headerLen#0",
-        "packedLen#0",
-        "i#0",
-        "key#0 (copy)"
-      ]
-    },
-    "1324": {
-      "op": "frame_dig 1",
-      "defined_out": [
-        "headerLen#0",
-        "key#0 (copy)",
-        "packedLen#0"
-      ],
-      "stack_out": [
-        "headerLen#0",
-        "packedLen#0",
-        "i#0",
-        "key#0 (copy)",
-        "packedLen#0"
-      ]
-    },
-    "1326": {
-      "op": "box_resize",
-      "stack_out": [
-        "headerLen#0",
-        "packedLen#0",
-        "i#0"
-      ]
-    },
-    "1327": {
+    "1360": {
       "block": "appendAppId_after_if_else@7",
       "stack_in": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ],
-      "op": "frame_dig 1",
+      "op": "frame_dig 2",
       "defined_out": [
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "packedLen#0"
       ]
     },
-    "1329": {
+    "1362": {
       "op": "dup",
       "defined_out": [
         "packedLen#0",
         "packedLen#0 (copy)"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9124,7 +9142,7 @@
         "packedLen#0 (copy)"
       ]
     },
-    "1330": {
+    "1363": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -9132,6 +9150,7 @@
         "packedLen#0 (copy)"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9140,13 +9159,14 @@
         "8"
       ]
     },
-    "1331": {
+    "1364": {
       "op": "+",
       "defined_out": [
         "packedLen#0",
         "tmp%8#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9154,7 +9174,7 @@
         "tmp%8#0"
       ]
     },
-    "1332": {
+    "1365": {
       "op": "frame_dig -2",
       "defined_out": [
         "key#0 (copy)",
@@ -9162,6 +9182,7 @@
         "tmp%8#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9170,9 +9191,10 @@
         "key#0 (copy)"
       ]
     },
-    "1334": {
+    "1367": {
       "op": "swap",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9181,22 +9203,24 @@
         "tmp%8#0"
       ]
     },
-    "1335": {
+    "1368": {
       "op": "box_resize",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "packedLen#0"
       ]
     },
-    "1336": {
+    "1369": {
       "op": "frame_dig -1",
       "defined_out": [
         "appId#0 (copy)",
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9204,13 +9228,14 @@
         "appId#0 (copy)"
       ]
     },
-    "1338": {
+    "1371": {
       "op": "itob",
       "defined_out": [
         "packedLen#0",
         "tmp%9#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9218,9 +9243,10 @@
         "tmp%9#0"
       ]
     },
-    "1339": {
+    "1372": {
       "op": "frame_dig -2",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9229,9 +9255,10 @@
         "key#0 (copy)"
       ]
     },
-    "1341": {
+    "1374": {
       "op": "cover 2",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9240,28 +9267,30 @@
         "tmp%9#0"
       ]
     },
-    "1343": {
+    "1376": {
       "op": "box_replace",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1344": {
+    "1377": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "0"
       ]
     },
-    "1345": {
+    "1378": {
       "op": "bytec_0 // \"counter\"",
       "defined_out": [
         "\"counter\"",
@@ -9269,6 +9298,7 @@
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9276,7 +9306,7 @@
         "\"counter\""
       ]
     },
-    "1346": {
+    "1379": {
       "op": "app_global_get_ex",
       "defined_out": [
         "maybe_exists%0#0",
@@ -9284,6 +9314,7 @@
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9291,17 +9322,18 @@
         "maybe_exists%0#0"
       ]
     },
-    "1347": {
+    "1380": {
       "error": "check GlobalState exists",
       "op": "assert // check GlobalState exists",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "maybe_value%0#0"
       ]
     },
-    "1348": {
+    "1381": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -9309,6 +9341,7 @@
         "packedLen#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9316,22 +9349,24 @@
         "1"
       ]
     },
-    "1349": {
+    "1382": {
       "op": "+",
       "defined_out": [
         "packedLen#0",
         "tmp%10#0"
       ],
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
         "tmp%10#0"
       ]
     },
-    "1350": {
+    "1383": {
       "op": "bytec_0 // \"counter\"",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9339,9 +9374,10 @@
         "\"counter\""
       ]
     },
-    "1351": {
+    "1384": {
       "op": "swap",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0",
@@ -9349,19 +9385,20 @@
         "tmp%10#0"
       ]
     },
-    "1352": {
+    "1385": {
       "op": "app_global_put",
       "stack_out": [
+        "size#0",
         "headerLen#0",
         "packedLen#0",
         "i#0"
       ]
     },
-    "1353": {
+    "1386": {
       "retsub": true,
       "op": "retsub"
     },
-    "1354": {
+    "1387": {
       "subroutine": "smart_contracts/escreg/contract.algo.ts::Escreg.lookup",
       "params": {
         "address#0": "bytes"
@@ -9370,13 +9407,13 @@
       "stack_in": [],
       "op": "proto 1 1"
     },
-    "1357": {
+    "1390": {
       "op": "bytec_3 // \"\"",
       "stack_out": [
         "appId#0"
       ]
     },
-    "1358": {
+    "1391": {
       "op": "dupn 3",
       "stack_out": [
         "appId#0",
@@ -9385,7 +9422,7 @@
         "i#0"
       ]
     },
-    "1360": {
+    "1393": {
       "op": "frame_dig -1",
       "defined_out": [
         "address#0 (copy)"
@@ -9398,7 +9435,7 @@
         "address#0 (copy)"
       ]
     },
-    "1362": {
+    "1395": {
       "op": "len",
       "defined_out": [
         "length%0#0"
@@ -9411,7 +9448,7 @@
         "length%0#0"
       ]
     },
-    "1363": {
+    "1396": {
       "op": "intc_0 // 0",
       "defined_out": [
         "0",
@@ -9426,7 +9463,7 @@
         "0"
       ]
     },
-    "1364": {
+    "1397": {
       "op": "dig 1",
       "defined_out": [
         "0",
@@ -9443,7 +9480,7 @@
         "length%0#0 (copy)"
       ]
     },
-    "1366": {
+    "1399": {
       "op": ">=",
       "defined_out": [
         "is_out_of_bounds%0#0",
@@ -9458,7 +9495,7 @@
         "is_out_of_bounds%0#0"
       ]
     },
-    "1367": {
+    "1400": {
       "op": "intc_0 // 0",
       "stack_out": [
         "appId#0",
@@ -9470,7 +9507,7 @@
         "0"
       ]
     },
-    "1368": {
+    "1401": {
       "op": "dig 2",
       "stack_out": [
         "appId#0",
@@ -9483,7 +9520,7 @@
         "length%0#0 (copy)"
       ]
     },
-    "1370": {
+    "1403": {
       "op": "uncover 2",
       "stack_out": [
         "appId#0",
@@ -9496,7 +9533,7 @@
         "is_out_of_bounds%0#0"
       ]
     },
-    "1372": {
+    "1405": {
       "op": "select",
       "defined_out": [
         "bounded_index%0#0",
@@ -9511,7 +9548,7 @@
         "bounded_index%0#0"
       ]
     },
-    "1373": {
+    "1406": {
       "op": "intc_3 // 4",
       "defined_out": [
         "4",
@@ -9528,7 +9565,7 @@
         "4"
       ]
     },
-    "1374": {
+    "1407": {
       "op": "dig 2",
       "stack_out": [
         "appId#0",
@@ -9541,7 +9578,7 @@
         "length%0#0 (copy)"
       ]
     },
-    "1376": {
+    "1409": {
       "op": ">=",
       "defined_out": [
         "bounded_index%0#0",
@@ -9558,7 +9595,7 @@
         "is_out_of_bounds%1#0"
       ]
     },
-    "1377": {
+    "1410": {
       "op": "intc_3 // 4",
       "stack_out": [
         "appId#0",
@@ -9571,7 +9608,7 @@
         "4"
       ]
     },
-    "1378": {
+    "1411": {
       "op": "uncover 3",
       "stack_out": [
         "appId#0",
@@ -9584,7 +9621,7 @@
         "length%0#0"
       ]
     },
-    "1380": {
+    "1413": {
       "op": "uncover 2",
       "stack_out": [
         "appId#0",
@@ -9597,7 +9634,7 @@
         "is_out_of_bounds%1#0"
       ]
     },
-    "1382": {
+    "1415": {
       "op": "select",
       "defined_out": [
         "bounded_index%0#0",
@@ -9612,7 +9649,7 @@
         "bounded_index%1#0"
       ]
     },
-    "1383": {
+    "1416": {
       "op": "frame_dig -1",
       "stack_out": [
         "appId#0",
@@ -9624,7 +9661,7 @@
         "address#0 (copy)"
       ]
     },
-    "1385": {
+    "1418": {
       "op": "cover 2",
       "stack_out": [
         "appId#0",
@@ -9636,7 +9673,7 @@
         "bounded_index%1#0"
       ]
     },
-    "1387": {
+    "1420": {
       "op": "substring3",
       "defined_out": [
         "addr4#0"
@@ -9649,7 +9686,7 @@
         "addr4#0"
       ]
     },
-    "1388": {
+    "1421": {
       "op": "dup",
       "defined_out": [
         "addr4#0"
@@ -9663,7 +9700,7 @@
         "addr4#0"
       ]
     },
-    "1389": {
+    "1422": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -9680,7 +9717,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "1390": {
+    "1423": {
       "op": "bury 1",
       "stack_out": [
         "appId#0",
@@ -9691,7 +9728,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "1392": {
+    "1425": {
       "op": "bnz lookup_after_if_else@2",
       "stack_out": [
         "appId#0",
@@ -9701,7 +9738,7 @@
         "addr4#0"
       ]
     },
-    "1395": {
+    "1428": {
       "op": "intc_0 // 0",
       "stack_out": [
         "appId#0",
@@ -9712,14 +9749,14 @@
         "0"
       ]
     },
-    "1396": {
+    "1429": {
       "op": "frame_bury 0"
     },
-    "1398": {
+    "1431": {
       "retsub": true,
       "op": "retsub"
     },
-    "1399": {
+    "1432": {
       "block": "lookup_after_if_else@2",
       "stack_in": [
         "appId#0",
@@ -9741,7 +9778,7 @@
         "addr4#0"
       ]
     },
-    "1401": {
+    "1434": {
       "op": "box_len",
       "defined_out": [
         "addr4#0",
@@ -9758,7 +9795,7 @@
         "check%0#0"
       ]
     },
-    "1402": {
+    "1435": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -9770,7 +9807,7 @@
         "size#0"
       ]
     },
-    "1403": {
+    "1436": {
       "op": "dup",
       "defined_out": [
         "addr4#0",
@@ -9787,7 +9824,7 @@
         "size#0 (copy)"
       ]
     },
-    "1404": {
+    "1437": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -9806,7 +9843,7 @@
         "8"
       ]
     },
-    "1405": {
+    "1438": {
       "op": "%",
       "defined_out": [
         "addr4#0",
@@ -9823,7 +9860,7 @@
         "headerLen#0"
       ]
     },
-    "1406": {
+    "1439": {
       "op": "dup",
       "stack_out": [
         "appId#0",
@@ -9836,7 +9873,7 @@
         "headerLen#0"
       ]
     },
-    "1407": {
+    "1440": {
       "op": "frame_bury 2",
       "defined_out": [
         "addr4#0",
@@ -9853,7 +9890,7 @@
         "headerLen#0"
       ]
     },
-    "1409": {
+    "1442": {
       "op": "-",
       "defined_out": [
         "addr4#0",
@@ -9869,7 +9906,7 @@
         "tmp%1#0"
       ]
     },
-    "1410": {
+    "1443": {
       "op": "intc_2 // 8",
       "stack_out": [
         "appId#0",
@@ -9881,7 +9918,7 @@
         "8"
       ]
     },
-    "1411": {
+    "1444": {
       "op": "/",
       "defined_out": [
         "addr4#0",
@@ -9897,7 +9934,7 @@
         "count#0"
       ]
     },
-    "1412": {
+    "1445": {
       "op": "frame_bury 1",
       "defined_out": [
         "addr4#0",
@@ -9912,7 +9949,7 @@
         "addr4#0"
       ]
     },
-    "1414": {
+    "1447": {
       "op": "intc_0 // 0",
       "defined_out": [
         "addr4#0",
@@ -9929,7 +9966,7 @@
         "i#0"
       ]
     },
-    "1415": {
+    "1448": {
       "op": "frame_bury 3",
       "defined_out": [
         "addr4#0",
@@ -9945,7 +9982,7 @@
         "addr4#0"
       ]
     },
-    "1417": {
+    "1450": {
       "block": "lookup_while_top@4",
       "stack_in": [
         "appId#0",
@@ -9967,7 +10004,7 @@
         "i#0"
       ]
     },
-    "1419": {
+    "1452": {
       "op": "frame_dig 1",
       "defined_out": [
         "count#0",
@@ -9983,7 +10020,7 @@
         "count#0"
       ]
     },
-    "1421": {
+    "1454": {
       "op": "<",
       "defined_out": [
         "count#0",
@@ -9999,7 +10036,7 @@
         "tmp%3#0"
       ]
     },
-    "1422": {
+    "1455": {
       "op": "bz lookup_after_while@8",
       "stack_out": [
         "appId#0",
@@ -10009,7 +10046,7 @@
         "addr4#0"
       ]
     },
-    "1425": {
+    "1458": {
       "op": "frame_dig 3",
       "stack_out": [
         "appId#0",
@@ -10020,7 +10057,7 @@
         "i#0"
       ]
     },
-    "1427": {
+    "1460": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -10037,7 +10074,7 @@
         "8"
       ]
     },
-    "1428": {
+    "1461": {
       "op": "*",
       "defined_out": [
         "count#0",
@@ -10053,7 +10090,7 @@
         "tmp%0#0"
       ]
     },
-    "1429": {
+    "1462": {
       "op": "frame_dig 2",
       "defined_out": [
         "count#0",
@@ -10071,7 +10108,7 @@
         "headerLen#0"
       ]
     },
-    "1431": {
+    "1464": {
       "op": "+",
       "defined_out": [
         "count#0",
@@ -10088,7 +10125,7 @@
         "tmp%1#0"
       ]
     },
-    "1432": {
+    "1465": {
       "op": "frame_dig 4",
       "defined_out": [
         "addr4#0",
@@ -10107,7 +10144,7 @@
         "addr4#0"
       ]
     },
-    "1434": {
+    "1467": {
       "op": "swap",
       "stack_out": [
         "appId#0",
@@ -10119,7 +10156,7 @@
         "tmp%1#0"
       ]
     },
-    "1435": {
+    "1468": {
       "op": "intc_2 // 8",
       "stack_out": [
         "appId#0",
@@ -10132,7 +10169,7 @@
         "8"
       ]
     },
-    "1436": {
+    "1469": {
       "op": "box_extract",
       "defined_out": [
         "addr4#0",
@@ -10150,7 +10187,7 @@
         "tmp%2#1"
       ]
     },
-    "1437": {
+    "1470": {
       "op": "btoi",
       "defined_out": [
         "addr4#0",
@@ -10168,7 +10205,7 @@
         "appId#0"
       ]
     },
-    "1438": {
+    "1471": {
       "op": "dup",
       "stack_out": [
         "appId#0",
@@ -10180,7 +10217,7 @@
         "appId#0"
       ]
     },
-    "1439": {
+    "1472": {
       "op": "frame_bury 0",
       "defined_out": [
         "addr4#0",
@@ -10198,7 +10235,7 @@
         "appId#0"
       ]
     },
-    "1441": {
+    "1474": {
       "op": "itob",
       "defined_out": [
         "addr4#0",
@@ -10217,7 +10254,7 @@
         "tmp%0#2"
       ]
     },
-    "1442": {
+    "1475": {
       "op": "bytec 11 // \"appID\"",
       "defined_out": [
         "\"appID\"",
@@ -10238,7 +10275,7 @@
         "\"appID\""
       ]
     },
-    "1444": {
+    "1477": {
       "op": "swap",
       "stack_out": [
         "appId#0",
@@ -10250,7 +10287,7 @@
         "tmp%0#2"
       ]
     },
-    "1445": {
+    "1478": {
       "op": "concat",
       "defined_out": [
         "addr4#0",
@@ -10269,7 +10306,7 @@
         "tmp%1#1"
       ]
     },
-    "1446": {
+    "1479": {
       "op": "sha512_256",
       "stack_out": [
         "appId#0",
@@ -10280,7 +10317,7 @@
         "tmp%2#1"
       ]
     },
-    "1447": {
+    "1480": {
       "op": "frame_dig -1",
       "defined_out": [
         "addr4#0",
@@ -10301,7 +10338,7 @@
         "address#0 (copy)"
       ]
     },
-    "1449": {
+    "1482": {
       "op": "==",
       "defined_out": [
         "addr4#0",
@@ -10320,7 +10357,7 @@
         "tmp%6#0"
       ]
     },
-    "1450": {
+    "1483": {
       "op": "bz lookup_after_if_else@7",
       "stack_out": [
         "appId#0",
@@ -10330,7 +10367,7 @@
         "addr4#0"
       ]
     },
-    "1453": {
+    "1486": {
       "op": "frame_dig 0",
       "defined_out": [
         "addr4#0",
@@ -10349,7 +10386,7 @@
         "tmp%0#0"
       ]
     },
-    "1455": {
+    "1488": {
       "block": "lookup_after_inlined_smart_contracts/escreg/contract.algo.ts::Escreg.findAddr@9",
       "stack_in": [
         "appId#0",
@@ -10364,11 +10401,11 @@
         "tmp%0#0"
       ]
     },
-    "1457": {
+    "1490": {
       "retsub": true,
       "op": "retsub"
     },
-    "1458": {
+    "1491": {
       "block": "lookup_after_if_else@7",
       "stack_in": [
         "appId#0",
@@ -10390,7 +10427,7 @@
         "i#0"
       ]
     },
-    "1460": {
+    "1493": {
       "op": "intc_1 // 1",
       "defined_out": [
         "1",
@@ -10406,7 +10443,7 @@
         "1"
       ]
     },
-    "1461": {
+    "1494": {
       "op": "+",
       "stack_out": [
         "appId#0",
@@ -10417,7 +10454,7 @@
         "i#0"
       ]
     },
-    "1462": {
+    "1495": {
       "op": "frame_bury 3",
       "defined_out": [
         "i#0"
@@ -10430,10 +10467,10 @@
         "addr4#0"
       ]
     },
-    "1464": {
+    "1497": {
       "op": "b lookup_while_top@4"
     },
-    "1467": {
+    "1500": {
       "block": "lookup_after_while@8",
       "stack_in": [
         "appId#0",
@@ -10455,10 +10492,10 @@
         "tmp%0#0"
       ]
     },
-    "1468": {
+    "1501": {
       "op": "b lookup_after_inlined_smart_contracts/escreg/contract.algo.ts::Escreg.findAddr@9"
     },
-    "1471": {
+    "1504": {
       "subroutine": "smart_contracts/mbr-manager/contract.algo.ts::MbrManager.manageMbrCredits",
       "params": {
         "mbrBefore#0": "uint64"
@@ -10467,13 +10504,13 @@
       "stack_in": [],
       "op": "proto 1 0"
     },
-    "1474": {
+    "1507": {
       "op": "bytec_3 // \"\"",
       "stack_out": [
         "creditNeeded#0"
       ]
     },
-    "1475": {
+    "1508": {
       "op": "dupn 2",
       "stack_out": [
         "creditNeeded#0",
@@ -10481,7 +10518,7 @@
         "userCredit#0"
       ]
     },
-    "1477": {
+    "1510": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "tmp%0#0"
@@ -10493,7 +10530,7 @@
         "tmp%0#0"
       ]
     },
-    "1479": {
+    "1512": {
       "op": "acct_params_get AcctMinBalance",
       "defined_out": [
         "check%0#0",
@@ -10507,7 +10544,7 @@
         "check%0#0"
       ]
     },
-    "1481": {
+    "1514": {
       "op": "swap",
       "stack_out": [
         "creditNeeded#0",
@@ -10517,7 +10554,7 @@
         "mbrAfter#0"
       ]
     },
-    "1482": {
+    "1515": {
       "op": "dup",
       "stack_out": [
         "creditNeeded#0",
@@ -10528,7 +10565,7 @@
         "mbrAfter#0 (copy)"
       ]
     },
-    "1483": {
+    "1516": {
       "op": "uncover 2",
       "defined_out": [
         "check%0#0",
@@ -10543,7 +10580,7 @@
         "check%0#0"
       ]
     },
-    "1485": {
+    "1518": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -10554,7 +10591,7 @@
         "mbrAfter#0"
       ]
     },
-    "1486": {
+    "1519": {
       "op": "frame_dig -1",
       "defined_out": [
         "mbrAfter#0",
@@ -10569,7 +10606,7 @@
         "mbrBefore#0 (copy)"
       ]
     },
-    "1488": {
+    "1521": {
       "op": "==",
       "defined_out": [
         "mbrAfter#0",
@@ -10583,7 +10620,7 @@
         "tmp%1#0"
       ]
     },
-    "1489": {
+    "1522": {
       "op": "bz manageMbrCredits_else_body@2",
       "stack_out": [
         "creditNeeded#0",
@@ -10592,11 +10629,11 @@
         "mbrAfter#0"
       ]
     },
-    "1492": {
+    "1525": {
       "retsub": true,
       "op": "retsub"
     },
-    "1493": {
+    "1526": {
       "block": "manageMbrCredits_else_body@2",
       "stack_in": [
         "creditNeeded#0",
@@ -10616,7 +10653,7 @@
         "mbrAfter#0"
       ]
     },
-    "1495": {
+    "1528": {
       "op": "frame_dig -1",
       "defined_out": [
         "mbrAfter#0",
@@ -10631,7 +10668,7 @@
         "mbrBefore#0 (copy)"
       ]
     },
-    "1497": {
+    "1530": {
       "op": ">",
       "defined_out": [
         "mbrAfter#0",
@@ -10645,7 +10682,7 @@
         "tmp%2#0"
       ]
     },
-    "1498": {
+    "1531": {
       "op": "bz manageMbrCredits_else_body@7",
       "stack_out": [
         "creditNeeded#0",
@@ -10654,7 +10691,7 @@
         "mbrAfter#0"
       ]
     },
-    "1501": {
+    "1534": {
       "op": "frame_dig 3",
       "stack_out": [
         "creditNeeded#0",
@@ -10664,7 +10701,7 @@
         "mbrAfter#0"
       ]
     },
-    "1503": {
+    "1536": {
       "op": "frame_dig -1",
       "stack_out": [
         "creditNeeded#0",
@@ -10675,7 +10712,7 @@
         "mbrBefore#0 (copy)"
       ]
     },
-    "1505": {
+    "1538": {
       "op": "-",
       "defined_out": [
         "creditNeeded#0",
@@ -10689,7 +10726,7 @@
         "creditNeeded#0"
       ]
     },
-    "1506": {
+    "1539": {
       "op": "frame_bury 0",
       "defined_out": [
         "creditNeeded#0",
@@ -10702,7 +10739,7 @@
         "mbrAfter#0"
       ]
     },
-    "1508": {
+    "1541": {
       "op": "bytec_1 // \"c\"",
       "defined_out": [
         "\"c\"",
@@ -10717,7 +10754,7 @@
         "\"c\""
       ]
     },
-    "1509": {
+    "1542": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -10734,7 +10771,7 @@
         "materialized_values%0#0"
       ]
     },
-    "1511": {
+    "1544": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%0#0",
@@ -10749,7 +10786,7 @@
         "box_prefixed_key%0#0"
       ]
     },
-    "1512": {
+    "1545": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -10766,7 +10803,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "1513": {
+    "1546": {
       "op": "bury 1",
       "stack_out": [
         "creditNeeded#0",
@@ -10776,7 +10813,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "1515": {
+    "1548": {
       "op": "bz manageMbrCredits_ternary_false@5",
       "stack_out": [
         "creditNeeded#0",
@@ -10785,7 +10822,7 @@
         "mbrAfter#0"
       ]
     },
-    "1518": {
+    "1551": {
       "op": "bytec_1 // \"c\"",
       "stack_out": [
         "creditNeeded#0",
@@ -10795,7 +10832,7 @@
         "\"c\""
       ]
     },
-    "1519": {
+    "1552": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -10812,7 +10849,7 @@
         "materialized_values%1#0"
       ]
     },
-    "1521": {
+    "1554": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%1#0",
@@ -10827,7 +10864,7 @@
         "box_prefixed_key%1#0"
       ]
     },
-    "1522": {
+    "1555": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%0#0",
@@ -10844,7 +10881,7 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "1523": {
+    "1556": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -10855,7 +10892,7 @@
         "aggregate%box_get%0#0"
       ]
     },
-    "1524": {
+    "1557": {
       "op": "btoi",
       "defined_out": [
         "creditNeeded#0",
@@ -10870,7 +10907,7 @@
         "userCredit#0"
       ]
     },
-    "1525": {
+    "1558": {
       "op": "frame_bury 2",
       "defined_out": [
         "creditNeeded#0",
@@ -10884,7 +10921,7 @@
         "mbrAfter#0"
       ]
     },
-    "1527": {
+    "1560": {
       "block": "manageMbrCredits_ternary_merge@6",
       "stack_in": [
         "creditNeeded#0",
@@ -10904,7 +10941,7 @@
         "userCredit#0"
       ]
     },
-    "1529": {
+    "1562": {
       "op": "frame_dig 0",
       "defined_out": [
         "creditNeeded#0",
@@ -10919,7 +10956,7 @@
         "creditNeeded#0"
       ]
     },
-    "1531": {
+    "1564": {
       "op": ">=",
       "defined_out": [
         "condition#0",
@@ -10934,7 +10971,7 @@
         "condition#0"
       ]
     },
-    "1532": {
+    "1565": {
       "op": "bnz manageMbrCredits_after_if_else@15",
       "stack_out": [
         "creditNeeded#0",
@@ -10943,7 +10980,7 @@
         "mbrAfter#0"
       ]
     },
-    "1535": {
+    "1568": {
       "op": "pushbytes \"ERR:CRD\"",
       "defined_out": [
         "\"ERR:CRD\"",
@@ -10958,7 +10995,7 @@
         "\"ERR:CRD\""
       ]
     },
-    "1544": {
+    "1577": {
       "op": "log",
       "stack_out": [
         "creditNeeded#0",
@@ -10967,10 +11004,10 @@
         "mbrAfter#0"
       ]
     },
-    "1545": {
+    "1578": {
       "op": "err"
     },
-    "1546": {
+    "1579": {
       "block": "manageMbrCredits_after_if_else@15",
       "stack_in": [
         "creditNeeded#0",
@@ -10990,7 +11027,7 @@
         "userCredit#0"
       ]
     },
-    "1548": {
+    "1581": {
       "op": "frame_dig 0",
       "defined_out": [
         "creditNeeded#0",
@@ -11005,7 +11042,7 @@
         "creditNeeded#0"
       ]
     },
-    "1550": {
+    "1583": {
       "op": "-",
       "defined_out": [
         "creditNeeded#0",
@@ -11020,7 +11057,7 @@
         "tmp%5#0"
       ]
     },
-    "1551": {
+    "1584": {
       "op": "bytec_1 // \"c\"",
       "defined_out": [
         "\"c\"",
@@ -11037,7 +11074,7 @@
         "\"c\""
       ]
     },
-    "1552": {
+    "1585": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -11056,7 +11093,7 @@
         "materialized_values%2#0"
       ]
     },
-    "1554": {
+    "1587": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%2#0",
@@ -11073,7 +11110,7 @@
         "box_prefixed_key%2#0"
       ]
     },
-    "1555": {
+    "1588": {
       "op": "swap",
       "stack_out": [
         "creditNeeded#0",
@@ -11084,7 +11121,7 @@
         "tmp%5#0"
       ]
     },
-    "1556": {
+    "1589": {
       "op": "itob",
       "defined_out": [
         "box_prefixed_key%2#0",
@@ -11101,7 +11138,7 @@
         "encoded_value%0#0"
       ]
     },
-    "1557": {
+    "1590": {
       "op": "box_put",
       "stack_out": [
         "creditNeeded#0",
@@ -11110,11 +11147,11 @@
         "mbrAfter#0"
       ]
     },
-    "1558": {
+    "1591": {
       "retsub": true,
       "op": "retsub"
     },
-    "1559": {
+    "1592": {
       "block": "manageMbrCredits_ternary_false@5",
       "stack_in": [
         "creditNeeded#0",
@@ -11134,7 +11171,7 @@
         "userCredit#0"
       ]
     },
-    "1560": {
+    "1593": {
       "op": "frame_bury 2",
       "defined_out": [
         "userCredit#0"
@@ -11146,10 +11183,10 @@
         "mbrAfter#0"
       ]
     },
-    "1562": {
+    "1595": {
       "op": "b manageMbrCredits_ternary_merge@6"
     },
-    "1565": {
+    "1598": {
       "block": "manageMbrCredits_else_body@7",
       "stack_in": [
         "creditNeeded#0",
@@ -11169,7 +11206,7 @@
         "mbrBefore#0 (copy)"
       ]
     },
-    "1567": {
+    "1600": {
       "op": "frame_dig 3",
       "defined_out": [
         "mbrAfter#0",
@@ -11184,7 +11221,7 @@
         "mbrAfter#0"
       ]
     },
-    "1569": {
+    "1602": {
       "op": "-",
       "defined_out": [
         "creditToReturn#0",
@@ -11198,7 +11235,7 @@
         "creditToReturn#0"
       ]
     },
-    "1570": {
+    "1603": {
       "op": "frame_bury 1",
       "defined_out": [
         "creditToReturn#0",
@@ -11211,7 +11248,7 @@
         "mbrAfter#0"
       ]
     },
-    "1572": {
+    "1605": {
       "op": "bytec_1 // \"c\"",
       "defined_out": [
         "\"c\"",
@@ -11226,7 +11263,7 @@
         "\"c\""
       ]
     },
-    "1573": {
+    "1606": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -11243,7 +11280,7 @@
         "materialized_values%3#0"
       ]
     },
-    "1575": {
+    "1608": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%3#0",
@@ -11258,7 +11295,7 @@
         "box_prefixed_key%3#0"
       ]
     },
-    "1576": {
+    "1609": {
       "op": "box_len",
       "defined_out": [
         "_%1#0",
@@ -11275,7 +11312,7 @@
         "condition#0"
       ]
     },
-    "1577": {
+    "1610": {
       "op": "bury 1",
       "stack_out": [
         "creditNeeded#0",
@@ -11285,7 +11322,7 @@
         "condition#0"
       ]
     },
-    "1579": {
+    "1612": {
       "op": "bnz manageMbrCredits_after_if_else@11",
       "stack_out": [
         "creditNeeded#0",
@@ -11294,7 +11331,7 @@
         "mbrAfter#0"
       ]
     },
-    "1582": {
+    "1615": {
       "op": "bytec 9 // \"ERR:RCV\"",
       "defined_out": [
         "\"ERR:RCV\"",
@@ -11309,7 +11346,7 @@
         "\"ERR:RCV\""
       ]
     },
-    "1584": {
+    "1617": {
       "op": "log",
       "stack_out": [
         "creditNeeded#0",
@@ -11318,10 +11355,10 @@
         "mbrAfter#0"
       ]
     },
-    "1585": {
+    "1618": {
       "op": "err"
     },
-    "1586": {
+    "1619": {
       "block": "manageMbrCredits_after_if_else@11",
       "stack_in": [
         "creditNeeded#0",
@@ -11341,7 +11378,7 @@
         "\"c\""
       ]
     },
-    "1587": {
+    "1620": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -11356,7 +11393,7 @@
         "materialized_values%4#0"
       ]
     },
-    "1589": {
+    "1622": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%4#0"
@@ -11369,7 +11406,7 @@
         "box_prefixed_key%4#0"
       ]
     },
-    "1590": {
+    "1623": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%2#0",
@@ -11384,7 +11421,7 @@
         "aggregate%box_get%3#0"
       ]
     },
-    "1591": {
+    "1624": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -11395,7 +11432,7 @@
         "aggregate%box_get%2#0"
       ]
     },
-    "1592": {
+    "1625": {
       "op": "btoi",
       "defined_out": [
         "maybe_value_converted%1#0"
@@ -11408,7 +11445,7 @@
         "maybe_value_converted%1#0"
       ]
     },
-    "1593": {
+    "1626": {
       "op": "frame_dig 1",
       "defined_out": [
         "creditToReturn#0",
@@ -11423,7 +11460,7 @@
         "creditToReturn#0"
       ]
     },
-    "1595": {
+    "1628": {
       "op": "+",
       "defined_out": [
         "creditToReturn#0",
@@ -11437,7 +11474,7 @@
         "tmp%7#0"
       ]
     },
-    "1596": {
+    "1629": {
       "op": "bytec_1 // \"c\"",
       "stack_out": [
         "creditNeeded#0",
@@ -11448,7 +11485,7 @@
         "\"c\""
       ]
     },
-    "1597": {
+    "1630": {
       "op": "txn Sender",
       "defined_out": [
         "\"c\"",
@@ -11466,7 +11503,7 @@
         "materialized_values%5#0"
       ]
     },
-    "1599": {
+    "1632": {
       "op": "concat",
       "defined_out": [
         "box_prefixed_key%5#0",
@@ -11482,7 +11519,7 @@
         "box_prefixed_key%5#0"
       ]
     },
-    "1600": {
+    "1633": {
       "op": "swap",
       "stack_out": [
         "creditNeeded#0",
@@ -11493,7 +11530,7 @@
         "tmp%7#0"
       ]
     },
-    "1601": {
+    "1634": {
       "op": "itob",
       "defined_out": [
         "box_prefixed_key%5#0",
@@ -11509,7 +11546,7 @@
         "encoded_value%1#0"
       ]
     },
-    "1602": {
+    "1635": {
       "op": "box_put",
       "stack_out": [
         "creditNeeded#0",
@@ -11518,7 +11555,7 @@
         "mbrAfter#0"
       ]
     },
-    "1603": {
+    "1636": {
       "retsub": true,
       "op": "retsub"
     }

@@ -15,7 +15,7 @@ import { Address, ConventionalRouting } from '@algorandfoundation/algorand-types
 import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
 import { ensure } from '../common.algo'
 import { MbrManager } from '../mbr-manager/contract.algo'
-import { errAppNotRegistered, errAuth } from './errors.algo'
+import { errAppNotRegistered, errAuth, errBucket } from './errors.algo'
 
 const RETURN_TRUE = Bytes.fromHex('0a8101') // #pragma version 10; pushint 1
 
@@ -214,11 +214,15 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   /**
    * Rewrite a legacy bucket in place as a packed one, by shifting its app IDs over the length
    * header and trimming the freed bytes off the end.
+   * A size that is neither layout's is rejected rather than read as a header of that length, which
+   * would shift every app ID in the bucket and lose the leading bytes for good.
    * @param key 4-byte box key to rewrite.
    * @param size Current box size.
    * @param headerLen Legacy header length, from `bucketHeaderLen`.
+   * @throws ERR:BKT if the size is neither 0 nor 2 mod 8
    */
   private dropLegacyHeader(key: bytes<4>, size: uint64, headerLen: uint64) {
+    ensure(headerLen === 2, errBucket)
     this.apps(key).splice(0, headerLen, Bytes(''))
     this.apps(key).resize(size - headerLen)
   }

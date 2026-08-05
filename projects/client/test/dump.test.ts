@@ -157,7 +157,9 @@ describe('handleDumpCommand', () => {
     await handleDumpCommand({ ...argv, resume });
 
     expect(error).toHaveBeenCalledWith('Error dumping boxes:', expect.stringContaining('is a dump of app 9999, not 1234'));
-    expect(exit).toHaveBeenCalledWith(1);
+    // process.exit would drop rows still queued on stdout, so the failure sets the code instead
+    expect(exit).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(1);
     expect(scanBucketPages).not.toHaveBeenCalled();
   });
 
@@ -178,6 +180,69 @@ describe('handleDumpCommand', () => {
     expect(checkpoint()).toEqual({ appId: '1234', next: 'b64:fD3rAg==', round: 100, legacy: 1, packed: 1, entries: 2 });
     expect(stderr.at(-1)).toBe('Interrupted after 2 boxes. Re-run the same command to continue.\n');
     expect(process.exitCode).toBe(130);
+  });
+
+  it('should report a dump interrupted on its very last row as complete', async () => {
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2)], round: 100 }));
+    vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
+      stdout.push(String(chunk));
+      // the listing is exhausted, so a signal on the last row leaves nothing to resume
+      if (stdout.length === 2) interrupt?.();
+      return true;
+    });
+
+    await handleDumpCommand({ ...argv, resume });
+
+    expect(stdout).toHaveLength(2);
+    expect(existsSync(resume)).toBe(false);
+    expect(stderr.at(-1)).toBe('2 boxes (1 v1, 1 v2), 2 app IDs\n');
+    expect(process.exitCode).toBeUndefined();
+  });
+
+  it('should quit outright on a second signal', async () => {
+    const exit = vi.spyOn(process, 'exit').mockImplementation((() => {}) as any);
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2)], next: 'b64:cursor-1' }));
+    vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
+      stdout.push(String(chunk));
+      // a signal that lands while the scan is parked on algod only shows up as a repeat
+      interrupt?.();
+      interrupt?.();
+      return true;
+    });
+
+    await handleDumpCommand({ ...argv, resume });
+
+    expect(exit).toHaveBeenCalledWith(130);
+  });
+
+  it('should wait for stdout to drain before writing the next row', async () => {
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2)] }));
+    let draining = 0;
+    vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
+      stdout.push(String(chunk));
+      draining++;
+      // a full write buffer: the dump has to wait rather than queueing the rest of the registry
+      process.nextTick(() => process.stdout.emit('drain'));
+      return false;
+    });
+
+    await handleDumpCommand(argv);
+
+    expect(draining).toBe(2);
+    expect(stdout).toHaveLength(2);
+    expect(stderr.at(-1)).toBe('2 boxes (1 v1, 1 v2), 2 app IDs\n');
+  });
+
+  it('should report a stdout write failure instead of throwing out of the error handler', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const exit = vi.spyOn(process, 'exit').mockImplementation((() => {}) as any);
+    scanBucketPages.mockReturnValue(pages());
+
+    await handleDumpCommand(argv);
+
+    expect(() => process.stdout.emit('error', Object.assign(new Error('no space left'), { code: 'ENOSPC' }))).not.toThrow();
+    expect(error).toHaveBeenCalledWith('Error dumping boxes:', 'no space left');
+    expect(exit).toHaveBeenCalledWith(1);
   });
 
   it('should point at --resume when an interrupted dump had nowhere to checkpoint', async () => {
