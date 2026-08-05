@@ -23,7 +23,7 @@ import { TransactionComposer, AppCallMethodCall, AppMethodCallTransactionArgumen
 import { SendParams, SendSingleTransactionResult, SendAtomicTransactionComposerResults } from '@algorandfoundation/algokit-utils/types/transaction'
 import { Address, encodeAddress, modelsv2, OnApplicationComplete, Transaction, TransactionSigner } from 'algosdk'
 
-export const APP_SPEC: Arc56Contract = {"name":"Escreg","structs":{"AddressWithAuth":[{"name":"appId","type":"uint64"},{"name":"authAppId","type":"uint64"}]},"methods":[{"name":"deleteApplication","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["DeleteApplication"]},"readonly":false,"desc":"Delete the application.","events":[],"recommendations":{}},{"name":"updateApplication","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["UpdateApplication"]},"readonly":false,"desc":"Update the application.","events":[],"recommendations":{}},{"name":"withdraw","args":[{"type":"uint64","name":"amount","desc":"Amount of microAlgos to withdraw."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Withdraw funds from the contract to the admin.","events":[],"recommendations":{}},{"name":"deleteBoxes","args":[{"type":"byte[4][]","name":"boxKeys","desc":"Array of 4-byte box keys to delete."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Delete app registry boxes by their keys.","events":[],"recommendations":{}},{"name":"register","args":[{"type":"uint64","name":"appId","desc":"App ID of the application to register. The app address derived from this ID will be registered in the contract and can be retrieved later."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Register a single application escrow account","events":[],"recommendations":{}},{"name":"registerList","args":[{"type":"uint64[]","name":"appIds","desc":"Array of App IDs to register. The app addresses derived from these IDs will be registered in the contract and can be retrieved later."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Register multiple application escrow accounts in a single transaction. This is more efficient than calling register multiple times as the MBR cost can be paid for in a single payment and the app IDs can be stored more efficiently in the contract state.","events":[],"recommendations":{}},{"name":"exists","args":[{"type":"address","name":"address","desc":"App Escrow to check"}],"returns":{"type":"bool","desc":"boolean indicating whether the given address is registered in the contract"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Return true if an app escrow account exists for the given address, false otherwise.","events":[],"recommendations":{}},{"name":"get","args":[{"type":"address","name":"address","desc":"App Escrow to get the app ID for"}],"returns":{"type":"uint64","desc":"App ID for the given address, or 0 if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for the given app escrow address. Returns 0 if the app escrow is not registered in the contract.","events":[],"recommendations":{}},{"name":"mustGet","args":[{"type":"address","name":"address","desc":"App Escrow to get the app ID for"}],"returns":{"type":"uint64","desc":"App ID for the given address"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for the given app escrow address. Throws an error if the app escrow is not registered in the contract.","events":[],"recommendations":{}},{"name":"getWithAuth","args":[{"type":"address","name":"address","desc":"App Escrow to get the app ID for, along with its auth address"}],"returns":{"type":"(uint64,uint64)","struct":"AddressWithAuth","desc":"[app ID for the given address, app ID for the auth address], or 0 for each if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for the given app escrow address and its auth address. Returns 0 for each if not registered in the contract.","events":[],"recommendations":{}},{"name":"getWithAuthList","args":[{"type":"address[]","name":"addresses","desc":"App Escrows to get the app IDs for, along with their auth addresses"}],"returns":{"type":"(uint64,uint64)[]","desc":"Array of [app ID for the given address, app ID for the auth address] for each input address, or 0 for each if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for multiple app escrow addresses and their auth addresses. Returns 0 for each if not registered in the contract.","events":[],"recommendations":{}},{"name":"getList","args":[{"type":"address[]","name":"addresses","desc":"App Escrows to get the app IDs for"}],"returns":{"type":"uint64[]","desc":"Array of app IDs for each input address, or 0 if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app IDs for multiple app escrow addresses. Returns 0 for each if not registered in the contract.","events":[],"recommendations":{}},{"name":"mustGetList","args":[{"type":"address[]","name":"addresses","desc":"App Escrows to get the app IDs for"}],"returns":{"type":"uint64[]","desc":"Array of app IDs for each input address"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app IDs for multiple app escrow addresses. Throws an error if any of the app escrows are not registered in the contract.","events":[],"recommendations":{}},{"name":"increaseBudget","args":[{"type":"uint64","name":"itxns","desc":"Number of itxns to perform."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Utility for explicitly increasing the budget of a transaction group by performing no-op inner transactions.","events":[],"recommendations":{}},{"name":"depositCredits","args":[{"type":"address","name":"creditor","desc":"account to credit"},{"type":"pay","name":"txn","desc":"payment transaction to contract. amount is the credit received"}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"public method to deposit MBR credits for an account","events":[],"recommendations":{}},{"name":"withdrawCredits","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Withdraw all remaining MBR credits for sender. This will delete the user credit box, so all credits are withdrawn including the MBR locked for the box itself.","events":[],"recommendations":{}}],"arcs":[22,28],"networks":{},"state":{"schema":{"global":{"ints":32,"bytes":32},"local":{"ints":0,"bytes":0}},"keys":{"global":{"admin":{"keyType":"AVMString","valueType":"address","key":"YWRtaW4=","desc":"Contract admin"},"counter":{"keyType":"AVMString","valueType":"AVMUint64","key":"Y291bnRlcg==","desc":"Counter for the number of registered applications"}},"local":{},"box":{}},"maps":{"global":{},"local":{},"box":{"apps":{"keyType":"AVMBytes","valueType":"uint64[]","desc":"BoxMap from 4-byte prefix of escrow to app IDs","prefix":""},"userCredits":{"keyType":"address","valueType":"uint64","prefix":"Yw=="}}}},"bareActions":{"create":["NoOp"],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[557,613,664,732,790,888,946,1103,1223,1390,1439,1518,1715,1783],"errorMessage":"Box must have value"},{"pc":[242],"errorMessage":"OnCompletion must be DeleteApplication && can only call when not creating"},{"pc":[113],"errorMessage":"OnCompletion must be NoOp"},{"pc":[253],"errorMessage":"OnCompletion must be NoOp && can only call when creating"},{"pc":[230],"errorMessage":"OnCompletion must be UpdateApplication && can only call when not creating"},{"pc":[369,428,751,907,1396,1419,1451,1677],"errorMessage":"account funded"},{"pc":[330,383,465,1479,1602],"errorMessage":"check GlobalState exists"},{"pc":[317,846,1028,1180],"errorMessage":"index access is out of bounds"},{"pc":[298,430,825,1007,1159,1617],"errorMessage":"invalid array length header"},{"pc":[1337],"errorMessage":"invalid number of bytes for arc4.static_array<arc4.uint8, 32>"},{"pc":[967,1076,1121,1253,1577],"errorMessage":"max array length exceeded"},{"pc":[1348],"errorMessage":"transaction type is pay"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"events":[]} as unknown as Arc56Contract
+export const APP_SPEC: Arc56Contract = {"name":"Escreg","structs":{"AddressWithAuth":[{"name":"appId","type":"uint64"},{"name":"authAppId","type":"uint64"}]},"methods":[{"name":"deleteApplication","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["DeleteApplication"]},"readonly":false,"desc":"Delete the application.","events":[],"recommendations":{}},{"name":"updateApplication","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["UpdateApplication"]},"readonly":false,"desc":"Update the application.","events":[],"recommendations":{}},{"name":"withdraw","args":[{"type":"uint64","name":"amount","desc":"Amount of microAlgos to withdraw."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Withdraw funds from the contract to the admin.","events":[],"recommendations":{}},{"name":"deleteBoxes","args":[{"type":"byte[4][]","name":"boxKeys","desc":"Array of 4-byte box keys to delete."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Delete app registry boxes by their keys.","events":[],"recommendations":{}},{"name":"migrateBoxes","args":[{"type":"byte[4][]","name":"boxKeys","desc":"Array of 4-byte box keys to migrate."}],"returns":{"type":"uint64","desc":"Number of boxes actually converted."},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed\nlayout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not\nexist, or that are already packed, are skipped.\n\nThe freed MBR is not credited back to any account - it stays in the contract balance and can\nbe recovered by the admin with `withdraw`.","events":[],"recommendations":{}},{"name":"register","args":[{"type":"uint64","name":"appId","desc":"App ID of the application to register. The app address derived from this ID will be registered in the contract and can be retrieved later."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Register a single application escrow account","events":[],"recommendations":{}},{"name":"registerList","args":[{"type":"uint64[]","name":"appIds","desc":"Array of App IDs to register. The app addresses derived from these IDs will be registered in the contract and can be retrieved later."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Register multiple application escrow accounts in a single transaction. This is more efficient than calling register multiple times as the MBR cost can be paid for in a single payment and the app IDs can be stored more efficiently in the contract state.","events":[],"recommendations":{}},{"name":"exists","args":[{"type":"address","name":"address","desc":"App Escrow to check"}],"returns":{"type":"bool","desc":"boolean indicating whether the given address is registered in the contract"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Return true if an app escrow account exists for the given address, false otherwise.","events":[],"recommendations":{}},{"name":"get","args":[{"type":"address","name":"address","desc":"App Escrow to get the app ID for"}],"returns":{"type":"uint64","desc":"App ID for the given address, or 0 if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for the given app escrow address. Returns 0 if the app escrow is not registered in the contract.","events":[],"recommendations":{}},{"name":"mustGet","args":[{"type":"address","name":"address","desc":"App Escrow to get the app ID for"}],"returns":{"type":"uint64","desc":"App ID for the given address"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for the given app escrow address. Throws an error if the app escrow is not registered in the contract.","events":[],"recommendations":{}},{"name":"getWithAuth","args":[{"type":"address","name":"address","desc":"App Escrow to get the app ID for, along with its auth address"}],"returns":{"type":"(uint64,uint64)","struct":"AddressWithAuth","desc":"[app ID for the given address, app ID for the auth address], or 0 for each if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for the given app escrow address and its auth address. Returns 0 for each if not registered in the contract.","events":[],"recommendations":{}},{"name":"getWithAuthList","args":[{"type":"address[]","name":"addresses","desc":"App Escrows to get the app IDs for, along with their auth addresses"}],"returns":{"type":"(uint64,uint64)[]","desc":"Array of [app ID for the given address, app ID for the auth address] for each input address, or 0 for each if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app ID for multiple app escrow addresses and their auth addresses. Returns 0 for each if not registered in the contract.","events":[],"recommendations":{}},{"name":"getList","args":[{"type":"address[]","name":"addresses","desc":"App Escrows to get the app IDs for"}],"returns":{"type":"uint64[]","desc":"Array of app IDs for each input address, or 0 if not registered"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app IDs for multiple app escrow addresses. Returns 0 for each if not registered in the contract.","events":[],"recommendations":{}},{"name":"mustGetList","args":[{"type":"address[]","name":"addresses","desc":"App Escrows to get the app IDs for"}],"returns":{"type":"uint64[]","desc":"Array of app IDs for each input address"},"actions":{"create":[],"call":["NoOp"]},"readonly":true,"desc":"Get the app IDs for multiple app escrow addresses. Throws an error if any of the app escrows are not registered in the contract.","events":[],"recommendations":{}},{"name":"increaseBudget","args":[{"type":"uint64","name":"itxns","desc":"Number of itxns to perform."}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Utility for explicitly increasing the budget of a transaction group by performing no-op inner transactions.","events":[],"recommendations":{}},{"name":"depositCredits","args":[{"type":"address","name":"creditor","desc":"account to credit"},{"type":"pay","name":"txn","desc":"payment transaction to contract. amount is the credit received"}],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"public method to deposit MBR credits for an account","events":[],"recommendations":{}},{"name":"withdrawCredits","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Withdraw all remaining MBR credits for sender. This will delete the user credit box, so all credits are withdrawn including the MBR locked for the box itself.","events":[],"recommendations":{}}],"arcs":[22,28],"networks":{},"state":{"schema":{"global":{"ints":32,"bytes":32},"local":{"ints":0,"bytes":0}},"keys":{"global":{"admin":{"keyType":"AVMString","valueType":"address","key":"YWRtaW4=","desc":"Contract admin"},"counter":{"keyType":"AVMString","valueType":"AVMUint64","key":"Y291bnRlcg==","desc":"Counter for the number of registered applications"}},"local":{},"box":{}},"maps":{"global":{},"local":{},"box":{"apps":{"keyType":"AVMBytes","valueType":"AVMBytes","desc":"BoxMap from 4-byte prefix of escrow to app IDs.\n\nThe value is a packed array of big-endian 8-byte app IDs with no length header, so the\nbucket size is derived from the box length (`length / 8`). This saves the 2 bytes an ARC-4\ndynamic array header would occupy - 800 microAlgos of MBR on every box - and lets lookups\nread one candidate at a time instead of decoding the whole bucket.\n\nBuckets left over from the earlier ARC-4 `uint64[]` layout are still readable: see\n`bucketHeaderLen`. Call `migrateBoxes` to convert them.","prefix":""},"userCredits":{"keyType":"address","valueType":"uint64","prefix":"Yw=="}}}},"bareActions":{"create":["NoOp"],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[338,420,1040,1089,1211,1348,1469,1537],"errorMessage":"Box must have value"},{"pc":[249],"errorMessage":"OnCompletion must be DeleteApplication && can only call when not creating"},{"pc":[113],"errorMessage":"OnCompletion must be NoOp"},{"pc":[260],"errorMessage":"OnCompletion must be NoOp && can only call when creating"},{"pc":[237],"errorMessage":"OnCompletion must be UpdateApplication && can only call when not creating"},{"pc":[473,528,669,725,1046,1069,1101,1431],"errorMessage":"account funded"},{"pc":[342,487,565,1129,1293],"errorMessage":"check GlobalState exists"},{"pc":[324,401,717,800,876],"errorMessage":"index access is out of bounds"},{"pc":[305,382,530,693,776,855],"errorMessage":"invalid array length header"},{"pc":[987],"errorMessage":"invalid number of bytes for arc4.static_array<arc4.uint8, 32>"},{"pc":[739,815,903],"errorMessage":"max array length exceeded"},{"pc":[998],"errorMessage":"transaction type is pay"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"events":[]} as unknown as Arc56Contract
 
 /**
  * A state record containing binary data
@@ -96,6 +96,12 @@ export type EscregArgs = {
     'deleteBoxes(byte[4][])void': {
       /**
        * Array of 4-byte box keys to delete.
+       */
+      boxKeys: Uint8Array[]
+    }
+    'migrateBoxes(byte[4][])uint64': {
+      /**
+       * Array of 4-byte box keys to migrate.
        */
       boxKeys: Uint8Array[]
     }
@@ -179,6 +185,7 @@ export type EscregArgs = {
     'updateApplication()void': []
     'withdraw(uint64)void': [amount: bigint | number]
     'deleteBoxes(byte[4][])void': [boxKeys: Uint8Array[]]
+    'migrateBoxes(byte[4][])uint64': [boxKeys: Uint8Array[]]
     'register(uint64)void': [appId: bigint | number]
     'registerList(uint64[])void': [appIds: bigint[] | number[]]
     'exists(address)bool': [address: string]
@@ -202,6 +209,7 @@ export type EscregReturns = {
   'updateApplication()void': void
   'withdraw(uint64)void': void
   'deleteBoxes(byte[4][])void': void
+  'migrateBoxes(byte[4][])uint64': bigint
   'register(uint64)void': void
   'registerList(uint64[])void': void
   'exists(address)bool': boolean
@@ -243,6 +251,14 @@ export type EscregTypes = {
       argsObj: EscregArgs['obj']['deleteBoxes(byte[4][])void']
       argsTuple: EscregArgs['tuple']['deleteBoxes(byte[4][])void']
       returns: EscregReturns['deleteBoxes(byte[4][])void']
+    }>
+    & Record<'migrateBoxes(byte[4][])uint64' | 'migrateBoxes', {
+      argsObj: EscregArgs['obj']['migrateBoxes(byte[4][])uint64']
+      argsTuple: EscregArgs['tuple']['migrateBoxes(byte[4][])uint64']
+      /**
+       * Number of boxes actually converted.
+       */
+      returns: EscregReturns['migrateBoxes(byte[4][])uint64']
     }>
     & Record<'register(uint64)void' | 'register', {
       argsObj: EscregArgs['obj']['register(uint64)void']
@@ -346,9 +362,18 @@ export type EscregTypes = {
       keys: {}
       maps: {
         /**
-         * BoxMap from 4-byte prefix of escrow to app IDs
+        * BoxMap from 4-byte prefix of escrow to app IDs.
+        
+        The value is a packed array of big-endian 8-byte app IDs with no length header, so the
+        bucket size is derived from the box length (`length / 8`). This saves the 2 bytes an ARC-4
+        dynamic array header would occupy - 800 microAlgos of MBR on every box - and lets lookups
+        read one candidate at a time instead of decoding the whole bucket.
+        
+        Buckets left over from the earlier ARC-4 `uint64[]` layout are still readable: see
+        `bucketHeaderLen`. Call `migrateBoxes` to convert them.
+
          */
-        apps: Map<Uint8Array | string, bigint[]>
+        apps: Map<Uint8Array | string, Uint8Array>
         userCredits: Map<string, bigint>
       }
     }
@@ -425,6 +450,27 @@ export abstract class EscregParamsFactory {
     return {
       ...params,
       method: 'deleteBoxes(byte[4][])void' as const,
+      args: Array.isArray(params.args) ? params.args : [params.args.boxKeys],
+    }
+  }
+  /**
+   * Constructs a no op call for the migrateBoxes(byte[4][])uint64 ABI method
+   *
+  * Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed
+  layout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not
+  exist, or that are already packed, are skipped.
+  
+  The freed MBR is not credited back to any account - it stays in the contract balance and can
+  be recovered by the admin with `withdraw`.
+
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static migrateBoxes(params: CallParams<EscregArgs['obj']['migrateBoxes(byte[4][])uint64'] | EscregArgs['tuple']['migrateBoxes(byte[4][])uint64']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'migrateBoxes(byte[4][])uint64' as const,
       args: Array.isArray(params.args) ? params.args : [params.args.boxKeys],
     }
   }
@@ -732,6 +778,24 @@ export class EscregClient {
     },
 
     /**
+     * Makes a call to the Escreg smart contract using the `migrateBoxes(byte[4][])uint64` ABI method.
+     *
+    * Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed
+    layout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not
+    exist, or that are already packed, are skipped.
+    
+    The freed MBR is not credited back to any account - it stays in the contract balance and can
+    be recovered by the admin with `withdraw`.
+
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params: Number of boxes actually converted.
+     */
+    migrateBoxes: (params: CallParams<EscregArgs['obj']['migrateBoxes(byte[4][])uint64'] | EscregArgs['tuple']['migrateBoxes(byte[4][])uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.params.call(EscregParamsFactory.migrateBoxes(params))
+    },
+
+    /**
      * Makes a call to the Escreg smart contract using the `register(uint64)void` ABI method.
      *
      * Register a single application escrow account
@@ -927,6 +991,24 @@ export class EscregClient {
      */
     deleteBoxes: (params: CallParams<EscregArgs['obj']['deleteBoxes(byte[4][])void'] | EscregArgs['tuple']['deleteBoxes(byte[4][])void']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       return this.appClient.createTransaction.call(EscregParamsFactory.deleteBoxes(params))
+    },
+
+    /**
+     * Makes a call to the Escreg smart contract using the `migrateBoxes(byte[4][])uint64` ABI method.
+     *
+    * Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed
+    layout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not
+    exist, or that are already packed, are skipped.
+    
+    The freed MBR is not credited back to any account - it stays in the contract balance and can
+    be recovered by the admin with `withdraw`.
+
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction: Number of boxes actually converted.
+     */
+    migrateBoxes: (params: CallParams<EscregArgs['obj']['migrateBoxes(byte[4][])uint64'] | EscregArgs['tuple']['migrateBoxes(byte[4][])uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.createTransaction.call(EscregParamsFactory.migrateBoxes(params))
     },
 
     /**
@@ -1127,6 +1209,25 @@ export class EscregClient {
     deleteBoxes: async (params: CallParams<EscregArgs['obj']['deleteBoxes(byte[4][])void'] | EscregArgs['tuple']['deleteBoxes(byte[4][])void']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       const result = await this.appClient.send.call(EscregParamsFactory.deleteBoxes(params))
       return {...result, return: result.return as unknown as (undefined | EscregReturns['deleteBoxes(byte[4][])void'])}
+    },
+
+    /**
+     * Makes a call to the Escreg smart contract using the `migrateBoxes(byte[4][])uint64` ABI method.
+     *
+    * Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed
+    layout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not
+    exist, or that are already packed, are skipped.
+    
+    The freed MBR is not credited back to any account - it stays in the contract balance and can
+    be recovered by the admin with `withdraw`.
+
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result: Number of boxes actually converted.
+     */
+    migrateBoxes: async (params: CallParams<EscregArgs['obj']['migrateBoxes(byte[4][])uint64'] | EscregArgs['tuple']['migrateBoxes(byte[4][])uint64']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      const result = await this.appClient.send.call(EscregParamsFactory.migrateBoxes(params))
+      return {...result, return: result.return as unknown as (undefined | EscregReturns['migrateBoxes(byte[4][])uint64'])}
     },
 
     /**
@@ -1462,11 +1563,11 @@ export class EscregClient {
         /**
          * Get all current values of the apps map in box state
          */
-        getMap: async (): Promise<Map<Uint8Array, bigint[]>> => { return (await this.appClient.state.box.getMap("apps")) as Map<Uint8Array, bigint[]> },
+        getMap: async (): Promise<Map<Uint8Array, Uint8Array>> => { return (await this.appClient.state.box.getMap("apps")) as Map<Uint8Array, Uint8Array> },
         /**
          * Get a current value of the apps map by key from box state
          */
-        value: async (key: Uint8Array | string): Promise<bigint[] | undefined> => { return await this.appClient.state.box.getMapValue("apps", key) as bigint[] | undefined },
+        value: async (key: Uint8Array | string): Promise<Uint8Array | undefined> => { return await this.appClient.state.box.getMapValue("apps", key) as Uint8Array | undefined },
       },
       /**
        * Get values from the userCredits map in box state
@@ -1504,6 +1605,14 @@ export class EscregClient {
       deleteBoxes(params: CallParams<EscregArgs['obj']['deleteBoxes(byte[4][])void'] | EscregArgs['tuple']['deleteBoxes(byte[4][])void']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
         promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.deleteBoxes(params)))
         resultMappers.push(undefined)
+        return this
+      },
+      /**
+       * Add a migrateBoxes(byte[4][])uint64 method call against the Escreg contract
+       */
+      migrateBoxes(params: CallParams<EscregArgs['obj']['migrateBoxes(byte[4][])uint64'] | EscregArgs['tuple']['migrateBoxes(byte[4][])uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.migrateBoxes(params)))
+        resultMappers.push((v) => client.decodeReturnValue('migrateBoxes(byte[4][])uint64', v))
         return this
       },
       /**
@@ -1658,6 +1767,23 @@ export type EscregComposer<TReturns extends [...any[]] = []> = {
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
   deleteBoxes(params?: CallParams<EscregArgs['obj']['deleteBoxes(byte[4][])void'] | EscregArgs['tuple']['deleteBoxes(byte[4][])void']>): EscregComposer<[...TReturns, EscregReturns['deleteBoxes(byte[4][])void'] | undefined]>
+
+  /**
+   * Calls the migrateBoxes(byte[4][])uint64 ABI method.
+   *
+  * Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed
+  layout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not
+  exist, or that are already packed, are skipped.
+  
+  The freed MBR is not credited back to any account - it stays in the contract balance and can
+  be recovered by the admin with `withdraw`.
+
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  migrateBoxes(params?: CallParams<EscregArgs['obj']['migrateBoxes(byte[4][])uint64'] | EscregArgs['tuple']['migrateBoxes(byte[4][])uint64']>): EscregComposer<[...TReturns, EscregReturns['migrateBoxes(byte[4][])uint64'] | undefined]>
 
   /**
    * Calls the register(uint64)void ABI method.

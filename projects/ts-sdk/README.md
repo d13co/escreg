@@ -81,6 +81,8 @@ The deployed instance on Fnet contains registrations for all Algorand networks (
 | `withdrawCredit()` | Withdraw all remaining MBR credits |
 | `getCredits({ addresses?, all? })` | Check MBR credit balances for specific addresses or all accounts |
 | `deleteBoxes({ boxKeys, concurrency })` | Delete registry boxes by key (admin only) |
+| `findLegacyBoxes({ pageSize, concurrency })` | Scan the registry for boxes still in the legacy bucket layout, with their sizes |
+| `migrateBoxes({ boxes, concurrency })` | Convert those boxes to the packed layout, returning how many the contract converted (admin only) |
 | `withdraw({ amount })` | Withdraw funds from the contract (admin only) |
 
 ## License

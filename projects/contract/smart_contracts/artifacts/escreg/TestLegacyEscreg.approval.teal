@@ -4,7 +4,7 @@
 // @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
 main:
     intcblock 0 1 8 4
-    bytecblock "c" "counter" 0x151f7c75 "" 0x0000 "admin" "ERR:404" 0x0001 0x0a8101 "ERR:RCV" "ERR:AMT" "appID"
+    bytecblock "counter" "c" 0x151f7c75 "" 0x0000 "admin" "ERR:404" 0x0001 0x0a8101 "ERR:RCV" "ERR:AMT" "appID"
     txn ApplicationID
     bnz main_after_if_else@2
     // smart_contracts/escreg/contract.algo.ts:30
@@ -14,32 +14,32 @@ main:
     app_global_put
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     intc_0 // 0
     app_global_put
 
 main_after_if_else@2:
-    // smart_contracts/escreg/contract.algo.ts:27-28
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:11-12
     // @contract({ stateTotals: { globalBytes: 32, globalUints: 32 } })
-    // export class Escreg extends MbrManager implements ConventionalRouting {
+    // export class TestLegacyEscreg extends Escreg {
     txn NumAppArgs
-    bz main___algots__.defaultCreate@27
+    bz main___algots__.defaultCreate@29
     pushbytess 0x2487c32c 0x46f76533 // method "deleteApplication()void", method "updateApplication()void"
     txna ApplicationArgs 0
     match main_deleteApplication_route@5 main_updateApplication_route@6
 
 main_switch_case_next@7:
-    // smart_contracts/escreg/contract.algo.ts:27-28
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:11-12
     // @contract({ stateTotals: { globalBytes: 32, globalUints: 32 } })
-    // export class Escreg extends MbrManager implements ConventionalRouting {
+    // export class TestLegacyEscreg extends Escreg {
     txn OnCompletion
     !
     assert // OnCompletion must be NoOp
     txn ApplicationID
     assert
-    pushbytess 0x21f1ddff 0xf3e8bae3 0x3b5a3b53 0xf7e99a83 0x72bf6dc4 0x4c9fb656 0x89e79924 0x40e65262 0x193625f8 0x90c9550f 0xb561c256 0x82b435f8 0x4118ecbf 0x3d75f0c4 0xeaee7fbd // method "withdraw(uint64)void", method "deleteBoxes(byte[4][])void", method "migrateBoxes(byte[4][])uint64", method "register(uint64)void", method "registerList(uint64[])void", method "exists(address)bool", method "get(address)uint64", method "mustGet(address)uint64", method "getWithAuth(address)(uint64,uint64)", method "getWithAuthList(address[])(uint64,uint64)[]", method "getList(address[])uint64[]", method "mustGetList(address[])uint64[]", method "increaseBudget(uint64)void", method "depositCredits(address,pay)void", method "withdrawCredits()void"
+    pushbytess 0x57515bfe 0x37bd64e3 0x21f1ddff 0xf3e8bae3 0x3b5a3b53 0xf7e99a83 0x72bf6dc4 0x4c9fb656 0x89e79924 0x40e65262 0x193625f8 0x90c9550f 0xb561c256 0x82b435f8 0x4118ecbf 0x3d75f0c4 0xeaee7fbd // method "plantBucket(byte[4],byte[],uint64)void", method "growBucket(byte[4],byte[],uint64)void", method "withdraw(uint64)void", method "deleteBoxes(byte[4][])void", method "migrateBoxes(byte[4][])uint64", method "register(uint64)void", method "registerList(uint64[])void", method "exists(address)bool", method "get(address)uint64", method "mustGet(address)uint64", method "getWithAuth(address)(uint64,uint64)", method "getWithAuthList(address[])(uint64,uint64)[]", method "getList(address[])uint64[]", method "mustGetList(address[])uint64[]", method "increaseBudget(uint64)void", method "depositCredits(address,pay)void", method "withdrawCredits()void"
     txna ApplicationArgs 0
-    match withdraw deleteBoxes migrateBoxes register registerList exists get mustGet getWithAuth getWithAuthList getList mustGetList increaseBudget depositCredits withdrawCredits
+    match plantBucket growBucket withdraw deleteBoxes migrateBoxes register registerList exists get mustGet getWithAuth getWithAuthList getList mustGetList increaseBudget depositCredits withdrawCredits
     err
 
 main_updateApplication_route@6:
@@ -64,16 +64,109 @@ main_deleteApplication_route@5:
     assert // OnCompletion must be DeleteApplication && can only call when not creating
     b deleteApplication
 
-main___algots__.defaultCreate@27:
-    // smart_contracts/escreg/contract.algo.ts:27-28
+main___algots__.defaultCreate@29:
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:11-12
     // @contract({ stateTotals: { globalBytes: 32, globalUints: 32 } })
-    // export class Escreg extends MbrManager implements ConventionalRouting {
+    // export class TestLegacyEscreg extends Escreg {
     txn OnCompletion
     !
     txn ApplicationID
     !
     &&
     assert // OnCompletion must be NoOp && can only call when creating
+    intc_1 // 1
+    return
+
+
+// smart_contracts/escreg/test-legacy-bucket.algo.ts::TestLegacyEscreg.plantBucket[routing]() -> void:
+plantBucket:
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:19
+    // @abimethod({ validateEncoding: 'unsafe-disabled' })
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    extract 2 0
+    txna ApplicationArgs 3
+    btoi
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:21
+    // this.apps(key).value = value
+    dig 2
+    box_del
+    pop
+    cover 2
+    box_put
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:22
+    // this.counter.value += entries
+    intc_0 // 0
+    // smart_contracts/escreg/contract.algo.ts:44
+    // counter = GlobalState<uint64>({ initialValue: 0 })
+    bytec_0 // "counter"
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:22
+    // this.counter.value += entries
+    app_global_get_ex
+    assert // check GlobalState exists
+    +
+    // smart_contracts/escreg/contract.algo.ts:44
+    // counter = GlobalState<uint64>({ initialValue: 0 })
+    bytec_0 // "counter"
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:22
+    // this.counter.value += entries
+    swap
+    app_global_put
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:19
+    // @abimethod({ validateEncoding: 'unsafe-disabled' })
+    intc_1 // 1
+    return
+
+
+// smart_contracts/escreg/test-legacy-bucket.algo.ts::TestLegacyEscreg.growBucket[routing]() -> void:
+growBucket:
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:32
+    // @abimethod({ validateEncoding: 'unsafe-disabled' })
+    txna ApplicationArgs 1
+    txna ApplicationArgs 2
+    extract 2 0
+    txna ApplicationArgs 3
+    btoi
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:34
+    // const size = this.apps(key).length
+    dig 2
+    box_len
+    assert // Box must have value
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:35
+    // this.apps(key).resize(size + value.length)
+    dig 2
+    len
+    dig 1
+    +
+    dig 4
+    swap
+    box_resize
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:36
+    // this.apps(key).replace(size, value)
+    uncover 3
+    swap
+    uncover 3
+    box_replace
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:37
+    // this.counter.value += entries
+    intc_0 // 0
+    // smart_contracts/escreg/contract.algo.ts:44
+    // counter = GlobalState<uint64>({ initialValue: 0 })
+    bytec_0 // "counter"
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:37
+    // this.counter.value += entries
+    app_global_get_ex
+    assert // check GlobalState exists
+    +
+    // smart_contracts/escreg/contract.algo.ts:44
+    // counter = GlobalState<uint64>({ initialValue: 0 })
+    bytec_0 // "counter"
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:37
+    // this.counter.value += entries
+    swap
+    app_global_put
+    // smart_contracts/escreg/test-legacy-bucket.algo.ts:32
+    // @abimethod({ validateEncoding: 'unsafe-disabled' })
     intc_1 // 1
     return
 
@@ -194,7 +287,7 @@ deleteBoxes_for_header@2:
     intc_0 // 0
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:95
     // this.counter.value -= (size - this.bucketHeaderLen(size)) / 8
     app_global_get_ex
@@ -214,7 +307,7 @@ deleteBoxes_for_header@2:
     -
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:95
     // this.counter.value -= (size - this.bucketHeaderLen(size)) / 8
     swap
@@ -360,7 +453,7 @@ register:
     intc_0 // 0
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:149
     // this.counter.value += 1
     app_global_get_ex
@@ -369,7 +462,7 @@ register:
     +
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:149
     // this.counter.value += 1
     swap
@@ -452,7 +545,7 @@ registerList_for_header@2:
     intc_0 // 0
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:170
     // this.counter.value += 1
     app_global_get_ex
@@ -461,7 +554,7 @@ registerList_for_header@2:
     +
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:170
     // this.counter.value += 1
     swap
@@ -987,7 +1080,7 @@ depositCredits_after_if_else@7:
 depositCredits_after_if_else@11:
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     dig 2
     concat
     dup
@@ -1041,7 +1134,7 @@ withdrawCredits:
     assert // account funded
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:56
     // ensure(this.userCredits(Txn.sender).exists, errAmt)
     txn Sender
@@ -1068,7 +1161,7 @@ withdrawCredits:
 withdrawCredits_after_if_else@3:
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:57
     // const credit: uint64 = this.userCredits(Txn.sender).value
     txn Sender
@@ -1082,7 +1175,7 @@ withdrawCredits_after_if_else@3:
     btoi
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:60
     // this.userCredits(Txn.sender).delete()
     txn Sender
@@ -1343,7 +1436,7 @@ appendAppId_after_if_else@7:
     intc_0 // 0
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:251
     // this.counter.value += 1
     app_global_get_ex
@@ -1352,7 +1445,7 @@ appendAppId_after_if_else@7:
     +
     // smart_contracts/escreg/contract.algo.ts:44
     // counter = GlobalState<uint64>({ initialValue: 0 })
-    bytec_1 // "counter"
+    bytec_0 // "counter"
     // smart_contracts/escreg/contract.algo.ts:251
     // this.counter.value += 1
     swap
@@ -1520,7 +1613,7 @@ manageMbrCredits_else_body@2:
     frame_bury 0
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:20
     // const userCredit: uint64 = this.userCredits(Txn.sender).exists ? this.userCredits(Txn.sender).value : 0
     txn Sender
@@ -1534,7 +1627,7 @@ manageMbrCredits_else_body@2:
     bz manageMbrCredits_ternary_false@5
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:20
     // const userCredit: uint64 = this.userCredits(Txn.sender).exists ? this.userCredits(Txn.sender).value : 0
     txn Sender
@@ -1575,7 +1668,7 @@ manageMbrCredits_after_if_else@15:
     -
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:22
     // this.userCredits(Txn.sender).value = userCredit - creditNeeded
     txn Sender
@@ -1605,7 +1698,7 @@ manageMbrCredits_else_body@7:
     frame_bury 1
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:25
     // ensure(this.userCredits(Txn.sender).exists, errReceiver)
     txn Sender
@@ -1632,7 +1725,7 @@ manageMbrCredits_else_body@7:
 manageMbrCredits_after_if_else@11:
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:26
     // this.userCredits(Txn.sender).value += creditToReturn
     txn Sender
@@ -1648,7 +1741,7 @@ manageMbrCredits_after_if_else@11:
     +
     // smart_contracts/mbr-manager/contract.algo.ts:7
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
-    bytec_0 // "c"
+    bytec_1 // "c"
     // smart_contracts/mbr-manager/contract.algo.ts:26
     // this.userCredits(Txn.sender).value += creditToReturn
     txn Sender

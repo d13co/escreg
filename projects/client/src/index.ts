@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { getConfig } from './config';
-import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleCreditsCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand } from './commands';
+import { handleRegisterCommand, handleLookupCommand, handleConvertCommand, handleCreditsCommand, handleDepositCreditCommand, handleWithdrawCreditCommand, handleWithdrawCommand, handleMigrateCommand, handleDumpCommand } from './commands';
 
 async function main() {
   const config = getConfig();
@@ -28,6 +28,8 @@ async function main() {
     .option('algod-token', {
       type: 'string',
       default: config.algodToken,
+      // never render the token itself: --help output ends up in screenshots and bug reports
+      defaultDescription: config.algodToken ? '(set via ALGOD_TOKEN)' : '(empty)',
       description: 'Algorand node token',
     })
     .option('app-id', {
@@ -184,8 +186,58 @@ async function main() {
           description: 'Enable debug mode',
         });
     }, handleWithdrawCommand)
+    .command('migrate', 'Convert registry boxes to the packed bucket layout (admin)', (yargs: any) => {
+      return yargs
+        .option('concurrency', {
+          type: 'number',
+          default: config.concurrency,
+          description: 'Number of concurrent requests',
+        })
+        .option('page-size', {
+          type: 'number',
+          default: 1000,
+          description: 'Boxes to list per request',
+        })
+        .option('max-passes', {
+          type: 'number',
+          default: 3,
+          description: 'Scan/migrate passes to run, since a box written mid-scan can fall behind the listing cursor',
+        })
+        .option('dry-run', {
+          type: 'boolean',
+          default: false,
+          description: 'Report how many boxes need migrating without sending transactions',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode',
+        });
+    }, handleMigrateCommand)
+    .command('dump', 'Dump registry boxes and the app IDs they hold', (yargs: any) => {
+      return yargs
+        .option('resume', {
+          type: 'string',
+          description: 'Checkpoint file. Resumed from when it exists, kept up to date as the dump runs, removed once it completes',
+        })
+        .option('page-size', {
+          type: 'number',
+          default: 1000,
+          description: 'Boxes to list per request',
+        })
+        .option('concurrency', {
+          type: 'number',
+          default: config.concurrency,
+          description: 'Box value fetches to run in parallel, on nodes that list box names without their values',
+        })
+        .option('debug', {
+          type: 'boolean',
+          default: config.debug,
+          description: 'Enable debug mode',
+        });
+    }, handleDumpCommand)
     // destroy command disabled while using minimal client for bundle size
-    .demandCommand(1, 'You must specify a command: register, lookup, convert, credits, deposit-credits, withdraw-credits, or withdraw')
+    .demandCommand(1, 'You must specify a command: register, lookup, convert, credits, deposit-credits, withdraw-credits, withdraw, migrate, or dump')
     .help()
     .argv;
 }

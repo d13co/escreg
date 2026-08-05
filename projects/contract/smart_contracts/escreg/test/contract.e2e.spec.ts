@@ -51,6 +51,23 @@ describe('Escreg contract', () => {
     })
   }
 
+  /** Read the raw registry box holding the given app ID's bucket */
+  const getAppBox = async (client: EscregClient, appId: number | bigint) => {
+    const boxKey = getApplicationAddress(appId).publicKey.slice(0, 4)
+    const { value } = await localnet.algorand.client.algod.getApplicationBoxByName(Number(client.appId), boxKey).do()
+    return value
+  }
+
+  /** Decode a bucket: big-endian 8-byte app IDs packed back to back, no length header */
+  const decodeBucket = (value: Uint8Array): bigint[] => {
+    expect(value.length % 8).toBe(0)
+    const view = new DataView(value.buffer, value.byteOffset, value.byteLength)
+    return new Array(value.length / 8).fill(0).map((_, i) => view.getBigUint64(i * 8))
+  }
+
+  const getCredit = async (client: EscregClient, account: Address) =>
+    (await client.state.box.userCredits.getMap()).get(account.toString())!
+
   const deployTestParent = async (account: Address) => {
     const factory = localnet.algorand.client.getTypedAppFactory(TestParentFactory, {
       defaultSender: account,
@@ -97,6 +114,99 @@ describe('Escreg contract', () => {
     const { boxes: after } = await localnet.algorand.client.algod.getApplicationBoxes(Number(client.appId)).do()
 
     expect(before.length).toBe(after.length)
+  })
+
+  test('bucket holds a packed 8-byte app ID with no length header', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
+    await client.send.register({ args: { appId: 1002 } })
+
+    const value = await getAppBox(client, 1002)
+    expect(value.length).toBe(8)
+    expect(decodeBucket(value)).toEqual([1002n])
+  })
+
+  test('colliding app IDs are packed back to back in one bucket', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
+
+    const [first, second] = getCollidingAppIDs(2)
+    await client.send.registerList({ args: { appIds: [first, second] } })
+
+    const value = await getAppBox(client, first)
+    expect(value.length).toBe(16)
+    expect(decodeBucket(value)).toEqual([first, second])
+
+    const addresses = [first, second].map((appId) => getApplicationAddress(appId).toString())
+    const { return: results } = await client.send.getList({ args: { addresses } })
+    expect(results).toEqual([first, second])
+
+    expect(await client.state.global.counter()).toBe(2n)
+  })
+
+  test('re-registering a colliding app ID does not grow its bucket', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
+
+    const [first, second] = getCollidingAppIDs(2)
+    await client.send.registerList({ args: { appIds: [first, second] } })
+    await client.send.register({ args: { appId: second } })
+
+    expect(decodeBucket(await getAppBox(client, first))).toEqual([first, second])
+    expect(await client.state.global.counter()).toBe(2n)
+  })
+
+  test('a new bucket costs 7300 microAlgos of MBR', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
+
+    const before = await getCredit(client, testAccount)
+    await client.send.register({ args: { appId: 1002 } })
+    const after = await getCredit(client, testAccount)
+
+    // 2500 + 400 * (4 byte key + 8 byte value)
+    expect(before - after).toBe(7_300n)
+  })
+
+  test('appending to a bucket costs 3200 microAlgos of MBR', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
+
+    const [first, second] = getCollidingAppIDs(2)
+    await client.send.register({ args: { appId: first } })
+
+    const before = await getCredit(client, testAccount)
+    await client.send.register({ args: { appId: second } })
+    const after = await getCredit(client, testAccount)
+
+    // 400 * 8 bytes for the extra app ID, no header to grow
+    expect(before - after).toBe(3_200n)
+  })
+
+  test('deleteBoxes decrements the counter by the whole bucket', async () => {
+    const { testAccount } = localnet.context
+    const { client } = await deploy(testAccount)
+
+    await depositCredits(client, testAccount, 100_000n)
+
+    const [first, second] = getCollidingAppIDs(2)
+    await client.send.registerList({ args: { appIds: [first, second] } })
+    expect(await client.state.global.counter()).toBe(2n)
+
+    const boxKey = getApplicationAddress(first).publicKey.slice(0, 4)
+    await client.send.deleteBoxes({ args: { boxKeys: [boxKey] }, boxReferences: [boxKey] })
+
+    expect(await client.state.global.counter()).toBe(0n)
   })
 
   test('registerList 1003-1004', async () => {

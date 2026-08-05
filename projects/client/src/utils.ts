@@ -3,9 +3,10 @@ import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/type
 import { mnemonicToSecretKey, Algodv2, Address, makeBasicAccountTransactionSigner, getApplicationAddress } from 'algosdk';
 import { Config } from './config';
 
+const scheme = (port: number) => (port === 443 ? 'https' : 'http');
+
 export function createAlgorandClient(config: Config): AlgorandClient {
-  const scheme = config.algodPort === 443 ? 'https' : 'http';
-  const algodClient = new Algodv2(config.algodToken, `${scheme}://${config.algodHost}:${config.algodPort}`, config.algodPort);
+  const algodClient = new Algodv2(config.algodToken, `${scheme(config.algodPort)}://${config.algodHost}:${config.algodPort}`, config.algodPort);
 
   return AlgorandClient.fromClients({
     algod: algodClient,

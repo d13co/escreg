@@ -83,6 +83,21 @@ describe('Utils Module', () => {
       expect(Algodv2).toHaveBeenCalledWith('custom-token', 'http://custom-host:8080', 8080);
       expect(result).toBe(mockAlgorandClient);
     });
+
+    it('should build the client from algod alone', () => {
+      const config: Config = {
+        algodHost: 'localhost',
+        algodPort: 4001,
+        algodToken: 'test-token',
+        appId: '1234',
+      };
+
+      vi.mocked(AlgorandClient.fromClients).mockReturnValue({} as any);
+
+      createAlgorandClient(config);
+
+      expect(vi.mocked(AlgorandClient.fromClients).mock.calls[0][0]).toEqual({ algod: expect.anything() });
+    });
   });
 
   describe('createWriterAccount', () => {

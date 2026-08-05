@@ -15,7 +15,7 @@ import { Address, ConventionalRouting } from '@algorandfoundation/algorand-types
 import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
 import { ensure } from '../common.algo'
 import { MbrManager } from '../mbr-manager/contract.algo'
-import { errAppNotRegistered, errAuth } from './errors.algo'
+import { errAppNotRegistered, errAuth, errBucket } from './errors.algo'
 
 const RETURN_TRUE = Bytes.fromHex('0a8101') // #pragma version 10; pushint 1
 
@@ -28,8 +28,18 @@ export type AddressWithAuth = {
 export class Escreg extends MbrManager implements ConventionalRouting {
   /** Contract admin */
   admin = GlobalState<Address>({ initialValue: new Address(Txn.sender) })
-  /** BoxMap from 4-byte prefix of escrow to app IDs */
-  apps = BoxMap<bytes<4>, uint64[]>({ keyPrefix: '' })
+  /**
+   * BoxMap from 4-byte prefix of escrow to app IDs.
+   *
+   * The value is a packed array of big-endian 8-byte app IDs with no length header, so the
+   * bucket size is derived from the box length (`length / 8`). This saves the 2 bytes an ARC-4
+   * dynamic array header would occupy - 800 microAlgos of MBR on every box - and lets lookups
+   * read one candidate at a time instead of decoding the whole bucket.
+   *
+   * Buckets left over from the earlier ARC-4 `uint64[]` layout are still readable: see
+   * `bucketHeaderLen`. Call `migrateBoxes` to convert them.
+   */
+  apps = BoxMap<bytes<4>, bytes>({ keyPrefix: '' })
   /** Counter for the number of registered applications */
   counter = GlobalState<uint64>({ initialValue: 0 })
 
@@ -81,11 +91,39 @@ export class Escreg extends MbrManager implements ConventionalRouting {
     this.adminOnly()
     for (const key of boxKeys) {
       if (this.apps(key).exists) {
-        const apps = this.apps(key).value as Readonly<uint64[]>
-        this.counter.value -= apps.length
+        const size = this.apps(key).length
+        this.counter.value -= (size - this.bucketHeaderLen(size)) / 8
         this.apps(key).delete()
       }
     }
+  }
+
+  /**
+   * Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed
+   * layout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not
+   * exist, or that are already packed, are skipped.
+   *
+   * The freed MBR is not credited back to any account - it stays in the contract balance and can
+   * be recovered by the admin with `withdraw`.
+   * @param boxKeys Array of 4-byte box keys to migrate.
+   * @returns Number of boxes actually converted.
+   * @throws ERR:AUTH if sender is not the admin
+   */
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
+  public migrateBoxes(boxKeys: bytes<4>[]): uint64 {
+    this.adminOnly()
+    let migrated: uint64 = 0
+    for (const key of boxKeys) {
+      if (this.apps(key).exists) {
+        const size = this.apps(key).length
+        const headerLen = this.bucketHeaderLen(size)
+        if (headerLen !== 0) {
+          this.dropLegacyHeader(key, size, headerLen)
+          migrated += 1
+        }
+      }
+    }
+    return migrated
   }
 
   /** Ensure the sender is the admin. @throws ERR:AUTH if sender is not the admin */
@@ -109,7 +147,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
     const key = this.deriveAddrPrefix(appId)
     if (!this.apps(key).exists) {
       this.counter.value += 1
-      this.apps(key).value = [appId]
+      this.apps(key).value = op.itob(appId)
     } else {
       this.appendAppId(key, appId)
     }
@@ -130,7 +168,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
       const key = this.deriveAddrPrefix(appId)
       if (!this.apps(key).exists) {
         this.counter.value += 1
-        this.apps(key).value = [appId]
+        this.apps(key).value = op.itob(appId)
       } else {
         this.appendAppId(key, appId)
       }
@@ -160,34 +198,109 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   }
 
   /**
-   * Append an app ID to its corresponding box key, skipping if it already exists. Increments the counter on insert.
+   * Length of the leading length header in a bucket of the given size.
+   *
+   * Buckets written by this contract are packed 8-byte app IDs, so their size is 0 mod 8. Buckets
+   * left over from the earlier ARC-4 `uint64[]` layout carry a 2-byte length header ahead of the
+   * same 8-byte app IDs, so their size is 2 mod 8. The two layouts can never be confused, which
+   * makes the remainder the header length and lets readers handle both without a version flag.
+   * @param size Box size in bytes.
+   * @returns 2 for a legacy bucket, 0 for a packed one.
+   */
+  private bucketHeaderLen(size: uint64): uint64 {
+    return size % 8
+  }
+
+  /**
+   * Rewrite a legacy bucket in place as a packed one, by shifting its app IDs over the length
+   * header and trimming the freed bytes off the end.
+   * A size that is neither layout's is rejected rather than read as a header of that length, which
+   * would shift every app ID in the bucket and lose the leading bytes for good.
+   * @param key 4-byte box key to rewrite.
+   * @param size Current box size.
+   * @param headerLen Legacy header length, from `bucketHeaderLen`.
+   * @throws ERR:BKT if the size is neither 0 nor 2 mod 8
+   */
+  private dropLegacyHeader(key: bytes<4>, size: uint64, headerLen: uint64) {
+    ensure(headerLen === 2, errBucket)
+    this.apps(key).splice(0, headerLen, Bytes(''))
+    this.apps(key).resize(size - headerLen)
+  }
+
+  /**
+   * Append an app ID to its corresponding box key, skipping if it already exists. Increments the counter on insert. Converts a legacy bucket to the packed layout on the way.
    * @param key 4-byte box key to append to.
    * @param appId App ID to append.
    */
   private appendAppId(key: bytes<4>, appId: uint64) {
-    const existing = this.apps(key).value as Readonly<uint64[]>
-    for (const existingId of existing) {
-      if (existingId === appId) {
+    const size = this.apps(key).length
+    const headerLen = this.bucketHeaderLen(size)
+    const packedLen: uint64 = size - headerLen
+
+    for (let i: uint64 = 0; i < packedLen / 8; i++) {
+      if (this.getAppIdAtBucketPosition(key, i, headerLen) === appId) {
         return
       }
     }
-    this.apps(key).value = [...existing, appId]
+
+    if (headerLen !== 0) {
+      this.dropLegacyHeader(key, size, headerLen)
+    }
+    this.apps(key).resize(packedLen + 8)
+    this.apps(key).replace(packedLen, op.itob(appId))
     this.counter.value += 1
   }
 
   /**
+   * Get the application ID at position $pos in bucket with key $key
+   * Supports legacy (headerLen==2) and latest (no header)
+   * @param key 4-byte key of the bucket to search. The box must exist.
+   * @param pos index of app id
+   * @param headerLen 2 for legacy, 0 for latest
+   * @returns uint64 of stored app ID
+   */
+  private getAppIdAtBucketPosition(key: bytes<4>, pos: uint64, headerLen: uint64): uint64 {
+    return op.btoi(this.apps(key).extract(headerLen + pos * 8, 8))
+  }
+
+  /**
    * Find the app ID whose escrow address matches the given address.
+   *
+   * Candidates are read one at a time with `box_extract`, never as a whole box value, so buckets
+   * larger than the 4096-byte AVM value limit stay readable up to the 32768-byte box limit. The
+   * caller still needs enough box references in the group to cover the bucket size, at 1024 bytes
+   * of read budget per reference.
    * @param address Address to match against.
-   * @param apps Candidate app IDs to check.
+   * @param key 4-byte key of the bucket to search. The box must exist.
+   * @param size Bucket size in bytes.
    * @returns The matching app ID, or 0 if no match is found.
    */
-  private findAddr(address: Address, apps: Readonly<uint64[]>): uint64 {
-    for (let i: uint64 = 0; i < apps.length; i++) {
-      if (address.native.bytes === this.deriveAddr(apps[i])) {
-        return apps[i]
+  private findAddr(address: Address, key: bytes<4>, size: uint64): uint64 {
+    const headerLen = this.bucketHeaderLen(size)
+    const count: uint64 = (size - headerLen) / 8
+
+    for (let i: uint64 = 0; i < count; i++) {
+      const appId = this.getAppIdAtBucketPosition(key, i, headerLen)
+      if (address.native.bytes === this.deriveAddr(appId)) {
+        return appId
       }
     }
     return 0
+  }
+
+  /**
+   * Look up the app ID registered for an address by probing its 4-byte prefix bucket.
+   * @param address Address to look up.
+   * @returns The matching app ID, or 0 if there is no bucket for the prefix or it holds no match.
+   */
+  private lookup(address: Address): uint64 {
+    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
+
+    if (!this.apps(addr4).exists) {
+      return 0
+    }
+
+    return this.findAddr(address, addr4, this.apps(addr4).length)
   }
 
   /**
@@ -197,16 +310,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
    */
   @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public exists(address: Address): boolean {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-    if (!this.apps(addr4).exists) {
-      return false
-    }
-
-    const apps = this.apps(addr4).value as Readonly<uint64[]>
-    const matchingAppID = this.findAddr(address, apps)
-
-    return matchingAppID !== 0
+    return this.lookup(address) !== 0
   }
 
   /**
@@ -216,16 +320,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
    */
   @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public get(address: Address): uint64 {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-    if (!this.apps(addr4).exists) {
-      return 0
-    }
-
-    const apps = this.apps(addr4).value as Readonly<uint64[]>
-    const matchingAppID = this.findAddr(address, apps)
-
-    return matchingAppID
+    return this.lookup(address)
   }
 
   /**
@@ -236,12 +331,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
    */
   @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public mustGet(address: Address): uint64 {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-    ensure(this.apps(addr4).exists, errAppNotRegistered)
-
-    const apps = this.apps(addr4).value as Readonly<uint64[]>
-    const matchingAppID = this.findAddr(address, apps)
+    const matchingAppID = this.lookup(address)
 
     ensure(matchingAppID !== 0, errAppNotRegistered)
 
@@ -255,22 +345,8 @@ export class Escreg extends MbrManager implements ConventionalRouting {
    */
   @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public getWithAuth(address: Address): AddressWithAuth {
-    const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-    let appId: uint64 = 0
-    if (this.apps(addr4).exists) {
-      const apps = this.apps(addr4).value as Readonly<uint64[]>
-      appId = this.findAddr(address, apps)
-    }
-
-    const authAddr = address.native.authAddress
-    const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-    let authAppId: uint64 = 0
-    if (this.apps(authAddr4).exists) {
-      const apps = this.apps(authAddr4).value as Readonly<uint64[]>
-      authAppId = this.findAddr(new Address(authAddr), apps)
-    }
+    const appId = this.lookup(address)
+    const authAppId = this.lookup(new Address(address.native.authAddress))
 
     return { appId, authAppId }
   }
@@ -285,22 +361,8 @@ export class Escreg extends MbrManager implements ConventionalRouting {
     let results: AddressWithAuth[] = []
 
     for (const address of addresses) {
-      const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-      let appId: uint64 = 0
-      if (this.apps(addr4).exists) {
-        const apps = this.apps(addr4).value as Readonly<uint64[]>
-        appId = this.findAddr(address, apps)
-      }
-
-      const authAddr = address.native.authAddress
-      const authAddr4 = authAddr.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-      let authAppId: uint64 = 0
-      if (this.apps(authAddr4).exists) {
-        const apps = this.apps(authAddr4).value as Readonly<uint64[]>
-        authAppId = this.findAddr(new Address(authAddr), apps)
-      }
+      const appId = this.lookup(address)
+      const authAppId = this.lookup(new Address(address.native.authAddress))
 
       results.push({ appId, authAppId })
     }
@@ -316,18 +378,9 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public getList(addresses: Address[]): uint64[] {
     let apps: uint64[] = []
-    const zero: uint64 = 0
 
     for (const address of addresses) {
-      const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-      if (!this.apps(addr4).exists) {
-        apps = [...apps, zero]
-        continue
-      }
-
-      const appList = this.apps(addr4).value as Readonly<uint64[]>
-      apps = [...apps, this.findAddr(address, appList)]
+      apps = [...apps, this.lookup(address)]
     }
     return apps
   }
@@ -342,14 +395,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   public mustGetList(addresses: Address[]): uint64[] {
     let apps: uint64[] = []
     for (const address of addresses) {
-      const addr4 = address.bytes.slice(0, 4).toFixed({ strategy: 'unsafe-cast', length: 4 })
-
-      if (!this.apps(addr4).exists) {
-        ensure(false, errAppNotRegistered)
-      }
-
-      const appList = this.apps(addr4).value as Readonly<uint64[]>
-      const matchingAppID = this.findAddr(address, appList)
+      const matchingAppID = this.lookup(address)
 
       ensure(matchingAppID !== 0, errAppNotRegistered)
       apps = [...apps, matchingAppID]

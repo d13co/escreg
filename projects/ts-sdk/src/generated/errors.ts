@@ -8,5 +8,6 @@ export const ErrorMessages: Record<string, string> = {
   "ERR:404": "App escrow is not registered in the contract",
   "ERR:CRD": "Insufficient credits to cover MBR increase",
   "ERR:RCV": "Payment receiver must be the contract",
-  "ERR:AMT": "Amount must be greater than zero"
+  "ERR:AMT": "Amount must be greater than zero",
+  "ERR:BKT": "Bucket size matches neither the packed nor the legacy layout"
 };

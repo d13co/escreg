@@ -11,6 +11,18 @@ This contract stores registered app IDs in box storage using a 4-byte address pr
 
 App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to the input address, computing the app escrow on the fly from each application ID, and returning the app ID if a match is found. Offloading the computation to runtime allows us to store less: 4+8 bytes for a new bucket, or 8 bytes to add to an existing bucket.
 
+Buckets are stored as big-endian 8-byte app IDs packed back to back with no length header, so the entry count is derived from the box length (`length / 8`). Avoiding the 2-byte header an ARC-4 dynamic array would carry saves 800 microAlgos of MBR on every box, putting a new single-entry bucket at exactly the 7,300 microAlgos implied above (`2500 + 400 * (4 + 8)`).
+
+### Bucket layout migration
+
+Buckets written before the packed layout are ARC-4 `uint64[]`: the same 8-byte app IDs behind a 2-byte length header. Their size is therefore 2 mod 8, while a packed bucket's is 0 mod 8, so the two can never be confused and readers handle both without a version flag or a migration deadline. Deployments carrying legacy buckets keep working as-is.
+
+Converting is optional and reclaims the 800 microAlgos each header holds:
+
+- `migrateBoxes(bytes<4>[])` strips the header from the given keys, skipping any that are missing or already packed, and returns how many it converted. A box whose size is neither layout's is rejected (`ERR:BKT`) rather than read as a header of that length, which would shift every app ID in it. The freed MBR is not credited back to any account; it stays in the contract balance for the admin to `withdraw`.
+- Registering a new app ID into a legacy bucket converts that bucket as a side effect, so writes drift toward the packed layout on their own.
+- `escreg migrate` (CLI) scans for legacy buckets and converts them in batches, and `escreg dump` shows which layout each box is in. See [CLI](#cli).
+
 This is currently deployed to Fnet as [App ID 16954321](https://lora.algokit.io/fnet/application/16954321).
 
 ## Project Structure
@@ -80,7 +92,7 @@ Snapshot `minBalance` before the box operation, then call `manageMbrCredits` aft
 
 **Source:** `projects/contract/smart_contracts/escreg/contract.algo.ts`
 
-The registry contract. Extends `MbrManager` so that callers pre-fund credits before registering app IDs (which allocates box storage). Written in [Algorand TypeScript (PuyaTS)](https://github.com/algorandfoundation/puya-ts). State is stored in a `BoxMap<bytes<4>, uint64[]>` keyed by the first 4 bytes of each app's escrow address. Multiple app IDs can share a prefix bucket; exact matches are resolved by recomputing the full address.
+The registry contract. Extends `MbrManager` so that callers pre-fund credits before registering app IDs (which allocates box storage). Written in [Algorand TypeScript (PuyaTS)](https://github.com/algorandfoundation/puya-ts). State is stored in a `BoxMap<bytes<4>, bytes>` keyed by the first 4 bytes of each app's escrow address, each box holding a packed, headerless array of 8-byte app IDs. Multiple app IDs can share a prefix bucket; exact matches are resolved by recomputing the full address.
 
 ### Methods
 
@@ -97,6 +109,7 @@ The registry contract. Extends `MbrManager` so that callers pre-fund credits bef
 | `getWithAuthList(address[]) -> (uint64, uint64)[]` | read | Batch version of getWithAuth |
 | `increaseBudget(uint64)` | noop | Add opcode budget via inner transactions |
 | `deleteBoxes(bytes<4>[])` | admin | Delete app registry boxes by key |
+| `migrateBoxes(bytes<4>[]) -> uint64` | admin | Convert legacy buckets to the packed layout, returning the number converted |
 | `withdraw(uint64)` | admin | Withdraw microAlgos from the contract |
 | `updateApplication()` | admin | Update the contract |
 | `deleteApplication()` | admin | Delete the contract |
@@ -150,6 +163,9 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group (105 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
 - **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
 - **Credits:** deposit, withdraw, and check MBR credit balances.
+- **Migration:** `findLegacyBoxes` lists every registry box and returns the keys of those still in the legacy layout with their sizes; `migrateBoxes` converts them, batching up to 8 keys per transaction and no more bytes than the box references it carries cover (1024 bytes each, padded past that), and returns the count the contract itself reports. `decodeBucket` decodes a raw bucket box value into app IDs, and `bucketHeaderLen` gives the header length to skip when the value may be legacy.
+- **Scanning:** `scanBucketPages` reads the registry from algod's paginated box listing, a page of boxes and their values per request, and `scanBuckets` flattens it into an async iterable of every bucket with its layout version and decoded app IDs. A registry of millions of boxes streams in constant memory. Backs `escreg dump`. Nodes predating the paginated listing answer with every box name in one response, which the SDK falls back to fetching values for with bounded `concurrency`; that path still fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`.
+- **Resuming a scan:** every page carries the `next` cursor to resume after it, and `boxCursor` builds the same cursor from the name of the last box a caller finished with, so an interrupted scan restarts from where it stopped rather than from the top. A resumed scan lists at the current round, so a box written behind the cursor while it was stopped is not picked up. A node that ignores the pagination would answer a resumed scan from the first box, which the SDK rejects rather than handing back rows the caller has already processed.
 
 ### Build
 
@@ -191,7 +207,33 @@ escreg withdraw-credits           # withdraw all your credits
 
 # Withdraw funds (admin only)
 escreg withdraw 1
+
+# Convert legacy buckets to the packed layout (admin only)
+escreg migrate --dry-run          # report how many boxes need migrating
+escreg migrate --concurrency 8    # scan and convert
+
+# Dump every registry box and the app IDs it holds
+escreg dump                       # one row per box, streamed as they are read
+escreg dump --page-size 5000 | head -20
+escreg dump | grep '^1 '          # only boxes still in the legacy layout
+escreg dump --resume dump.state >> dump.txt   # pick up where an interrupted dump left off
 ```
+
+`dump` writes one row per box to stdout, and its header and closing summary to stderr, so the rows pipe cleanly:
+
+```
+v  key b64 (b32)       values
+1  AAAC9w== (AAAAF5Y)  1x  2925391292 (AAAAF5ZH)
+2  AABDYw== (AAAEGYY)  2x  3653985308 (AAAEGYZ5)  1157865993 (AAAEGYQ7)
+```
+
+The `v` column is the bucket layout: `1` for a legacy ARC-4 bucket, `2` for a packed one. The key is the 4-byte bucket prefix in base64 and, in parens, base32 — the alphabet addresses use, so it shares its first six characters with every escrow address filed under it. Each value is an app ID followed by the first 8 characters of its escrow address.
+
+Boxes stream as they are read rather than being collected first, so `dump` starts printing immediately and holds only a page of boxes at a time.
+
+A registry of millions of boxes takes a while to dump, so `--resume <file>` makes the run restartable: the file records the listing cursor and the counts behind it after every page, and Ctrl-C stops between rows so what stdout has written and what the file records stay in step. Ctrl-C again quits immediately, without a checkpoint, for when the scan is stuck waiting on the node. Re-running the same command continues after the recorded cursor — redirect with `>>` to append to the same output — and the file is removed once the dump completes, including when the interrupt lands on the last row there was. Resuming needs a node that honours the listing cursor; on one that does not, the command stops rather than dumping from the top again. A resumed dump lists at the current round, so a box registered behind the cursor while the dump was stopped is not picked up.
+
+`migrate` is safe to re-run: the contract skips keys that are missing or already packed, and reports how many it actually converted, which is what the freed MBR follows from. A box written behind the listing cursor while a scan is running is missed, so the command re-scans until a pass comes back clean, up to `--max-passes` (default 3); short of a clean pass it says so, since only an empty scan proves nothing is left.
 
 ### Configuration
 
@@ -206,6 +248,8 @@ Defaults to the Fnet deployment. Override via CLI flags, environment variables, 
 | `MNEMONIC` | `--mnemonic` | | Account mnemonic for write operations |
 | `ADDRESS` | `--address` | | Account address (for rekeyed accounts) |
 | `CONCURRENCY` | `--concurrency` | `1` | Parallel request count |
+
+Every command talks to the node alone. The box-listing commands (`dump`, `migrate`) page through algod's box listing and read box values straight off it, which needs go-algorand 4.7 or newer — the public API nodes are, the AlgoKit LocalNet image (4.4) is not. An older node ignores the paging and answers with every box name in one response, leaving the values to be fetched one box at a time (`--concurrency`) and failing with "Result limit exceeded" past its `MaxAPIBoxPerApplication`.
 
 ### Build
 

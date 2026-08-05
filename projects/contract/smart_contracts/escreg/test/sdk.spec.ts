@@ -3,8 +3,8 @@ import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-de
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
 import { Account, Address, getApplicationAddress } from 'algosdk'
-import { EscregSDK } from '@d13co/escreg-sdk'
-import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
+import { boxCursor, EscregSDK } from '@d13co/escreg-sdk'
+import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EscregFactory } from '../../artifacts/escreg/EscregClient'
 import { brange } from './util'
 import { getCollidingAppIDs } from './fixtures'
@@ -18,6 +18,7 @@ describe('Escreg SDK - Registration & Lookup', () => {
     registerDebugEventHandlers()
   })
   beforeEach(localnet.newScope)
+  afterEach(() => vi.restoreAllMocks())
 
   const deploy = async (account: Address & TransactionSignerAccount & Account) => {
     const factory = localnet.algorand.client.getTypedAppFactory(EscregFactory, {
@@ -129,5 +130,31 @@ describe('Escreg SDK - Registration & Lookup', () => {
     const expected = Object.fromEntries(appIds.map((appId) => [getApplicationAddress(appId), appId]))
 
     expect(actual).toEqual(expected)
+  })
+
+  test('a resumed scan refuses a cursor the node ignored', async () => {
+    const { testAccount } = localnet.context
+    const { sdk } = await deploy(testAccount)
+
+    // a node predating the paginated listing answers with every box, cursor or not, which would hand
+    // a resumed dump every row it has already written
+    const first = new Uint8Array([1, 2, 3, 4])
+    const boxes = [
+      { name: first, value: new Uint8Array(8) },
+      { name: new Uint8Array([5, 6, 7, 8]), value: new Uint8Array(8) },
+    ]
+    const listing: any = {
+      limit: () => listing,
+      include: () => listing,
+      next: () => listing,
+      do: async () => ({ boxes }),
+    }
+    vi.spyOn(localnet.algorand.client.algod, 'getApplicationBoxes').mockReturnValue(listing)
+
+    await expect(sdk.scanBucketPages({ next: boxCursor(first) }).next()).rejects.toThrow(
+      /ignored the box listing cursor/,
+    )
+    // the same listing is fine from the top, where there is nothing already dumped to skip past
+    await expect(sdk.scanBucketPages().next()).resolves.toMatchObject({ value: { buckets: expect.any(Array) } })
   })
 })

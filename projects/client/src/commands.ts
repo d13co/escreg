@@ -1,6 +1,9 @@
-import { EscregSDK } from "@d13co/escreg-sdk";
+import { once } from "events";
+import { boxCursor, EscregSDK } from "@d13co/escreg-sdk";
 import { parseAppIdsFromFile, parseAppIdsFromArgs, parseAddressesFromFile, parseAddressesFromArgs } from "./parse";
 import { createAlgorandClient, createWriterAccount, convertAppIdsToAddresses } from "./utils";
+import { clearCheckpoint, readCheckpoint, writeCheckpoint } from "./checkpoint";
+import { bucketHeader, formatBucketRow } from "./format";
 import { getConfig } from "./config";
 
 export async function handleRegisterCommand(argv: any) {
@@ -281,6 +284,217 @@ export async function handleWithdrawCreditCommand(argv: any) {
   } catch (error) {
     console.error("Error withdrawing credits:", (error as Error).message);
     process.exit(1);
+  }
+}
+
+export async function handleMigrateCommand(argv: any) {
+  try {
+    const config = getConfig();
+    const algorand = createAlgorandClient({
+      algodHost: argv.algodHost,
+      algodPort: argv.algodPort,
+      algodToken: argv.algodToken,
+      appId: argv.appId,
+    });
+
+    const mnemonic = argv.mnemonic || config.mnemonic;
+    const address = argv.address || config.address;
+
+    const writerAccount = createWriterAccount(mnemonic, address);
+
+    if (!argv.dryRun && !writerAccount) {
+      throw new Error("Writer account is required for migrate operation. Please provide a mnemonic.");
+    }
+
+    const sdk = new EscregSDK({
+      appId: BigInt(argv.appId),
+      algorand,
+      writerAccount,
+    });
+
+    const scanOptions = { concurrency: argv.concurrency, pageSize: argv.pageSize, debug: argv.debug };
+
+    let totalMigrated = 0;
+    const txIds: string[] = [];
+    // only a scan that comes back empty proves the registry holds no legacy boxes
+    let clean = false;
+
+    // A box written behind the listing cursor mid-scan is missed, so re-scan until a pass comes back clean
+    for (let pass = 1; pass <= argv.maxPasses; pass++) {
+      console.log(`Pass ${pass}/${argv.maxPasses}: scanning registry boxes for the legacy layout...`);
+      const boxes = await sdk.findLegacyBoxes(scanOptions);
+
+      if (!boxes.length) {
+        console.log(totalMigrated ? "No legacy boxes left." : "No legacy boxes found, nothing to migrate.");
+        clean = true;
+        break;
+      }
+
+      console.log(`Found ${boxes.length} legacy boxes (${boxes.length * 800} microAlgos of MBR to free).`);
+
+      if (argv.dryRun) {
+        console.log("Dry run, not migrating.");
+        return;
+      }
+
+      // a key packed by a concurrent register between the scan and the send is skipped on chain, so
+      // the count the contract reports is what actually freed MBR
+      const { txIds: passTxIds, migrated } = await sdk.migrateBoxes({ boxes, concurrency: argv.concurrency, debug: argv.debug });
+      txIds.push(...passTxIds);
+      totalMigrated += migrated;
+      console.log(`Migrated ${migrated} of ${boxes.length} boxes (${totalMigrated} total).`);
+    }
+
+    if (totalMigrated) {
+      console.log(`Migration complete: ${totalMigrated} boxes, ${totalMigrated * 800} microAlgos of MBR freed.`);
+      console.log(`The freed MBR sits in the contract balance; recover it with 'withdraw'.`);
+      if (argv.debug) {
+        console.log("Transaction IDs:");
+        txIds.forEach((txId, index) => console.log(`  ${index + 1}. ${txId}`));
+      }
+    }
+
+    if (!clean) {
+      console.warn(`Reached the pass limit of ${argv.maxPasses} without a clean scan. Re-run to confirm no legacy boxes are left.`);
+    }
+  } catch (error) {
+    console.error("Error migrating boxes:", (error as Error).message);
+    process.exit(1);
+  }
+}
+
+export async function handleDumpCommand(argv: any) {
+  try {
+    const algorand = createAlgorandClient({
+      algodHost: argv.algodHost,
+      algodPort: argv.algodPort,
+      algodToken: argv.algodToken,
+      appId: argv.appId,
+    });
+
+    const sdk = new EscregSDK({
+      appId: BigInt(argv.appId),
+      algorand,
+    });
+
+    // a full dump is long, so quit quietly when a downstream pipe closes early ('| head')
+    process.stdout.on("error", (error: NodeJS.ErrnoException) => {
+      if (error.code === "EPIPE") process.exit(0);
+      // a throw from an emitter callback escapes the try/catch below, so report it here instead. The
+      // checkpoint is left as it stands: a failed write leaves no way to tell which rows landed.
+      console.error("Error dumping boxes:", error.message);
+      process.exit(1);
+    });
+
+    const appId = String(argv.appId);
+    const resumePath: string | undefined = argv.resume;
+    const resumed = resumePath ? readCheckpoint(resumePath, appId) : undefined;
+
+    let legacy = resumed?.legacy ?? 0;
+    let packed = resumed?.packed ?? 0;
+    let entries = resumed?.entries ?? 0;
+    // cursor covering every row written so far, which is what a resumed dump picks up from
+    let cursor = resumed?.next;
+    let round = resumed?.round;
+
+    // stop between rows rather than mid-write, so the cursor and what stdout holds stay in step
+    let interrupted = false;
+    const onSignal = (signal: NodeJS.Signals) => {
+      if (interrupted) {
+        // the first signal has not landed, so the scan is parked on an algod request: quit rather
+        // than swallowing every further attempt to stop the dump
+        process.stderr.write("Quitting now, without a checkpoint.\n");
+        process.exit(signal === "SIGTERM" ? 143 : 130);
+      }
+      interrupted = true;
+      process.stderr.write("Stopping after the current box; signal again to quit immediately.\n");
+    };
+    process.on("SIGINT", onSignal).on("SIGTERM", onSignal);
+
+    // rows are written faster than a slow consumer reads them, so wait out its backpressure rather
+    // than queueing the whole dump in memory
+    const writeRow = async (row: string) => {
+      if (!process.stdout.write(row)) await once(process.stdout, "drain");
+    };
+
+    // never checkpoint ahead of the rows it covers: a queued write is not on disk yet
+    const flush = async () => {
+      if (process.stdout.writableNeedDrain) await once(process.stdout, "drain");
+    };
+
+    const save = async () => {
+      if (!resumePath || !cursor) return;
+      await flush();
+      writeCheckpoint(resumePath, { appId, next: cursor, round, legacy, packed, entries });
+    };
+
+    if (resumed) {
+      process.stderr.write(`Resuming after box ${resumed.next}, ${legacy + packed} boxes already dumped\n`);
+    }
+
+    // rows go to stdout so the dump can be piped; everything else to stderr
+    process.stderr.write(`${bucketHeader}\n`);
+
+    // the listing ran out, so every box is dumped even if a signal landed on the very last row
+    let scanned = false;
+
+    try {
+      const pages = sdk.scanBucketPages({ pageSize: argv.pageSize, concurrency: argv.concurrency, next: cursor, debug: argv.debug });
+
+      for await (const page of pages) {
+        let written = 0;
+
+        for (const bucket of page.buckets) {
+          await writeRow(`${formatBucketRow(bucket)}\n`);
+          if (bucket.version === 1) legacy++;
+          else packed++;
+          entries += bucket.appIds.length;
+          cursor = boxCursor(bucket.key);
+          written++;
+          if (interrupted) break;
+        }
+
+        round = page.round;
+        // a page stopped part way through is only covered by its last written row's cursor
+        const pageDone = written === page.buckets.length;
+        // the page cursor also covers any credit boxes trailing the last bucket
+        if (pageDone && page.next) cursor = page.next;
+        if (pageDone && !page.next) scanned = true;
+        if (interrupted || !page.next) break;
+
+        await save();
+      }
+    } catch (error) {
+      // the rows before a failed page are still dumped, so checkpoint them before bailing out
+      await save();
+      throw error;
+    } finally {
+      process.off("SIGINT", onSignal).off("SIGTERM", onSignal);
+    }
+
+    const boxes = legacy + packed;
+
+    // a signal on the last row of the last page leaves nothing to resume, so report the dump done
+    if (interrupted && !scanned) {
+      await save();
+      const resumeHint = resumePath ? "Re-run the same command to continue." : "Pass --resume <file> to make a dump resumable.";
+      process.stderr.write(`Interrupted after ${boxes} boxes. ${resumeHint}\n`);
+      process.exitCode = 130;
+      return;
+    }
+
+    if (resumePath) clearCheckpoint(resumePath);
+
+    if (!boxes) {
+      process.stderr.write("No registry boxes found.\n");
+      return;
+    }
+
+    process.stderr.write(`${boxes} boxes (${legacy} v1, ${packed} v2), ${entries} app IDs\n`);
+  } catch (error) {
+    console.error("Error dumping boxes:", (error as Error).message);
+    // exit by code rather than process.exit, which would drop rows still queued on stdout
+    process.exitCode = 1;
   }
 }
 
