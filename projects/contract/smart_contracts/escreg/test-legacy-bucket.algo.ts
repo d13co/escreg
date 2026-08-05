@@ -21,4 +21,19 @@ export class TestLegacyEscreg extends Escreg {
     this.apps(key).value = value
     this.counter.value += entries
   }
+
+  /**
+   * Append raw bytes to a registry box. Buckets larger than the 2048-byte application-argument
+   * limit cannot be planted in one call, so tests build them up a chunk at a time.
+   * @param key 4-byte box key to append to. The box must exist.
+   * @param value Raw bytes to append.
+   * @param entries Number of app IDs the appended bytes hold, added to the counter.
+   */
+  @abimethod({ validateEncoding: 'unsafe-disabled' })
+  public growBucket(key: bytes<4>, value: bytes, entries: uint64): void {
+    const size = this.apps(key).length
+    this.apps(key).resize(size + value.length)
+    this.apps(key).replace(size, value)
+    this.counter.value += entries
+  }
 }
