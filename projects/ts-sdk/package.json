@@ -42,6 +42,9 @@
   ],
   "scripts": {
     "clean": "rm -rf dist/ src/generated/",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
     "prebuild": "npm run clean && npm run generate && npm run generate:errors && npm run check:abi",
     "generate": "npx @algorandfoundation/algokit-client-generator generate -m minimal -o src/generated/EscregGenerated.ts -a ../contract/smart_contracts/artifacts/escreg/Escreg.arc56.json",
     "generate:errors": "tsx scripts/generate-errors.ts",
@@ -77,10 +80,12 @@
     "@algorandfoundation/algokit-client-generator": "^6.0.0",
     "@algorandfoundation/algokit-utils": "^9.0.0",
     "@types/node": "^24.0.14",
+    "@vitest/coverage-v8": "^2.1.8",
     "algosdk": "^3.6.0",
     "concurrently": "^9.2.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
   },
   "peerDependencies": {
     "@algorandfoundation/algokit-utils": "^9.0.0",

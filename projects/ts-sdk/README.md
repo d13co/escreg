@@ -167,6 +167,18 @@ once it passes 128 addresses, so a lookup of 50 goes out as a single plain call 
 `boxCursor(name)`, `decodeBucket(value)` and every type — `LookupResult`, `RegistryBucket`,
 `BucketPage`, `SizedBoxKey` — are exported from both entry points.
 
+## Development
+
+```bash
+npm run build          # generate the client, check the getList ABI, build cjs + esm
+npm test               # unit tests
+npm run test:coverage  # the same, with a coverage report
+```
+
+The unit tests stub algod, so they need no network and no LocalNet. What they cannot reach — the
+registration and credit paths, which sign and send — is covered by the e2e suite in
+`projects/contract`, which drives this SDK against a contract deployed to LocalNet.
+
 ## License
 
 ISC
