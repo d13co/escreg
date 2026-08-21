@@ -147,6 +147,12 @@ export class Escreg extends MbrManager implements ConventionalRouting {
 
   /**
    * Derive the 4-byte box key prefix for the given app ID by hashing its escrow address.
+   *
+   * Hashed rather than read via `app_params_get AppAddress`, which costs 4 opcode units against
+   * this hash's 51 but cannot be used here: it hard-fails with `unavailable App` unless the ID is
+   * in the txn's foreign apps array (max 8, against buckets of 512+ candidates), and returns
+   * `exists=0` with no address for an app that is unregistered or has since been deleted. The
+   * hash works for any ID with no resource reference and survives deletion.
    * @param appId App ID to derive the prefix for.
    * @returns 4-byte prefix of the app escrow address hash.
    */
@@ -158,6 +164,8 @@ export class Escreg extends MbrManager implements ConventionalRouting {
 
   /**
    * Derive the full 32-byte app escrow address for the given app ID.
+   *
+   * See `deriveAddrPrefix` for why this hashes instead of using `app_params_get AppAddress`.
    * @param appId App ID to derive the escrow address for.
    * @returns 32-byte app escrow address.
    */
