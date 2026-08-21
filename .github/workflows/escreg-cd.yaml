@@ -27,8 +27,10 @@ jobs:
       - name: Install algokit
         run: pipx install algokit
 
-      - name: Bootstrap dependencies
-        run: algokit project bootstrap all
+      - name: Install dependencies
+        # npm workspace root covers projects/*; `algokit project bootstrap all` prompts
+        # for a package manager on the lockfile-less sub-projects and aborts without a TTY
+        run: npm ci
 
       - name: Configure git
         shell: bash
