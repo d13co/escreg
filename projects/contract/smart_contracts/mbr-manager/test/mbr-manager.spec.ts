@@ -1,7 +1,7 @@
 import { Config } from '@algorandfoundation/algokit-utils'
 import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-debug'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
-import { Address, getApplicationAddress } from 'algosdk'
+import { Address } from 'algosdk'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { MbrManagerClient, MbrManagerFactory } from '../../artifacts/mbr-manager/MbrManagerClient'
 
@@ -179,5 +179,4 @@ describe('MbrManager contract', () => {
     const boxMap = await client.state.box.userCredits.getMap()
     expect(boxMap.has(otherAccount.addr.toString())).toBe(true)
   })
-
 })

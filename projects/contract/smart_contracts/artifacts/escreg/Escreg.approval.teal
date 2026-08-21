@@ -513,7 +513,7 @@ getWithAuthList:
     // @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
     txna ApplicationArgs 1
     // smart_contracts/escreg/contract.algo.ts:299
-    // let results: AddressWithAuth[] = []
+    // const results: AddressWithAuth[] = []
     bytec 4 // 0x0000
     // smart_contracts/escreg/contract.algo.ts:297
     // @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })

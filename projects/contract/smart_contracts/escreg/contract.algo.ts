@@ -296,7 +296,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
    */
   @abimethod({ readonly: true, validateEncoding: 'unsafe-disabled' })
   public getWithAuthList(addresses: Address[]): AddressWithAuth[] {
-    let results: AddressWithAuth[] = []
+    const results: AddressWithAuth[] = []
 
     for (const address of addresses) {
       const appId = this.lookup(address)
