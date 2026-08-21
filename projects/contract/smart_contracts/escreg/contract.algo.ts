@@ -15,7 +15,7 @@ import { Address, ConventionalRouting } from '@algorandfoundation/algorand-types
 import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
 import { ensure } from '../common.algo'
 import { MbrManager } from '../mbr-manager/contract.algo'
-import { errAppNotRegistered, errAuth, errBucket } from './errors.algo'
+import { errAppNotRegistered, errAuth } from './errors.algo'
 
 const RETURN_TRUE = Bytes.fromHex('0a8101') // #pragma version 10; pushint 1
 
@@ -35,9 +35,6 @@ export class Escreg extends MbrManager implements ConventionalRouting {
    * bucket size is derived from the box length (`length / 8`). This saves the 2 bytes an ARC-4
    * dynamic array header would occupy - 800 microAlgos of MBR on every box - and lets lookups
    * read one candidate at a time instead of decoding the whole bucket.
-   *
-   * Buckets left over from the earlier ARC-4 `uint64[]` layout are still readable: see
-   * `bucketHeaderLen`. Call `migrateBoxes` to convert them.
    */
   apps = BoxMap<bytes<4>, bytes>({ keyPrefix: '' })
   /** Counter for the number of registered applications */
@@ -91,39 +88,10 @@ export class Escreg extends MbrManager implements ConventionalRouting {
     this.adminOnly()
     for (const key of boxKeys) {
       if (this.apps(key).exists) {
-        const size = this.apps(key).length
-        this.counter.value -= (size - this.bucketHeaderLen(size)) / 8
+        this.counter.value -= this.apps(key).length / 8
         this.apps(key).delete()
       }
     }
-  }
-
-  /**
-   * Convert app registry boxes still using the legacy ARC-4 `uint64[]` layout to the packed
-   * layout, freeing the 800 microAlgos of MBR its 2-byte length header holds. Keys that do not
-   * exist, or that are already packed, are skipped.
-   *
-   * The freed MBR is not credited back to any account - it stays in the contract balance and can
-   * be recovered by the admin with `withdraw`.
-   * @param boxKeys Array of 4-byte box keys to migrate.
-   * @returns Number of boxes actually converted.
-   * @throws ERR:AUTH if sender is not the admin
-   */
-  @abimethod({ validateEncoding: 'unsafe-disabled' })
-  public migrateBoxes(boxKeys: bytes<4>[]): uint64 {
-    this.adminOnly()
-    let migrated: uint64 = 0
-    for (const key of boxKeys) {
-      if (this.apps(key).exists) {
-        const size = this.apps(key).length
-        const headerLen = this.bucketHeaderLen(size)
-        if (headerLen !== 0) {
-          this.dropLegacyHeader(key, size, headerLen)
-          migrated += 1
-        }
-      }
-    }
-    return migrated
   }
 
   /** Ensure the sender is the admin. @throws ERR:AUTH if sender is not the admin */
@@ -198,69 +166,32 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   }
 
   /**
-   * Length of the leading length header in a bucket of the given size.
-   *
-   * Buckets written by this contract are packed 8-byte app IDs, so their size is 0 mod 8. Buckets
-   * left over from the earlier ARC-4 `uint64[]` layout carry a 2-byte length header ahead of the
-   * same 8-byte app IDs, so their size is 2 mod 8. The two layouts can never be confused, which
-   * makes the remainder the header length and lets readers handle both without a version flag.
-   * @param size Box size in bytes.
-   * @returns 2 for a legacy bucket, 0 for a packed one.
-   */
-  private bucketHeaderLen(size: uint64): uint64 {
-    return size % 8
-  }
-
-  /**
-   * Rewrite a legacy bucket in place as a packed one, by shifting its app IDs over the length
-   * header and trimming the freed bytes off the end.
-   * A size that is neither layout's is rejected rather than read as a header of that length, which
-   * would shift every app ID in the bucket and lose the leading bytes for good.
-   * @param key 4-byte box key to rewrite.
-   * @param size Current box size.
-   * @param headerLen Legacy header length, from `bucketHeaderLen`.
-   * @throws ERR:BKT if the size is neither 0 nor 2 mod 8
-   */
-  private dropLegacyHeader(key: bytes<4>, size: uint64, headerLen: uint64) {
-    ensure(headerLen === 2, errBucket)
-    this.apps(key).splice(0, headerLen, Bytes(''))
-    this.apps(key).resize(size - headerLen)
-  }
-
-  /**
-   * Append an app ID to its corresponding box key, skipping if it already exists. Increments the counter on insert. Converts a legacy bucket to the packed layout on the way.
+   * Append an app ID to its corresponding box key, skipping if it already exists. Increments the counter on insert.
    * @param key 4-byte box key to append to.
    * @param appId App ID to append.
    */
   private appendAppId(key: bytes<4>, appId: uint64) {
     const size = this.apps(key).length
-    const headerLen = this.bucketHeaderLen(size)
-    const packedLen: uint64 = size - headerLen
 
-    for (let i: uint64 = 0; i < packedLen / 8; i++) {
-      if (this.getAppIdAtBucketPosition(key, i, headerLen) === appId) {
+    for (let i: uint64 = 0; i < size / 8; i++) {
+      if (this.getAppIdAtBucketPosition(key, i) === appId) {
         return
       }
     }
 
-    if (headerLen !== 0) {
-      this.dropLegacyHeader(key, size, headerLen)
-    }
-    this.apps(key).resize(packedLen + 8)
-    this.apps(key).replace(packedLen, op.itob(appId))
+    this.apps(key).resize(size + 8)
+    this.apps(key).replace(size, op.itob(appId))
     this.counter.value += 1
   }
 
   /**
    * Get the application ID at position $pos in bucket with key $key
-   * Supports legacy (headerLen==2) and latest (no header)
    * @param key 4-byte key of the bucket to search. The box must exist.
    * @param pos index of app id
-   * @param headerLen 2 for legacy, 0 for latest
    * @returns uint64 of stored app ID
    */
-  private getAppIdAtBucketPosition(key: bytes<4>, pos: uint64, headerLen: uint64): uint64 {
-    return op.btoi(this.apps(key).extract(headerLen + pos * 8, 8))
+  private getAppIdAtBucketPosition(key: bytes<4>, pos: uint64): uint64 {
+    return op.btoi(this.apps(key).extract(pos * 8, 8))
   }
 
   /**
@@ -276,11 +207,10 @@ export class Escreg extends MbrManager implements ConventionalRouting {
    * @returns The matching app ID, or 0 if no match is found.
    */
   private findAddr(address: Address, key: bytes<4>, size: uint64): uint64 {
-    const headerLen = this.bucketHeaderLen(size)
-    const count: uint64 = (size - headerLen) / 8
+    const count: uint64 = size / 8
 
     for (let i: uint64 = 0; i < count; i++) {
-      const appId = this.getAppIdAtBucketPosition(key, i, headerLen)
+      const appId = this.getAppIdAtBucketPosition(key, i)
       if (address.native.bytes === this.deriveAddr(appId)) {
         return appId
       }

@@ -8,7 +8,7 @@ describe('Dump checkpoints', () => {
   let dir: string;
   let path: string;
 
-  const saved: DumpCheckpoint = { appId: '1234', next: 'b64:AAAj1Q==', round: 100, legacy: 2, packed: 3, entries: 9 };
+  const saved: DumpCheckpoint = { appId: '1234', next: 'b64:AAAj1Q==', round: 100, boxes: 5, entries: 9 };
 
   beforeEach(() => {
     dir = mkdtempSync(join(tmpdir(), 'escreg-checkpoint-'));
@@ -43,7 +43,7 @@ describe('Dump checkpoints', () => {
     });
 
     it('should reject a file with no cursor', () => {
-      writeFileSync(path, JSON.stringify({ appId: '1234', legacy: 1 }));
+      writeFileSync(path, JSON.stringify({ appId: '1234', boxes: 1 }));
 
       expect(() => readCheckpoint(path, '1234')).toThrow('holds no cursor');
     });
@@ -52,9 +52,9 @@ describe('Dump checkpoints', () => {
   describe('writeCheckpoint', () => {
     it('should replace an existing checkpoint and leave no temp file behind', () => {
       writeCheckpoint(path, saved);
-      writeCheckpoint(path, { ...saved, next: 'b64:AAA4EA==', legacy: 4 });
+      writeCheckpoint(path, { ...saved, next: 'b64:AAA4EA==', boxes: 6 });
 
-      expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual({ ...saved, next: 'b64:AAA4EA==', legacy: 4 });
+      expect(JSON.parse(readFileSync(path, 'utf8'))).toEqual({ ...saved, next: 'b64:AAA4EA==', boxes: 6 });
       expect(existsSync(`${path}.tmp`)).toBe(false);
     });
   });

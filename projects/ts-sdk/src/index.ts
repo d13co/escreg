@@ -4,7 +4,6 @@ import { EscregClient, EscregComposer } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import {
   boxCursor,
-  bucketHeaderLen,
   chunk,
   compareBoxNames,
   creditBoxRef,
@@ -19,7 +18,7 @@ import {
 import { errorTransformer, wrapErrorsInternal } from "./wrapErrors";
 import pMap from "p-map";
 
-export { boxCursor, bucketHeaderLen, decodeBucket } from "./util";
+export { boxCursor, decodeBucket } from "./util";
 export type { SizedBoxKey } from "./util";
 
 /** Map of address to app ID, or undefined if not registered. */
@@ -28,16 +27,11 @@ export type LookupResult = Record<string, bigint | undefined>;
 /** Map of address to credit balance in microAlgos. */
 export type CreditResult = Record<string, bigint>;
 
-/** Bucket storage layout: 1 for the legacy ARC-4 `uint64[]`, 2 for packed headerless app IDs. */
-export type BucketVersion = 1 | 2;
-
 /** A registry bucket box, decoded. */
 export interface RegistryBucket {
   /** The 4-byte box key: the leading four bytes of every escrow address in the bucket. */
   key: Uint8Array;
-  /** Storage layout of this box. */
-  version: BucketVersion;
-  /** Raw box size in bytes, including any legacy header. */
+  /** Raw box size in bytes. */
   size: number;
   /** The app IDs the bucket holds, in insertion order. */
   appIds: bigint[];
@@ -284,7 +278,7 @@ export class EscregSDK {
       async (addressesChunk, chunkIndex) => {
         let composer: EscregComposer<any> = this.client.newGroup();
 
-        const addressChunks = chunk(addressesChunk, 63);
+        const addressChunks = chunk(addressesChunk, 128);
 
         for (const addresses of addressChunks) {
           composer = composer.getList({ args: { addresses }, sender: this.readerAccount, signer: emptySigner });
@@ -344,13 +338,12 @@ export class EscregSDK {
    * with `increaseBudget` prepended when the opcode budget needs it. A group's box budget is 1024
    * bytes per distinct reference it carries, so padding references are named per group.
    *
-   * @param label - Verb for the debug lines, e.g. "Migrating".
+   * @param label - Verb for the debug lines, e.g. "Deleting".
    * @param boxes - Keys to act on, with the size of the box each names.
    * @param addCall - Adds the call for one batch of keys, with its box references, to a builder.
    * @param concurrency - Number of transaction groups to send in parallel.
    * @param debug - Enable debug logging.
-   * @param readReturns - Read each call's ARC-4 uint64 return off its confirmed transaction.
-   * @returns The transaction IDs sent, and the values the calls returned when `readReturns` is set.
+   * @returns The transaction IDs sent.
    */
   private async sendBoxKeyGroups({
     label,
@@ -358,15 +351,13 @@ export class EscregSDK {
     addCall,
     concurrency = 1,
     debug,
-    readReturns,
   }: {
     label: string;
     boxes: SizedBoxKey[];
     addCall: (builder: EscregComposer<any>, keys: Uint8Array[], boxReferences: Uint8Array[]) => EscregComposer<any>;
     concurrency?: number;
     debug?: boolean;
-    readReturns?: boolean;
-  }): Promise<{ txIds: string[]; returns: bigint[] }> {
+  }): Promise<string[]> {
     const groupChunks = chunk(packBoxKeyBatches(boxes), 15);
 
     if (debug) console.debug(`${label} ${boxes.length} boxes in ${groupChunks.length} groups with concurrency ${concurrency}`);
@@ -412,39 +403,12 @@ export class EscregSDK {
         await this.algorand.client.algod.sendRawTransaction(signed).do();
         await waitForConfirmation(this.algorand.client.algod, txns[0].txID(), 8);
 
-        const txIds = txns.map((t) => t.txID());
-        // the batch calls are the group's last transactions: increaseBudget, when added, goes first
-        const callTxIds = txIds.slice(txIds.length - batches.length);
-        const returns = readReturns ? await pMap(callTxIds, (txId) => this.readUint64Return(txId), { concurrency: 4 }) : [];
-
-        return { txIds, returns };
+        return txns.map((t) => t.txID());
       },
       { concurrency },
     );
 
-    return { txIds: results.flatMap(({ txIds }) => txIds), returns: results.flatMap(({ returns }) => returns) };
-  }
-
-  /** The 0x151f7c75 prefix an ARC-4 return value is logged behind. */
-  private static readonly abiReturnPrefix = Uint8Array.from([0x15, 0x1f, 0x7c, 0x75]);
-
-  /**
-   * Read the ARC-4 uint64 an app call returned, off its confirmed transaction's logs.
-   *
-   * @param txId - Transaction ID of a just-confirmed app call.
-   * @returns The value the call returned.
-   * @throws If the transaction logged no uint64 return, e.g. once the node has forgotten it.
-   */
-  private async readUint64Return(txId: string): Promise<bigint> {
-    const { logs = [] } = await this.algorand.client.algod.pendingTransactionInformation(txId).do();
-    const log = logs[logs.length - 1];
-    const prefix = EscregSDK.abiReturnPrefix;
-
-    if (!log || log.length !== prefix.length + 8 || prefix.some((byte, idx) => log[idx] !== byte)) {
-      throw new Error(`Transaction ${txId} confirmed but logged no uint64 return value`);
-    }
-
-    return new DataView(log.buffer, log.byteOffset + prefix.length, 8).getBigUint64(0);
+    return results.flat();
   }
 
   /**
@@ -471,34 +435,28 @@ export class EscregSDK {
       if (!boxKeys.length) return [];
 
       // box sizes are not known here, so this keeps to one reference per key: 8 keys per transaction
-      const { txIds } = await this.sendBoxKeyGroups({
+      return await this.sendBoxKeyGroups({
         label: "Deleting",
         boxes: boxKeys.map((key) => ({ key, size: 0 })),
         addCall: (builder, keys, boxReferences) => builder.deleteBoxes({ args: { boxKeys: keys }, boxReferences }),
         concurrency,
         debug,
       });
-
-      return txIds;
     });
   }
 
-  /** Decode a raw registry box into a bucket, reading its layout from the value length. */
+  /** Decode a raw registry box into a bucket. */
   private toBucket(key: Uint8Array, value: Uint8Array): RegistryBucket {
-    const headerLen = bucketHeaderLen(value.length);
-
-    // the contract writes one of two layouts, 0 or 2 mod 8. Any other remainder would decode as app
-    // IDs shifted by it, and be reported as a legacy box for `migrateBoxes` to truncate the front of
-    if (headerLen !== 0 && headerLen !== 2) {
+    // buckets are packed 8-byte app IDs with no header; any other length would decode shifted
+    if (value.length % 8 !== 0) {
       const name = Array.from(key, (byte) => byte.toString(16).padStart(2, "0")).join("");
-      throw new Error(`Malformed registry box 0x${name}: ${value.length} bytes is neither a packed nor a legacy bucket`);
+      throw new Error(`Malformed registry box 0x${name}: ${value.length} bytes is not a packed bucket`);
     }
 
     return {
       key,
-      version: headerLen === 0 ? 2 : 1,
       size: value.length,
-      appIds: decodeBucket(value.subarray(headerLen)),
+      appIds: decodeBucket(value),
     };
   }
 
@@ -576,7 +534,7 @@ export class EscregSDK {
   }
 
   /**
-   * Stream every registry bucket box with its layout and decoded contents.
+   * Stream every registry bucket box with its decoded contents.
    *
    * Yields buckets in listing order as pages arrive, so a caller can print or process each one
    * without holding the whole registry in memory. Credit boxes are skipped. Use `scanBucketPages`
@@ -590,91 +548,6 @@ export class EscregSDK {
    */
   async *scanBuckets(options: { pageSize?: number; next?: string; concurrency?: number; debug?: boolean } = {}): AsyncGenerator<RegistryBucket> {
     for await (const { buckets } of this.scanBucketPages(options)) yield* buckets;
-  }
-
-  /**
-   * Scan the registry for boxes still using the legacy ARC-4 `uint64[]` bucket layout.
-   *
-   * Legacy buckets carry a 2-byte length header, so their size is 2 mod 8, while packed buckets are
-   * a whole number of 8-byte app IDs. Box listing does not report sizes, so classifying a box needs
-   * its value.
-   *
-   * @param pageSize - Boxes to request per listing page.
-   * @param concurrency - Box value fetches to run in parallel, when the node does not return values.
-   * @param debug - Enable debug logging.
-   * @returns The 4-byte keys of the boxes that still need migrating, with their sizes, which is
-   *   what `migrateBoxes` needs to size each transaction's box references.
-   */
-  async findLegacyBoxes({
-    pageSize = 1000,
-    concurrency = 8,
-    debug,
-  }: {
-    pageSize?: number;
-    concurrency?: number;
-    debug?: boolean;
-  } = {}): Promise<SizedBoxKey[]> {
-    const legacy: SizedBoxKey[] = [];
-    let scanned = 0;
-
-    for await (const { buckets } of this.scanBucketPages({ pageSize, concurrency, debug })) {
-      scanned += buckets.length;
-      for (const { key, size, version } of buckets) {
-        if (version === 1) legacy.push({ key, size });
-      }
-    }
-
-    if (debug) console.debug(`${legacy.length}/${scanned} registry boxes need migrating`);
-
-    return legacy;
-  }
-
-  /**
-   * Convert registry boxes to the packed bucket layout, freeing 800 microAlgos of MBR each. Admin only.
-   *
-   * The contract skips keys that do not exist or are already packed, so passing a stale or mixed
-   * set is safe. The freed MBR stays in the contract balance and can be recovered with `withdraw`.
-   *
-   * Buckets are batched to the box budget they need, so a bucket over 1024 bytes is sent with the
-   * padding references its read and write budget takes.
-   *
-   * @param boxes - Boxes to migrate with their sizes, e.g. from `findLegacyBoxes`.
-   * @param debug - Enable debug logging.
-   * @param concurrency - Number of transaction groups to send in parallel.
-   * @returns The transaction IDs sent, and how many boxes the contract actually converted.
-   * @throws If writer account is not set, or if sender is not the admin (ERR:AUTH).
-   */
-  async migrateBoxes({
-    boxes,
-    debug,
-    concurrency = 1,
-  }: {
-    boxes: SizedBoxKey[];
-    debug?: boolean;
-    concurrency?: number;
-  }): Promise<{ txIds: string[]; migrated: number }> {
-    return wrapErrorsInternal(async () => {
-      if (!this.writerAccount) throw new Error("Write operation requested without writer account");
-
-      if (!boxes.length) return { txIds: [], migrated: 0 };
-
-      const { txIds, returns } = await this.sendBoxKeyGroups({
-        label: "Migrating",
-        boxes,
-        addCall: (builder, keys, boxReferences) => builder.migrateBoxes({ args: { boxKeys: keys }, boxReferences }),
-        concurrency,
-        debug,
-        readReturns: true,
-      });
-
-      // keys that went missing or were packed by a concurrent register are skipped, so the count
-      // the contract returns is the only real one
-      const migrated = returns.reduce((sum, count) => sum + Number(count), 0);
-
-      if (debug) console.debug(`Contract converted ${migrated}/${boxes.length} boxes`);
-
-      return { txIds, migrated };
-    });
   }
 
   /**

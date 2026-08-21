@@ -8,10 +8,8 @@ export interface DumpCheckpoint {
   next: string;
   /** Round the last listed page was read at, when the node reported one. */
   round?: number;
-  /** Legacy boxes written so far, so a resumed run's summary covers the whole dump. */
-  legacy: number;
-  /** Packed boxes written so far. */
-  packed: number;
+  /** Boxes written so far, so a resumed run's summary covers the whole dump. */
+  boxes: number;
   /** App IDs written so far. */
   entries: number;
 }

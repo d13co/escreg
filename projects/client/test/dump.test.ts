@@ -25,10 +25,9 @@ const argv = {
 
 const key = (last: number) => new Uint8Array([0x7c, 0x3d, 0xeb, last]);
 
-const bucket = (version: 1 | 2, appIds: bigint[], last = 0) => ({
+const bucket = (appIds: bigint[], last = 0) => ({
   key: key(last),
-  version,
-  size: appIds.length * 8 + (version === 1 ? 2 : 0),
+  size: appIds.length * 8,
   appIds,
 });
 
@@ -83,16 +82,16 @@ describe('handleDumpCommand', () => {
   });
 
   it('should write one row per box to stdout, header and summary to stderr', async () => {
-    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n]), bucket(2, [1002n, 1003n])] }));
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket([1001n]), bucket([1002n, 1003n])] }));
 
     await handleDumpCommand(argv);
 
     expect(stdout).toEqual([
-      `1  fD3rAA== (PQ66WAA)  1x  1001 (${escrow(1001n)})\n`,
-      `2  fD3rAA== (PQ66WAA)  2x  1002 (${escrow(1002n)})  1003 (${escrow(1003n)})\n`,
+      `fD3rAA== (PQ66WAA)  1x  1001 (${escrow(1001n)})\n`,
+      `fD3rAA== (PQ66WAA)  2x  1002 (${escrow(1002n)})  1003 (${escrow(1003n)})\n`,
     ]);
-    expect(stderr[0]).toBe('v  key b64 (b32)       values\n');
-    expect(stderr.at(-1)).toBe('2 boxes (1 v1, 1 v2), 3 app IDs\n');
+    expect(stderr[0]).toBe('key b64 (b32)       values\n');
+    expect(stderr.at(-1)).toBe('2 boxes, 3 app IDs\n');
   });
 
   it('should pass the scan options through', async () => {
@@ -116,8 +115,8 @@ describe('handleDumpCommand', () => {
     const written: DumpCheckpoint[] = [];
     scanBucketPages.mockReturnValue(
       pages(
-        { buckets: [bucket(1, [1001n], 1)], next: 'b64:cursor-1', round: 100 },
-        { buckets: [bucket(2, [1002n, 1003n], 2)], round: 101 },
+        { buckets: [bucket([1001n], 1)], next: 'b64:cursor-1', round: 100 },
+        { buckets: [bucket([1002n, 1003n], 2)], round: 101 },
       ),
     );
     vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
@@ -129,28 +128,28 @@ describe('handleDumpCommand', () => {
     await handleDumpCommand({ ...argv, resume });
 
     // saved after the first page, and only then: the last page ends the listing
-    expect(written).toEqual([{ appId: '1234', next: 'b64:cursor-1', round: 100, legacy: 1, packed: 0, entries: 1 }]);
+    expect(written).toEqual([{ appId: '1234', next: 'b64:cursor-1', round: 100, boxes: 1, entries: 1 }]);
     expect(existsSync(resume)).toBe(false);
-    expect(stderr.at(-1)).toBe('2 boxes (1 v1, 1 v2), 3 app IDs\n');
+    expect(stderr.at(-1)).toBe('2 boxes, 3 app IDs\n');
   });
 
   it('should resume after the checkpoint cursor and carry its counts into the summary', async () => {
     writeFileSync(
       resume,
-      JSON.stringify({ appId: '1234', next: 'b64:cursor-1', round: 100, legacy: 3, packed: 5, entries: 20 }),
+      JSON.stringify({ appId: '1234', next: 'b64:cursor-1', round: 100, boxes: 8, entries: 20 }),
     );
-    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(2, [1002n])] }));
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket([1002n])] }));
 
     await handleDumpCommand({ ...argv, resume });
 
     expect(scanBucketPages).toHaveBeenCalledWith({ pageSize: 2, concurrency: 4, next: 'b64:cursor-1', debug: undefined });
     expect(stderr[0]).toBe('Resuming after box b64:cursor-1, 8 boxes already dumped\n');
-    expect(stderr.at(-1)).toBe('9 boxes (3 v1, 6 v2), 21 app IDs\n');
+    expect(stderr.at(-1)).toBe('9 boxes, 21 app IDs\n');
     expect(existsSync(resume)).toBe(false);
   });
 
   it('should refuse a checkpoint from another registry', async () => {
-    writeFileSync(resume, JSON.stringify({ appId: '9999', next: 'b64:cursor-1', legacy: 0, packed: 0, entries: 0 }));
+    writeFileSync(resume, JSON.stringify({ appId: '9999', next: 'b64:cursor-1', boxes: 0, entries: 0 }));
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const exit = vi.spyOn(process, 'exit').mockImplementation((() => {}) as any);
 
@@ -165,7 +164,7 @@ describe('handleDumpCommand', () => {
 
   it('should stop on an interrupt and checkpoint the last row written', async () => {
     scanBucketPages.mockReturnValue(
-      pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2), bucket(2, [1003n], 3)], next: 'b64:cursor-1', round: 100 }),
+      pages({ buckets: [bucket([1001n], 1), bucket([1002n], 2), bucket([1003n], 3)], next: 'b64:cursor-1', round: 100 }),
     );
     vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
       stdout.push(String(chunk));
@@ -177,13 +176,13 @@ describe('handleDumpCommand', () => {
     await handleDumpCommand({ ...argv, resume });
 
     expect(stdout).toHaveLength(2);
-    expect(checkpoint()).toEqual({ appId: '1234', next: 'b64:fD3rAg==', round: 100, legacy: 1, packed: 1, entries: 2 });
+    expect(checkpoint()).toEqual({ appId: '1234', next: 'b64:fD3rAg==', round: 100, boxes: 2, entries: 2 });
     expect(stderr.at(-1)).toBe('Interrupted after 2 boxes. Re-run the same command to continue.\n');
     expect(process.exitCode).toBe(130);
   });
 
   it('should report a dump interrupted on its very last row as complete', async () => {
-    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2)], round: 100 }));
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket([1001n], 1), bucket([1002n], 2)], round: 100 }));
     vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
       stdout.push(String(chunk));
       // the listing is exhausted, so a signal on the last row leaves nothing to resume
@@ -195,13 +194,13 @@ describe('handleDumpCommand', () => {
 
     expect(stdout).toHaveLength(2);
     expect(existsSync(resume)).toBe(false);
-    expect(stderr.at(-1)).toBe('2 boxes (1 v1, 1 v2), 2 app IDs\n');
+    expect(stderr.at(-1)).toBe('2 boxes, 2 app IDs\n');
     expect(process.exitCode).toBeUndefined();
   });
 
   it('should quit outright on a second signal', async () => {
     const exit = vi.spyOn(process, 'exit').mockImplementation((() => {}) as any);
-    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2)], next: 'b64:cursor-1' }));
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket([1001n], 1), bucket([1002n], 2)], next: 'b64:cursor-1' }));
     vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
       stdout.push(String(chunk));
       // a signal that lands while the scan is parked on algod only shows up as a repeat
@@ -216,7 +215,7 @@ describe('handleDumpCommand', () => {
   });
 
   it('should wait for stdout to drain before writing the next row', async () => {
-    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2)] }));
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket([1001n], 1), bucket([1002n], 2)] }));
     let draining = 0;
     vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
       stdout.push(String(chunk));
@@ -230,7 +229,7 @@ describe('handleDumpCommand', () => {
 
     expect(draining).toBe(2);
     expect(stdout).toHaveLength(2);
-    expect(stderr.at(-1)).toBe('2 boxes (1 v1, 1 v2), 2 app IDs\n');
+    expect(stderr.at(-1)).toBe('2 boxes, 2 app IDs\n');
   });
 
   it('should report a stdout write failure instead of throwing out of the error handler', async () => {
@@ -246,7 +245,7 @@ describe('handleDumpCommand', () => {
   });
 
   it('should point at --resume when an interrupted dump had nowhere to checkpoint', async () => {
-    scanBucketPages.mockReturnValue(pages({ buckets: [bucket(1, [1001n], 1), bucket(2, [1002n], 2)], next: 'b64:cursor-1' }));
+    scanBucketPages.mockReturnValue(pages({ buckets: [bucket([1001n], 1), bucket([1002n], 2)], next: 'b64:cursor-1' }));
     vi.spyOn(process.stdout, 'write').mockImplementation((chunk: any) => {
       stdout.push(String(chunk));
       interrupt?.();

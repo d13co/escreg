@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+The on-chain registry has been fully migrated to the packed bucket layout, so everything that existed to read or convert the legacy ARC-4 `uint64[]` layout is removed.
+
+### Removed
+
+- `findLegacyBoxes` and `migrateBoxes` — there are no legacy boxes left to find or convert. `migrateBoxes(bytes<4>[])` is also removed from the contract ABI.
+- `bucketHeaderLen` — buckets no longer carry a header; `decodeBucket(value)` takes the raw box value as-is.
+- The `BucketVersion` type and the `version` field on `RegistryBucket` — every bucket is packed.
+- `ERR:BKT` from the error map.
+
+### Changed
+
+- The registry scan now rejects any box whose size is not a multiple of 8 as malformed, instead of classifying it as legacy.
+
 ## 0.1.0 — 2026-08-05
 
 The packed bucket layout, registry scanning, and legacy bucket migration.

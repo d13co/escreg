@@ -287,82 +287,6 @@ export async function handleWithdrawCreditCommand(argv: any) {
   }
 }
 
-export async function handleMigrateCommand(argv: any) {
-  try {
-    const config = getConfig();
-    const algorand = createAlgorandClient({
-      algodHost: argv.algodHost,
-      algodPort: argv.algodPort,
-      algodToken: argv.algodToken,
-      appId: argv.appId,
-    });
-
-    const mnemonic = argv.mnemonic || config.mnemonic;
-    const address = argv.address || config.address;
-
-    const writerAccount = createWriterAccount(mnemonic, address);
-
-    if (!argv.dryRun && !writerAccount) {
-      throw new Error("Writer account is required for migrate operation. Please provide a mnemonic.");
-    }
-
-    const sdk = new EscregSDK({
-      appId: BigInt(argv.appId),
-      algorand,
-      writerAccount,
-    });
-
-    const scanOptions = { concurrency: argv.concurrency, pageSize: argv.pageSize, debug: argv.debug };
-
-    let totalMigrated = 0;
-    const txIds: string[] = [];
-    // only a scan that comes back empty proves the registry holds no legacy boxes
-    let clean = false;
-
-    // A box written behind the listing cursor mid-scan is missed, so re-scan until a pass comes back clean
-    for (let pass = 1; pass <= argv.maxPasses; pass++) {
-      console.log(`Pass ${pass}/${argv.maxPasses}: scanning registry boxes for the legacy layout...`);
-      const boxes = await sdk.findLegacyBoxes(scanOptions);
-
-      if (!boxes.length) {
-        console.log(totalMigrated ? "No legacy boxes left." : "No legacy boxes found, nothing to migrate.");
-        clean = true;
-        break;
-      }
-
-      console.log(`Found ${boxes.length} legacy boxes (${boxes.length * 800} microAlgos of MBR to free).`);
-
-      if (argv.dryRun) {
-        console.log("Dry run, not migrating.");
-        return;
-      }
-
-      // a key packed by a concurrent register between the scan and the send is skipped on chain, so
-      // the count the contract reports is what actually freed MBR
-      const { txIds: passTxIds, migrated } = await sdk.migrateBoxes({ boxes, concurrency: argv.concurrency, debug: argv.debug });
-      txIds.push(...passTxIds);
-      totalMigrated += migrated;
-      console.log(`Migrated ${migrated} of ${boxes.length} boxes (${totalMigrated} total).`);
-    }
-
-    if (totalMigrated) {
-      console.log(`Migration complete: ${totalMigrated} boxes, ${totalMigrated * 800} microAlgos of MBR freed.`);
-      console.log(`The freed MBR sits in the contract balance; recover it with 'withdraw'.`);
-      if (argv.debug) {
-        console.log("Transaction IDs:");
-        txIds.forEach((txId, index) => console.log(`  ${index + 1}. ${txId}`));
-      }
-    }
-
-    if (!clean) {
-      console.warn(`Reached the pass limit of ${argv.maxPasses} without a clean scan. Re-run to confirm no legacy boxes are left.`);
-    }
-  } catch (error) {
-    console.error("Error migrating boxes:", (error as Error).message);
-    process.exit(1);
-  }
-}
-
 export async function handleDumpCommand(argv: any) {
   try {
     const algorand = createAlgorandClient({
@@ -390,8 +314,7 @@ export async function handleDumpCommand(argv: any) {
     const resumePath: string | undefined = argv.resume;
     const resumed = resumePath ? readCheckpoint(resumePath, appId) : undefined;
 
-    let legacy = resumed?.legacy ?? 0;
-    let packed = resumed?.packed ?? 0;
+    let boxes = resumed?.boxes ?? 0;
     let entries = resumed?.entries ?? 0;
     // cursor covering every row written so far, which is what a resumed dump picks up from
     let cursor = resumed?.next;
@@ -425,11 +348,11 @@ export async function handleDumpCommand(argv: any) {
     const save = async () => {
       if (!resumePath || !cursor) return;
       await flush();
-      writeCheckpoint(resumePath, { appId, next: cursor, round, legacy, packed, entries });
+      writeCheckpoint(resumePath, { appId, next: cursor, round, boxes, entries });
     };
 
     if (resumed) {
-      process.stderr.write(`Resuming after box ${resumed.next}, ${legacy + packed} boxes already dumped\n`);
+      process.stderr.write(`Resuming after box ${resumed.next}, ${boxes} boxes already dumped\n`);
     }
 
     // rows go to stdout so the dump can be piped; everything else to stderr
@@ -446,8 +369,7 @@ export async function handleDumpCommand(argv: any) {
 
         for (const bucket of page.buckets) {
           await writeRow(`${formatBucketRow(bucket)}\n`);
-          if (bucket.version === 1) legacy++;
-          else packed++;
+          boxes++;
           entries += bucket.appIds.length;
           cursor = boxCursor(bucket.key);
           written++;
@@ -472,8 +394,6 @@ export async function handleDumpCommand(argv: any) {
       process.off("SIGINT", onSignal).off("SIGTERM", onSignal);
     }
 
-    const boxes = legacy + packed;
-
     // a signal on the last row of the last page leaves nothing to resume, so report the dump done
     if (interrupted && !scanned) {
       await save();
@@ -490,7 +410,7 @@ export async function handleDumpCommand(argv: any) {
       return;
     }
 
-    process.stderr.write(`${boxes} boxes (${legacy} v1, ${packed} v2), ${entries} app IDs\n`);
+    process.stderr.write(`${boxes} boxes, ${entries} app IDs\n`);
   } catch (error) {
     console.error("Error dumping boxes:", (error as Error).message);
     // exit by code rather than process.exit, which would drop rows still queued on stdout

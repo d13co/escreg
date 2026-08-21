@@ -57,17 +57,14 @@ describe('Format Module', () => {
   describe('formatBucketRow', () => {
     const key = new Uint8Array([0x7c, 0x3d, 0xeb, 0x00]);
 
-    it('should lead with the layout version', () => {
-      const legacy = formatBucketRow({ key, version: 1, size: 10, appIds: [1001n] });
-      const packed = formatBucketRow({ key, version: 2, size: 8, appIds: [1001n] });
+    it('should lead with the key', () => {
+      const row = formatBucketRow({ key, size: 8, appIds: [1001n] });
 
-      expect(legacy.startsWith('1  ')).toBe(true);
-      expect(packed.startsWith('2  ')).toBe(true);
-      expect(legacy.slice(1)).toBe(packed.slice(1));
+      expect(row.startsWith('fD3rAA== (PQ66WAA)')).toBe(true);
     });
 
     it('should align its values column with the header', () => {
-      const row = formatBucketRow({ key, version: 2, size: 8, appIds: [1001n] });
+      const row = formatBucketRow({ key, size: 8, appIds: [1001n] });
 
       expect(row.indexOf('1x')).toBe(bucketHeader.indexOf('values'));
     });
