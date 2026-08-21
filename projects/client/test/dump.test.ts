@@ -6,7 +6,7 @@ import { getApplicationAddress } from 'algosdk';
 
 const scanBucketPages = vi.fn();
 
-vi.mock('@d13co/escreg-sdk', () => ({
+vi.mock('@d13co/escreg-sdk/full', () => ({
   EscregSDK: vi.fn(() => ({ scanBucketPages })),
   boxCursor: (name: Uint8Array) => `b64:${Buffer.from(name).toString('base64')}`,
 }));

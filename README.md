@@ -116,16 +116,27 @@ npm test         # run tests via vitest on LocalNet
 ## SDK
 
 **Package:** `@d13co/escreg-sdk`
-**Source:** `projects/ts-sdk/src/index.ts`
+**Source:** `projects/ts-sdk/src/index.ts` (lookups), `projects/ts-sdk/src/full.ts` (everything else)
 
-Wraps the generated typed client with batching, chunking, simulation-based lookups, and automatic opcode budget management.
+Batches, chunks and simulates lookups, and — behind its second entry point — wraps the generated typed client with registration, MBR credits, the registry scan, and automatic opcode budget management.
+
+### Entry points
+
+| Import | Carries | Bundled, minified |
+|---|---|---|
+| `@d13co/escreg-sdk` | `lookup` and the pure decoders. algosdk only — no algokit-utils, no generated client, no app spec. | 343 KB (81 KB gzipped) |
+| `@d13co/escreg-sdk/full` | Everything: registration, MBR credits, the registry scan, admin methods. | 654 KB (151 KB gzipped) |
+
+Both rows bundle algosdk, which a consumer ships either way. The SDK's own code on top of it is 4.8 KB minified (2.3 KB gzipped) light against 32 KB (8.9 KB) full — nearly all of the 310 KB between the rows is algokit-utils.
+
+Both export a class called `EscregSDK` and the full one extends the light one, so `/full` is a strict superset. Looking addresses up is what most consumers do and all a browser one needs, so that is what the default entry point costs them.
 
 ### Usage
 
 ```typescript
 import { EscregSDK } from '@d13co/escreg-sdk'
 
-// Defaults to the current Fnet deployment (app ID, Algorand client)
+// Defaults to the current Fnet deployment (app ID, algod endpoint)
 const sdk = new EscregSDK({})
 
 // Lookup addresses (via simulation, no signing required)
@@ -139,8 +150,11 @@ const results = await sdk.lookup({
 // saved round trip with extra transactions, which only pays off across a network
 const local = new EscregSDK({ algorand, addressesPerGroup: 127 })
 
+// Registering, credits, scanning and the admin methods live behind /full
+import { EscregSDK as EscregFullSDK } from '@d13co/escreg-sdk/full'
+
 // For write operations, pass a writerAccount
-const writer = new EscregSDK({ writerAccount })
+const writer = new EscregFullSDK({ writerAccount })
 
 // Deposit MBR credits before registering (covers box storage costs)
 await writer.depositCredit({
@@ -164,8 +178,9 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 ```bash
 cd projects/ts-sdk
 npm install
-npm run build      # dual CJS + ESM output in dist/
+npm run build      # dual CJS + ESM output in dist/, one bundle per entry point
 npm run generate   # regenerate typed client from contract artifacts
+npm run check:abi  # hold the hand-written getList signature to the contract's own
 ```
 
 ## CLI

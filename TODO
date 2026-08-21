@@ -1,1 +1,4 @@
-[ ] SDK constructor with defaults to FNet
+[v] support 4KB app arg length for avm 13 (127 per app call)
+[v] custom addressesPerGroup: use access lists for > 127
+[v] split lite/full SDKs
+[ ] update fnet with latest contract

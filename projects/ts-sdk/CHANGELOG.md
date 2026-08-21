@@ -2,7 +2,14 @@
 
 ## Unreleased
 
-The on-chain registry has been fully migrated to the packed bucket layout, so everything that existed to read or convert the legacy ARC-4 `uint64[]` layout is removed.
+The package is now two entry points — a lookup-only default and `/full` — and the on-chain registry has been fully migrated to the packed bucket layout, so everything that existed to read or convert the legacy ARC-4 `uint64[]` layout is removed.
+
+### Breaking
+
+- **`@d13co/escreg-sdk` is now the lookup half of the SDK.** It exports an `EscregSDK` with `lookup`, the pure decoders (`boxCursor`, `decodeBucket`) and every type, and depends on algosdk alone — no algokit-utils, no generated client, no ARC-56 app spec. Bundled and minified it is 343 KB against the old 654 KB, or 81 KB gzipped against 151 KB.
+- **Everything else moved to `@d13co/escreg-sdk/full`**: `register`, `depositCredit`, `withdrawCredit`, `getCredits`, `deleteBoxes`, `withdraw`, `scanBuckets`, `scanBucketPages`. Its `EscregSDK` extends the light one, so an import that only changes to `/full` keeps working exactly as it did — the constructor, `lookup`, and every method signature are unchanged.
+- **`@algorandfoundation/algokit-utils` is now an optional peer dependency.** Only `/full` is built on it, so npm no longer installs it alongside the SDK; install it explicitly if you import `/full`. `algosdk` stays a required peer at `^3.6.0`.
+- **The ESM build declares itself as ESM.** `dist/esm` now carries `{"type":"module"}` and its relative imports are extension-qualified, so Node loads it as the ESM half of the package instead of failing on it. Bundlers are unaffected.
 
 ### Removed
 
@@ -13,10 +20,16 @@ The on-chain registry has been fully migrated to the packed bucket layout, so ev
 
 ### Added
 
+- `algod` on the constructor — an `Algodv2` to read from, for a caller who has no `AlgorandClient` and no reason to build one. `algorand` still wins when both are given, and the light entry point accepts anything carrying a `client.algod`, so an `AlgorandClient` still passes as-is without the light bundle importing algokit-utils.
+- `npm run check:abi` — holds the `getList` signature the lookup path declares against the contract's own app spec, so the two cannot drift. Runs as part of `prebuild`.
 - `addressesPerGroup` on the constructor — addresses `lookup` resolves per simulate group, 1 to 256, default **256** — the ceiling of 16 references per transaction over a group's 16 transactions. Anything above 128 makes the group name every box it reads in an access list, which is what raises the ceiling past what `allowUnnamedResources` will pool, at the cost of filling the group's remaining transaction slots with carriers. Worth it when a round trip is expensive — against a public node at concurrency 1 it resolves about a third more addresses per second — and not when it is cheap, where the carriers make it slower. Pass 127 or lower for one `getList` call per round trip and no access lists.
 
 ### Changed
 
+- The `algosdk` peer range stays at `^3.6.0`, now measured rather than assumed: every 3.x was built and run against fnet. `lookup` needs **3.5.0**, where the `access` field and `ResourceReference` arrive — below it there is nowhere to name box references, so every group falls back to unnamed ones and 127 addresses per round trip, with correct results either way. `/full` needs **3.6.0** for the registry scan alone: `getApplicationBoxes(...).limit()` does not exist before it, and nothing else in the package does. The range is the floor for the package as a whole, so it is the higher of the two.
+- `algosdk` and `@algorandfoundation/algokit-utils` are now devDependencies as well as peers, so the package builds and typechecks on its own rather than off whatever the workspace happens to hoist.
+- `lookup` builds its groups straight from algosdk's `AtomicTransactionComposer` rather than the generated client's composer, on both the named and unnamed box reference paths. It sends the same transactions and behaves identically; it is what lets the lookup path stay off algokit-utils.
+- The `p-map` dependency is gone, replaced by the twenty lines of it the SDK used. The package now has no runtime dependencies at all. `concurrency` behaves as it did: results in input order, the first rejection thrown, no further items started.
 - **`lookup` sends 127 addresses per `getList` call, up from 63.** AVM 13 raised the app argument budget to 16KB; the per-argument cap of 4096 bytes now sets the size, and 127 addresses encode to 4066. Nothing in the signature changed.
 - `lookup` steps itself down on a node that cannot keep up, once per SDK instance and with a warning each time: first to unnamed box references, then to 63 addresses per call, which is the pre-AVM-13 shape. `addressesPerCall` and `addressesPerGroup` are public if you would rather pin them.
 - The read-only `getList` calls now carry an explicit 5000 microAlgo fee, since fnet prices transactions by usage and a full argument list costs more than the minimum. They only ever run through simulate, so it is never actually paid.

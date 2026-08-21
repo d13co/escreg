@@ -3,7 +3,7 @@ import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-de
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
 import { Account, Address, getApplicationAddress } from 'algosdk'
-import { boxCursor, EscregSDK } from '@d13co/escreg-sdk'
+import { boxCursor, EscregSDK } from '@d13co/escreg-sdk/full'
 import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EscregFactory } from '../../artifacts/escreg/EscregClient'
 import { brange } from './util'

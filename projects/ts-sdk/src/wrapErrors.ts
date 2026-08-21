@@ -1,5 +1,5 @@
-import { ErrorTransformer } from "@algorandfoundation/algokit-utils/types/composer";
-import { ErrorMessages } from "./generated/errors";
+import type { ErrorTransformer } from "@algorandfoundation/algokit-utils/types/composer";
+import { ErrorMessages } from "./generated/errors.js";
 
 /**
  * Map of error codes to human-readable error messages

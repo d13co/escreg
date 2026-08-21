@@ -1,5 +1,5 @@
 import { once } from "events";
-import { boxCursor, EscregSDK } from "@d13co/escreg-sdk";
+import { boxCursor, EscregSDK } from "@d13co/escreg-sdk/full";
 import { parseAppIdsFromFile, parseAppIdsFromArgs, parseAddressesFromFile, parseAddressesFromArgs } from "./parse";
 import { createAlgorandClient, createWriterAccount, convertAppIdsToAddresses } from "./utils";
 import { clearCheckpoint, readCheckpoint, writeCheckpoint } from "./checkpoint";
