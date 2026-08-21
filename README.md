@@ -110,7 +110,7 @@ cd projects/contract
 npm install
 npm run build    # compile to TEAL + generate typed client
 npm run deploy   # deploy (requires DEPLOYER_MNEMONIC in .env)
-npm test         # run tests via vitest on LocalNet
+npm test         # run contract and SDK e2e tests via vitest on LocalNet
 ```
 
 ## SDK
@@ -301,7 +301,21 @@ npm run build            # build CLI
 ### Running Tests
 
 ```bash
-algokit localnet start   # start local Algorand network
-cd projects/contract
-npm test                 # vitest against LocalNet
+algokit localnet start   # start local Algorand network (the contract tests need it)
+algokit project run test # every project's tests, in dependency order
+
+# or one project at a time
+cd projects/ts-sdk && npm test   # SDK unit tests, no network
+cd projects/client && npm run test:run   # CLI unit tests, no network
+cd projects/contract && npm test # contract and SDK e2e tests, against LocalNet
 ```
+
+The SDK and client suites stub the network, so they run anywhere. The contract suite deploys to
+LocalNet and drives the SDK against it, so it needs a built SDK — `algokit project run build` first,
+which is the order CI runs them in.
+
+### CI
+
+`.github/workflows/ci.yaml` runs on every push to `main` and every pull request, and calls the
+reusable `escreg-ci.yaml`: audit, lint, build, test, TEAL analysis. `escreg-cd.yaml` deploys to
+TestNet and is left without a trigger on purpose — release by invoking it by hand.
