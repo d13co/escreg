@@ -11,8 +11,15 @@ The on-chain registry has been fully migrated to the packed bucket layout, so ev
 - The `BucketVersion` type and the `version` field on `RegistryBucket` — every bucket is packed.
 - `ERR:BKT` from the error map.
 
+### Added
+
+- `addressesPerGroup` on the constructor — addresses `lookup` resolves per simulate group, 1 to 256, default **256** — the ceiling of 16 references per transaction over a group's 16 transactions. Anything above 128 makes the group name every box it reads in an access list, which is what raises the ceiling past what `allowUnnamedResources` will pool, at the cost of filling the group's remaining transaction slots with carriers. Worth it when a round trip is expensive — against a public node at concurrency 1 it resolves about a third more addresses per second — and not when it is cheap, where the carriers make it slower. Pass 127 or lower for one `getList` call per round trip and no access lists.
+
 ### Changed
 
+- **`lookup` sends 127 addresses per `getList` call, up from 63.** AVM 13 raised the app argument budget to 16KB; the per-argument cap of 4096 bytes now sets the size, and 127 addresses encode to 4066. Nothing in the signature changed.
+- `lookup` steps itself down on a node that cannot keep up, once per SDK instance and with a warning each time: first to unnamed box references, then to 63 addresses per call, which is the pre-AVM-13 shape. `addressesPerCall` and `addressesPerGroup` are public if you would rather pin them.
+- The read-only `getList` calls now carry an explicit 5000 microAlgo fee, since fnet prices transactions by usage and a full argument list costs more than the minimum. They only ever run through simulate, so it is never actually paid.
 - The registry scan now rejects any box whose size is not a multiple of 8 as malformed, instead of classifying it as legacy.
 
 ## 0.1.0 — 2026-08-05

@@ -1,5 +1,14 @@
 import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/types/account";
-import { Address, encodeAddress, getApplicationAddress, waitForConfirmation } from "algosdk";
+import {
+  Address,
+  AtomicTransactionComposer,
+  encodeAddress,
+  getApplicationAddress,
+  makeApplicationCallTxnFromObject,
+  modelsv2,
+  OnApplicationComplete,
+  waitForConfirmation,
+} from "algosdk";
 import { EscregClient, EscregComposer } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import {
@@ -7,11 +16,17 @@ import {
   chunk,
   compareBoxNames,
   creditBoxRef,
+  decodeAppIds,
   decodeBoxCursor,
   decodeBucket,
+  distinctBoxKeys,
   emptySigner,
+  encodeAddresses,
   fnetNodelyClient,
   getIncreaseBudgetBuilder,
+  getListMethod,
+  isArgTooLongError,
+  isBoxRefError,
   packBoxKeyBatches,
   SizedBoxKey,
 } from "./util";
@@ -20,6 +35,65 @@ import pMap from "p-map";
 
 export { boxCursor, decodeBucket } from "./util";
 export type { SizedBoxKey } from "./util";
+
+/**
+ * Addresses per `getList` call. The `address[]` arg encodes to 2 + 32N bytes and a single app arg is
+ * capped at 4096 bytes, so 127 is the ceiling - 128 needs 4098. The ARC-4 return is logged, and the
+ * 1024-byte log cap puts the same 127 ceiling on the `uint64[]` coming back (6 + 8 * 127 = 1022).
+ *
+ * AVM 13 raised the total app arg budget to 16KB, which is what lifted this from 63: before it, the
+ * whole arg list - selector included - had to fit in 2048 bytes.
+ */
+const ADDRESSES_PER_CALL = 127;
+
+/** Addresses per `getList` call on nodes predating AVM 13, where all args had to fit in 2048 bytes. */
+const ADDRESSES_PER_CALL_LEGACY = 63;
+
+/**
+ * Boxes a simulate group may reference when it leaves them to `allowUnnamedResources`. Every address
+ * in a lookup costs one, so this - not the arg limit - is what caps such a round trip.
+ */
+const MAX_BOXES_PER_GROUP_UNNAMED = 128;
+
+/** References an AVM 13 access list carries. Boxes, accounts, apps and assets share the one list. */
+const REFS_PER_ACCESS_LIST = 16;
+
+/** Transactions an atomic group carries. */
+const TXNS_PER_GROUP = 16;
+
+/**
+ * Boxes a group can reference when every one is named in a transaction's access list. The pool is
+ * shared across the group, so a call can read a box another transaction in the group named.
+ */
+const MAX_BOXES_PER_GROUP_NAMED = REFS_PER_ACCESS_LIST * TXNS_PER_GROUP;
+
+/**
+ * Addresses per simulate group by default: everything a group's references can cover. Filling it
+ * costs no extra transaction - the sixteen slots are already spoken for by the references, so the
+ * two addresses past the second whole call land in a slot that would otherwise be a carrier.
+ */
+const DEFAULT_ADDRESSES_PER_GROUP = MAX_BOXES_PER_GROUP_NAMED;
+
+/**
+ * Addresses per simulate group when the boxes are left unnamed: as many whole `getList` calls as the
+ * box budget covers. The leftover the ceiling allows is not worth a call of its own - a one-address
+ * call costs a whole extra transaction to resolve a single box - so a group stops at its last whole
+ * call.
+ *
+ * @param perCall - Addresses each call in the group carries.
+ * @returns Addresses the group as a whole carries.
+ */
+const unnamedAddressesPerGroup = (perCall: number) => perCall * Math.floor(MAX_BOXES_PER_GROUP_UNNAMED / perCall);
+
+/**
+ * Fee for the read-only `getList` calls. Never actually paid - they only ever run through simulate -
+ * but fnet prices transactions by usage, and a full 4KB arg list costs more than the 1000 microAlgo
+ * minimum, so the group would be underfunded at the default fee.
+ */
+const LOOKUP_CALL_FEE = 5_000;
+
+/** Opcode budget handed to a lookup group. A full 254-address group burns about a sixth of it. */
+const LOOKUP_OPCODE_BUDGET = 170_000;
 
 /** Map of address to app ID, or undefined if not registered. */
 export type LookupResult = Record<string, bigint | undefined>;
@@ -61,6 +135,18 @@ export class EscregSDK {
   public algorand: AlgorandClient = fnetNodelyClient;
   /** Address used as sender for read-only simulate calls. Defaults to fee sink, funded mostly everywhere. */
   public readerAccount = "A7NMWS3NT3IUDMLVO26ULGXGIIOUQ3ND2TXSER6EBGRZNOBOUIQXHIBGDE";
+  /** Addresses per `getList` call. Drops to the pre-AVM-13 size the first time a node rejects a full-size call. */
+  public addressesPerCall = ADDRESSES_PER_CALL;
+  /**
+   * Addresses per simulate group, and so per round trip. Past 128 the group has to name its boxes in
+   * access lists, which costs transactions - the addresses go into as few calls as they fit, and the
+   * rest of the group's slots become carriers that name boxes and look nothing up. Worth it when the
+   * round trip is expensive, not when it is cheap: measured against a public node it resolves a third
+   * more addresses per second at concurrency 1, and against a local node it is slower.
+   */
+  public addressesPerGroup = DEFAULT_ADDRESSES_PER_GROUP;
+  /** Whether this node has been seen to honour access lists. Cleared for good if one is rejected. */
+  private namedBoxRefs = true;
   /** Account with signing capability for write operations (register, deposit, withdraw). */
   public writerAccount?: TransactionSignerAccount;
 
@@ -69,22 +155,34 @@ export class EscregSDK {
    * @param algorand - AlgorandClient instance for interacting with the network.
    * @param writerAccount - Account with signing capability for write operations (register, deposit, withdraw).
    * @param readerAccount - Address used as sender for read-only simulate calls. Defaults to a dummy address.
+   * @param addressesPerGroup - Addresses `lookup` resolves per simulate group, 1 to 256. Defaults to
+   *   254. Anything above 128 names the group's boxes in AVM 13 access lists, so it needs a node that
+   *   supports them; drop it to 127 or below for one round trip per `getList` call.
    */
   constructor({
     appId,
     algorand,
     readerAccount,
     writerAccount,
+    addressesPerGroup,
   }: {
     appId?: bigint;
     algorand?: AlgorandClient;
     writerAccount?: TransactionSignerAccount;
+    addressesPerGroup?: number;
     readerAccount?: string;
   }) {
     this.appId = appId ?? this.appId;
     this.algorand = algorand ?? this.algorand;
     this.readerAccount = readerAccount ?? this.readerAccount;
     this.writerAccount = writerAccount ?? this.writerAccount;
+
+    if (addressesPerGroup !== undefined) {
+      if (!Number.isInteger(addressesPerGroup) || addressesPerGroup < 1 || addressesPerGroup > MAX_BOXES_PER_GROUP_NAMED) {
+        throw new Error(`addressesPerGroup must be a whole number from 1 to ${MAX_BOXES_PER_GROUP_NAMED}, got ${addressesPerGroup}`);
+      }
+      this.addressesPerGroup = addressesPerGroup;
+    }
 
     this.algorand
       .setSuggestedParamsCacheTimeout(3 * 60 * 1000)
@@ -263,12 +361,15 @@ export class EscregSDK {
     concurrency?: number;
     debug?: boolean;
   }): Promise<LookupResult> {
-    const chunks = chunk(addresses, 128);
+    const perGroup = this.groupSize();
+    const chunks = chunk(addresses, perGroup);
     const start = Date.now();
 
     if (debug) {
       console.debug(
-        `Looking up ${addresses.length} addresses in ${chunks.length} chunks (${addresses.length <= 128 ? addresses.length : "128 per chunk"}) with concurrency ${concurrency}`,
+        `Looking up ${addresses.length} addresses in ${chunks.length} chunks (${
+          addresses.length <= perGroup ? addresses.length : `${perGroup} per chunk`
+        }) with concurrency ${concurrency}`,
       );
     }
 
@@ -276,28 +377,17 @@ export class EscregSDK {
     const results = await pMap(
       chunks,
       async (addressesChunk, chunkIndex) => {
-        let composer: EscregComposer<any> = this.client.newGroup();
-
-        const addressChunks = chunk(addressesChunk, 128);
-
-        for (const addresses of addressChunks) {
-          composer = composer.getList({ args: { addresses }, sender: this.readerAccount, signer: emptySigner });
-        }
-
-        const { returns: grpReturn } = await composer.simulate({
-          allowEmptySignatures: true,
-          allowUnnamedResources: true,
-          extraOpcodeBudget: 170_000,
-        });
+        // a group only needs access lists once it outgrows what simulate will work out on its own,
+        // and naming boxes costs transactions, so the smaller groups stay on the cheaper path
+        const appIds =
+          this.namedBoxRefs && addressesChunk.length > MAX_BOXES_PER_GROUP_UNNAMED
+            ? await this.simulateNamedGroup(addressesChunk)
+            : await this.simulateUnnamedGroup(addressesChunk);
 
         const out: LookupResult = {};
-        let i = 0;
-        for (const txnReturns of grpReturn) {
-          for (const appId of txnReturns) {
-            const address = addressesChunk[i++];
-            out[address] = appId || undefined;
-          }
-        }
+        appIds.forEach((appId, i) => {
+          out[addressesChunk[i]] = appId || undefined;
+        });
 
         if (debug) {
           const found = Object.values(out).filter((appId) => appId !== undefined).length;
@@ -307,7 +397,25 @@ export class EscregSDK {
         return out;
       },
       { concurrency },
-    );
+    ).catch((e) => {
+      // An older node cannot do what was asked of it: it ignores or rejects the access lists, or -
+      // predating AVM 13 entirely - caps the whole arg list at 2048 bytes and turns down a full-size
+      // call before it runs. Give up the capability for good on this SDK and start over, so the
+      // groups are rebuilt around what the node will take.
+      if (this.namedBoxRefs && (isBoxRefError(e) || isArgTooLongError(e))) {
+        console.warn(`escreg: node turned down a group with named box references, falling back to unnamed ones: ${String((e as Error)?.message ?? e).slice(0, 120)}`);
+        this.namedBoxRefs = false;
+        return undefined;
+      }
+      if (isArgTooLongError(e) && this.addressesPerCall !== ADDRESSES_PER_CALL_LEGACY) {
+        console.warn(`escreg: node rejected a ${this.addressesPerCall}-address call, falling back to ${ADDRESSES_PER_CALL_LEGACY}`);
+        this.addressesPerCall = ADDRESSES_PER_CALL_LEGACY;
+        return undefined;
+      }
+      throw e;
+    });
+
+    if (!results) return this.lookup({ addresses, concurrency, debug });
 
     if (debug) {
       console.debug("Merging results...");
@@ -329,6 +437,100 @@ export class EscregSDK {
     }
 
     return finalResult;
+  }
+
+  /**
+   * Addresses to put in one simulate group: what the caller asked for, held down to what the node
+   * and the current call size can actually carry.
+   *
+   * @returns Addresses per group.
+   */
+  private groupSize(): number {
+    const ceiling = this.namedBoxRefs ? MAX_BOXES_PER_GROUP_NAMED : unnamedAddressesPerGroup(this.addressesPerCall);
+    return Math.min(this.addressesPerGroup, ceiling);
+  }
+
+  /**
+   * Resolve one group of addresses, leaving simulate to work out which boxes the calls touch. Cheap -
+   * the group is one transaction per call - but simulate will only pool 128 boxes for a group that
+   * way, which is the ceiling on how many addresses this can carry.
+   *
+   * @param addresses - Addresses the group resolves.
+   * @returns App IDs in the order the addresses were given; 0 for an address that is not registered.
+   */
+  private async simulateUnnamedGroup(addresses: string[]): Promise<bigint[]> {
+    let composer: EscregComposer<any> = this.client.newGroup();
+
+    for (const group of chunk(addresses, this.addressesPerCall)) {
+      composer = composer.getList({
+        args: { addresses: group },
+        sender: this.readerAccount,
+        signer: emptySigner,
+        staticFee: LOOKUP_CALL_FEE.microAlgo(),
+      });
+    }
+
+    const { returns } = await composer.simulate({
+      allowEmptySignatures: true,
+      allowUnnamedResources: true,
+      extraOpcodeBudget: LOOKUP_OPCODE_BUDGET,
+    });
+
+    return (returns as bigint[][]).flat();
+  }
+
+  /**
+   * Resolve one group of addresses with every box it reads named in an access list, which doubles
+   * what a round trip can carry: 16 references per transaction over 16 transactions is 256 boxes,
+   * and the pool is shared, so a call can read a box another transaction in the group named.
+   *
+   * The addresses go into as few calls as the per-call cap allows; the group's remaining slots become
+   * carriers, which name references and look nothing up.
+   *
+   * @param addresses - Addresses the group resolves.
+   * @returns App IDs in the order the addresses were given; 0 for an address that is not registered.
+   */
+  private async simulateNamedGroup(addresses: string[]): Promise<bigint[]> {
+    const calls = chunk(addresses, this.addressesPerCall);
+    const references = chunk(distinctBoxKeys(addresses), REFS_PER_ACCESS_LIST);
+    const txns = Math.max(calls.length, references.length);
+    if (txns > TXNS_PER_GROUP) {
+      throw new Error(`${addresses.length} addresses need ${txns} transactions, more than a group's ${TXNS_PER_GROUP}`);
+    }
+
+    const suggestedParams = await this.algorand.getSuggestedParams();
+    const atc = new AtomicTransactionComposer();
+
+    for (let i = 0; i < txns; i++) {
+      atc.addTransaction({
+        txn: makeApplicationCallTxnFromObject({
+          sender: this.readerAccount,
+          appIndex: this.appId,
+          onComplete: OnApplicationComplete.NoOpOC,
+          appArgs: [getListMethod.getSelector(), encodeAddresses(calls[i] ?? [])],
+          access: (references[i] ?? []).map((name) => ({ box: { appIndex: this.appId, name } })),
+          suggestedParams: { ...suggestedParams, fee: BigInt(LOOKUP_CALL_FEE), flatFee: true },
+        }),
+        signer: emptySigner,
+      });
+    }
+
+    const { simulateResponse } = await atc.simulate(
+      this.algorand.client.algod,
+      new modelsv2.SimulateRequest({
+        txnGroups: [],
+        allowEmptySignatures: true,
+        allowMoreLogging: true,
+        extraOpcodeBudget: LOOKUP_OPCODE_BUDGET,
+      }),
+    );
+
+    const group = simulateResponse.txnGroups[0];
+    // simulate reports a rejected group rather than throwing, so surface it as one
+    if (group.failureMessage) throw new Error(group.failureMessage);
+
+    // carriers return an empty array, so concatenating in transaction order is the input order
+    return group.txnResults.flatMap(({ txnResult }) => decodeAppIds(txnResult.logs?.[(txnResult.logs?.length ?? 0) - 1]));
   }
 
   /**

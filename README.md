@@ -135,6 +135,10 @@ const results = await sdk.lookup({
 })
 // results: { 'A7NMWS3NT3IU...': 1001n, 'B2XYZ...': undefined }
 
+// Anything running beside its node should ask for smaller groups: 256 buys a
+// saved round trip with extra transactions, which only pays off across a network
+const local = new EscregSDK({ algorand, addressesPerGroup: 127 })
+
 // For write operations, pass a writerAccount
 const writer = new EscregSDK({ writerAccount })
 
@@ -150,7 +154,7 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 ### Key behaviors
 
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group (105 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
-- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
+- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Resolves `addressesPerGroup` addresses per round trip — 256 by default, the ceiling of 16 references over a group's 16 transactions — in `getList` calls of 127. Past 128 addresses a group has to name every box it reads in an AVM 13 access list, which is what lifts the ceiling but fills the group's spare transaction slots with carriers that name boxes and look nothing up. That trade is worth it across a network and not beside the node, so **anything running beside its node should pass `addressesPerGroup: 127`**: a local node is 25-35% slower at 256, while a public one is about a third faster. On a node that will not take a full-size call or will not honour access lists, the SDK steps down once — with a warning — to the pre-AVM-13 shape of 63 per call and 126 per group.
 - **Credits:** deposit, withdraw, and check MBR credit balances.
 - **Scanning:** `scanBucketPages` reads the registry from algod's paginated box listing, a page of boxes and their values per request, and `scanBuckets` flattens it into an async iterable of every bucket with its decoded app IDs (`decodeBucket` decodes a raw bucket box value). A registry of millions of boxes streams in constant memory. Backs `escreg dump`. Nodes predating the paginated listing answer with every box name in one response, which the SDK falls back to fetching values for with bounded `concurrency`; that path still fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`.
 - **Resuming a scan:** every page carries the `next` cursor to resume after it, and `boxCursor` builds the same cursor from the name of the last box a caller finished with, so an interrupted scan restarts from where it stopped rather than from the top. A resumed scan lists at the current round, so a box written behind the cursor while it was stopped is not picked up. A node that ignores the pagination would answer a resumed scan from the first box, which the SDK rejects rather than handing back rows the caller has already processed.

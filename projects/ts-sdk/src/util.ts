@@ -1,6 +1,17 @@
-import { Algodv2, base64ToBytes, bytesToBase64, makeEmptyTransactionSigner, modelsv2, TransactionSigner } from "algosdk";
+import {
+  ABIMethod,
+  ABIMethodParams,
+  ABIType,
+  Address,
+  Algodv2,
+  base64ToBytes,
+  bytesToBase64,
+  makeEmptyTransactionSigner,
+  modelsv2,
+  TransactionSigner,
+} from "algosdk";
 import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/types/account";
-import { EscregComposer } from "./generated/EscregGenerated";
+import { APP_SPEC, EscregComposer } from "./generated/EscregGenerated";
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 
 export const emptySigner = makeEmptyTransactionSigner();
@@ -224,4 +235,74 @@ export async function getIncreaseBudgetBuilder(
   };
 
   return newBuilderFactory().increaseBudget(increaseBudgetArgs);
+}
+
+/**
+ * True for the error a node raises when an app call's args are too long for it: either the per-arg
+ * 4096-byte cap, or - on a node predating AVM 13 - the 2048-byte cap on the whole arg list.
+ *
+ * @param e - Error thrown by a send or simulate call.
+ * @returns Whether the call was rejected for oversized app args.
+ */
+export function isArgTooLongError(e: unknown): boolean {
+  return /ApplicationArgs.*length is too long/.test(String((e as Error)?.message ?? e));
+}
+
+/**
+ * True for the error a node raises when a box a call reads was not referenced - which is what a node
+ * that ignores or refuses AVM 13 access lists says about a group that named its boxes in them.
+ *
+ * @param e - Error thrown by a send or simulate call.
+ * @returns Whether the call was rejected over an unavailable box.
+ */
+export function isBoxRefError(e: unknown): boolean {
+  return /invalid Box reference|tx\.Access/.test(String((e as Error)?.message ?? e));
+}
+
+/** The registry's `getList`, taken from the app spec so the signature cannot drift from the contract. */
+export const getListMethod = new ABIMethod(APP_SPEC.methods.find((m) => m.name === "getList")! as unknown as ABIMethodParams);
+
+const addressArrayType = ABIType.from("address[]");
+const uint64ArrayType = ABIType.from("uint64[]");
+
+/** Prefix every ARC-4 return value is logged behind. */
+const RETURN_PREFIX = new Uint8Array([0x15, 0x1f, 0x7c, 0x75]);
+
+/**
+ * Encode the `address[]` argument of a `getList` call.
+ *
+ * @param addresses - Addresses the call resolves; may be empty, for a transaction that only carries
+ *   references for the rest of its group.
+ * @returns The ABI-encoded argument.
+ */
+export const encodeAddresses = (addresses: string[]): Uint8Array => addressArrayType.encode(addresses) as Uint8Array;
+
+/**
+ * Decode the app IDs a `getList` call returned from the log it left behind.
+ *
+ * @param log - Last log of the transaction's result.
+ * @returns The app IDs, in call order; 0 for an address that is not registered.
+ */
+export function decodeAppIds(log: Uint8Array | undefined): bigint[] {
+  if (!log || log.length < RETURN_PREFIX.length || RETURN_PREFIX.some((b, i) => log[i] !== b)) {
+    throw new Error("getList did not return an ARC-4 value");
+  }
+  // a copy rather than a view: the decoder reads from byte 0 of whatever buffer it is handed
+  return uint64ArrayType.decode(new Uint8Array(log.subarray(RETURN_PREFIX.length))) as bigint[];
+}
+
+/**
+ * The registry boxes a set of addresses lives in: the leading four bytes of each address, deduplicated,
+ * since escrows sharing a prefix share a bucket and so cost the group only one reference between them.
+ *
+ * @param addresses - Addresses a group resolves.
+ * @returns One box name per distinct bucket, in first-seen order.
+ */
+export function distinctBoxKeys(addresses: string[]): Uint8Array[] {
+  const keys = new Map<string, Uint8Array>();
+  for (const address of addresses) {
+    const key = Address.fromString(address).publicKey.slice(0, 4);
+    keys.set(bytesToBase64(key), key);
+  }
+  return [...keys.values()];
 }

@@ -62,13 +62,42 @@ All options are optional and default to the current Fnet deployment.
 | `algorand` | `AlgorandClient` | Algorand client instance |
 | `writerAccount` | `TransactionSignerAccount` | Signing account for write operations |
 | `readerAccount` | `string` | Address used as sender for read-only simulate calls |
+| `addressesPerGroup` | `number` | Addresses `lookup` resolves per simulate group, 1 to 256. Defaults to 256 |
 
 The deployed instance on Fnet contains registrations for all Algorand networks (mainnet, testnet, fnet, betanet) as well as app IDs 1,001-100,000 for localnet lookups. To use it, either pass no `algorand` client (the default) or pass one configured for Fnet.
+
+#### Tuning `addressesPerGroup`
+
+Each group is one round trip, so this sets how many round trips a lookup costs. Every address a group
+resolves costs one box reference, and past 128 of them the group has to name each box in an AVM 13
+access list — which is what allows 256 in a trip, but fills the group's remaining transaction slots
+with carriers that name boxes and look nothing up.
+
+256 is the ceiling: 16 references per transaction over a group's 16 transactions. Filling it costs no
+extra transaction, since those slots are already spoken for by the references — the addresses past the
+second whole `getList` call simply land in a slot that would otherwise carry nothing.
+
+The default assumes the node is across a network, where a saved round trip is worth far more than the
+extra transactions: against a public endpoint at concurrency 1 it resolves about a third more
+addresses per second than a group of 127 would.
+
+**Anything running beside its node should pass `addressesPerGroup: 127`.** With no latency to hide,
+those carriers are pure overhead — a co-located or local node is 25-35% slower at 256 than at 127. 127
+also sends one `getList` call per round trip and no access lists at all, so it works against nodes
+predating AVM 13.
+
+```typescript
+// worker or service sharing a host with its algod
+const sdk = new EscregSDK({ algorand, addressesPerGroup: 127 })
+```
+
+Lookups smaller than the group size are unaffected either way: a group only reaches for access lists
+once it passes 128 addresses, so a lookup of 50 goes out as a single plain call regardless.
 
 ### Key behaviors
 
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group. Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
-- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks up to 128 addresses per simulate call.
+- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Resolves up to `addressesPerGroup` addresses (256 by default) per round trip, in `getList` calls of 127. On a node that will not take a full-size call or will not honour access lists, it steps down once — with a warning — and carries on at the pre-AVM-13 shape of 63 per call and 126 per group.
 - **MBR credits:** before registering, deposit credits via `depositCredit()` to cover box storage costs. Withdraw unused credits with `withdrawCredit()`.
 
 ## API
