@@ -14,7 +14,7 @@ export async function deploy() {
   })
 
   try {
-    const { appClient, result } = await factory.deploy({
+    const { appClient } = await factory.deploy({
       onUpdate: 'update',
       onSchemaBreak: 'append',
       updateParams: {
@@ -28,7 +28,7 @@ export async function deploy() {
       existingDeployments: {
         creator: Address.fromString('REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4'),
         apps: {
-          // @ts-ignore
+          // @ts-expect-error the deployment predates the name the factory expects here
           Escreg: {
             appId: 16954321n,
           },

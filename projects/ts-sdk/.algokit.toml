@@ -11,3 +11,6 @@ build = { commands = [
   'npm run build',
 ], description = 'Build the SDK' }
 
+test = { commands = [
+  'npm run test',
+], description = 'Run the SDK unit tests using vitest' }

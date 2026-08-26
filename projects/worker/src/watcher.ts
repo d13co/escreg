@@ -1,5 +1,5 @@
 import { mnemonicToSecretKey, makeBasicAccountTransactionSigner, Address } from "algosdk";
-import { EscregSDK } from "@d13co/escreg-sdk";
+import { EscregSDK } from "@d13co/escreg-sdk/full";
 import type { NetworkName } from "./networks";
 import { NETWORK_NAMES, indexerUrl } from "./networks";
 

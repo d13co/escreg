@@ -3,7 +3,7 @@ import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-de
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { Address, getApplicationAddress } from 'algosdk'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
-import { TestLegacyEscregClient, TestLegacyEscregFactory } from '../../artifacts/escreg/TestLegacyEscregClient'
+import { TestBucketEscregClient, TestBucketEscregFactory } from '../../artifacts/escreg/TestBucketEscregClient'
 
 /**
  * A bucket can grow to the 32768-byte box limit, but `box_get` cannot return a value over the
@@ -30,7 +30,7 @@ describe('Oversized buckets', () => {
   const OPCODES_PER_ENTRY = 85
 
   const deploy = async (account: Address) => {
-    const factory = localnet.algorand.client.getTypedAppFactory(TestLegacyEscregFactory, {
+    const factory = localnet.algorand.client.getTypedAppFactory(TestBucketEscregFactory, {
       defaultSender: account,
     })
 
@@ -67,7 +67,7 @@ describe('Oversized buckets', () => {
     return refs
   }
 
-  const getBox = async (client: TestLegacyEscregClient, key: Uint8Array) => {
+  const getBox = async (client: TestBucketEscregClient, key: Uint8Array) => {
     const { value } = await localnet.algorand.client.algod.getApplicationBoxByName(Number(client.appId), key).do()
     return value
   }
@@ -82,13 +82,8 @@ describe('Oversized buckets', () => {
    *
    * @param holdsTarget Whether `TARGET` sits in the final slot, so a lookup for it has to scan
    *   every preceding entry. When false the bucket is all filler and the lookup finds no match.
-   * @param header Bytes to prepend, for planting a bucket in the pre-migration ARC-4 layout.
    */
-  const buildBucket = async (
-    client: TestLegacyEscregClient,
-    count: number,
-    { holdsTarget = true, header = new Uint8Array(0) } = {},
-  ) => {
+  const buildBucket = async (client: TestBucketEscregClient, count: number, { holdsTarget = true } = {}) => {
     const key = boxKeyOf(TARGET)
     const appIds = [...Array(count).keys()].map((i) => BigInt(i + 1))
     if (holdsTarget) appIds[count - 1] = TARGET
@@ -98,10 +93,10 @@ describe('Oversized buckets', () => {
 
     const [first, ...rest] = chunks
     await client.send.plantBucket({
-      args: { key, value: new Uint8Array([...header, ...pack(first)]), entries: first.length },
+      args: { key, value: pack(first), entries: first.length },
       boxReferences: [key],
     })
-    let size = header.length + first.length * 8
+    let size = first.length * 8
     for (const chunk of rest) {
       size += chunk.length * 8
       await client.send.growBucket({
@@ -114,7 +109,7 @@ describe('Oversized buckets', () => {
   }
 
   /** Start a group with enough pooled opcode budget to scan `entries` entries. */
-  const withBudget = (client: TestLegacyEscregClient, entries: number) => {
+  const withBudget = (client: TestBucketEscregClient, entries: number) => {
     const itxns = Math.ceil((entries * OPCODES_PER_ENTRY) / 700) + 1
     return client.newGroup().increaseBudget({ args: { itxns }, extraFee: (itxns * 1000).microAlgo() })
   }
@@ -165,22 +160,6 @@ describe('Oversized buckets', () => {
     ]
 
     expect(results).toEqual([TARGET, true, TARGET, [TARGET]])
-  })
-
-  test('readers resolve an app ID in a legacy bucket past the 4096-byte value limit', async () => {
-    const { testAccount } = localnet.context
-    const { client } = await deploy(testAccount)
-
-    // the pre-migration ARC-4 uint64[] layout: a 2-byte count ahead of the same packed app IDs
-    const header = new Uint8Array([ENTRIES_AT_LIMIT >> 8, ENTRIES_AT_LIMIT & 0xff])
-    const { key, size } = await buildBucket(client, ENTRIES_AT_LIMIT, { header })
-    expect(size).toBe(4098)
-
-    const { returns } = await withBudget(client, ENTRIES_AT_LIMIT)
-      .get({ args: { address: addrOf(TARGET) }, boxReferences: bucketRefs(key, size) })
-      .send()
-
-    expect(returns.at(-1)).toBe(TARGET)
   })
 
   test('a lookup misses cleanly in an oversized bucket that holds no match', async () => {

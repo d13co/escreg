@@ -49,9 +49,9 @@ export function formatBucketValues(appIds: bigint[]): string {
 }
 
 /** Column headings for the rows `formatBucketRow` produces. */
-export const bucketHeader = `v  ${'key b64 (b32)'.padEnd(keyColumnWidth)}  values`;
+export const bucketHeader = `${'key b64 (b32)'.padEnd(keyColumnWidth)}  values`;
 
-/** Render one bucket as a dump row: layout version, key, then its app IDs. */
-export function formatBucketRow({ version, key, appIds }: RegistryBucket): string {
-  return `${version}  ${formatBucketKey(key).padEnd(keyColumnWidth)}  ${formatBucketValues(appIds)}`;
+/** Render one bucket as a dump row: key, then its app IDs. */
+export function formatBucketRow({ key, appIds }: RegistryBucket): string {
+  return `${formatBucketKey(key).padEnd(keyColumnWidth)}  ${formatBucketValues(appIds)}`;
 }

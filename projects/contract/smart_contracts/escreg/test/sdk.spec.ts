@@ -3,7 +3,7 @@ import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-de
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
 import { Account, Address, getApplicationAddress } from 'algosdk'
-import { boxCursor, EscregSDK } from '@d13co/escreg-sdk'
+import { boxCursor, EscregSDK } from '@d13co/escreg-sdk/full'
 import { afterEach, beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { EscregFactory } from '../../artifacts/escreg/EscregClient'
 import { brange } from './util'
@@ -99,7 +99,7 @@ describe('Escreg SDK - Registration & Lookup', () => {
     const creditor = testAccount.addr.toString()
     await sdk.depositCredit({ creditor, amount: 1_500_000n })
 
-    let start = 1003
+    const start = 1003
     const appIds = brange(start, start + 128 - 1)
 
     await sdk.register({ appIds })
@@ -119,7 +119,7 @@ describe('Escreg SDK - Registration & Lookup', () => {
     const creditor = testAccount.addr.toString()
     await sdk.depositCredit({ creditor, amount: 3_000_000n })
 
-    let start = 1003
+    const start = 1003
     const appIds = brange(start, start + 256 - 1)
 
     await sdk.register({ appIds })
@@ -143,13 +143,21 @@ describe('Escreg SDK - Registration & Lookup', () => {
       { name: first, value: new Uint8Array(8) },
       { name: new Uint8Array([5, 6, 7, 8]), value: new Uint8Array(8) },
     ]
-    const listing: any = {
+    type Listing = {
+      limit: () => Listing
+      include: () => Listing
+      next: () => Listing
+      do: () => Promise<{ boxes: { name: Uint8Array; value: Uint8Array }[] }>
+    }
+    const listing: Listing = {
       limit: () => listing,
       include: () => listing,
       next: () => listing,
       do: async () => ({ boxes }),
     }
-    vi.spyOn(localnet.algorand.client.algod, 'getApplicationBoxes').mockReturnValue(listing)
+    vi.spyOn(localnet.algorand.client.algod, 'getApplicationBoxes').mockReturnValue(
+      listing as unknown as ReturnType<typeof localnet.algorand.client.algod.getApplicationBoxes>,
+    )
 
     await expect(sdk.scanBucketPages({ next: boxCursor(first) }).next()).rejects.toThrow(
       /ignored the box listing cursor/,

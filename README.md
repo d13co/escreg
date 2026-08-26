@@ -13,16 +13,6 @@ App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to t
 
 Buckets are stored as big-endian 8-byte app IDs packed back to back with no length header, so the entry count is derived from the box length (`length / 8`). Avoiding the 2-byte header an ARC-4 dynamic array would carry saves 800 microAlgos of MBR on every box, putting a new single-entry bucket at exactly the 7,300 microAlgos implied above (`2500 + 400 * (4 + 8)`).
 
-### Bucket layout migration
-
-Buckets written before the packed layout are ARC-4 `uint64[]`: the same 8-byte app IDs behind a 2-byte length header. Their size is therefore 2 mod 8, while a packed bucket's is 0 mod 8, so the two can never be confused and readers handle both without a version flag or a migration deadline. Deployments carrying legacy buckets keep working as-is.
-
-Converting is optional and reclaims the 800 microAlgos each header holds:
-
-- `migrateBoxes(bytes<4>[])` strips the header from the given keys, skipping any that are missing or already packed, and returns how many it converted. A box whose size is neither layout's is rejected (`ERR:BKT`) rather than read as a header of that length, which would shift every app ID in it. The freed MBR is not credited back to any account; it stays in the contract balance for the admin to `withdraw`.
-- Registering a new app ID into a legacy bucket converts that bucket as a side effect, so writes drift toward the packed layout on their own.
-- `escreg migrate` (CLI) scans for legacy buckets and converts them in batches, and `escreg dump` shows which layout each box is in. See [CLI](#cli).
-
 This is currently deployed to Fnet as [App ID 16954321](https://lora.algokit.io/fnet/application/16954321).
 
 ## Project Structure
@@ -109,7 +99,6 @@ The registry contract. Extends `MbrManager` so that callers pre-fund credits bef
 | `getWithAuthList(address[]) -> (uint64, uint64)[]` | read | Batch version of getWithAuth |
 | `increaseBudget(uint64)` | noop | Add opcode budget via inner transactions |
 | `deleteBoxes(bytes<4>[])` | admin | Delete app registry boxes by key |
-| `migrateBoxes(bytes<4>[]) -> uint64` | admin | Convert legacy buckets to the packed layout, returning the number converted |
 | `withdraw(uint64)` | admin | Withdraw microAlgos from the contract |
 | `updateApplication()` | admin | Update the contract |
 | `deleteApplication()` | admin | Delete the contract |
@@ -121,22 +110,33 @@ cd projects/contract
 npm install
 npm run build    # compile to TEAL + generate typed client
 npm run deploy   # deploy (requires DEPLOYER_MNEMONIC in .env)
-npm test         # run tests via vitest on LocalNet
+npm test         # run contract and SDK e2e tests via vitest on LocalNet
 ```
 
 ## SDK
 
 **Package:** `@d13co/escreg-sdk`
-**Source:** `projects/ts-sdk/src/index.ts`
+**Source:** `projects/ts-sdk/src/index.ts` (lookups), `projects/ts-sdk/src/full.ts` (everything else)
 
-Wraps the generated typed client with batching, chunking, simulation-based lookups, and automatic opcode budget management.
+Batches, chunks and simulates lookups, and — behind its second entry point — wraps the generated typed client with registration, MBR credits, the registry scan, and automatic opcode budget management.
+
+### Entry points
+
+| Import | Carries | Bundled, minified |
+|---|---|---|
+| `@d13co/escreg-sdk` | `lookup` and the pure decoders. algosdk only — no algokit-utils, no generated client, no app spec. | 343 KB (81 KB gzipped) |
+| `@d13co/escreg-sdk/full` | Everything: registration, MBR credits, the registry scan, admin methods. | 654 KB (151 KB gzipped) |
+
+Both rows bundle algosdk, which a consumer ships either way. The SDK's own code on top of it is 4.8 KB minified (2.3 KB gzipped) light against 32 KB (8.9 KB) full — nearly all of the 310 KB between the rows is algokit-utils.
+
+Both export a class called `EscregSDK` and the full one extends the light one, so `/full` is a strict superset. Looking addresses up is what most consumers do and all a browser one needs, so that is what the default entry point costs them.
 
 ### Usage
 
 ```typescript
 import { EscregSDK } from '@d13co/escreg-sdk'
 
-// Defaults to the current Fnet deployment (app ID, Algorand client)
+// Defaults to the current Fnet deployment (app ID, algod endpoint)
 const sdk = new EscregSDK({})
 
 // Lookup addresses (via simulation, no signing required)
@@ -146,8 +146,15 @@ const results = await sdk.lookup({
 })
 // results: { 'A7NMWS3NT3IU...': 1001n, 'B2XYZ...': undefined }
 
+// Anything running beside its node should ask for smaller groups: 256 buys a
+// saved round trip with extra transactions, which only pays off across a network
+const local = new EscregSDK({ algorand, addressesPerGroup: 127 })
+
+// Registering, credits, scanning and the admin methods live behind /full
+import { EscregSDK as EscregFullSDK } from '@d13co/escreg-sdk/full'
+
 // For write operations, pass a writerAccount
-const writer = new EscregSDK({ writerAccount })
+const writer = new EscregFullSDK({ writerAccount })
 
 // Deposit MBR credits before registering (covers box storage costs)
 await writer.depositCredit({
@@ -161,10 +168,9 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 ### Key behaviors
 
 - **Register:** chunks app IDs into groups of 7 per transaction, 15 transactions per atomic group (105 app IDs per group). Automatically prepends `increaseBudget` calls when opcode budget is insufficient. Retries failed chunks.
-- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Chunks to 128 addresses per group, 63 per `getList` call.
+- **Lookup:** uses `simulate` with `allowEmptySignatures` so no signing key is needed. Resolves `addressesPerGroup` addresses per round trip — 256 by default, the ceiling of 16 references over a group's 16 transactions — in `getList` calls of 127. Past 128 addresses a group has to name every box it reads in an AVM 13 access list, which is what lifts the ceiling but fills the group's spare transaction slots with carriers that name boxes and look nothing up. That trade is worth it across a network and not beside the node, so **anything running beside its node should pass `addressesPerGroup: 127`**: a local node is 25-35% slower at 256, while a public one is about a third faster. On a node that will not take a full-size call or will not honour access lists, the SDK steps down once — with a warning — to the pre-AVM-13 shape of 63 per call and 126 per group.
 - **Credits:** deposit, withdraw, and check MBR credit balances.
-- **Migration:** `findLegacyBoxes` lists every registry box and returns the keys of those still in the legacy layout with their sizes; `migrateBoxes` converts them, batching up to 8 keys per transaction and no more bytes than the box references it carries cover (1024 bytes each, padded past that), and returns the count the contract itself reports. `decodeBucket` decodes a raw bucket box value into app IDs, and `bucketHeaderLen` gives the header length to skip when the value may be legacy.
-- **Scanning:** `scanBucketPages` reads the registry from algod's paginated box listing, a page of boxes and their values per request, and `scanBuckets` flattens it into an async iterable of every bucket with its layout version and decoded app IDs. A registry of millions of boxes streams in constant memory. Backs `escreg dump`. Nodes predating the paginated listing answer with every box name in one response, which the SDK falls back to fetching values for with bounded `concurrency`; that path still fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`.
+- **Scanning:** `scanBucketPages` reads the registry from algod's paginated box listing, a page of boxes and their values per request, and `scanBuckets` flattens it into an async iterable of every bucket with its decoded app IDs (`decodeBucket` decodes a raw bucket box value). A registry of millions of boxes streams in constant memory. Backs `escreg dump`. Nodes predating the paginated listing answer with every box name in one response, which the SDK falls back to fetching values for with bounded `concurrency`; that path still fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`.
 - **Resuming a scan:** every page carries the `next` cursor to resume after it, and `boxCursor` builds the same cursor from the name of the last box a caller finished with, so an interrupted scan restarts from where it stopped rather than from the top. A resumed scan lists at the current round, so a box written behind the cursor while it was stopped is not picked up. A node that ignores the pagination would answer a resumed scan from the first box, which the SDK rejects rather than handing back rows the caller has already processed.
 
 ### Build
@@ -172,8 +178,9 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 ```bash
 cd projects/ts-sdk
 npm install
-npm run build      # dual CJS + ESM output in dist/
+npm run build      # dual CJS + ESM output in dist/, one bundle per entry point
 npm run generate   # regenerate typed client from contract artifacts
+npm run check:abi  # hold the hand-written getList signature to the contract's own
 ```
 
 ## CLI
@@ -208,32 +215,25 @@ escreg withdraw-credits           # withdraw all your credits
 # Withdraw funds (admin only)
 escreg withdraw 1
 
-# Convert legacy buckets to the packed layout (admin only)
-escreg migrate --dry-run          # report how many boxes need migrating
-escreg migrate --concurrency 8    # scan and convert
-
 # Dump every registry box and the app IDs it holds
 escreg dump                       # one row per box, streamed as they are read
 escreg dump --page-size 5000 | head -20
-escreg dump | grep '^1 '          # only boxes still in the legacy layout
 escreg dump --resume dump.state >> dump.txt   # pick up where an interrupted dump left off
 ```
 
 `dump` writes one row per box to stdout, and its header and closing summary to stderr, so the rows pipe cleanly:
 
 ```
-v  key b64 (b32)       values
-1  AAAC9w== (AAAAF5Y)  1x  2925391292 (AAAAF5ZH)
-2  AABDYw== (AAAEGYY)  2x  3653985308 (AAAEGYZ5)  1157865993 (AAAEGYQ7)
+key b64 (b32)       values
+AAAC9w== (AAAAF5Y)  1x  2925391292 (AAAAF5ZH)
+AABDYw== (AAAEGYY)  2x  3653985308 (AAAEGYZ5)  1157865993 (AAAEGYQ7)
 ```
 
-The `v` column is the bucket layout: `1` for a legacy ARC-4 bucket, `2` for a packed one. The key is the 4-byte bucket prefix in base64 and, in parens, base32 — the alphabet addresses use, so it shares its first six characters with every escrow address filed under it. Each value is an app ID followed by the first 8 characters of its escrow address.
+The key is the 4-byte bucket prefix in base64 and, in parens, base32 — the alphabet addresses use, so it shares its first six characters with every escrow address filed under it. Each value is an app ID followed by the first 8 characters of its escrow address.
 
 Boxes stream as they are read rather than being collected first, so `dump` starts printing immediately and holds only a page of boxes at a time.
 
 A registry of millions of boxes takes a while to dump, so `--resume <file>` makes the run restartable: the file records the listing cursor and the counts behind it after every page, and Ctrl-C stops between rows so what stdout has written and what the file records stay in step. Ctrl-C again quits immediately, without a checkpoint, for when the scan is stuck waiting on the node. Re-running the same command continues after the recorded cursor — redirect with `>>` to append to the same output — and the file is removed once the dump completes, including when the interrupt lands on the last row there was. Resuming needs a node that honours the listing cursor; on one that does not, the command stops rather than dumping from the top again. A resumed dump lists at the current round, so a box registered behind the cursor while the dump was stopped is not picked up.
-
-`migrate` is safe to re-run: the contract skips keys that are missing or already packed, and reports how many it actually converted, which is what the freed MBR follows from. A box written behind the listing cursor while a scan is running is missed, so the command re-scans until a pass comes back clean, up to `--max-passes` (default 3); short of a clean pass it says so, since only an empty scan proves nothing is left.
 
 ### Configuration
 
@@ -249,7 +249,7 @@ Defaults to the Fnet deployment. Override via CLI flags, environment variables, 
 | `ADDRESS` | `--address` | | Account address (for rekeyed accounts) |
 | `CONCURRENCY` | `--concurrency` | `1` | Parallel request count |
 
-Every command talks to the node alone. The box-listing commands (`dump`, `migrate`) page through algod's box listing and read box values straight off it, which needs go-algorand 4.7 or newer — the public API nodes are, the AlgoKit LocalNet image (4.4) is not. An older node ignores the paging and answers with every box name in one response, leaving the values to be fetched one box at a time (`--concurrency`) and failing with "Result limit exceeded" past its `MaxAPIBoxPerApplication`.
+Every command talks to the node alone. The box-listing command (`dump`) pages through algod's box listing and reads box values straight off it, which needs go-algorand 4.7 or newer — the public API nodes are, the AlgoKit LocalNet image (4.4) is not. An older node ignores the paging and answers with every box name in one response, leaving the values to be fetched one box at a time (`--concurrency`) and failing with "Result limit exceeded" past its `MaxAPIBoxPerApplication`.
 
 ### Build
 
@@ -301,7 +301,21 @@ npm run build            # build CLI
 ### Running Tests
 
 ```bash
-algokit localnet start   # start local Algorand network
-cd projects/contract
-npm test                 # vitest against LocalNet
+algokit localnet start   # start local Algorand network (the contract tests need it)
+algokit project run test # every project's tests, in dependency order
+
+# or one project at a time
+cd projects/ts-sdk && npm test   # SDK unit tests, no network
+cd projects/client && npm run test:run   # CLI unit tests, no network
+cd projects/contract && npm test # contract and SDK e2e tests, against LocalNet
 ```
+
+The SDK and client suites stub the network, so they run anywhere. The contract suite deploys to
+LocalNet and drives the SDK against it, so it needs a built SDK — `algokit project run build` first,
+which is the order CI runs them in.
+
+### CI
+
+`.github/workflows/ci.yaml` runs on every push to `main` and every pull request, and calls the
+reusable `escreg-ci.yaml`: audit, lint, build, test, TEAL analysis. `escreg-cd.yaml` deploys to
+TestNet and is left without a trigger on purpose — release by invoking it by hand.

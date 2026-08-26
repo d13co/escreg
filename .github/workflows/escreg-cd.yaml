@@ -27,8 +27,10 @@ jobs:
       - name: Install algokit
         run: pipx install algokit
 
-      - name: Bootstrap dependencies
-        run: algokit project bootstrap all --project-name 'escreg'
+      - name: Install dependencies
+        # npm workspace root covers projects/*; `algokit project bootstrap all` prompts
+        # for a package manager on the lockfile-less sub-projects and aborts without a TTY
+        run: npm ci
 
       - name: Configure git
         shell: bash
@@ -37,7 +39,7 @@ jobs:
           git config --global user.email "actions@github.com" && git config --global user.name "github-actions"
 
       - name: Deploy to testnet
-        run: algokit project deploy testnet --project-name 'escreg'
+        run: algokit project deploy testnet --project-name 'contract'
         env:
           # This is the account that becomes the creator of the contract
           DEPLOYER_MNEMONIC: ${{ secrets.DEPLOYER_MNEMONIC }}

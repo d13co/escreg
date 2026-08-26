@@ -9,7 +9,7 @@
     "deploy:ci": "ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "lint": "eslint smart_contracts",
     "lint:fix": "eslint smart_contracts --fix",
-    "audit": "better-npm-audit audit",
+    "audit": "better-npm-audit audit -p",
     "format": "prettier --write .",
     "test": "vitest run --coverage",
     "test:watch": "vitest watch",

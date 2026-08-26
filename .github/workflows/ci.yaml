@@ -1,0 +1,17 @@
+name: CI
+
+# the per-project workflows are reusable ones, so something has to call them
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate escreg
+    uses: ./.github/workflows/escreg-ci.yaml
