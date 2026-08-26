@@ -6,6 +6,7 @@ import {
   contract,
   GlobalState,
   itxn,
+  loggedAssert,
   OnCompleteAction,
   op,
   Txn,
@@ -13,7 +14,6 @@ import {
 } from '@algorandfoundation/algorand-typescript'
 import { Address, ConventionalRouting } from '@algorandfoundation/algorand-typescript/arc4'
 import { Global, sha512_256 } from '@algorandfoundation/algorand-typescript/op'
-import { ensure } from '../common.algo'
 import { MbrManager } from '../mbr-manager/contract.algo'
 import { errAppNotRegistered, errAuth } from './errors.algo'
 
@@ -96,7 +96,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
 
   /** Ensure the sender is the admin. @throws ERR:AUTH if sender is not the admin */
   protected adminOnly() {
-    ensure(Txn.sender === this.admin.value.native, errAuth)
+    loggedAssert(Txn.sender === this.admin.value.native, errAuth)
   }
 
   //
@@ -271,7 +271,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
   public mustGet(address: Address): uint64 {
     const matchingAppID = this.lookup(address)
 
-    ensure(matchingAppID !== 0, errAppNotRegistered)
+    loggedAssert(matchingAppID !== 0, errAppNotRegistered)
 
     return matchingAppID
   }
@@ -335,7 +335,7 @@ export class Escreg extends MbrManager implements ConventionalRouting {
     for (const address of addresses) {
       const matchingAppID = this.lookup(address)
 
-      ensure(matchingAppID !== 0, errAppNotRegistered)
+      loggedAssert(matchingAppID !== 0, errAppNotRegistered)
       apps = [...apps, matchingAppID]
     }
     return apps

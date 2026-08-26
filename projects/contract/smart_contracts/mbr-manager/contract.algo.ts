@@ -1,6 +1,5 @@
-import { Account, BoxMap, Contract, gtxn, itxn, Txn, uint64 } from '@algorandfoundation/algorand-typescript'
+import { Account, BoxMap, Bytes, Contract, gtxn, itxn, log, loggedAssert, Txn, uint64 } from '@algorandfoundation/algorand-typescript'
 import { Global } from '@algorandfoundation/algorand-typescript/op'
-import { ensure } from '../common.algo'
 import { errAmt, errCredit, errReceiver } from './errors.algo'
 
 export class MbrManager extends Contract {
@@ -18,11 +17,20 @@ export class MbrManager extends Contract {
     else if (mbrAfter > mbrBefore) {
       const creditNeeded: uint64 = mbrAfter - mbrBefore
       const userCredit: uint64 = this.userCredits(Txn.sender).exists ? this.userCredits(Txn.sender).value : 0
-      ensure(userCredit >= creditNeeded, errCredit)
+      // saturating: computed either way, and a plain `creditNeeded - userCredit` would trap here
+      const deficit: uint64 = userCredit < creditNeeded ? creditNeeded - userCredit : 0
+      if (deficit > 0) {
+        // ARC-65 line with the shortfall after `::`. Inlined rather than behind a helper so `itoa`
+        // only runs on this path
+        log(Bytes('ERR:').concat(Bytes(errCredit)).concat(Bytes('::')).concat(Bytes(deficit.toString())))
+      }
+      // Does the failing. The code has to be a literal at the call site to reach the ARC-56 source
+      // info, which is where a client reads it from - a helper taking it as a parameter could not
+      loggedAssert(deficit === 0, errCredit)
       this.userCredits(Txn.sender).value = userCredit - creditNeeded
     } else {
       const creditToReturn: uint64 = mbrBefore - mbrAfter
-      ensure(this.userCredits(Txn.sender).exists, errReceiver)
+      loggedAssert(this.userCredits(Txn.sender).exists, errReceiver)
       this.userCredits(Txn.sender).value += creditToReturn
     }
   }
@@ -36,8 +44,8 @@ export class MbrManager extends Contract {
    * @throws ERR:CRD if sender has insufficient credits to cover box MBR increase
    */
   public depositCredits(creditor: Account, txn: gtxn.PaymentTxn) {
-    ensure(txn.receiver === Global.currentApplicationAddress, errReceiver)
-    ensure(txn.amount > 0, errAmt)
+    loggedAssert(txn.receiver === Global.currentApplicationAddress, errReceiver)
+    loggedAssert(txn.amount > 0, errAmt)
     const current: uint64 = this.userCredits(creditor).exists ? this.userCredits(creditor).value : 0
 
     const mbrBefore = Global.currentApplicationAddress.minBalance
@@ -53,7 +61,7 @@ export class MbrManager extends Contract {
   public withdrawCredits() {
     const mbrBefore = Global.currentApplicationAddress.minBalance
     // must have some credits. zero is fine, it represents MBR locked in user credit box
-    ensure(this.userCredits(Txn.sender).exists, errAmt)
+    loggedAssert(this.userCredits(Txn.sender).exists, errAmt)
     const credit: uint64 = this.userCredits(Txn.sender).value
 
     // delete credit box, then increment credit held by user box

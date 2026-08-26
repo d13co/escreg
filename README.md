@@ -72,11 +72,42 @@ Snapshot `minBalance` before the box operation, then call `manageMbrCredits` aft
 
 ### Error codes
 
-| Code | Meaning |
-|---|---|
-| `ERR:CRD` | Insufficient credits to cover MBR increase |
-| `ERR:RCV` | Payment receiver must be the contract |
-| `ERR:AMT` | Amount must be greater than zero / no credit box exists |
+Failures log an [ARC-65](https://github.com/algorandfoundation/ARCs) line and halt, through
+`loggedAssert`, which also puts the code in the contract's ARC-56 source info - so a client names any
+of them without reading the logs.
+
+| Code | Logged | Meaning |
+|---|---|---|
+| `ERR:CRD` | `ERR:CRD::<deficit>` | Insufficient credits to cover MBR increase, deficit in microALGO |
+| `ERR:RCV` | `ERR:RCV` | Payment receiver must be the contract |
+| `ERR:AMT` | `ERR:AMT` | Amount must be greater than zero / no credit box exists |
+
+`ERR:CRD` adds a line carrying the shortfall. It logs `ERR:CRD::<deficit>` and then fails through the
+same `loggedAssert` as everything else, so it keeps its ARC-56 entry:
+
+```ts
+const deficit: uint64 = userCredit < creditNeeded ? creditNeeded - userCredit : 0
+if (deficit > 0) {
+  log(Bytes('ERR:').concat(Bytes(errCredit)).concat(Bytes('::')).concat(Bytes(deficit.toString())))
+}
+loggedAssert(deficit === 0, errCredit)
+```
+
+It fails with two log lines: `ERR:CRD::7300` then the bare `ERR:CRD`.
+
+The assert has to stay here rather than move into a helper alongside the log. `loggedAssert` and
+`assert` both take their message as a compile-time constant, and a code arriving through a parameter
+is not one - the compiler rejects it with `Expected constant of type string`. A helper that asserted
+internally could only fall back to a bare `err()`, which carries no source info, and a client would
+then get no code at all. The log is written out inline for a different reason: it keeps `itoa` on the
+failing path only.
+
+Whether a halt is `err` or `assert` makes no difference to any of this, nor to the logs - every `log`
+written before a failure is in the simulate response either way. What decides whether the caller sees
+a code is the ARC-56 entry, which needs the literal.
+
+The deficit is worked out with a saturating subtraction because it is computed whether or not there
+is a shortfall, and a plain `creditNeeded - userCredit` would trap.
 
 ## Escreg Contract
 
@@ -172,6 +203,32 @@ await writer.register({ appIds: [1001n, 1002n, 1003n], concurrency: 4 })
 - **Credits:** deposit, withdraw, and check MBR credit balances.
 - **Scanning:** `scanBucketPages` reads the registry from algod's paginated box listing, a page of boxes and their values per request, and `scanBuckets` flattens it into an async iterable of every bucket with its decoded app IDs (`decodeBucket` decodes a raw bucket box value). A registry of millions of boxes streams in constant memory. Backs `escreg dump`. Nodes predating the paginated listing answer with every box name in one response, which the SDK falls back to fetching values for with bounded `concurrency`; that path still fails with "Result limit exceeded" past the node's `MaxAPIBoxPerApplication`.
 - **Resuming a scan:** every page carries the `next` cursor to resume after it, and `boxCursor` builds the same cursor from the name of the last box a caller finished with, so an interrupted scan restarts from where it stopped rather than from the top. A resumed scan lists at the current round, so a box written behind the cursor while it was stopped is not picked up. A node that ignores the pagination would answer a resumed scan from the first box, which the SDK rejects rather than handing back rows the caller has already processed.
+
+### Error handling
+
+Every SDK call runs through an error transformer that turns a contract error code into the sentence
+it stands for. `src/generated/errors.ts` is generated from the comments in the contract's
+`errors.algo.ts` by `npm run generate:errors`, so the two never drift.
+
+A message may carry `::` as a placeholder for a value the contract appends to the code it logs -
+`ERR:CRD::7300` fills the deficit into `Insufficient credits to cover MBR increase, deficit ::
+microALGO`. The parsed value is also put on the error as `.value`; alongside `.code` and
+`.description`. A placeholder with no value to fill it reads `unknown`.
+
+```ts
+try {
+  await sdk.register({ appIds: [1002] })
+} catch (e) {
+  e.code         // "ERR:CRD"
+  e.value        // "7300", when the log reached the client
+  e.message      // "Error CRD: Insufficient credits to cover MBR increase, deficit 7300 microALGO"
+}
+```
+
+Note that algokit-utils reports the code from the contract's ARC-56 source info and does not carry
+the transaction's logs, so the appended value only arrives when the caller has the raw log - the
+message falls back to `deficit unknown microALGO` otherwise. The value is always in the app call's
+logs.
 
 ### Build
 

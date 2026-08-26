@@ -3,7 +3,7 @@
 
 // @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
 main:
-    intcblock 1 0
+    intcblock 0 1
     // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:3
     // export class TestParent extends Contract {
     txn NumAppArgs
@@ -20,7 +20,7 @@ main_spawn_route@3:
     !
     txn ApplicationID
     &&
-    assert // OnCompletion must be NoOp && can only call when not creating
+    assert
     b spawn
 
 main___algots__.defaultCreate@5:
@@ -31,8 +31,6 @@ main___algots__.defaultCreate@5:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    intc_0 // 1
     return
 
 
@@ -51,7 +49,7 @@ spawn:
     // const compiled = compile(TestChild)
     pushbytes base64(C4EBQw==)
     itxn_field ClearStateProgramPages
-    pushbytes base64(CzEYQAARsTIOSbIgsgeBAbIQgQCyAbMxGxREMRkUMRgUEESBAUM=)
+    pushbytes base64(CzEYQAARsTIOSbIgsgeBAbIQgQCyAbMxGxREMRkUMRgUEEM=)
     itxn_field ApprovalProgramPages
     // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:7-12
     // const txn = itxn
@@ -60,9 +58,9 @@ spawn:
     //     // ok to do here because no storage in testchild
     //     ...compiled,
     //   })
-    pushint 6 // 6
+    pushint 6
     itxn_field TypeEnum
-    intc_1 // 0
+    intc_0 // 0
     itxn_field Fee
     // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:7-13
     // const txn = itxn
@@ -88,7 +86,7 @@ spawn:
     assert // application exists
     // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:18
     // amount: 100000,
-    pushint 100000 // 100000
+    pushint 100000
     itxn_field Amount
     itxn_field Receiver
     // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:15-19
@@ -97,9 +95,9 @@ spawn:
     //     receiver: txn.createdApp.address,
     //     amount: 100000,
     //   })
-    intc_0 // 1
+    intc_1 // 1
     itxn_field TypeEnum
-    intc_1 // 0
+    intc_0 // 0
     itxn_field Fee
     // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:15-20
     // itxn
@@ -111,5 +109,5 @@ spawn:
     itxn_submit
     // smart_contracts/escreg/test-rekeyed-escrow.algo.ts:4
     // public spawn() {
-    intc_0 // 1
+    intc_1 // 1
     return
