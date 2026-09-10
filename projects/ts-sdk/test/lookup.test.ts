@@ -253,4 +253,25 @@ describe("lookup", () => {
 
     expect(paramCalls()).toBe(1);
   });
+
+  test("asks for suggested params once for groups that start together", async () => {
+    const { algod, paramCalls } = fakeAlgod();
+    const sdk = new EscregSDK({ algod, addressesPerGroup: 10 });
+
+    expect(await sdk.lookup({ addresses: addresses(50), concurrency: 5 })).toEqual(expected(50));
+
+    expect(paramCalls()).toBe(1);
+  });
+
+  test("asks the node again when the shared suggested params request fails", async () => {
+    const { algod, paramCalls } = fakeAlgod();
+    vi.spyOn(algod, "getTransactionParams").mockImplementationOnce(() => ({ do: async () => Promise.reject(new Error("node is down")) }) as any);
+
+    const sdk = new EscregSDK({ algod, addressesPerGroup: 10 });
+
+    await expect(sdk.lookup({ addresses: addresses(50), concurrency: 5 })).rejects.toThrow("node is down");
+    expect(await sdk.lookup({ addresses: addresses(50), concurrency: 5 })).toEqual(expected(50));
+
+    expect(paramCalls()).toBe(1);
+  });
 });

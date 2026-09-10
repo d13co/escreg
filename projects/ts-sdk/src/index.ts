@@ -94,8 +94,12 @@ export class EscregSDK {
   public addressesPerGroup = DEFAULT_ADDRESSES_PER_GROUP;
   /** Whether this node has been seen to honour access lists. Cleared for good if one is rejected. */
   private namedBoxRefs = true;
-  /** Suggested params and when they go stale. Every lookup group needs them; they change slowly. */
-  private cachedParams?: { params: SuggestedParams; expires: number };
+  /**
+   * The suggested params fetch and when its result goes stale. Every lookup group needs them; they
+   * change slowly. The request itself is cached, not just its result, so that the groups a batched
+   * lookup starts together share one round trip rather than each asking the node for its own.
+   */
+  private cachedParams?: { params: Promise<SuggestedParams>; expires: number };
 
   /**
    * @param appId - The Escreg application ID.
@@ -230,12 +234,21 @@ export class EscregSDK {
    * checks the validity window, but the window is a thousand rounds wide and nothing else in a
    * read-only call depends on them.
    *
+   * Groups running concurrently await the one request rather than each making their own, so a
+   * batched lookup costs a single round trip for its params however wide it is spread.
+   *
    * @returns Suggested params from algod.
    */
   private async suggestedParams(): Promise<SuggestedParams> {
     if (this.cachedParams && this.cachedParams.expires > Date.now()) return this.cachedParams.params;
-    const params = await this.algod.getTransactionParams().do();
-    this.cachedParams = { params, expires: Date.now() + SUGGESTED_PARAMS_CACHE_MS };
+    const params = this.algod.getTransactionParams().do();
+    const entry = { params, expires: Date.now() + SUGGESTED_PARAMS_CACHE_MS };
+    this.cachedParams = entry;
+    // a failed request is nobody's cached params: drop it so the next group asks again, and swallow
+    // the rejection here so only the callers awaiting it see the error
+    params.catch(() => {
+      if (this.cachedParams === entry) this.cachedParams = undefined;
+    });
     return params;
   }
 
