@@ -1,6 +1,6 @@
 {
   "name": "@d13co/escreg",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CLI for the Escreg on-chain escrow registry on Algorand",
   "main": "dist/index.js",
   "bin": {

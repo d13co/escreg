@@ -2,6 +2,9 @@
 
 [![npm](https://img.shields.io/npm/v/@d13co/escreg)](https://www.npmjs.com/package/@d13co/escreg)
 
+> [!WARNING]
+> **Escreg has migrated from FNet to TestNet ([App ID 773212345](https://lora.algokit.io/testnet/application/773212345)).** The FNet registry is maintained until Nov 5th, 2026; after that it throws `ERR:FNET_DEPRECATED` for all queries. Upgrade to the latest SDK/CLI (v1.0.0+). Details: [#2](https://github.com/d13co/escreg/issues/2)
+
 Command-line client for the [Escreg](https://github.com/d13co/escreg) on-chain escrow registry on Algorand.
 
 ## Quick start

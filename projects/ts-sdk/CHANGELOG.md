@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.0.0 — Unreleased
+## 1.0.1 — 2026-10-06
+
+### Changed
+
+- **README warns about the FNet deprecation.** The FNet registry (app `16954321`) is maintained until Nov 5th, 2026 and throws `ERR:FNET_DEPRECATED` after that. See [#2](https://github.com/d13co/escreg/issues/2).
+
+## 1.0.0 — 2026-10-06
 
 ### Breaking
 
