@@ -114,7 +114,7 @@ All options are optional and default to the current Testnet deployment.
 | `addressesPerGroup` | `number` | both | Addresses `lookup` resolves per simulate group, 1 to 256. Defaults to 256 |
 | `writerAccount` | `TransactionSignerAccount` | `/full` | Signing account for write operations |
 
-The Fnet instance (app ID `16954321`) contains registrations for all Algorand networks (mainnet, testnet, fnet, betanet) as well as app IDs 1,001-100,000 for localnet lookups. To use it, pass `appId: 16954321n` with a client configured for Fnet.
+The default Testnet instance contains registrations for all Algorand networks (mainnet, testnet, fnet, betanet) as well as app IDs 1,001-200,000 for localnet lookups. The Fnet instance (app ID `16954321`) holds the same, with localnet app IDs only up to 100,000. To use it, pass `appId: 16954321n` with a client configured for Fnet.
 
 #### Tuning `addressesPerGroup`
 
