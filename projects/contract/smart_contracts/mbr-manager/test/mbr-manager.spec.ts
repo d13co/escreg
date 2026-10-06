@@ -154,12 +154,9 @@ describe('MbrManager contract', () => {
     ).rejects.toThrow(/ERR:AMT/)
   })
 
-  test('depositCredits can credit a different account', async () => {
+  test('depositCredits can credit a different account without the sender holding credits', async () => {
     const { testAccount } = localnet.context
     const { client } = await deploy(testAccount)
-
-    // First deposit for the sender to cover the other account's box MBR
-    await depositCredits(client, testAccount, 100_000n)
 
     const otherAccount = await localnet.algorand.account.random()
 
@@ -168,15 +165,16 @@ describe('MbrManager contract', () => {
       receiver: client.appAddress,
       amount: (100_000).microAlgo(),
     })
-    const senderBoxRef = Address.fromString(testAccount.addr.toString()).publicKey
     const otherBoxRef = Address.fromString(otherAccount.addr.toString()).publicKey
 
     await client.send.depositCredits({
       args: { creditor: otherAccount.addr.toString(), txn: payTxn },
-      boxReferences: [senderBoxRef, otherBoxRef],
+      boxReferences: [otherBoxRef],
     })
 
+    // the creditor's box MBR comes out of the deposit, not the sender's credits
     const boxMap = await client.state.box.userCredits.getMap()
-    expect(boxMap.has(otherAccount.addr.toString())).toBe(true)
+    expect(boxMap.get(otherAccount.addr.toString())).toBe(100_000n - 18_900n)
+    expect(boxMap.has(testAccount.addr.toString())).toBe(false)
   })
 })

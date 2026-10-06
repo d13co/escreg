@@ -13,17 +13,22 @@ export class MbrManager extends Contract {
    * @throws ERR:RCV if the receiver of the credit does not have a userCredit box
    */
   protected manageMbrCredits(mbrBefore: uint64) {
+    this.settleMbrCredits(Txn.sender, mbrBefore)
+  }
+
+  /** `manageMbrCredits`, charging or refunding `account` instead of the sender. */
+  protected settleMbrCredits(account: Account, mbrBefore: uint64) {
     const mbrAfter = Global.currentApplicationAddress.minBalance
     if (mbrAfter === mbrBefore) return
     else if (mbrAfter > mbrBefore) {
       const creditNeeded: uint64 = mbrAfter - mbrBefore
-      const userCredit: uint64 = this.userCredits(Txn.sender).exists ? this.userCredits(Txn.sender).value : 0
+      const userCredit: uint64 = this.userCredits(account).exists ? this.userCredits(account).value : 0
       ensure(userCredit >= creditNeeded, errCredit)
-      this.userCredits(Txn.sender).value = userCredit - creditNeeded
+      this.userCredits(account).value = userCredit - creditNeeded
     } else {
       const creditToReturn: uint64 = mbrBefore - mbrAfter
-      ensure(this.userCredits(Txn.sender).exists, errReceiver)
-      this.userCredits(Txn.sender).value += creditToReturn
+      ensure(this.userCredits(account).exists, errReceiver)
+      this.userCredits(account).value += creditToReturn
     }
   }
 
@@ -33,7 +38,7 @@ export class MbrManager extends Contract {
    * @param txn payment transaction to contract. amount is the credit received
    * @throws ERR:RCV if the receiver of the transaction is not the contract
    * @throws ERR:AMT if the amount of the transaction is 0
-   * @throws ERR:CRD if sender has insufficient credits to cover box MBR increase
+   * @throws ERR:CRD if a first deposit is too small to cover the creditor's credit box MBR
    */
   public depositCredits(creditor: Account, txn: gtxn.PaymentTxn) {
     ensure(txn.receiver === Global.currentApplicationAddress, errReceiver)
@@ -42,8 +47,8 @@ export class MbrManager extends Contract {
 
     const mbrBefore = Global.currentApplicationAddress.minBalance
     this.userCredits(creditor).value = current + txn.amount
-    // subtract a bit for the user userCredit box itself
-    this.manageMbrCredits(mbrBefore)
+    // the creditor's credit box is paid out of the deposit itself
+    this.settleMbrCredits(creditor, mbrBefore)
   }
 
   /**

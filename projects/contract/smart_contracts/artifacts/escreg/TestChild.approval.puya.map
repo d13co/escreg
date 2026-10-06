@@ -3,7 +3,7 @@
   "sources": [
     "../../escreg/test-rekeyed-escrow.algo.ts"
   ],
-  "mappings": ";;;;;;AA0BI;AAEc;;AACD;;;;;AAHb;;;;AAAA;;;;AAAA;AAHJ;;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA",
+  "mappings": ";;;;;;AA0BI;AAEc;;AACD;;;;;AAHb;;;;AAAA;;;;AAAA;AAHJ;;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -13,10 +13,10 @@
       "stack_in": [],
       "op": "txn ApplicationID",
       "defined_out": [
-        "reinterpret_bool%0#0"
+        "tmp%0#0"
       ],
       "stack_out": [
-        "reinterpret_bool%0#0"
+        "tmp%0#0"
       ]
     },
     "3": {
@@ -57,7 +57,7 @@
       "stack_out": []
     },
     "14": {
-      "op": "pushint 1 // 1",
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -70,7 +70,7 @@
       "stack_out": []
     },
     "18": {
-      "op": "pushint 0 // 0",
+      "op": "pushint 0",
       "defined_out": [
         "0"
       ],
@@ -90,10 +90,10 @@
       "stack_in": [],
       "op": "txn NumAppArgs",
       "defined_out": [
-        "tmp%0#1"
+        "tmp%0#0"
       ],
       "stack_out": [
-        "tmp%0#1"
+        "tmp%0#0"
       ]
     },
     "25": {
@@ -159,21 +159,8 @@
       ]
     },
     "34": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
-      "stack_out": []
-    },
-    "35": {
-      "op": "pushint 1 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "37": {
       "op": "return",
+      "defined_out": [],
       "stack_out": []
     }
   }
