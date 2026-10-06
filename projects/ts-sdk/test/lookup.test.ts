@@ -113,7 +113,7 @@ function fakeAlgod({ registry, accessLists = true, maxArgBytes = Infinity, failu
 afterEach(() => vi.restoreAllMocks());
 
 describe("constructor", () => {
-  test("defaults to the fnet deployment, read as the fee sink", () => {
+  test("defaults to the testnet deployment, read as the fee sink", () => {
     const sdk = new EscregSDK();
     expect(sdk.appId).toBe(DEFAULT_APP_ID);
     expect(sdk.readerAccount).toBe(DEFAULT_READER_ACCOUNT);

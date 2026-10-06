@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Breaking
+
+- **The default deployment moved from Fnet to Testnet.** With no `appId`, both entry points now target app `773212345` — lookups and `/full` writes alike — and with no client they talk to `https://testnet-api.4160.nodely.dev`. To keep using the Fnet instance, pass `appId: 16954321n` with a client configured for Fnet; callers who already pass their own Fnet `algorand` or `algod` but no `appId` must now add it.
+
+## 0.1.1 — 2026-09-10
+
 The package is now two entry points — a lookup-only default and `/full` — and the on-chain registry has been fully migrated to the packed bucket layout, so everything that existed to read or convert the legacy ARC-4 `uint64[]` layout is removed.
 
 ### Breaking

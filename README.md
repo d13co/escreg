@@ -13,7 +13,7 @@ App escrow lookups work by iterating the 4-byte-prefix bucket corresponding to t
 
 Buckets are stored as big-endian 8-byte app IDs packed back to back with no length header, so the entry count is derived from the box length (`length / 8`). Avoiding the 2-byte header an ARC-4 dynamic array would carry saves 800 microAlgos of MBR on every box, putting a new single-entry bucket at exactly the 7,300 microAlgos implied above (`2500 + 400 * (4 + 8)`).
 
-This is currently deployed to Fnet as [App ID 16954321](https://lora.algokit.io/fnet/application/16954321).
+This is currently deployed to Testnet as [App ID 773212345](https://lora.algokit.io/testnet/application/773212345), the SDK and CLI default, and to Fnet as [App ID 16954321](https://lora.algokit.io/fnet/application/16954321).
 
 ## Project Structure
 
@@ -294,14 +294,14 @@ A registry of millions of boxes takes a while to dump, so `--resume <file>` make
 
 ### Configuration
 
-Defaults to the Fnet deployment. Override via CLI flags, environment variables, or a `.env` file:
+Defaults to the Testnet deployment. Override via CLI flags, environment variables, or a `.env` file:
 
 | Variable | Flag | Default | Description |
 |---|---|---|---|
-| `ALGOD_HOST` | `--algod-host` | `fnet-api.4160.nodely.dev` | Algorand node host |
+| `ALGOD_HOST` | `--algod-host` | `testnet-api.4160.nodely.dev` | Algorand node host |
 | `ALGOD_PORT` | `--algod-port` | `443` | Algorand node port |
 | `ALGOD_TOKEN` | `--algod-token` | (empty) | Algorand node token |
-| `APP_ID` | `--app-id` | `16954321` | Escreg application ID |
+| `APP_ID` | `--app-id` | `773212345` | Escreg application ID |
 | `MNEMONIC` | `--mnemonic` | | Account mnemonic for write operations |
 | `ADDRESS` | `--address` | | Account address (for rekeyed accounts) |
 | `CONCURRENCY` | `--concurrency` | `1` | Parallel request count |

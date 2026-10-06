@@ -1,11 +1,11 @@
 /** The Escreg deployment the SDK talks to when the caller does not name one. */
-export const DEFAULT_APP_ID = 16954321n;
+export const DEFAULT_APP_ID = 773212345n;
 
-/** Algod the SDK falls back to: the public fnet endpoint the default deployment lives on. */
-export const FNET_ALGOD_SERVER = "https://fnet-api.4160.nodely.dev";
+/** Algod the SDK falls back to: the public testnet endpoint the default deployment lives on. */
+export const DEFAULT_ALGOD_SERVER = "https://testnet-api.4160.nodely.dev";
 
 /** Port of the default algod endpoint. */
-export const FNET_ALGOD_PORT = 443;
+export const DEFAULT_ALGOD_PORT = 443;
 
 /** Sender for read-only simulate calls: the fee sink, which is funded on mostly every network. */
 export const DEFAULT_READER_ACCOUNT = "A7NMWS3NT3IUDMLVO26ULGXGIIOUQ3ND2TXSER6EBGRZNOBOUIQXHIBGDE";

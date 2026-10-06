@@ -89,14 +89,14 @@ escreg withdraw 1
 
 ## Configuration
 
-Defaults to the Fnet deployment (app ID `16954321`, Nodely Fnet endpoint). Override via CLI flags, environment variables, or a `.env` file. Set `ENV` to load environment-specific files (e.g. `ENV=testnet` loads `.env.testnet`).
+Defaults to the Testnet deployment (app ID `773212345`, Nodely Testnet endpoint). Override via CLI flags, environment variables, or a `.env` file. Set `ENV` to load environment-specific files (e.g. `ENV=testnet` loads `.env.testnet`).
 
 | Variable | Flag | Default | Description |
 |---|---|---|---|
-| `ALGOD_HOST` | `--algod-host` | `fnet-api.4160.nodely.dev` | Algorand node host |
+| `ALGOD_HOST` | `--algod-host` | `testnet-api.4160.nodely.dev` | Algorand node host |
 | `ALGOD_PORT` | `--algod-port` | `443` | Algorand node port |
 | `ALGOD_TOKEN` | `--algod-token` | (empty) | Algorand node token |
-| `APP_ID` | `--app-id` | `16954321` | Escreg application ID |
+| `APP_ID` | `--app-id` | `773212345` | Escreg application ID |
 | `MNEMONIC` | `--mnemonic` | | Account mnemonic for write operations |
 | `ADDRESS` | `--address` | | Account address (for rekeyed accounts) |
 | `CONCURRENCY` | `--concurrency` | `1` | Parallel request count |

@@ -29,10 +29,10 @@ describe('Config Module', () => {
       const config = getConfig();
       
       expect(config).toEqual({
-        algodHost: 'fnet-api.4160.nodely.dev',
+        algodHost: 'testnet-api.4160.nodely.dev',
         algodPort: 443,
         algodToken: '',
-        appId: '16954321',
+        appId: '773212345',
         mnemonic: undefined,
         address: undefined,
         concurrency: 1,
@@ -95,10 +95,10 @@ describe('Config Module', () => {
 
       const config = getConfig();
 
-      expect(config.algodHost).toBe('fnet-api.4160.nodely.dev');
+      expect(config.algodHost).toBe('testnet-api.4160.nodely.dev');
       expect(config.algodPort).toBe(443);
       expect(config.algodToken).toBe('');
-      expect(config.appId).toBe('16954321');
+      expect(config.appId).toBe('773212345');
     });
   });
 

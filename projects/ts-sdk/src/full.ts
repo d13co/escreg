@@ -4,7 +4,7 @@ import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import { EscregClient, EscregComposer } from "./generated/EscregGenerated.js";
 import { EscregSDK as EscregLookupSDK, EscregLookupOptions } from "./index.js";
 import { chunk, compareBoxNames, decodeBoxCursor, decodeBucket, mapConcurrent } from "./util.js";
-import { creditBoxRef, fnetNodelyClient, getIncreaseBudgetBuilder, packBoxKeyBatches } from "./fullUtil.js";
+import { creditBoxRef, defaultAlgorandClient, getIncreaseBudgetBuilder, packBoxKeyBatches } from "./fullUtil.js";
 import { errorTransformer, wrapErrorsInternal } from "./wrapErrors.js";
 import { DEFAULT_VALIDITY_WINDOW, SUGGESTED_PARAMS_CACHE_MS } from "./constants.js";
 import { BucketPage, CreditResult, RegistryBucket, SizedBoxKey } from "./types.js";
@@ -22,7 +22,7 @@ export type { EscregLookupOptions } from "./index.js";
 
 /** Options the full SDK takes, on top of what a lookup-only one does. */
 export interface EscregOptions extends EscregLookupOptions {
-  /** Algorand client instance for interacting with the network. Defaults to the public fnet endpoint. */
+  /** Algorand client instance for interacting with the network. Defaults to the public testnet endpoint. */
   algorand?: AlgorandClient;
   /** Account with signing capability for write operations (register, deposit, withdraw). */
   writerAccount?: TransactionSignerAccount;
@@ -52,7 +52,7 @@ export class EscregSDK extends EscregLookupSDK {
    *   supports them; drop it to 127 or below for one round trip per `getList` call.
    */
   constructor(options: EscregOptions = {}) {
-    const algorand = options.algorand ?? (options.algod ? AlgorandClient.fromClients({ algod: options.algod }) : fnetNodelyClient);
+    const algorand = options.algorand ?? (options.algod ? AlgorandClient.fromClients({ algod: options.algod }) : defaultAlgorandClient);
 
     super({ ...options, algorand });
 

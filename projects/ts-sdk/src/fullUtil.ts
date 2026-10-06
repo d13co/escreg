@@ -3,17 +3,17 @@ import { TransactionSignerAccount } from "@algorandfoundation/algokit-utils/type
 import { AlgorandClient } from "@algorandfoundation/algokit-utils";
 import { EscregComposer } from "./generated/EscregGenerated.js";
 import { BoxKeyBatch, SizedBoxKey } from "./types.js";
-import { FNET_ALGOD_PORT, FNET_ALGOD_SERVER } from "./constants.js";
+import { DEFAULT_ALGOD_PORT, DEFAULT_ALGOD_SERVER } from "./constants.js";
 
 /**
  * Helpers for the write and scan paths. Unlike `util.ts`, everything here reaches for algokit-utils
  * or the generated client, so nothing on the lookup path may import this module.
  */
 
-export const fnetNodelyClient = AlgorandClient.fromConfig({
+export const defaultAlgorandClient = AlgorandClient.fromConfig({
   algodConfig: {
-    server: FNET_ALGOD_SERVER,
-    port: FNET_ALGOD_PORT,
+    server: DEFAULT_ALGOD_SERVER,
+    port: DEFAULT_ALGOD_PORT,
   },
 });
 
