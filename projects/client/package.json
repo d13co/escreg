@@ -1,6 +1,6 @@
 {
   "name": "@d13co/escreg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI for the Escreg on-chain escrow registry on Algorand",
   "main": "dist/index.js",
   "bin": {
@@ -16,7 +16,6 @@
     "build:ts": "tsc",
     "build:executables": "bun run build-executables.ts",
     "build:linux-amd64": "bun run build-linux-amd64.ts",
-    "build:docker": "bun run build-docker.ts",
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
     "test": "vitest",
@@ -25,7 +24,7 @@
   },
   "dependencies": {
     "@algorandfoundation/algokit-utils": "^9.0.0",
-    "@d13co/escreg-sdk": "^0.2.0",
+    "@d13co/escreg-sdk": "^1.0.0",
     "algosdk": "^3.6.0",
     "dotenv": "^16.3.1",
     "yargs": "^17.7.2"
@@ -34,7 +33,6 @@
     "@types/node": "^24.0.14",
     "@types/yargs": "^17.0.32",
     "@vitest/coverage-v8": "^2.1.8",
-    "concurrently": "^9.2.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.8.3",
     "vitest": "^2.1.8"
