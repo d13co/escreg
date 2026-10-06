@@ -1,12 +1,22 @@
 # Changelog
 
-## 0.2.0 — Unreleased
+## 1.0.0 — Unreleased
 
 ### Breaking
 
 - **The default deployment moved from Fnet to Testnet.** With no `appId`, both entry points now target app `773212345` — lookups and `/full` writes alike — and with no client they talk to `https://testnet-api.4160.nodely.dev`. To keep using the Fnet instance, pass `appId: 16954321n` with a client configured for Fnet; callers who already pass their own Fnet `algorand` or `algod` but no `appId` must now add it. The Testnet instance holds the same registrations as Fnet, and extends the localnet range from app IDs 1,001-100,000 to 1,001-200,000.
 
+### Added
+
+- **Contract errors carry the value the contract logged with them.** The contract now logs its errors (ARC-65) and can append a value to the code, as in `ERR:CRD::7300`. The wrapped error puts that value into its message — `Error CRD: Insufficient credits to cover MBR increase, deficit 7300 microALGO` — and exposes it as `value`. `code` and `description` are set as before.
+
+### Changed
+
+- **`register` sends each group without waiting for the previous one to confirm.** Confirmations are awaited in the background and the pass settles once they all have. Waiting on each group meant it reached the pool after the next block had been assembled, which left every other block empty.
+
 ### Fixed
+
+- **A `register` retry re-checks the registry before re-sending.** Retry passes used to skip the lookup. A group whose confirmation poll timed out may still have landed, and re-sending it identically is rejected as already in the ledger, so the retry failed every time until the run aborted.
 
 - **`getCredits({ all: true })` works on a large registry.** It listed every box name in the app to pick out the credit boxes, which algod refuses with "Result limit exceeded" past `MaxAPIBoxPerApplication` — as on the Testnet deployment. It now pages through only the `c`-prefixed boxes, values included, so it reads no box on its own. A node predating the paginated listing still answers with every box name and still hits the limit.
 
