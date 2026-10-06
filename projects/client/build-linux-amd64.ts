@@ -21,7 +21,7 @@ async function buildExecutable() {
   console.log("Creating standalone executable for Linux x64...");
   
   // Use bun build to create a standalone executable
-  await $`bun build ${distDir}/index.js --compile --target=bun-linux-x64 --outfile=${executableDir}/escreg-linux-x64`;
+  await $`bun build ${distDir}/index.js --compile --no-compile-autoload-dotenv --target=bun-linux-x64 --outfile=${executableDir}/escreg-linux-x64`;
 
   console.log("✅ Standalone executable created successfully!");
   console.log(`📦 Output: ${executableDir}/escreg-linux-x64`);

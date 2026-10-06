@@ -34,7 +34,7 @@ async function buildStandalone() {
       const bunTarget = `bun-${target.platform}-${target.arch}`;
       const outputPath = join(standaloneDir, target.output);
       
-      await $`bun build ${distDir}/index.js --compile --target=${bunTarget} --outfile=${outputPath}`;
+      await $`bun build ${distDir}/index.js --compile --no-compile-autoload-dotenv --target=${bunTarget} --outfile=${outputPath}`;
       
       if (target.platform !== "windows") {
         await $`chmod +x ${outputPath}`;
