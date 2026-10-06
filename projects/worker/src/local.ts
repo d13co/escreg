@@ -16,6 +16,9 @@
  *   MNEMONIC      account mnemonic for signing (required to register)
  *   SENDER        optional sender address override (for rekeyed accounts)
  *   INDEXER_TOKEN optional indexer API token (X-Indexer-API-Token header)
+ *   APP_ID        escreg app to register into (default: the SDK's)
+ *   ALGOD_SERVER  algod URL of the network APP_ID lives on (default: the SDK's)
+ *   ALGOD_TOKEN   optional algod API token for ALGOD_SERVER (X-Algo-API-Token header)
  *   STATE_FILE    cursor file path (default: ./.local-state/cursors.json)
  *   INTERVAL_MS   poll interval for `run` (default: 60000)
  */
@@ -62,6 +65,9 @@ function buildEnv(store: FileStore): Env {
     MNEMONIC: process.env.MNEMONIC ?? "",
     SENDER: process.env.SENDER,
     INDEXER_TOKEN: process.env.INDEXER_TOKEN,
+    APP_ID: process.env.APP_ID,
+    ALGOD_SERVER: process.env.ALGOD_SERVER,
+    ALGOD_TOKEN: process.env.ALGOD_TOKEN,
   };
 }
 

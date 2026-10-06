@@ -26,6 +26,11 @@ Runs on a cron schedule (every minute). Each invocation:
 | `MNEMONIC` | Account mnemonic for signing registration transactions (secret) |
 | `SENDER` | Optional sender address override (for rekeyed accounts) |
 | `INDEXER_TOKEN` | Optional indexer API token, sent as `X-Indexer-API-Token` (secret) |
+| `APP_ID` | Escreg app to register into. Defaults to the SDK's default deployment |
+| `ALGOD_SERVER` | Algod URL of the network `APP_ID` lives on. Defaults to the SDK's |
+| `ALGOD_TOKEN` | Optional algod API token for `ALGOD_SERVER`, sent as `X-Algo-API-Token` (secret) |
+
+`wrangler.jsonc` pins both per worker, so a change to the SDK default never retargets a deployed worker.
 
 ### KV namespace
 
@@ -38,6 +43,19 @@ npm install
 wrangler secret put MNEMONIC   # set the signing account mnemonic
 wrangler dev                   # local development
 wrangler deploy                # deploy to Cloudflare
+```
+
+### Testnet worker
+
+The `testnet` wrangler env deploys a second worker, `escreg-watcher-testnet`, that registers the same networks into the Testnet deployment (app `773212345`) instead of Fnet. It has its own `STATE` namespace (`escreg-watcher-testnet-state`), so its cursors start empty and independent of the fnet worker's.
+
+Order matters: the cron goes live on deploy, and a tick with `MNEMONIC` set but no cursors registers every network from app 1.
+
+```bash
+wrangler deploy --env testnet                     # cron skips while MNEMONIC is unset
+# seed each network's cursor (one-time)
+curl -X POST "https://escreg-watcher-testnet.<subdomain>.workers.dev/start/<network>?appId=N"
+wrangler secret put MNEMONIC --env testnet        # registration starts on the next tick
 ```
 
 ## Running locally as a standalone backup
@@ -78,6 +96,9 @@ npm run local:tick
 | `MNEMONIC` | — | Signing account mnemonic (required to register) |
 | `SENDER` | — | Optional sender address override (rekeyed accounts) |
 | `INDEXER_TOKEN` | — | Optional indexer API token (`X-Indexer-API-Token` header) |
+| `APP_ID` | SDK default | Escreg app to register into |
+| `ALGOD_SERVER` | SDK default | Algod URL of the network `APP_ID` lives on |
+| `ALGOD_TOKEN` | — | Optional algod API token for `ALGOD_SERVER` (`X-Algo-API-Token` header) |
 | `STATE_FILE` | `./.local-state/cursors.json` | Cursor file path |
 | `INTERVAL_MS` | `60000` | Poll interval for `npm run local` |
 

@@ -14,6 +14,15 @@ MNEMONIC="word1 word2 word3 ... word25"
 # In the Worker, set this as a secret instead: `wrangler secret put INDEXER_TOKEN`.
 # INDEXER_TOKEN=your-indexer-api-token
 
+# Escreg app to register into and the algod of its network. Unset = the SDK's
+# default deployment. The Worker pins these in wrangler.jsonc.
+# APP_ID=773212345
+# ALGOD_SERVER=https://testnet-api.4160.nodely.dev
+
+# Optional algod API token for ALGOD_SERVER, sent as X-Algo-API-Token (ignored
+# without ALGOD_SERVER). In the Worker: `wrangler secret put ALGOD_TOKEN`.
+# ALGOD_TOKEN=your-algod-api-token
+
 # --- Local backup runner only (ignored by wrangler) ---
 
 # Cursor file path. Default: ./.local-state/cursors.json

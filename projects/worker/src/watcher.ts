@@ -1,4 +1,4 @@
-import { mnemonicToSecretKey, makeBasicAccountTransactionSigner, Address } from "algosdk";
+import { mnemonicToSecretKey, makeBasicAccountTransactionSigner, Address, Algodv2 } from "algosdk";
 import { EscregSDK } from "@d13co/escreg-sdk/full";
 import type { NetworkName } from "./networks";
 import { NETWORK_NAMES, indexerUrl } from "./networks";
@@ -8,6 +8,11 @@ export interface Env {
   MNEMONIC: string;
   SENDER?: string;
   INDEXER_TOKEN?: string;
+  /** Escreg app to register into, and the algod of the network it lives on. Unset = SDK defaults. */
+  APP_ID?: string;
+  ALGOD_SERVER?: string;
+  /** Sent as `X-Algo-API-Token` to ALGOD_SERVER. */
+  ALGOD_TOKEN?: string;
 }
 
 interface PollResult {
@@ -107,7 +112,11 @@ export async function registerBatch(env: Env, appIds: bigint[]): Promise<string[
     signer: makeBasicAccountTransactionSigner(account),
   };
 
-  const sdk = new EscregSDK({ writerAccount });
+  const sdk = new EscregSDK({
+    writerAccount,
+    appId: env.APP_ID ? BigInt(env.APP_ID) : undefined,
+    algod: env.ALGOD_SERVER ? new Algodv2(env.ALGOD_TOKEN ?? "", env.ALGOD_SERVER) : undefined,
+  });
 
   return sdk.register({ appIds });
 }

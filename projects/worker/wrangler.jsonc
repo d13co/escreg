@@ -1,5 +1,6 @@
 {
   "name": "escreg-watcher",
+  "account_id": "72f5c3bf37e8e96111f551909c08e13e",
   "main": "src/index.ts",
   "compatibility_date": "2025-02-14",
   "compatibility_flags": ["nodejs_compat"],
@@ -13,7 +14,26 @@
     }
   ],
   "vars": {
-    "SENDER": "REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4"
+    "SENDER": "REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4",
+    // pinned, so the SDK's default deployment moving never retargets this worker
+    "APP_ID": "16954321",
+    "ALGOD_SERVER": "https://fnet-api.4160.nodely.dev"
+  },
+  // Secrets: MNEMONIC, optional INDEXER_TOKEN / ALGOD_TOKEN (set via `wrangler secret put <NAME>`)
+
+  "env": {
+    // `wrangler deploy --env testnet` -> worker escreg-watcher-testnet. vars and
+    // kv_namespaces are not inherited, so they are restated here.
+    "testnet": {
+      // own namespace (escreg-watcher-testnet-state), so cursors are independent
+      // of the fnet worker's
+      "kv_namespaces": [{ "binding": "STATE", "id": "ae27a0ee50af43a1bf452e8499316530" }],
+      "vars": {
+        "SENDER": "REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4",
+        "APP_ID": "773212345",
+        "ALGOD_SERVER": "https://testnet-api.4160.nodely.dev"
+      }
+      // Secrets: same as above, set per env: `wrangler secret put <NAME> --env testnet`
+    }
   }
-  // Secret: MNEMONIC (set via `wrangler secret put MNEMONIC`)
 }
