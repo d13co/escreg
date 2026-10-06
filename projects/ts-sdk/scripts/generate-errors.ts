@@ -1,6 +1,9 @@
 /**
  * Script to parse errors.algo.ts and generate SDK error map
- * Parses lines like: export const errName = 'ERR:CODE' // Error message
+ * Parses lines like: export const errName = 'CODE' // Error message
+ *
+ * Codes in the contract are bare - `loggedAssert` prepends the `ERR:` prefix - so the prefix is
+ * added back here to key the map by what the contract actually logs.
  *
  * Usage: tsx generate-errors.ts
  */
@@ -13,15 +16,15 @@ const outputFilePath = resolve(sdkRoot, 'src/generated/errors.ts')
 
 const content = readFileSync(errorsFilePath, 'utf-8')
 
-// Match lines like: export const errName = 'ERR:CODE' // Message
-const errorRegex = /export const \w+ = '(ERR:[^']+)'\s*\/\/\s*(.+)$/gm
+// Match lines like: export const errName = 'CODE' // Message
+const errorRegex = /export const \w+ = '([^']+)'\s*\/\/\s*(.+)$/gm
 
 const errors: Record<string, string> = {}
 let match: RegExpExecArray | null
 
 while ((match = errorRegex.exec(content)) !== null) {
   const [, code, message] = match
-  errors[code] = message.trim()
+  errors[`ERR:${code}`] = message.trim()
 }
 
 mkdirSync(dirname(outputFilePath), { recursive: true })

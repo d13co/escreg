@@ -3,9 +3,9 @@
 
 // @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
 main:
-    intcblock 1 0
-    bytecblock "c" "ERR:RCV" "ERR:AMT"
-    // smart_contracts/mbr-manager/contract.algo.ts:6
+    intcblock 1 0 10
+    bytecblock "c" 0x30313233343536373839 "ERR:RCV" "ERR:AMT"
+    // smart_contracts/mbr-manager/contract.algo.ts:5
     // export class MbrManager extends Contract {
     txn NumAppArgs
     bz main___algots__.defaultCreate@9
@@ -20,7 +20,7 @@ main:
     err
 
 main___algots__.defaultCreate@9:
-    // smart_contracts/mbr-manager/contract.algo.ts:6
+    // smart_contracts/mbr-manager/contract.algo.ts:5
     // export class MbrManager extends Contract {
     txn OnCompletion
     !
@@ -30,12 +30,41 @@ main___algots__.defaultCreate@9:
     return
 
 
+// puya-ts::itoa(i: uint64) -> bytes:
+itoa:
+    proto 1 1
+    frame_dig -1
+    intc_2 // 10
+    <
+    bz itoa_else_body@2
+    bytec_1 // 0x30313233343536373839
+    frame_dig -1
+    intc_0 // 1
+    extract3
+    retsub
+
+itoa_else_body@2:
+    frame_dig -1
+    intc_2 // 10
+    /
+    callsub itoa
+    frame_dig -1
+    intc_2 // 10
+    %
+    bytec_1 // 0x30313233343536373839
+    swap
+    intc_0 // 1
+    extract3
+    concat
+    retsub
+
+
 // smart_contracts/mbr-manager/contract.algo.ts::MbrManager.depositCredits[routing]() -> void:
 depositCredits:
     intc_1 // 0
     pushbytes ""
     dup
-    // smart_contracts/mbr-manager/contract.algo.ts:43
+    // smart_contracts/mbr-manager/contract.algo.ts:51
     // public depositCredits(creditor: Account, txn: gtxn.PaymentTxn) {
     txna ApplicationArgs 1
     dup
@@ -51,62 +80,46 @@ depositCredits:
     intc_0 // pay
     ==
     assert // transaction type is pay
-    // smart_contracts/mbr-manager/contract.algo.ts:44
-    // ensure(txn.receiver === Global.currentApplicationAddress, errReceiver)
+    // smart_contracts/mbr-manager/contract.algo.ts:52
+    // loggedAssert(txn.receiver === Global.currentApplicationAddress, errReceiver)
     gtxns Receiver
     global CurrentApplicationAddress
     ==
-    // smart_contracts/common.algo.ts:4
-    // if (!condition) {
-    bnz depositCredits_after_if_else@25
-    // smart_contracts/mbr-manager/contract.algo.ts:44
-    // ensure(txn.receiver === Global.currentApplicationAddress, errReceiver)
-    bytec_1 // "ERR:RCV"
-    // smart_contracts/common.algo.ts:5
-    // log(message)
+    bnz depositCredits_after_assert@3
+    bytec_2 // "ERR:RCV"
     log
-    // smart_contracts/common.algo.ts:6
-    // err()
-    err
+    err // ERR:RCV
 
-depositCredits_after_if_else@25:
-    // smart_contracts/mbr-manager/contract.algo.ts:45
-    // ensure(txn.amount > 0, errAmt)
+depositCredits_after_assert@3:
+    // smart_contracts/mbr-manager/contract.algo.ts:53
+    // loggedAssert(txn.amount > 0, errAmt)
     gtxns Amount
     dup
-    // smart_contracts/common.algo.ts:4
-    // if (!condition) {
-    bnz depositCredits_after_if_else@29
-    // smart_contracts/mbr-manager/contract.algo.ts:45
-    // ensure(txn.amount > 0, errAmt)
-    bytec_2 // "ERR:AMT"
-    // smart_contracts/common.algo.ts:5
-    // log(message)
+    bnz depositCredits_after_assert@5
+    bytec_3 // "ERR:AMT"
     log
-    // smart_contracts/common.algo.ts:6
-    // err()
-    err
+    err // ERR:AMT
 
-depositCredits_after_if_else@29:
-    // smart_contracts/mbr-manager/contract.algo.ts:7
+depositCredits_after_assert@5:
+    // smart_contracts/mbr-manager/contract.algo.ts:6
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
     bytec_0 // "c"
     uncover 2
     concat
     dup
     bury 5
-    // smart_contracts/mbr-manager/contract.algo.ts:46
+    // smart_contracts/mbr-manager/contract.algo.ts:54
     // const current: uint64 = this.userCredits(creditor).exists ? this.userCredits(creditor).value : 0
     box_len
     bury 1
-    bz depositCredits_ternary_false@3
+    bz depositCredits_ternary_false@7
     dig 3
     box_get
     assert // Box must have value
     btoi
 
-depositCredits_ternary_merge@4:
-    // smart_contracts/mbr-manager/contract.algo.ts:48
+depositCredits_ternary_merge@8:
+    // smart_contracts/mbr-manager/contract.algo.ts:56
     // const mbrBefore = Global.currentApplicationAddress.minBalance
     global CurrentApplicationAddress
     acct_params_get AcctMinBalance
@@ -115,7 +128,7 @@ depositCredits_ternary_merge@4:
     cover 2
     bury 5
     assert // account funded
-    // smart_contracts/mbr-manager/contract.algo.ts:49
+    // smart_contracts/mbr-manager/contract.algo.ts:57
     // this.userCredits(creditor).value = current + txn.amount
     swap
     uncover 2
@@ -124,7 +137,7 @@ depositCredits_ternary_merge@4:
     dig 4
     swap
     box_put
-    // smart_contracts/mbr-manager/contract.algo.ts:21
+    // smart_contracts/mbr-manager/contract.algo.ts:20
     // const mbrAfter = Global.currentApplicationAddress.minBalance
     global CurrentApplicationAddress
     acct_params_get AcctMinBalance
@@ -133,51 +146,64 @@ depositCredits_ternary_merge@4:
     cover 2
     bury 5
     assert // account funded
-    // smart_contracts/mbr-manager/contract.algo.ts:22
+    // smart_contracts/mbr-manager/contract.algo.ts:21
     // if (mbrAfter === mbrBefore) return
     ==
-    bnz depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.settleMbrCredits@14
-    // smart_contracts/mbr-manager/contract.algo.ts:23
+    bnz depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.settleMbrCredits@27
+    // smart_contracts/mbr-manager/contract.algo.ts:22
     // else if (mbrAfter > mbrBefore) {
     dup2
     >
-    bz depositCredits_else_body@12
-    // smart_contracts/mbr-manager/contract.algo.ts:24
+    bz depositCredits_else_body@23
+    // smart_contracts/mbr-manager/contract.algo.ts:23
     // const creditNeeded: uint64 = mbrAfter - mbrBefore
     dup2
     -
-    // smart_contracts/mbr-manager/contract.algo.ts:25
+    // smart_contracts/mbr-manager/contract.algo.ts:24
     // const userCredit: uint64 = this.userCredits(account).exists ? this.userCredits(account).value : 0
     dig 3
     box_len
     bury 1
-    bz depositCredits_ternary_false@10
+    bz depositCredits_ternary_false@14
     dig 3
     box_get
     assert // Box must have value
     btoi
 
-depositCredits_ternary_merge@11:
+depositCredits_ternary_merge@15:
     // smart_contracts/mbr-manager/contract.algo.ts:26
-    // ensure(userCredit >= creditNeeded, errCredit)
+    // const deficit: uint64 = userCredit < creditNeeded ? creditNeeded - userCredit : 0
     dup
     dig 2
-    >=
-    // smart_contracts/common.algo.ts:4
-    // if (!condition) {
-    bnz depositCredits_after_if_else@21
-    // smart_contracts/mbr-manager/contract.algo.ts:26
-    // ensure(userCredit >= creditNeeded, errCredit)
-    pushbytes "ERR:CRD"
-    // smart_contracts/common.algo.ts:5
-    // log(message)
-    log
-    // smart_contracts/common.algo.ts:6
-    // err()
-    err
+    <
+    bz depositCredits_ternary_false@17
+    dup2
+    -
 
-depositCredits_after_if_else@21:
+depositCredits_ternary_merge@18:
     // smart_contracts/mbr-manager/contract.algo.ts:27
+    // if (deficit > 0) {
+    dup
+    bz depositCredits_after_if_else@20
+    // smart_contracts/mbr-manager/contract.algo.ts:30
+    // log(Bytes('ERR:').concat(Bytes(errCredit)).concat(Bytes('::')).concat(Bytes(deficit.toString())))
+    dup
+    callsub itoa
+    pushbytes "ERR:CRD::"
+    swap
+    concat
+    log
+
+depositCredits_after_if_else@20:
+    // smart_contracts/mbr-manager/contract.algo.ts:34
+    // loggedAssert(deficit === 0, errCredit)
+    bz depositCredits_after_assert@22
+    pushbytes "ERR:CRD"
+    log
+    err // ERR:CRD
+
+depositCredits_after_assert@22:
+    // smart_contracts/mbr-manager/contract.algo.ts:35
     // this.userCredits(account).value = userCredit - creditNeeded
     swap
     -
@@ -186,44 +212,42 @@ depositCredits_after_if_else@21:
     swap
     box_put
 
-depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.settleMbrCredits@14:
-    // smart_contracts/mbr-manager/contract.algo.ts:43
+depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.settleMbrCredits@27:
+    // smart_contracts/mbr-manager/contract.algo.ts:51
     // public depositCredits(creditor: Account, txn: gtxn.PaymentTxn) {
     intc_0 // 1
     return
 
-depositCredits_ternary_false@10:
-    // smart_contracts/mbr-manager/contract.algo.ts:25
+depositCredits_ternary_false@17:
+    // smart_contracts/mbr-manager/contract.algo.ts:26
+    // const deficit: uint64 = userCredit < creditNeeded ? creditNeeded - userCredit : 0
+    intc_1 // 0
+    b depositCredits_ternary_merge@18
+
+depositCredits_ternary_false@14:
+    // smart_contracts/mbr-manager/contract.algo.ts:24
     // const userCredit: uint64 = this.userCredits(account).exists ? this.userCredits(account).value : 0
     intc_1 // 0
-    b depositCredits_ternary_merge@11
+    b depositCredits_ternary_merge@15
 
-depositCredits_else_body@12:
-    // smart_contracts/mbr-manager/contract.algo.ts:29
+depositCredits_else_body@23:
+    // smart_contracts/mbr-manager/contract.algo.ts:37
     // const creditToReturn: uint64 = mbrBefore - mbrAfter
     dup
     dig 2
     -
-    // smart_contracts/mbr-manager/contract.algo.ts:30
-    // ensure(this.userCredits(account).exists, errReceiver)
+    // smart_contracts/mbr-manager/contract.algo.ts:38
+    // loggedAssert(this.userCredits(account).exists, errReceiver)
     dig 3
     box_len
     bury 1
-    // smart_contracts/common.algo.ts:4
-    // if (!condition) {
-    bnz depositCredits_after_if_else@17
-    // smart_contracts/mbr-manager/contract.algo.ts:30
-    // ensure(this.userCredits(account).exists, errReceiver)
-    bytec_1 // "ERR:RCV"
-    // smart_contracts/common.algo.ts:5
-    // log(message)
+    bnz depositCredits_after_assert@25
+    bytec_2 // "ERR:RCV"
     log
-    // smart_contracts/common.algo.ts:6
-    // err()
-    err
+    err // ERR:RCV
 
-depositCredits_after_if_else@17:
-    // smart_contracts/mbr-manager/contract.algo.ts:31
+depositCredits_after_assert@25:
+    // smart_contracts/mbr-manager/contract.algo.ts:39
     // this.userCredits(account).value += creditToReturn
     dig 3
     dup
@@ -234,88 +258,80 @@ depositCredits_after_if_else@17:
     +
     itob
     box_put
-    b depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.settleMbrCredits@14
+    b depositCredits_after_inlined_smart_contracts/mbr-manager/contract.algo.ts::MbrManager.settleMbrCredits@27
 
-depositCredits_ternary_false@3:
-    // smart_contracts/mbr-manager/contract.algo.ts:46
+depositCredits_ternary_false@7:
+    // smart_contracts/mbr-manager/contract.algo.ts:54
     // const current: uint64 = this.userCredits(creditor).exists ? this.userCredits(creditor).value : 0
     intc_1 // 0
-    b depositCredits_ternary_merge@4
+    b depositCredits_ternary_merge@8
 
 
 // smart_contracts/mbr-manager/contract.algo.ts::MbrManager.withdrawCredits[routing]() -> void:
 withdrawCredits:
-    // smart_contracts/mbr-manager/contract.algo.ts:59
+    // smart_contracts/mbr-manager/contract.algo.ts:67
     // const mbrBefore = Global.currentApplicationAddress.minBalance
     global CurrentApplicationAddress
     acct_params_get AcctMinBalance
     assert // account funded
-    // smart_contracts/mbr-manager/contract.algo.ts:7
+    // smart_contracts/mbr-manager/contract.algo.ts:6
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
     bytec_0 // "c"
-    // smart_contracts/mbr-manager/contract.algo.ts:61
-    // ensure(this.userCredits(Txn.sender).exists, errAmt)
+    // smart_contracts/mbr-manager/contract.algo.ts:69
+    // loggedAssert(this.userCredits(Txn.sender).exists, errAmt)
     txn Sender
-    // smart_contracts/mbr-manager/contract.algo.ts:7
+    // smart_contracts/mbr-manager/contract.algo.ts:6
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
     concat
-    // smart_contracts/mbr-manager/contract.algo.ts:61
-    // ensure(this.userCredits(Txn.sender).exists, errAmt)
+    // smart_contracts/mbr-manager/contract.algo.ts:69
+    // loggedAssert(this.userCredits(Txn.sender).exists, errAmt)
     box_len
     bury 1
-    // smart_contracts/common.algo.ts:4
-    // if (!condition) {
-    bnz withdrawCredits_after_if_else@3
-    // smart_contracts/mbr-manager/contract.algo.ts:61
-    // ensure(this.userCredits(Txn.sender).exists, errAmt)
-    bytec_2 // "ERR:AMT"
-    // smart_contracts/common.algo.ts:5
-    // log(message)
+    bnz withdrawCredits_after_assert@3
+    bytec_3 // "ERR:AMT"
     log
-    // smart_contracts/common.algo.ts:6
-    // err()
-    err
+    err // ERR:AMT
 
-withdrawCredits_after_if_else@3:
-    // smart_contracts/mbr-manager/contract.algo.ts:7
+withdrawCredits_after_assert@3:
+    // smart_contracts/mbr-manager/contract.algo.ts:6
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
     bytec_0 // "c"
-    // smart_contracts/mbr-manager/contract.algo.ts:62
+    // smart_contracts/mbr-manager/contract.algo.ts:70
     // const credit: uint64 = this.userCredits(Txn.sender).value
     txn Sender
-    // smart_contracts/mbr-manager/contract.algo.ts:7
+    // smart_contracts/mbr-manager/contract.algo.ts:6
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
     concat
-    // smart_contracts/mbr-manager/contract.algo.ts:62
+    // smart_contracts/mbr-manager/contract.algo.ts:70
     // const credit: uint64 = this.userCredits(Txn.sender).value
     box_get
     assert // Box must have value
     btoi
-    // smart_contracts/mbr-manager/contract.algo.ts:7
+    // smart_contracts/mbr-manager/contract.algo.ts:6
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
     bytec_0 // "c"
-    // smart_contracts/mbr-manager/contract.algo.ts:65
+    // smart_contracts/mbr-manager/contract.algo.ts:73
     // this.userCredits(Txn.sender).delete()
     txn Sender
-    // smart_contracts/mbr-manager/contract.algo.ts:7
+    // smart_contracts/mbr-manager/contract.algo.ts:6
     // userCredits = BoxMap<Account, uint64>({ keyPrefix: 'c' })
     concat
-    // smart_contracts/mbr-manager/contract.algo.ts:65
+    // smart_contracts/mbr-manager/contract.algo.ts:73
     // this.userCredits(Txn.sender).delete()
     box_del
     pop
-    // smart_contracts/mbr-manager/contract.algo.ts:66
+    // smart_contracts/mbr-manager/contract.algo.ts:74
     // const mbrAfter = Global.currentApplicationAddress.minBalance
     global CurrentApplicationAddress
     acct_params_get AcctMinBalance
     assert // account funded
-    // smart_contracts/mbr-manager/contract.algo.ts:67
+    // smart_contracts/mbr-manager/contract.algo.ts:75
     // const finalCredit: uint64 = credit + (mbrBefore - mbrAfter)
     uncover 2
     swap
     -
     +
-    // smart_contracts/mbr-manager/contract.algo.ts:69-75
+    // smart_contracts/mbr-manager/contract.algo.ts:77-83
     // itxn
     //   .payment({
     //     receiver: Txn.sender,
@@ -324,12 +340,12 @@ withdrawCredits_after_if_else@3:
     //   })
     //   .submit()
     itxn_begin
-    // smart_contracts/mbr-manager/contract.algo.ts:71
+    // smart_contracts/mbr-manager/contract.algo.ts:79
     // receiver: Txn.sender,
     txn Sender
     itxn_field Receiver
     itxn_field Amount
-    // smart_contracts/mbr-manager/contract.algo.ts:69-74
+    // smart_contracts/mbr-manager/contract.algo.ts:77-82
     // itxn
     //   .payment({
     //     receiver: Txn.sender,
@@ -338,11 +354,11 @@ withdrawCredits_after_if_else@3:
     //   })
     intc_0 // 1
     itxn_field TypeEnum
-    // smart_contracts/mbr-manager/contract.algo.ts:73
+    // smart_contracts/mbr-manager/contract.algo.ts:81
     // fee: 0,
     intc_1 // 0
     itxn_field Fee
-    // smart_contracts/mbr-manager/contract.algo.ts:69-75
+    // smart_contracts/mbr-manager/contract.algo.ts:77-83
     // itxn
     //   .payment({
     //     receiver: Txn.sender,
@@ -351,7 +367,7 @@ withdrawCredits_after_if_else@3:
     //   })
     //   .submit()
     itxn_submit
-    // smart_contracts/mbr-manager/contract.algo.ts:58
+    // smart_contracts/mbr-manager/contract.algo.ts:66
     // public withdrawCredits() {
     intc_0 // 1
     return

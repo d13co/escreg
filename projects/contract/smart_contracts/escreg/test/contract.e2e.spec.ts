@@ -420,6 +420,8 @@ describe('Escreg contract', () => {
     // Deposit just enough for the credit box itself (18900) but not enough for an app box
     await depositCredits(client, testAccount, 18_900n)
 
+    // The code reaches the caller through the ARC-56 source info; the deficit rides in the logs
+    // alongside it, which mbr.spec.ts covers
     await expect(
       client.send.register({ args: { appId: 1002 } }),
     ).rejects.toThrow(/ERR:CRD/)

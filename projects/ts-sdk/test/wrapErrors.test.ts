@@ -15,6 +15,27 @@ describe("errorTransformer", () => {
     expect(error.stack).toContain("logic eval error: assert failed; ERR:CRD");
   });
 
+  test("puts the value the contract appended after :: into the message", async () => {
+    const error = await errorTransformer(new Error("logic eval error: ERR:CRD::7300"));
+    expect(error.message).toBe("Error CRD: Insufficient credits to cover MBR increase, deficit 7300 microALGO");
+    expect((error as any).code).toBe("ERR:CRD");
+    expect((error as any).value).toBe("7300");
+  });
+
+  test("stands a placeholder down to 'unknown' when no value came through", async () => {
+    const error = await errorTransformer(new Error("logic eval error: ERR:CRD"));
+    expect(error.message).toBe("Error CRD: Insufficient credits to cover MBR increase, deficit unknown microALGO");
+    expect((error as any).value).toBeUndefined();
+  });
+
+  test("reads the code out of the ARC-56 message algokit-utils builds", async () => {
+    const error = await errorTransformer(
+      new Error("Runtime error when executing Escreg (appId: 63871) in transaction ABC: ERR:404"),
+    );
+    expect(error.message).toBe("Error 404: App escrow is not registered in the contract");
+    expect((error as any).code).toBe("ERR:404");
+  });
+
   test("names a code the contract has since grown but the SDK has not", async () => {
     const error = await errorTransformer(new Error("ERR:NEW"));
     expect(error.message).toBe("Error NEW: Unknown error");

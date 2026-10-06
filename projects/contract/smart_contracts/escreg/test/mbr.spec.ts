@@ -2,7 +2,7 @@ import { Config } from '@algorandfoundation/algokit-utils'
 import { registerDebugEventHandlers } from '@algorandfoundation/algokit-utils-debug'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TransactionSignerAccount } from '@algorandfoundation/algokit-utils/types/account'
-import { Account, Address } from 'algosdk'
+import { Account, Address, makeEmptyTransactionSigner, modelsv2, TransactionWithSigner } from 'algosdk'
 import { EscregSDK } from '@d13co/escreg-sdk/full'
 import { beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { EscregFactory } from '../../artifacts/escreg/EscregClient'
@@ -87,5 +87,38 @@ describe('MBR Credits', () => {
     const { sdk } = await deploy(testAccount)
 
     await expect(sdk.withdrawCredit()).rejects.toThrow(/AMT/)
+  })
+
+  test('a credit shortfall logs the deficit after :: in the ARC-65 line', async () => {
+    const { testAccount } = localnet.context
+    const { sdk, client } = await deploy(testAccount)
+
+    // The first deposit is eaten whole by the credit box's own MBR, leaving nothing to register with
+    await sdk.depositCredit({ creditor: testAccount.addr.toString(), amount: 18_900n })
+
+    // Registering one app costs a 4-byte key + 8-byte value box: 2500 + 400 * 12 = 7300
+    const built = await (
+      await client
+        .newGroup()
+        .register({ args: { appId: 1002 } })
+        .composer()
+    ).build()
+    const unsigned = built.atc.clone()
+    ;(unsigned['transactions'] as TransactionWithSigner[]).forEach((t) => (t.signer = makeEmptyTransactionSigner()))
+    const { simulateResponse } = await unsigned.simulate(
+      localnet.algorand.client.algod,
+      new modelsv2.SimulateRequest({
+        txnGroups: [],
+        allowUnnamedResources: true,
+        allowEmptySignatures: true,
+        fixSigners: true,
+      }),
+    )
+
+    const logs = (simulateResponse.txnGroups[0].txnResults[0].txnResult.logs ?? []).map((l) =>
+      Buffer.from(l).toString('utf-8'),
+    )
+    // The first line carries the shortfall, the second is the bare code `loggedAssert` logs as it fails
+    expect(logs).toEqual(['ERR:CRD::7300', 'ERR:CRD'])
   })
 })
