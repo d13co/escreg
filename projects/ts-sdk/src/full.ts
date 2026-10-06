@@ -75,7 +75,7 @@ export class EscregSDK extends EscregLookupSDK {
   /**
    * Register application escrow accounts in the contract. Derives app escrow addresses from the given app IDs
    * and stores them in the contract state for later lookup. Automatically batches into transaction groups
-   * and increases opcode budget as needed. Failed chunks are retried automatically.
+   * and increases opcode budget as needed. Failed chunks are retried automatically, re-checking the registry first.
    *
    * Unless `skipCheck` is set, existing registrations are filtered out via a lookup before registering.
    *
@@ -136,14 +136,14 @@ export class EscregSDK extends EscregLookupSDK {
 
     let thisPassFails = 0;
     let failedAppIds: bigint[] = [];
-    let chunkIdx = 0;
+    const confirmations: Promise<void>[] = [];
     // Process chunks in parallel
     const results = await mapConcurrent(
       groupChunks,
-      async (groupChunk) => {
+      async (groupChunk, chunkIdx) => {
         if (debug)
           console.debug(
-            `Starting chunkIdx ${chunkIdx++}/${groupChunks.length} ${groupChunk.length > 1 ? groupChunk[0] + ".." + groupChunk[groupChunk.length - 1] : groupChunk[0]}`,
+            `Starting chunkIdx ${chunkIdx}/${groupChunks.length} ${groupChunk.length > 1 ? groupChunk[0] + ".." + groupChunk[groupChunk.length - 1] : groupChunk[0]}`,
           );
         const appIdChunk = chunk(groupChunk, perTxn);
 
@@ -180,10 +180,7 @@ export class EscregSDK extends EscregLookupSDK {
           txns,
           txns.map((_, i) => i),
         );
-        try {
-          await this.algorand.client.algod.sendRawTransaction(signed).do();
-          await waitForConfirmation(this.algorand.client.algod, txns[0].txID(), 8);
-        } catch (e) {
+        const fail = async (e: unknown) => {
           const transformed = await errorTransformer(e as Error);
           if (debug) {
             console.error(`Chunk ${chunkIdx}/${groupChunks.length} failed with error:`, transformed);
@@ -191,21 +188,33 @@ export class EscregSDK extends EscregLookupSDK {
           }
           thisPassFails += groupChunk.length;
           failedAppIds.push(...groupChunk);
+        };
+
+        try {
+          await this.algorand.client.algod.sendRawTransaction(signed).do();
+          // Confirm in the background: a group sent only after the previous one confirmed reaches the
+          // pool after the next block has been assembled, leaving every other block empty.
+          // ponytail: unconfirmed groups are uncapped - the budget simulate paces sends; cap them if a node pushes back
+          confirmations.push(waitForConfirmation(this.algorand.client.algod, txns[0].txID(), 8).then(() => {}, fail));
+        } catch (e) {
+          await fail(e);
         }
 
         return txns.map((t) => t.txID());
       },
       concurrency,
-    );
+      // a group that failed to build stops the pass, but the ones already sent still settle first
+    ).finally(() => Promise.all(confirmations));
 
     if (thisPassFails && thisPassFails === prevPassFails) {
       // If the number of failures is the same as the previous pass, it likely means these are persistent failures
       throw new Error(`Pass ${passIdx} failed with ${thisPassFails} failures, same as previous pass. Aborting to avoid infinite retries.`);
     } else if (thisPassFails) {
       console.warn(`Pass failed with ${thisPassFails} failures. Retrying failed ones.`);
+      // no skipCheck: a group whose confirmation poll failed may still have landed, and re-sending it
+      // byte-identical is rejected as already in the ledger - a failure that would never clear
       const nextResults = await this.register({
         appIds: failedAppIds,
-        skipCheck: true,
         debug,
         concurrency,
         prevPassFails: thisPassFails,
