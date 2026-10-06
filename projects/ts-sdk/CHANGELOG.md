@@ -6,6 +6,10 @@
 
 - **The default deployment moved from Fnet to Testnet.** With no `appId`, both entry points now target app `773212345` — lookups and `/full` writes alike — and with no client they talk to `https://testnet-api.4160.nodely.dev`. To keep using the Fnet instance, pass `appId: 16954321n` with a client configured for Fnet; callers who already pass their own Fnet `algorand` or `algod` but no `appId` must now add it. The Testnet instance holds the same registrations as Fnet, and extends the localnet range from app IDs 1,001-100,000 to 1,001-200,000.
 
+### Fixed
+
+- **`getCredits({ all: true })` works on a large registry.** It listed every box name in the app to pick out the credit boxes, which algod refuses with "Result limit exceeded" past `MaxAPIBoxPerApplication` — as on the Testnet deployment. It now pages through only the `c`-prefixed boxes, values included, so it reads no box on its own. A node predating the paginated listing still answers with every box name and still hits the limit.
+
 ## 0.1.1 — 2026-09-10
 
 The package is now two entry points — a lookup-only default and `/full` — and the on-chain registry has been fully migrated to the packed bucket layout, so everything that existed to read or convert the legacy ARC-4 `uint64[]` layout is removed.

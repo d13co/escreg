@@ -37,7 +37,7 @@ interface Listing {
  * @param stored - Box values the node will only hand over one box at a time, as an older node does.
  */
 function fakeAlgod(pages: Listing[], stored: { name: Uint8Array; value: Uint8Array }[] = []) {
-  const listings: { limit?: number; include?: string; next?: string }[] = [];
+  const listings: { limit?: number; include?: string; next?: string; prefix?: Uint8Array }[] = [];
   const valueReads: Uint8Array[] = [];
   const boxes = new Map<string, Uint8Array | undefined>([
     ...pages.flatMap((page) => page.boxes.map((box) => [String(box.name), box.value] as const)),
@@ -46,12 +46,13 @@ function fakeAlgod(pages: Listing[], stored: { name: Uint8Array; value: Uint8Arr
 
   const algod = {
     getApplicationBoxes: (_appId: number) => {
-      const call: { limit?: number; include?: string; next?: string } = {};
+      const call: { limit?: number; include?: string; next?: string; prefix?: Uint8Array } = {};
       listings.push(call);
       const request = {
         limit: (limit: number) => ((call.limit = limit), request),
         include: (include: string) => ((call.include = include), request),
         next: (next: string) => ((call.next = next), request),
+        prefix: (prefix: Uint8Array) => ((call.prefix = prefix), request),
         do: async () => pages[listings.length - 1] ?? { boxes: [] },
       };
       return request;
@@ -189,6 +190,28 @@ describe("getCredits", () => {
     const { sdk } = sdkOver([{ boxes: [bucketBox([1, 2, 3, 4], [1002n]), creditBox(account(3), 900n)] }]);
 
     expect(await sdk.getCredits({ all: true })).toEqual({ [account(3)]: 900n });
+  });
+
+  test("pages through the credit-prefixed listing with values, reading no box on its own", async () => {
+    const { sdk, listings, valueReads } = sdkOver([
+      { boxes: [creditBox(account(1), 900n)], nextToken: "b64:cursor-1" },
+      { boxes: [creditBox(account(2), 1n)] },
+    ]);
+
+    expect(await sdk.getCredits({ all: true })).toEqual({ [account(1)]: 900n, [account(2)]: 1n });
+    expect(listings).toEqual([
+      { prefix: new Uint8Array([0x63]), limit: 1000, include: "values" },
+      { prefix: new Uint8Array([0x63]), limit: 1000, include: "values", next: "b64:cursor-1" },
+    ]);
+    expect(valueReads).toEqual([]);
+  });
+
+  test("falls back to reading each credit box when the node lists names only", async () => {
+    const credit = creditBox(account(3), 900n);
+    const { sdk, valueReads } = sdkOver([{ boxes: [{ name: new Uint8Array([1, 2, 3, 4]) }, { name: credit.name }] }], [credit]);
+
+    expect(await sdk.getCredits({ all: true })).toEqual({ [account(3)]: 900n });
+    expect(valueReads).toEqual([credit.name]);
   });
 
   test("needs to be told what to read", async () => {

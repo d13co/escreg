@@ -545,26 +545,34 @@ export class EscregSDK extends EscregLookupSDK {
     const algod = this.algorand.client.algod;
     const result: CreditResult = {};
 
-    let boxNames: Uint8Array[];
+    let boxes: { name: Uint8Array; value?: Uint8Array }[];
 
     if (all) {
-      const { boxes } = await algod.getApplicationBoxes(appId).do();
+      // list only the 'c'-prefixed boxes, values included, instead of every box name in the app
+      boxes = [];
+      let next: string | undefined;
+      do {
+        let request = algod.getApplicationBoxes(appId).prefix(creditBoxRef(new Uint8Array())).limit(1000).include("values");
+        if (next) request = request.next(next);
+        const page = await request.do();
+        boxes.push(...page.boxes);
+        next = page.boxes.length ? page.nextToken : undefined;
+      } while (next);
+      // a node predating the paginated listing ignores the prefix and lists every box name without values
       // Credit boxes: 'c' prefix (0x63) + 32-byte public key = 33 bytes
-      boxNames = boxes
-        .filter((b: { name: Uint8Array }) => b.name.length === 33 && b.name[0] === 0x63)
-        .map((b: { name: Uint8Array }) => b.name);
-      if (debug) console.debug(`Found ${boxNames.length} credit boxes`);
+      boxes = boxes.filter(({ name }) => name.length === 33 && name[0] === 0x63);
+      if (debug) console.debug(`Found ${boxes.length} credit boxes`);
     } else if (addresses?.length) {
-      boxNames = addresses.map((addr) => creditBoxRef(Address.fromString(addr).publicKey));
+      boxes = addresses.map((addr) => ({ name: creditBoxRef(Address.fromString(addr).publicKey) }));
     } else {
       throw new Error("Either 'addresses' or 'all' must be provided");
     }
 
-    for (const boxName of boxNames) {
+    for (const { name: boxName, value: listed } of boxes) {
       const publicKey = boxName.slice(1);
       const address = encodeAddress(publicKey);
       try {
-        const { value } = await algod.getApplicationBoxByName(appId, boxName).do();
+        const value = listed ?? (await algod.getApplicationBoxByName(appId, boxName).do()).value;
         const view = new DataView(value.buffer, value.byteOffset, value.byteLength);
         result[address] = view.getBigUint64(0);
       } catch (e: any) {
