@@ -13,8 +13,8 @@ import {
   DEFAULT_ADDRESSES_PER_GROUP,
   DEFAULT_APP_ID,
   DEFAULT_READER_ACCOUNT,
-  FNET_ALGOD_PORT,
-  FNET_ALGOD_SERVER,
+  DEFAULT_ALGOD_PORT,
+  DEFAULT_ALGOD_SERVER,
   LOOKUP_CALL_FEE,
   LOOKUP_OPCODE_BUDGET,
   MAX_BOXES_PER_GROUP_NAMED,
@@ -49,7 +49,7 @@ import { AlgodProvider, LookupResult } from "./types.js";
 export { boxCursor, decodeBucket } from "./util.js";
 export type { AlgodProvider, BucketPage, CreditResult, LookupResult, RegistryBucket, SizedBoxKey } from "./types.js";
 
-/** Options every SDK instance takes. All of them are optional and default to the fnet deployment. */
+/** Options every SDK instance takes. All of them are optional and default to the testnet deployment. */
 export interface EscregLookupOptions {
   /** The Escreg application ID. */
   appId?: bigint;
@@ -113,7 +113,7 @@ export class EscregSDK {
   constructor({ appId, algod, algorand, readerAccount, addressesPerGroup }: EscregLookupOptions = {}) {
     this.appId = appId ?? this.appId;
     this.algorand = algorand;
-    this.algod = algorand?.client.algod ?? algod ?? new Algodv2("", FNET_ALGOD_SERVER, FNET_ALGOD_PORT);
+    this.algod = algorand?.client.algod ?? algod ?? new Algodv2("", DEFAULT_ALGOD_SERVER, DEFAULT_ALGOD_PORT);
     this.readerAccount = readerAccount ?? this.readerAccount;
 
     if (addressesPerGroup !== undefined) {

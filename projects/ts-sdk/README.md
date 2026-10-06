@@ -64,7 +64,7 @@ import { EscregSDK } from '@d13co/escreg-sdk/full'   // lookups + everything els
 ```typescript
 import { EscregSDK } from '@d13co/escreg-sdk'
 
-// Defaults to the current Fnet deployment (app ID, algod endpoint)
+// Defaults to the current Testnet deployment (app ID 773212345, Nodely Testnet algod)
 const sdk = new EscregSDK({})
 
 // Lookup addresses (via simulation, no signing required)
@@ -103,7 +103,7 @@ const allCredits = await writer.getCredits({ all: true })
 
 ### Constructor options
 
-All options are optional and default to the current Fnet deployment.
+All options are optional and default to the current Testnet deployment.
 
 | Option | Type | Entry point | Description |
 |---|---|---|---|
@@ -114,7 +114,7 @@ All options are optional and default to the current Fnet deployment.
 | `addressesPerGroup` | `number` | both | Addresses `lookup` resolves per simulate group, 1 to 256. Defaults to 256 |
 | `writerAccount` | `TransactionSignerAccount` | `/full` | Signing account for write operations |
 
-The deployed instance on Fnet contains registrations for all Algorand networks (mainnet, testnet, fnet, betanet) as well as app IDs 1,001-100,000 for localnet lookups. To use it, either pass no client (the default) or pass one configured for Fnet.
+The default Testnet instance contains registrations for all Algorand networks (mainnet, testnet, fnet, betanet) as well as app IDs 1,001-200,000 for localnet lookups. The Fnet instance (app ID `16954321`) holds the same, with localnet app IDs only up to 100,000. To use it, pass `appId: 16954321n` with a client configured for Fnet.
 
 #### Tuning `addressesPerGroup`
 
