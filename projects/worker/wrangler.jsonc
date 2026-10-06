@@ -31,7 +31,7 @@
       "vars": {
         "SENDER": "REGISTRY2UJANM5G2G45MZD4DKPH7RPBDJRJ3HSFDPO4IY7HKU5ZY4MLV4",
         "APP_ID": "773212345",
-        "ALGOD_SERVER": "https://testnet-api.4160.nodely.dev"
+        "ALGOD_SERVER": "https://testnet-api.4160.nodely.io"
       }
       // Secrets: same as above, set per env: `wrangler secret put <NAME> --env testnet`
     }
